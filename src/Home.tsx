@@ -8,7 +8,7 @@ const Home = () => {
     <div className="min-h-screen bg-gray-950 text-white flex flex-col p-4 md:p-8 font-sans">
       <header className="mb-8 flex justify-between items-center border-b border-gray-800 pb-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">VimGolf ⛳</h1>
+          <h1 className="text-3xl font-bold text-white">VimGym 💪🏼</h1>
           <p className="text-gray-400 text-sm mt-1">
             Master Vim motions through practice
           </p>
@@ -37,8 +37,7 @@ const Home = () => {
       </main>
 
       <footer className="mt-8 text-center text-gray-600 text-xs border-t border-gray-800 pt-4">
-        &copy; 2025 VimGolf. Built with TanStack Start, React, Tailwind, and
-        CodeMirror.
+        &copy; 2025 VimGym CodeMirror.
       </footer>
     </div>
   );
