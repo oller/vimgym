@@ -1,4 +1,3 @@
-import React from "react";
 import { LEVELS } from "../data/levels";
 import { useGameStore } from "../store/useGameStore";
 

@@ -1,7 +1,7 @@
 import { EditorState } from "@codemirror/state";
-import { getCM, Vim, vim } from "@replit/codemirror-vim";
+import { getCM, vim } from "@replit/codemirror-vim";
 import CodeMirror, { basicSetup, type EditorView } from "@uiw/react-codemirror";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { VimStatusBar } from "./VimStatusBar";
 
@@ -15,7 +15,6 @@ export const VimEditor = () => {
 		checkAndUpdateHighScore,
 	} = useGameStore();
 	const [vimMode, setVimMode] = useState("normal");
-	const [view, setView] = useState<EditorView | null>(null);
 	const isUpdatingRef = useRef(false);
 	const isCompletedRef = useRef(isCompleted);
 	const nextLevelRef = useRef(nextLevel);
@@ -44,8 +43,6 @@ export const VimEditor = () => {
 
 	const onCreateEditor = useCallback(
 		(editorView: EditorView) => {
-			setView(editorView);
-
 			const cm = getCM(editorView);
 			if (!cm) return;
 
@@ -105,28 +102,6 @@ export const VimEditor = () => {
 			document.removeEventListener("keydown", handleGlobalKeyDown, true);
 		};
 	}, []);
-
-	// Sync editor state when startText changes (reset cursor and mode)
-	useEffect(() => {
-		if (!view) return;
-
-		const cm = getCM(view);
-		if (!cm) return;
-
-		// Prevent onChange from firing during update
-		isUpdatingRef.current = true;
-
-		// Exit insert mode and reset cursor to start
-		Vim.exitInsertMode(cm);
-		view.dispatch({
-			selection: { anchor: 0, head: 0 },
-		});
-
-		// Re-enable onChange after a brief delay
-		setTimeout(() => {
-			isUpdatingRef.current = false;
-		}, 0);
-	}, [startText, view]);
 
 	// Make editor read-only when completed
 	const extensions = [
