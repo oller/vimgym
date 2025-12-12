@@ -21,7 +21,7 @@ export const MotionLog = () => {
           {history.map((key, index) => (
             <span
               key={`${index}-${key}`}
-              className="px-2 py-1 bg-gray-800 rounded border border-gray-700 text-yellow-400 min-w-[1.5rem] text-center"
+              className="px-2 py-1 bg-gray-800 rounded border border-gray-700 text-yellow-400 min-w-6 text-center"
             >
               {key}
             </span>

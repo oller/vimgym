@@ -17,87 +17,95 @@ describe("VimEditor Keypress Logging", () => {
     });
 
     it("logs keypresses from insert mode", async () => {
-    render(<VimEditor />);
+      render(<VimEditor />);
 
-    // Get the editor container
-    const editorContainer = screen.getByRole("textbox").closest(".cm-editor");
-    expect(editorContainer).toBeTruthy();
+      // Get the editor container
+      const editorContainer = screen.getByRole("textbox").closest(".cm-editor");
+      expect(editorContainer).toBeTruthy();
 
-    // Simulate keypresses directly on the DOM
-    // These should be captured by our keydown listener
-    const keys = ["h", "e", "l", "l", "o"];
+      // Simulate keypresses directly on the DOM
+      // These should be captured by our keydown listener
+      const keys = ["h", "e", "l", "l", "o"];
 
-    keys.forEach((key) => {
-      fireEvent.keyDown(editorContainer!, { key });
+      keys.forEach((key) => {
+        fireEvent.keyDown(editorContainer!, { key });
+      });
+
+      // Check that all keys were logged
+      const history = useGameStore.getState().history;
+      expect(history).toEqual(keys);
     });
 
-    // Check that all keys were logged
-    const history = useGameStore.getState().history;
-    expect(history).toEqual(keys);
-  });
+    it("logs special keys with normalized names", async () => {
+      render(<VimEditor />);
 
-  it("logs special keys with normalized names", async () => {
-    render(<VimEditor />);
+      const editorContainer = screen.getByRole("textbox").closest(".cm-editor");
+      expect(editorContainer).toBeTruthy();
 
-    const editorContainer = screen.getByRole("textbox").closest(".cm-editor");
-    expect(editorContainer).toBeTruthy();
+      // Test special key normalization
+      fireEvent.keyDown(editorContainer!, { key: "Escape" });
+      fireEvent.keyDown(editorContainer!, { key: "Enter" });
+      fireEvent.keyDown(editorContainer!, { key: " " });
 
-    // Test special key normalization
-    fireEvent.keyDown(editorContainer!, { key: "Escape" });
-    fireEvent.keyDown(editorContainer!, { key: "Enter" });
-    fireEvent.keyDown(editorContainer!, { key: " " });
-
-    const history = useGameStore.getState().history;
-    expect(history).toEqual(["Esc", "Enter", "Space"]);
-  });
-
-  it("does not log modifier keys", async () => {
-    render(<VimEditor />);
-
-    const editorContainer = screen.getByRole("textbox").closest(".cm-editor");
-    expect(editorContainer).toBeTruthy();
-
-    // These should be filtered out
-    const modifierKeys = ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"];
-
-    modifierKeys.forEach((key) => {
-      fireEvent.keyDown(editorContainer!, { key });
+      const history = useGameStore.getState().history;
+      expect(history).toEqual(["Esc", "Enter", "Space"]);
     });
 
-    // History should be empty
-    const history = useGameStore.getState().history;
-    expect(history).toEqual([]);
-  });
+    it("does not log modifier keys", async () => {
+      render(<VimEditor />);
 
-  it("logs mixed alphanumeric and special characters", async () => {
-    render(<VimEditor />);
+      const editorContainer = screen.getByRole("textbox").closest(".cm-editor");
+      expect(editorContainer).toBeTruthy();
 
-    const editorContainer = screen.getByRole("textbox").closest(".cm-editor");
-    expect(editorContainer).toBeTruthy();
+      // These should be filtered out
+      const modifierKeys = [
+        "Shift",
+        "Control",
+        "Alt",
+        "Meta",
+        "CapsLock",
+        "Tab",
+      ];
 
-    const keys = ["a", "b", "1", "2", "!", "@", "#"];
+      modifierKeys.forEach((key) => {
+        fireEvent.keyDown(editorContainer!, { key });
+      });
 
-    keys.forEach((key) => {
-      fireEvent.keyDown(editorContainer!, { key });
+      // History should be empty
+      const history = useGameStore.getState().history;
+      expect(history).toEqual([]);
     });
 
-    const history = useGameStore.getState().history;
-    expect(history).toEqual(keys);
-  });
+    it("logs mixed alphanumeric and special characters", async () => {
+      render(<VimEditor />);
 
-  it("clears history on reset", () => {
-    const { addKeyStroke, resetLevel } = useGameStore.getState();
+      const editorContainer = screen.getByRole("textbox").closest(".cm-editor");
+      expect(editorContainer).toBeTruthy();
 
-    // Add some keystrokes
-    addKeyStroke("a");
-    addKeyStroke("b");
-    addKeyStroke("c");
+      const keys = ["a", "b", "1", "2", "!", "@", "#"];
 
-    expect(useGameStore.getState().history).toEqual(["a", "b", "c"]);
+      keys.forEach((key) => {
+        fireEvent.keyDown(editorContainer!, { key });
+      });
 
-    // Reset should clear history
-    resetLevel();
+      const history = useGameStore.getState().history;
+      expect(history).toEqual(keys);
+    });
 
-    expect(useGameStore.getState().history).toEqual([]);
+    it("clears history on reset", () => {
+      const { addKeyStroke, resetLevel } = useGameStore.getState();
+
+      // Add some keystrokes
+      addKeyStroke("a");
+      addKeyStroke("b");
+      addKeyStroke("c");
+
+      expect(useGameStore.getState().history).toEqual(["a", "b", "c"]);
+
+      // Reset should clear history
+      resetLevel();
+
+      expect(useGameStore.getState().history).toEqual([]);
+    });
   });
 });
