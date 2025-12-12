@@ -27,6 +27,7 @@ export const GoalDisplay = () => {
             {currentLevelData?.description}
           </p>
         </div>
+
         <div className="flex gap-2 items-center">
           {bestScore !== undefined && (
             <span

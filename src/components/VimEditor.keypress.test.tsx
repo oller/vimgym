@@ -56,7 +56,7 @@ describe("VimEditor Keypress Logging", () => {
 
     // Check that all keys were logged
     const history = useGameStore.getState().history;
-    expect(history).toEqual(["h", "e", "l", "l", "o"]);
+    expect(history).toEqual(keys);
   });
 
   it("logs special keys with normalized names", async () => {
@@ -105,7 +105,7 @@ describe("VimEditor Keypress Logging", () => {
     });
 
     const history = useGameStore.getState().history;
-    expect(history).toEqual(["a", "b", "1", "2", "!", "@", "#"]);
+    expect(history).toEqual(keys);
   });
 
   it("clears history on reset", () => {

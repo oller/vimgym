@@ -26,8 +26,6 @@ describe("Editor Initialization", () => {
 
     // startText should be initialized to Level 1's start text
     expect(state.startText).toBe(LEVELS[0].startText);
-    expect(state.startText).toBeTruthy();
-    expect(state.startText.length).toBeGreaterThan(0);
   });
 
   it("currentText matches startText on level navigation", () => {

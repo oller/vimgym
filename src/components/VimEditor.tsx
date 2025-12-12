@@ -117,7 +117,6 @@ export const VimEditor = () => {
     >
       <CodeMirror
         value={startText}
-        // height="120px"
         extensions={extensions}
         onChange={onChange}
         onCreateEditor={onCreateEditor}
