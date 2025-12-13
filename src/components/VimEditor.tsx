@@ -122,6 +122,7 @@ export const VimEditor = () => {
         onCreateEditor={onCreateEditor}
         theme="dark"
         className="text-3xl flex-1"
+        autoFocus
         basicSetup={{
           lineNumbers: false,
           highlightActiveLine: true,

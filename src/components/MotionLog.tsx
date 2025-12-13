@@ -19,12 +19,12 @@ export const MotionLog = () => {
         )}
         <div className="flex flex-wrap gap-2">
           {history.map((key, index) => (
-            <span
+            <kbd
               key={`${index}-${key}`}
               className="px-2 py-1 bg-gray-800 rounded border border-gray-700 text-yellow-400 min-w-6 text-center"
             >
               {key}
-            </span>
+            </kbd>
           ))}
         </div>
       </div>
