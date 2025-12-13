@@ -1,6 +1,6 @@
 import { EditorState } from "@codemirror/state";
 import { getCM, vim } from "@replit/codemirror-vim";
-import CodeMirror, { basicSetup, type EditorView } from "@uiw/react-codemirror";
+import CodeMirror, { type EditorView } from "@uiw/react-codemirror";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { VimStatusBar } from "./VimStatusBar";
@@ -106,7 +106,6 @@ export const VimEditor = () => {
   // Make editor read-only when completed
   const extensions = [
     vim(), // vim bindings
-    basicSetup(), // for correct highlighting in visual mode
     ...(isCompleted ? [EditorState.readOnly.of(true)] : []),
   ];
 
@@ -120,12 +119,13 @@ export const VimEditor = () => {
         extensions={extensions}
         onChange={onChange}
         onCreateEditor={onCreateEditor}
+        className="text-3xl flex-1 font-roboto-mono"
         theme="dark"
-        className="text-3xl flex-1"
         autoFocus
         basicSetup={{
           lineNumbers: false,
-          highlightActiveLine: true,
+          highlightActiveLine: false,
+          foldGutter: false,
           autocompletion: false,
           closeBrackets: false,
         }}

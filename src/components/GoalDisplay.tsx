@@ -16,7 +16,7 @@ export const GoalDisplay = () => {
   const hasNextLevel = currentLevel < LEVELS.length;
 
   return (
-    <div className="p-4 bg-gray-800 rounded-lg border border-gray-700 relative">
+    <div className="">
       {/* Header with Level Info */}
       <div className="flex justify-between items-center mb-3">
         <div>
@@ -52,7 +52,7 @@ export const GoalDisplay = () => {
       <div className="mb-2">
         <h4 className="text-xs text-gray-500 mb-1">Goal:</h4>
         <div
-          className={`font-mono text-sm p-3 rounded bg-gray-900 ${isCompleted ? "text-green-400" : "text-gray-200"}`}
+          className={`font-roboto-mono text-3xl ${isCompleted ? "text-green-400" : "text-gray-500"}`}
         >
           {targetText}
         </div>

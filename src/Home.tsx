@@ -21,9 +21,6 @@ const Home = () => {
           <GoalDisplay />
 
           <div className="flex flex-col gap-4">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-              Editor
-            </h3>
             <VimEditor />
           </div>
 
