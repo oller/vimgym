@@ -49,7 +49,7 @@ export const VimEditor = () => {
       if (!cm) return;
 
       // Listen for mode changes
-      cm.on("vim-mode-change", (e: any) => {
+      cm.on("vim-mode-change", (e: { mode: string }) => {
         setVimMode(e.mode);
       });
 
