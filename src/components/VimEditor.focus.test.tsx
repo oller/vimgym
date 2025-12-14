@@ -49,7 +49,6 @@ describe("VimEditor Focus", () => {
   });
 
   it("focuses editor on level change", async () => {
-    const user = userEvent.setup();
     renderWithRouter(<VimEditor />);
 
     const editor = await screen.findByRole("textbox");
