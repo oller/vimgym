@@ -3,7 +3,6 @@ import { useGameStore } from "../store/useGameStore";
 
 export const GoalDisplay = () => {
   const {
-    targetText,
     isCompleted,
     resetLevel,
     currentLevel,
@@ -48,16 +47,6 @@ export const GoalDisplay = () => {
         </div>
       </div>
 
-      {/* Target Text */}
-      <div className="mb-2">
-        <h4 className="text-xs text-gray-500 mb-1">Goal:</h4>
-        <div
-          className={`font-roboto-mono text-3xl ${isCompleted ? "text-green-400" : "text-gray-500"}`}
-        >
-          {targetText}
-        </div>
-      </div>
-
       {/* Completion Message & Next Level Button */}
       {isCompleted && (
         <div className="mt-3 space-y-2">
@@ -92,7 +81,7 @@ export const GoalDisplay = () => {
               <button
                 type="button"
                 onClick={nextLevel}
-                className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded font-semibold transition-colors"
+                className="bg-green-600 curspro-pointer hover:bg-green-500 text-white px-4 py-2 rounded font-semibold transition-colors"
               >
                 Next Level →
               </button>

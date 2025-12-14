@@ -4,7 +4,7 @@ export const MotionLog = () => {
   const { history } = useGameStore();
 
   return (
-    <div className="flex flex-col h-full bg-gray-900 rounded-lg border border-gray-700 p-4">
+    <div className="flex flex-col bg-tokyo-night-storm rounded-lg border border-gray-700 p-4">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
           Motion Log
@@ -13,9 +13,9 @@ export const MotionLog = () => {
           {history.length} keys
         </span>
       </div>
-      <div className="flex-1 overflow-y-auto font-mono text-sm space-y-1">
+      <div className="flex-1 overflow-y-auto font-roboto-mono text-sm space-y-1">
         {history.length === 0 && (
-          <span className="text-gray-600 italic">Start typing...</span>
+          <span className="text-gray-600">Start typing...</span>
         )}
         <div className="flex flex-wrap gap-2">
           {history.map((key, index) => (

@@ -16,11 +16,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.font-roboto-mono {
-  font-family: "Roboto Mono", monospace;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+@theme {
+  --font-roboto-mono: "Roboto Mono", monospace;
+  --color-tokyo-night-storm: #24283b; 
 }
 
 /* Override to allow tailwind setting of font-family as parent className */

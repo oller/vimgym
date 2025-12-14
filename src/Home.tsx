@@ -20,7 +20,7 @@ const Home = () => {
         <section className="md:col-span-9 lg:col-span-10 flex flex-col gap-6">
           <GoalDisplay />
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col grow">
             <VimEditor />
           </div>
 
@@ -33,9 +33,9 @@ const Home = () => {
         </aside>
       </main>
 
-      <footer className="mt-8 text-center text-gray-600 text-xs border-t border-gray-800 pt-4">
-        &copy; 2025 VimGym
-      </footer>
+      {/* <footer className="mt-8 text-center text-gray-600 text-xs border-t border-gray-800 pt-4"> */}
+      {/*   &copy; 2025 VimGym */}
+      {/* </footer> */}
     </div>
   );
 };

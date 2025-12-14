@@ -4,10 +4,12 @@ import CodeMirror, { type EditorView } from "@uiw/react-codemirror";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { VimStatusBar } from "./VimStatusBar";
+import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 
 export const VimEditor = () => {
   const {
     startText,
+    targetText,
     updateText,
     addKeyStroke,
     isCompleted,
@@ -112,24 +114,32 @@ export const VimEditor = () => {
   return (
     <div
       data-testid="vim-editor"
-      className={`border rounded-md overflow-hidden transition-colors flex flex-col ${isCompleted ? "border-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" : "border-gray-700"}`}
+      className={`border text-3xl grow rounded-md font-roboto-mono overflow-hidden bg-tokyo-night-storm transition-colors flex flex-col ${isCompleted ? "border-green-500" : "border-gray-700"}`}
     >
-      <CodeMirror
-        value={startText}
-        extensions={extensions}
-        onChange={onChange}
-        onCreateEditor={onCreateEditor}
-        className="text-3xl flex-1 font-roboto-mono"
-        theme="dark"
-        autoFocus
-        basicSetup={{
-          lineNumbers: false,
-          highlightActiveLine: false,
-          foldGutter: false,
-          autocompletion: false,
-          closeBrackets: false,
-        }}
-      />
+      <div className="grow flex items-center px-4">
+        <div>
+          <div
+            className={`pl-1.5 mb-2 ${isCompleted ? "text-green-400" : "text-gray-600"}`}
+          >
+            {targetText}
+          </div>
+          <CodeMirror
+            value={startText}
+            extensions={extensions}
+            onChange={onChange}
+            onCreateEditor={onCreateEditor}
+            theme={tokyoNightStorm}
+            autoFocus
+            basicSetup={{
+              lineNumbers: false,
+              highlightActiveLine: false,
+              foldGutter: false,
+              autocompletion: false,
+              closeBrackets: false,
+            }}
+          />
+        </div>
+      </div>
       <VimStatusBar mode={vimMode} />
     </div>
   );
