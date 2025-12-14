@@ -19,6 +19,7 @@
 @theme {
   --font-roboto-mono: "Roboto Mono", monospace;
   --color-tokyo-night-storm: #24283b; 
+  --color-tokyo-night: #1a1b26;
 }
 
 /* Override to allow tailwind setting of font-family as parent className */

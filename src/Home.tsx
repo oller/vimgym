@@ -5,10 +5,13 @@ import { VimEditor } from "./components/VimEditor";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex flex-col p-4 md:p-8 font-sans">
+    <div className="min-h-screen bg-tokyo-night text-white flex flex-col p-4 md:p-8 font-sans">
       <header className="mb-8 flex justify-between items-center border-b border-gray-800 pb-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">VimGym 💪</h1>
+          <h1 className="text-3xl font-bold text-white">
+            VimGym 💪🖥
+            <span className="scale-x-[-1] inline-block">💪</span>
+          </h1>
           <p className="text-gray-400 text-sm mt-1">
             Master Vim motions through practice
           </p>
