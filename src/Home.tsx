@@ -35,10 +35,6 @@ const Home = () => {
           <LevelSelector />
         </aside>
       </main>
-
-      {/* <footer className="mt-8 text-center text-gray-600 text-xs border-t border-gray-800 pt-4"> */}
-      {/*   &copy; 2025 VimGym */}
-      {/* </footer> */}
     </div>
   );
 };

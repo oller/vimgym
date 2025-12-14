@@ -1,10 +1,10 @@
 import { EditorState } from "@codemirror/state";
 import { getCM, vim } from "@replit/codemirror-vim";
+import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror, { type EditorView } from "@uiw/react-codemirror";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { VimStatusBar } from "./VimStatusBar";
-import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 
 export const VimEditor = () => {
   const {
