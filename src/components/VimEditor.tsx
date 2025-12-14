@@ -116,7 +116,7 @@ export const VimEditor = () => {
       data-testid="vim-editor"
       className={`border text-3xl grow rounded-md font-roboto-mono overflow-hidden bg-tokyo-night-storm transition-colors flex flex-col ${isCompleted ? "border-green-500" : "border-gray-700"}`}
     >
-      <div className="grow flex items-center px-4">
+      <div className="grow flex items-center px-4 overflow-x-auto">
         <div>
           <div
             className={`pl-1.5 mb-2 ${isCompleted ? "text-green-400" : "text-gray-600"}`}
