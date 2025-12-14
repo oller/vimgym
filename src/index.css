@@ -27,3 +27,7 @@
 .cm-editor .cm-scroller {
   font-family: inherit;
 }
+
+.cm-editor.cm-focused {
+  outline: none; /* Removes default outline */
+}
