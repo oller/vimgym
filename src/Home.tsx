@@ -6,17 +6,17 @@ import { VimEditor } from "./components/VimEditor";
 const Home = () => {
   return (
     <div className="min-h-screen bg-tokyo-night text-white flex flex-col p-4 md:p-8 font-sans">
-      <header className="mb-8 flex justify-between items-center border-b border-gray-800 pb-4">
-        <div>
-          <h1 className="text-3xl font-bold text-white">
-            VimGym 💪🖥
-            <span className="scale-x-[-1] inline-block">💪</span>
-          </h1>
-          <p className="text-gray-400 text-sm mt-1">
-            Master Vim motions through practice
-          </p>
-        </div>
-      </header>
+      {/* <header className="mb-8 flex justify-between items-center border-b border-gray-800 pb-4"> */}
+      {/*   <div> */}
+      {/*     <h1 className="text-3xl font-bold text-white"> */}
+      {/*       VimGym 💪🖥 */}
+      {/*       <span className="scale-x-[-1] inline-block">💪</span> */}
+      {/*     </h1> */}
+      {/*     <p className="text-gray-400 text-sm mt-1"> */}
+      {/*       Master Vim motions through practice */}
+      {/*     </p> */}
+      {/*   </div> */}
+      {/* </header> */}
 
       <main className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Main Content */}
@@ -31,7 +31,7 @@ const Home = () => {
         </section>
 
         {/* Right: Level Selector */}
-        <aside className="md:col-span-3 lg:col-span-2">
+        <aside className="md:col-span-3 lg:col-span-2 flex">
           <LevelSelector />
         </aside>
       </main>
