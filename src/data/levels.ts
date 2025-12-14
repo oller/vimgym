@@ -42,6 +42,28 @@ export const LEVELS = [
     targetText: "Apples, Bananas, Oranges, Grapes, Mangoes",
     description: "Convert the list into a comma-separated line",
   },
+  {
+    id: 6,
+    name: "Comment Block",
+    startText: "const a = 1;\nconst b = 2;\nconst c = 3;\nconst d = 4;",
+    targetText:
+      "// const a = 1;\n// const b = 2;\n// const c = 3;\n// const d = 4;",
+    description: "Comment out all lines using Visual Block mode",
+  },
+  {
+    id: 7,
+    name: "JSONify",
+    startText: "name: John\nage: 30\ncity: New York",
+    targetText: '"name": "John",\n"age": "30",\n"city": "New York",',
+    description: "Convert yaml-like key-values to JSON format",
+  },
+  {
+    id: 8,
+    name: "Snake to Camel",
+    startText: 'const user_first_name = "John";\nconst user_last_name = "Doe";',
+    targetText: 'const userFirstName = "John";\nconst userLastName = "Doe";',
+    description: "Convert snake_case variables to camelCase",
+  },
 ] as const satisfies Level[];
 
 export const getLevel = (id: number) => {

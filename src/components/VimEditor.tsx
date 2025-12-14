@@ -127,7 +127,7 @@ export const VimEditor = () => {
       <div className="grow flex items-center px-4 overflow-x-auto scrollbar-thin">
         <div>
           <div
-            className={`pl-1.5 mb-2 ${isCompleted ? "text-green-500" : "text-gray-600"}`}
+            className={`pl-1.5 leading-11 mb-2 whitespace-pre-wrap ${isCompleted ? "text-green-500" : "text-gray-600"}`}
           >
             {targetText}
           </div>
