@@ -9,7 +9,7 @@ export const MotionLog = () => {
         <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
           Motion Log
         </h3>
-        <span className="text-sm font-mono text-yellow-400">
+        <span className="text-sm font-mono text-yellow-500">
           {history.length} keys
         </span>
       </div>
@@ -21,7 +21,7 @@ export const MotionLog = () => {
           {history.map((key, index) => (
             <kbd
               key={`${index}-${key}`}
-              className="px-2 py-1 bg-gray-800 rounded border border-gray-700 text-yellow-400 min-w-6 text-center"
+              className="px-2 py-1 bg-gray-800 rounded border border-gray-700 text-yellow-500 min-w-6 text-center"
             >
               {key}
             </kbd>
