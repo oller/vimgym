@@ -5,7 +5,7 @@ export const LevelSelector = () => {
   const { currentLevel, highScores, setLevel } = useGameStore();
 
   return (
-    <div className="p-4 bg-gray-800 rounded-lg border border-gray-700">
+    <div className="p-4 bg-tokyo-night-storm rounded-lg border border-gray-700">
       <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
         Levels
       </h3>
@@ -24,7 +24,7 @@ export const LevelSelector = () => {
                   ? "bg-green-600 text-white shadow-lg"
                   : score !== undefined
                     ? "bg-gray-700 hover:bg-gray-600 text-gray-200"
-                    : "bg-gray-900 hover:bg-gray-800 text-gray-400"
+                    : "text-gray-400"
               }`}
             >
               <div className="flex justify-between items-center">
