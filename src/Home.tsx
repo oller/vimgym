@@ -1,9 +1,18 @@
+import { useSearch } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { GoalDisplay } from "./components/GoalDisplay";
 import { LevelSelector } from "./components/LevelSelector";
 import { MotionLog } from "./components/MotionLog";
 import { VimEditor } from "./components/VimEditor";
+import { useGameStore } from "./store/useGameStore";
 
 const Home = () => {
+  const { levelId } = useSearch({ from: "/" });
+  const setLevel = useGameStore((state) => state.setLevel);
+
+  useEffect(() => {
+    setLevel(levelId);
+  }, [levelId, setLevel]);
   return (
     <div className="min-h-screen bg-tokyo-night text-white flex flex-col p-4 md:p-8 font-sans">
       {/* <header className="mb-8 flex justify-between items-center border-b border-gray-800 pb-4"> */}

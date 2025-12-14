@@ -1,5 +1,6 @@
 import { EditorState } from "@codemirror/state";
 import { getCM, vim } from "@replit/codemirror-vim";
+import { useNavigate } from "@tanstack/react-router";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror, { type EditorView } from "@uiw/react-codemirror";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -8,24 +9,26 @@ import { VimStatusBar } from "./VimStatusBar";
 
 export const VimEditor = () => {
   const {
+    currentLevel,
     startText,
     targetText,
     updateText,
     addKeyStroke,
     isCompleted,
-    nextLevel,
     checkAndUpdateHighScore,
   } = useGameStore();
+  const navigate = useNavigate({ from: "/" });
   const [vimMode, setVimMode] = useState("normal");
   const isUpdatingRef = useRef(false);
   const isCompletedRef = useRef(isCompleted);
-  const nextLevelRef = useRef(nextLevel);
+  const currentLevelRef = useRef(currentLevel);
+  const editorViewRef = useRef<EditorView | null>(null);
 
   // Keep refs in sync with latest values
   useEffect(() => {
     isCompletedRef.current = isCompleted;
-    nextLevelRef.current = nextLevel;
-  }, [isCompleted, nextLevel]);
+    currentLevelRef.current = currentLevel;
+  }, [isCompleted, currentLevel]);
 
   // Check and update high score when level is completed
   useEffect(() => {
@@ -45,6 +48,7 @@ export const VimEditor = () => {
 
   const onCreateEditor = useCallback(
     (editorView: EditorView) => {
+      editorViewRef.current = editorView;
       const cm = getCM(editorView);
       if (!cm) return;
 
@@ -94,7 +98,9 @@ export const VimEditor = () => {
       if (event.key === "Enter" && isCompletedRef.current) {
         event.preventDefault();
         event.stopPropagation();
-        nextLevelRef.current();
+
+        // Navigate to next level
+        navigate({ search: { levelId: currentLevelRef.current + 1 } });
       }
     };
 
@@ -103,7 +109,9 @@ export const VimEditor = () => {
     return () => {
       document.removeEventListener("keydown", handleGlobalKeyDown, true);
     };
-  }, []);
+  }, [navigate]);
+
+  // Reset logic is now handled by re-mounting the editor with key={currentLevel}
 
   // Make editor read-only when completed
   const extensions = [
@@ -124,6 +132,7 @@ export const VimEditor = () => {
             {targetText}
           </div>
           <CodeMirror
+            key={currentLevel}
             value={startText}
             extensions={extensions}
             onChange={onChange}

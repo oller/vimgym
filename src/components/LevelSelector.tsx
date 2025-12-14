@@ -1,8 +1,10 @@
+import { useNavigate } from "@tanstack/react-router";
 import { LEVELS } from "../data/levels";
 import { useGameStore } from "../store/useGameStore";
 
 export const LevelSelector = () => {
-  const { currentLevel, highScores, setLevel } = useGameStore();
+  const { currentLevel, highScores } = useGameStore();
+  const navigate = useNavigate({ from: "/" });
 
   return (
     <div className="p-4 bg-tokyo-night-storm rounded-lg border border-gray-700">
@@ -18,7 +20,7 @@ export const LevelSelector = () => {
             <button
               type="button"
               key={level.id}
-              onClick={() => setLevel(level.id)}
+              onClick={() => navigate({ search: { levelId: level.id } })}
               className={`w-full cursor-pointer text-left p-3 rounded transition-all ${
                 isCurrent
                   ? "bg-green-600 text-white shadow-lg"

@@ -1,18 +1,18 @@
+import { useNavigate } from "@tanstack/react-router";
 import { getLevel, LEVELS } from "../data/levels";
 import { useGameStore } from "../store/useGameStore";
 
 export const GoalDisplay = () => {
-  const {
-    isCompleted,
-    resetLevel,
-    currentLevel,
-    highScores,
-    nextLevel,
-    history,
-  } = useGameStore();
+  const { isCompleted, resetLevel, currentLevel, highScores, history } =
+    useGameStore();
+  const navigate = useNavigate({ from: "/" });
   const bestScore = highScores[currentLevel];
   const currentLevelData = getLevel(currentLevel);
   const hasNextLevel = currentLevel < LEVELS.length;
+
+  const handleNextLevel = () => {
+    navigate({ search: { levelId: currentLevel + 1 } });
+  };
 
   return (
     <div className="">
@@ -80,7 +80,7 @@ export const GoalDisplay = () => {
             {hasNextLevel && (
               <button
                 type="button"
-                onClick={nextLevel}
+                onClick={handleNextLevel}
                 className="bg-green-600 curspro-pointer hover:bg-green-500 text-white px-4 py-2 rounded font-semibold transition-colors"
               >
                 Next Level →

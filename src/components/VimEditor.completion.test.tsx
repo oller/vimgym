@@ -3,7 +3,7 @@ import {
   createRouter,
   RouterProvider,
 } from "@tanstack/react-router";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { useGameStore } from "../store/useGameStore";
@@ -17,11 +17,7 @@ const renderWithRouter = (component: React.ReactNode) => {
   return render(<RouterProvider router={router} />);
 };
 
-// Mock getCM to avoid null issues in tests if JSDOM doesn't support full CM
-// However, integration tests with real CM are better.
-// We will try running it "real" first.
-
-describe("VimEditor Integration", () => {
+describe("Level Completion", () => {
   beforeEach(() => {
     useGameStore.getState().setLevel(1);
 
@@ -46,37 +42,30 @@ describe("VimEditor Integration", () => {
       });
       return range;
     };
-
-    // HTMLElement.prototype.getClientRects might define layout
-    // Is used by some CM measurements
   });
 
-  it("handles normal mode delete and insert mode typing correctly", async () => {
+  it("detects level completion", async () => {
     const user = userEvent.setup();
     renderWithRouter(<VimEditor />);
 
-    // Wait for editor to be ready (simplified sync)
     const editor = await screen.findByRole("textbox");
 
-    // 1. Normal mode 'dd' to clear line
-    // We might need to ensure focus. CodeMirror usually grabs focus.
+    // Level 1: "The quick brown fox jumps over the lazy dog." -> "The quick brown fox jumps."
+    // Let's just delete everything and type the target text to be sure.
     await user.click(editor);
-    await user.keyboard("dd");
+    await user.keyboard("dd"); // Normal mode: delete line
+    await user.keyboard("i"); // Insert mode
 
-    // Verify emptiness via store or DOM ??
-    // CodeMirror's DOM is complex. Checking store is easier for data flow.
-    expect(useGameStore.getState().currentText).toBe("");
+    const targetText = "The quick brown fox jumps.";
+    await user.keyboard(targetText);
 
-    // 2. Type a long sentence in Insert mode
-    // 'i' to enter insert mode
-    await user.keyboard("i");
+    // Check if store updates
+    await waitFor(() => {
+      expect(useGameStore.getState().currentText).toBe(targetText);
+    });
 
-    const longSentence =
-      "The quick brown fox jumps over the lazy dog repeatedly.";
-    await user.keyboard(longSentence);
-
-    // Verify text in store
-    // If bug exists, this might be partial or empty
-    expect(useGameStore.getState().currentText).toBe(longSentence);
+    await waitFor(() => {
+      expect(useGameStore.getState().isCompleted).toBe(true);
+    });
   });
 });
