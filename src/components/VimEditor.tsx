@@ -15,11 +15,9 @@ export const VimEditor = () => {
     updateText,
     addKeyStroke,
     isCompleted,
-    checkAndUpdateHighScore,
   } = useGameStore();
   const navigate = useNavigate({ from: "/" });
   const [vimMode, setVimMode] = useState("normal");
-  const isUpdatingRef = useRef(false);
   const isCompletedRef = useRef(isCompleted);
   const currentLevelRef = useRef(currentLevel);
   const editorViewRef = useRef<EditorView | null>(null);
@@ -30,17 +28,8 @@ export const VimEditor = () => {
     currentLevelRef.current = currentLevel;
   }, [isCompleted, currentLevel]);
 
-  // Check and update high score when level is completed
-  useEffect(() => {
-    if (isCompleted) {
-      checkAndUpdateHighScore();
-    }
-  }, [isCompleted, checkAndUpdateHighScore]);
-
   const onChange = useCallback(
     (val: string) => {
-      // Skip onChange during programmatic updates
-      if (isUpdatingRef.current) return;
       updateText(val);
     },
     [updateText],
@@ -131,6 +120,7 @@ export const VimEditor = () => {
           >
             {targetText}
           </div>
+          {/* Use key={currentLevel} to ensure independent history stacks for each level */}
           <CodeMirror
             key={currentLevel}
             value={startText}

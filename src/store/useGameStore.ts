@@ -50,9 +50,13 @@ export const useGameStore = create<GameState>()(
       },
 
       updateText: (text) => {
-        const { targetText } = get();
+        const { targetText, checkAndUpdateHighScore } = get();
         const isCompleted = text.trim() === targetText.trim();
         set({ currentText: text, isCompleted });
+
+        if (isCompleted) {
+          checkAndUpdateHighScore();
+        }
       },
 
       addKeyStroke: (key) =>

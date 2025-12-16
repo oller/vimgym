@@ -33,7 +33,7 @@ const Home = () => {
           <GoalDisplay />
 
           <div className="flex flex-col grow">
-            <VimEditor />
+            <VimEditor key={levelId} />
           </div>
 
           <MotionLog />
