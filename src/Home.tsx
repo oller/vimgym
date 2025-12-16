@@ -9,6 +9,7 @@ import { useGameStore } from "./store/useGameStore";
 const Home = () => {
   const { levelId } = useSearch({ from: "/" });
   const setLevel = useGameStore((state) => state.setLevel);
+  const resetCount = useGameStore((state) => state.resetCount);
 
   useEffect(() => {
     setLevel(levelId);
@@ -33,7 +34,7 @@ const Home = () => {
           <GoalDisplay />
 
           <div className="flex flex-col grow">
-            <VimEditor key={levelId} />
+            <VimEditor key={`${levelId}-${resetCount}`} />
           </div>
 
           <MotionLog />

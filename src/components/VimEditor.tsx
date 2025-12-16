@@ -118,7 +118,6 @@ export const VimEditor = () => {
           >
             {targetText}
           </div>
-          {/* Use key={currentLevel} to ensure independent history stacks for each level */}
           <CodeMirror
             key={currentLevel}
             value={startText}

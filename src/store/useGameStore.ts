@@ -9,6 +9,7 @@ interface GameState {
   currentText: string;
   history: string[]; // List of keystrokes/motions
   isCompleted: boolean;
+  resetCount: number;
   highScores: Record<number, number>; // Level -> Min Keystrokes
 
   // Actions
@@ -31,6 +32,7 @@ export const useGameStore = create<GameState>()(
       currentText: level1.startText,
       history: [],
       isCompleted: false,
+      resetCount: 0,
       highScores: {},
 
       setLevel: (levelId) => {
@@ -78,11 +80,12 @@ export const useGameStore = create<GameState>()(
       },
 
       resetLevel: () => {
-        const { startText } = get();
+        const { startText, resetCount } = get();
         set({
           currentText: startText,
           history: [],
           isCompleted: false,
+          resetCount: resetCount + 1,
         });
       },
 
