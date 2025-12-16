@@ -100,8 +100,6 @@ export const VimEditor = () => {
     };
   }, [navigate]);
 
-  // Reset logic is now handled by re-mounting the editor with key={currentLevel}
-
   // Make editor read-only when completed
   const extensions = [
     vim(), // vim bindings
