@@ -10,7 +10,7 @@ interface GameState {
   history: string[]; // List of keystrokes/motions
   isCompleted: boolean;
   resetCount: number;
-  highScores: Record<number, number>; // Level -> Min Keystrokes
+  highScores: Partial<Record<number, number>>; // Level -> Min Keystrokes
 
   // Actions
   setLevel: (level: number) => void;

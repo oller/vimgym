@@ -11,7 +11,6 @@ export const VimStatusBar = ({ mode }: VimStatusBarProps) => {
         return "bg-orange-600";
       case "replace":
         return "bg-red-600";
-      case "normal":
       default:
         return "bg-green-600";
     }
