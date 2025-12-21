@@ -21,6 +21,34 @@
   --font-roboto-mono: "Roboto Mono", monospace;
   --color-tokyo-night-storm: #24283b;
   --color-tokyo-night: #1a1b26;
+
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+}
+
+@utility bg-gold-gradient {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+}
+
+@utility animate-shimmer {
+  @apply relative overflow-hidden;
+  &::after {
+    content: "";
+    @apply inset-0 absolute;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: shimmer 3s infinite;
+  }
 }
 
 /* Override to allow tailwind setting of font-family as parent className */

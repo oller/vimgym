@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { LEVELS } from "../data/levels";
 import { useGameStore } from "../store/useGameStore";
+import { cn } from "../utils/cn";
 
 export const LevelSelector = () => {
   const { currentLevel, highScores } = useGameStore();
@@ -15,27 +16,32 @@ export const LevelSelector = () => {
         {LEVELS.map((level) => {
           const score = highScores[level.id];
           const isCurrent = level.id === currentLevel;
+          const isPerfect = score !== undefined && score <= level.perfectScore;
 
           return (
             <button
               type="button"
               key={level.id}
               onClick={() => navigate({ search: { levelId: level.id } })}
-              className={`w-full cursor-pointer text-left p-3 rounded transition-all ${
-                isCurrent
-                  ? "bg-green-600 text-white shadow-lg"
-                  : score !== undefined
-                    ? "bg-gray-700 hover:bg-gray-600 text-gray-200"
-                    : "text-gray-400"
-              }`}
+              className={cn(
+                "w-full cursor-pointer text-left p-3 rounded transition-all",
+                isCurrent && score === undefined && "bg-gray-700 text-white",
+                score !== undefined && "bg-green-600 text-gray-200",
+                !isCurrent && score === undefined && "text-gray-400",
+                isPerfect && "bg-gold-gradient text-slate-800 animate-shimmer",
+              )}
             >
               <div className="flex justify-between items-center">
-                <div className="flex-1">
+                <div className="flex-1 space-y-1">
                   <div className="font-semibold text-sm">Level {level.id}</div>
-                  <div className="text-xs opacity-75 mt-0.5">{level.name}</div>
+                  <div className="text-xs ">{level.name}</div>
                 </div>
                 {score !== undefined && (
-                  <div className="text-xs font-mono bg-black/20 px-2 py-1 rounded">
+                  <div
+                    className={cn(
+                      "text-xs font-mono px-2 py-1 rounded bg-black/20 text-white",
+                    )}
+                  >
                     {score} keys
                   </div>
                 )}
