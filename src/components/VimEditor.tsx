@@ -2,7 +2,8 @@ import { EditorState } from "@codemirror/state";
 import { getCM, vim } from "@replit/codemirror-vim";
 import { useNavigate } from "@tanstack/react-router";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
-import CodeMirror, { type EditorView } from "@uiw/react-codemirror";
+import CodeMirror from "@uiw/react-codemirror";
+import { EditorView } from "@codemirror/view";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { VimStatusBar } from "./VimStatusBar";
@@ -35,51 +36,49 @@ export const VimEditor = () => {
     [updateText],
   );
 
-  const onCreateEditor = useCallback(
-    (editorView: EditorView) => {
-      editorViewRef.current = editorView;
-      const cm = getCM(editorView);
-      if (!cm) return;
+  const addKeyStrokeRef = useRef(addKeyStroke);
+  useEffect(() => {
+    addKeyStrokeRef.current = addKeyStroke;
+  }, [addKeyStroke]);
 
-      // Listen for mode changes
-      cm.on("vim-mode-change", (e: { mode: string }) => {
-        setVimMode(e.mode);
-      });
+  const onCreateEditor = useCallback((editorView: EditorView) => {
+    editorViewRef.current = editorView;
+    const cm = getCM(editorView);
+    if (!cm) return;
 
-      // Listen for Vim command keys (normal mode, visual mode, etc.)
-      cm.on("vim-keypress", (key: string) => {
-        addKeyStroke(key);
-      });
+    // Listen for mode changes
+    cm.on("vim-mode-change", (e: { mode: string }) => {
+      setVimMode(e.mode);
+    });
 
-      // Listen for ALL keypresses (including insert mode typing)
-      const handleKeyDown = (event: KeyboardEvent) => {
-        // Skip modifier keys
-        if (
-          ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(
-            event.key,
-          )
-        ) {
-          return;
-        }
+    // Listen for ALL keypresses (including insert mode typing)
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Skip modifier keys
+      if (
+        ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(
+          event.key,
+        )
+      ) {
+        return;
+      }
 
-        // Log the key
-        let key = event.key;
-        if (key === "Escape") key = "Esc";
-        if (key === "Enter") key = "Enter";
-        if (key === " ") key = "Space";
+      // Log the key
+      let key = event.key;
+      if (key === "Escape") key = "Esc";
+      if (key === "Enter") key = "Enter";
+      if (key === " ") key = "Space";
 
-        addKeyStroke(key);
-      };
+      addKeyStrokeRef.current(key);
+    };
 
-      editorView.dom.addEventListener("keydown", handleKeyDown);
+    // Use capture phase to ensure we get keys before CodeMirror consumes them
+    editorView.dom.addEventListener("keydown", handleKeyDown, true);
 
-      // Cleanup on unmount
-      return () => {
-        editorView.dom.removeEventListener("keydown", handleKeyDown);
-      };
-    },
-    [addKeyStroke],
-  );
+    // Cleanup on unmount
+    return () => {
+      editorView.dom.removeEventListener("keydown", handleKeyDown, true);
+    };
+  }, []);
 
   // Global keydown listener to intercept Enter when completed
   useEffect(() => {
