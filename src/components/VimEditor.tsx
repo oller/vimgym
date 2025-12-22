@@ -1,12 +1,13 @@
 import { EditorState } from "@codemirror/state";
+import type { EditorView } from "@codemirror/view";
 import { getCM, vim } from "@replit/codemirror-vim";
 import { useNavigate } from "@tanstack/react-router";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
-import { EditorView } from "@codemirror/view";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { VimStatusBar } from "./VimStatusBar";
+import { cn } from "../utils/cn";
 
 export const VimEditor = () => {
   const {
@@ -45,6 +46,8 @@ export const VimEditor = () => {
     editorViewRef.current = editorView;
     const cm = getCM(editorView);
     if (!cm) return;
+
+    // editorView.contentAttributes.of({ "aria-label": "Vim editor" });
 
     // Listen for mode changes
     cm.on("vim-mode-change", (e: { mode: string }) => {
@@ -108,12 +111,18 @@ export const VimEditor = () => {
   return (
     <div
       data-testid="vim-editor"
-      className={`border text-3xl grow rounded-md font-roboto-mono overflow-hidden bg-tokyo-night-storm transition-colors flex flex-col ${isCompleted ? "border-green-500" : "border-gray-700"}`}
+      className={cn(
+        "border text-3xl grow rounded-md font-roboto-mono overflow-hidden bg-tokyo-night-storm transition-colors flex flex-col",
+        isCompleted ? "border-green-500" : "border-gray-700",
+      )}
     >
       <div className="grow flex items-center px-4 overflow-x-auto scrollbar-thin">
         <div>
           <div
-            className={`pl-1.5 leading-11 mb-2 whitespace-pre-wrap ${isCompleted ? "text-green-500" : "text-gray-600"}`}
+            className={cn(
+              "pl-1.5 leading-11 mb-2 whitespace-pre-wrap",
+              isCompleted ? "text-green-500" : "text-gray-600",
+            )}
           >
             {targetText}
           </div>
