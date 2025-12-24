@@ -21,12 +21,14 @@ export const LevelSelector = () => {
               key={level.id}
               onClick={() => navigate({ search: { levelId: level.id } })}
               className={cn(
-                "w-full cursor-pointer text-left p-3 rounded transition-all",
+                "w-full cursor-pointer text-left p-3 rounded transition-all ",
                 isCurrent &&
                   score === undefined &&
                   "bg-tokyo-night-storm text-white",
                 score !== undefined && "bg-green-600 text-gray-200",
-                !isCurrent && score === undefined && "text-gray-400",
+                !isCurrent &&
+                  score === undefined &&
+                  "text-gray-400 hover:bg-tokyo-night-storm/30",
                 isPerfect && "bg-gold-gradient text-slate-800 animate-shimmer",
               )}
             >

@@ -25,28 +25,6 @@ describe("VimEditor Integration", () => {
   beforeEach(() => {
     useGameStore.getState().setLevel(1);
 
-    // Mock JSDOM layout
-    document.createRange = () => {
-      const range = new Range();
-      range.getBoundingClientRect = () => ({
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        toJSON: () => {},
-      });
-      range.getClientRects = () => ({
-        length: 0,
-        item: () => null,
-        [Symbol.iterator]: [][Symbol.iterator],
-      });
-      return range;
-    };
-
     // HTMLElement.prototype.getClientRects might define layout
     // Is used by some CM measurements
   });
