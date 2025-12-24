@@ -28,11 +28,11 @@ export const GoalDisplay = () => {
           </p>
         </div>
 
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-4 items-center">
           {bestScore !== undefined && (
             <span
               data-testid="best-score"
-              className="text-xs text-yellow-500 font-mono"
+              className="text-sm text-yellow-500 font-mono"
             >
               Best: {bestScore} keys
               {typeof perfectScore === "number" &&
@@ -50,7 +50,7 @@ export const GoalDisplay = () => {
           <button
             type="button"
             onClick={resetLevel}
-            className="cursor-pointer text-xs bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded transition-colors"
+            className="cursor-pointer text-sm bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded transition-colors"
             title={isCompleted ? "Retry Level" : "Reset Level"}
           >
             {isCompleted ? "Retry" : "Reset"}

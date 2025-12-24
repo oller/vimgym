@@ -9,9 +9,6 @@ export const LevelSelector = () => {
 
   return (
     <div className="pl-4 border-l border-gray-700">
-      {/* <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3"> */}
-      {/*   Levels */}
-      {/* </h3> */}
       <div className="space-y-2">
         {LEVELS.map((level) => {
           const score = highScores[level.id];
@@ -35,8 +32,8 @@ export const LevelSelector = () => {
             >
               <div className="flex justify-between items-center">
                 <div className="flex-1 space-y-1">
-                  <div className="font-semibold text-sm">Level {level.id}</div>
-                  <div className="text-xs ">{level.name}</div>
+                  <div className="font-semibold text-xs">Level {level.id}</div>
+                  <div className="text-xs">{level.name}</div>
                 </div>
                 {score !== undefined && (
                   <div
