@@ -9,6 +9,7 @@ export const GoalDisplay = () => {
   const bestScore = highScores[currentLevel];
   const currentLevelData = getLevel(currentLevel);
   const hasNextLevel = currentLevel < LEVELS.length;
+  const perfectScore = currentLevelData?.perfectScore;
 
   const handleNextLevel = () => {
     navigate({ search: { levelId: currentLevel + 1 } });
@@ -34,10 +35,13 @@ export const GoalDisplay = () => {
               className="text-xs text-yellow-500 font-mono"
             >
               Best: {bestScore} keys
-              {currentLevelData?.perfectScore &&
-                !Number.isNaN(currentLevelData?.perfectScore) &&
-                bestScore <= currentLevelData?.perfectScore && (
-                  <span title="This is a perfect score!" className="ml-2">
+              {typeof perfectScore === "number" &&
+                Number.isFinite(perfectScore) &&
+                bestScore <= perfectScore && (
+                  <span
+                    title="This is a perfect score!"
+                    className="ml-2 cursor-help"
+                  >
                     🏆
                   </span>
                 )}
