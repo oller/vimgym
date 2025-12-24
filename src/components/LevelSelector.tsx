@@ -8,10 +8,10 @@ export const LevelSelector = () => {
   const navigate = useNavigate({ from: "/" });
 
   return (
-    <div className="p-4 bg-tokyo-night-storm rounded-lg border border-gray-700">
-      <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-        Levels
-      </h3>
+    <div className="pl-4 border-l border-gray-700">
+      {/* <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3"> */}
+      {/*   Levels */}
+      {/* </h3> */}
       <div className="space-y-2">
         {LEVELS.map((level) => {
           const score = highScores[level.id];
@@ -25,7 +25,9 @@ export const LevelSelector = () => {
               onClick={() => navigate({ search: { levelId: level.id } })}
               className={cn(
                 "w-full cursor-pointer text-left p-3 rounded transition-all",
-                isCurrent && score === undefined && "bg-gray-700 text-white",
+                isCurrent &&
+                  score === undefined &&
+                  "bg-tokyo-night-storm text-white",
                 score !== undefined && "bg-green-600 text-gray-200",
                 !isCurrent && score === undefined && "text-gray-400",
                 isPerfect && "bg-gold-gradient text-slate-800 animate-shimmer",
