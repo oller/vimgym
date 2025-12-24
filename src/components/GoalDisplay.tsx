@@ -34,6 +34,13 @@ export const GoalDisplay = () => {
               className="text-xs text-yellow-500 font-mono"
             >
               Best: {bestScore} keys
+              {currentLevelData?.perfectScore &&
+                !Number.isNaN(currentLevelData?.perfectScore) &&
+                bestScore <= currentLevelData?.perfectScore && (
+                  <span title="This is a perfect score!" className="ml-2">
+                    🏆
+                  </span>
+                )}
             </span>
           )}
           <button

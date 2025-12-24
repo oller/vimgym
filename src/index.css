@@ -33,7 +33,14 @@
 }
 
 @utility bg-gold-gradient {
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  background: #d19e1d;
+  background: -webkit-linear-gradient(
+    90deg,
+    #d19e1d 0%,
+    #ffd86e 50%,
+    #e3a812 100%
+  );
+  background: linear-gradient(90deg, #d19e1d 0%, #ffd86e 50%, #e3a812 100%);
 }
 
 @utility animate-shimmer {
