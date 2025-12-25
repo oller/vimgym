@@ -8,7 +8,7 @@ export const LevelSelector = () => {
   const navigate = useNavigate({ from: "/" });
 
   return (
-    <div className="pl-4 border-l border-gray-700">
+    <div className="md:pl-4 md:border-l border-gray-700">
       <div className="space-y-2">
         {LEVELS.map((level) => {
           const score = highScores[level.id];
