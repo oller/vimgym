@@ -6,8 +6,8 @@ import {
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
-import { useGameStore } from "../store/useGameStore";
-import { VimEditor } from "./VimEditor";
+import { useGameStore } from "../../store/useGameStore";
+import { VimEditor } from "./../VimEditor";
 
 const renderWithRouter = (component: React.ReactNode) => {
   const rootRoute = createRootRoute({

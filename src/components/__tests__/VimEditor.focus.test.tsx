@@ -6,8 +6,8 @@ import {
 import { render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom";
-import { useGameStore } from "../store/useGameStore";
-import { VimEditor } from "./VimEditor";
+import { useGameStore } from "../../store/useGameStore";
+import { VimEditor } from "../VimEditor";
 
 // Mock scrollIntoView since it's not implemented in JSDOM
 window.HTMLElement.prototype.scrollIntoView = vi.fn();

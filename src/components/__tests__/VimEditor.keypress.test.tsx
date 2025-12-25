@@ -5,8 +5,8 @@ import {
 } from "@tanstack/react-router";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
-import { useGameStore } from "../store/useGameStore";
-import { VimEditor } from "./VimEditor";
+import { useGameStore } from "../../store/useGameStore";
+import { VimEditor } from "../VimEditor";
 
 const renderWithRouter = (component: React.ReactNode) => {
   const rootRoute = createRootRoute({
