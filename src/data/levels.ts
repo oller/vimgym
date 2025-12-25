@@ -73,6 +73,22 @@ export const LEVELS = [
     description: "Convert snake_case variables to camelCase",
     perfectScore: 12,
   },
+  {
+    id: 9,
+    name: "Quote Wrapping",
+    startText: 'const greeting = "Hello World"; const name = "John";',
+    targetText: 'const greeting = "Hi"; const name = "Jane";',
+    description: "Change text inside quotes using text objects",
+    perfectScore: 12,
+  },
+  {
+    id: 10,
+    name: "Function Parameters",
+    startText: "function greet(name, age, city) { return name; }",
+    targetText: "function greet(x, y, z) { return x; }",
+    description: "Change function parameters using parenthesis text objects",
+    perfectScore: 12,
+  },
 ] as const satisfies Level[];
 
 export const getLevel = (id: number) => {
