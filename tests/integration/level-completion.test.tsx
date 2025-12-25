@@ -1,5 +1,4 @@
 import { act, render, waitFor } from "@testing-library/react";
-import React from "react";
 import { userEvent } from "@testing-library/user-event";
 import { expect, test } from "vitest";
 import App from "../../src/App";

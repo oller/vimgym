@@ -15,8 +15,9 @@
   },
   "linter": {
     "enabled": true,
-    "rules": {
-      "recommended": true
+    "domains": {
+      "react": "all",
+      "test": "all"
     }
   },
   "javascript": {
