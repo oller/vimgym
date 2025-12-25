@@ -37,13 +37,14 @@ describe("VimEditor Keypress Logging", () => {
     const textbox = await screen.findByRole("textbox");
     const editorContainer = textbox.closest(".cm-editor");
     expect(editorContainer).toBeTruthy();
+    if (!editorContainer) throw new Error("Editor container not found");
 
     // Simulate keypresses directly on the DOM
     // These should be captured by our keydown listener
     const keys = ["h", "e", "l", "l", "o"];
 
     keys.forEach((key) => {
-      fireEvent.keyDown(editorContainer!, { key });
+      fireEvent.keyDown(editorContainer, { key });
     });
 
     // Check that all keys were logged
@@ -57,11 +58,12 @@ describe("VimEditor Keypress Logging", () => {
     const textbox = await screen.findByRole("textbox");
     const editorContainer = textbox.closest(".cm-editor");
     expect(editorContainer).toBeTruthy();
+    if (!editorContainer) throw new Error("Editor container not found");
 
     // Test special key normalization
-    fireEvent.keyDown(editorContainer!, { key: "Escape" });
-    fireEvent.keyDown(editorContainer!, { key: "Enter" });
-    fireEvent.keyDown(editorContainer!, { key: " " });
+    fireEvent.keyDown(editorContainer, { key: "Escape" });
+    fireEvent.keyDown(editorContainer, { key: "Enter" });
+    fireEvent.keyDown(editorContainer, { key: " " });
 
     const history = useGameStore.getState().history;
     expect(history).toEqual(["Esc", "Enter", "Space"]);
@@ -73,12 +75,13 @@ describe("VimEditor Keypress Logging", () => {
     const textbox = await screen.findByRole("textbox");
     const editorContainer = textbox.closest(".cm-editor");
     expect(editorContainer).toBeTruthy();
+    if (!editorContainer) throw new Error("Editor container not found");
 
     // These should be filtered out
     const modifierKeys = ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"];
 
     modifierKeys.forEach((key) => {
-      fireEvent.keyDown(editorContainer!, { key });
+      fireEvent.keyDown(editorContainer, { key });
     });
 
     // History should be empty
@@ -92,11 +95,12 @@ describe("VimEditor Keypress Logging", () => {
     const textbox = await screen.findByRole("textbox");
     const editorContainer = textbox.closest(".cm-editor");
     expect(editorContainer).toBeTruthy();
+    if (!editorContainer) throw new Error("Editor container not found");
 
     const keys = ["a", "b", "1", "2", "!", "@", "#"];
 
     keys.forEach((key) => {
-      fireEvent.keyDown(editorContainer!, { key });
+      fireEvent.keyDown(editorContainer, { key });
     });
 
     const history = useGameStore.getState().history;

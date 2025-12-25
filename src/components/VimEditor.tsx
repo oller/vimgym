@@ -6,8 +6,8 @@ import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
-import { VimStatusBar } from "./VimStatusBar";
 import { cn } from "../utils/cn";
+import { VimStatusBar } from "./VimStatusBar";
 
 export const VimEditor = () => {
   const {
