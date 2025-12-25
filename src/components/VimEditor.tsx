@@ -112,7 +112,7 @@ export const VimEditor = () => {
     <div
       data-testid="vim-editor"
       className={cn(
-        "border text-3xl grow rounded-md font-roboto-mono overflow-hidden bg-tokyo-night-storm transition-colors flex flex-col",
+        "border text-xl md:text-3xl grow rounded-md font-roboto-mono overflow-hidden bg-tokyo-night-storm transition-colors flex flex-col",
         isCompleted ? "border-green-500" : "border-gray-700",
       )}
     >
