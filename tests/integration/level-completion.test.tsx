@@ -34,10 +34,12 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
   // Wait a bit after focus
   await new Promise((resolve) => setTimeout(resolve, 200));
 
+  const solution = "fsldt.";
+
   // Type the keystrokes: f s l d t .
   // These should work in vim normal mode
   await act(async () => {
-    await userEvent.keyboard("fsldt.");
+    await userEvent.keyboard(solution);
   });
 
   // Wait for the completion message to appear in the DOM
@@ -62,9 +64,11 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
   const keystrokeCount = container.querySelector(
     '[data-testid="keystroke-count"]',
   );
-  expect(keystrokeCount?.textContent).toContain("Completed in 6 keystrokes");
+  expect(keystrokeCount?.textContent).toContain(
+    `Completed in ${solution.length} keystrokes`,
+  );
 
   // Check that the best score is also 6
   const bestScore = container.querySelector('[data-testid="best-score"]');
-  expect(bestScore?.textContent).toContain("Best: 6");
+  expect(bestScore?.textContent).toContain(`Best: ${solution.length}`);
 });
