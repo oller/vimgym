@@ -58,6 +58,7 @@
   }
 }
 
+/* CodeMirror overrides */
 /* Override to allow tailwind setting of font-family as parent className */
 .cm-editor .cm-scroller {
   font-family: inherit;
