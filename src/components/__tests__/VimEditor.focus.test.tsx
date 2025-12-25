@@ -3,7 +3,7 @@ import {
   createRouter,
   RouterProvider,
 } from "@tanstack/react-router";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom";
 import { useGameStore } from "../../store/useGameStore";
@@ -38,7 +38,9 @@ describe("VimEditor Focus", () => {
     expect(editor).not.toHaveFocus();
 
     // Change level
-    useGameStore.getState().setLevel(2);
+    act(() => {
+      useGameStore.getState().setLevel(2);
+    });
 
     // It should regain focus
     // We need to re-query because the component remounted (key={currentLevel})

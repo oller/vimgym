@@ -1,10 +1,17 @@
-import { act, render } from "@testing-library/react";
+import { act, render, waitFor } from "@testing-library/react";
 import React from "react";
 import { userEvent } from "@testing-library/user-event";
 import { expect, test } from "vitest";
 import App from "../../src/App";
 
 test("complete level 1 with keystrokes fsldt. and verify score is 6", async () => {
+  // Note: This integration test may produce React act() warnings about
+  // Transitioner, MatchesInner (React Router internals), and CodeMirror.
+  // These warnings are unavoidable because:
+  // 1. They come from third-party library internal components
+  // 2. Cascading state updates happen across multiple render cycles
+  // 3. The user interactions are already properly wrapped in act()
+  //
   // Mount the app
   const { container } = render(<App />);
 
@@ -33,7 +40,17 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
     await userEvent.keyboard("fsldt.");
   });
 
-  // Log final state
+  // Wait for the completion message to appear in the DOM
+  await waitFor(
+    () => {
+      const completeMessage = container.querySelector(
+        '[data-testid="level-complete"]',
+      );
+      expect(completeMessage).toBeTruthy();
+    },
+    { timeout: 3000 },
+  );
+
   // Check that the level is marked as complete
   const completeMessage = container.querySelector(
     '[data-testid="level-complete"]',
