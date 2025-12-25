@@ -7,6 +7,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom";
+import { act } from "@testing-library/react";
 import { useGameStore } from "../store/useGameStore";
 import { VimEditor } from "./VimEditor";
 
@@ -41,7 +42,9 @@ describe("VimEditor History", () => {
     );
 
     // Change to Level 2
-    useGameStore.getState().setLevel(2);
+    act(() => {
+      useGameStore.getState().setLevel(2);
+    });
 
     // Wait for Level 2 text
     await waitFor(() => {
