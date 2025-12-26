@@ -15,6 +15,7 @@ export const LevelSelector = () => {
           const isCurrentLevel = level.id === currentLevel;
           const isPerfectScore =
             score !== undefined && score <= level.perfectScore;
+          const isUnplayedLevel = score === undefined;
 
           return (
             <button
@@ -24,11 +25,11 @@ export const LevelSelector = () => {
               className={cn(
                 "w-full cursor-pointer text-left p-3 rounded transition-all ",
                 isCurrentLevel &&
-                  score === undefined &&
+                  isUnplayedLevel &&
                   "bg-tokyo-night-storm text-white",
-                score !== undefined && "bg-green-600 text-gray-200",
+                !isUnplayedLevel && "bg-green-600 text-gray-200",
                 !isCurrentLevel &&
-                  score === undefined &&
+                  isUnplayedLevel &&
                   "text-gray-400 hover:bg-tokyo-night-storm/30",
                 isPerfectScore &&
                   "bg-gold-gradient text-slate-800 animate-shimmer",
