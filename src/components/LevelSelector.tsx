@@ -12,8 +12,9 @@ export const LevelSelector = () => {
       <div className="space-y-2">
         {LEVELS.map((level) => {
           const score = highScores[level.id];
-          const isCurrent = level.id === currentLevel;
-          const isPerfect = score !== undefined && score <= level.perfectScore;
+          const isCurrentLevel = level.id === currentLevel;
+          const isPerfectScore =
+            score !== undefined && score <= level.perfectScore;
 
           return (
             <button
@@ -22,14 +23,15 @@ export const LevelSelector = () => {
               onClick={() => navigate({ search: { levelId: level.id } })}
               className={cn(
                 "w-full cursor-pointer text-left p-3 rounded transition-all ",
-                isCurrent &&
+                isCurrentLevel &&
                   score === undefined &&
                   "bg-tokyo-night-storm text-white",
                 score !== undefined && "bg-green-600 text-gray-200",
-                !isCurrent &&
+                !isCurrentLevel &&
                   score === undefined &&
                   "text-gray-400 hover:bg-tokyo-night-storm/30",
-                isPerfect && "bg-gold-gradient text-slate-800 animate-shimmer",
+                isPerfectScore &&
+                  "bg-gold-gradient text-slate-800 animate-shimmer",
               )}
             >
               <div className="flex justify-between items-center">

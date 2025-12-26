@@ -1,8 +1,4 @@
-interface VimStatusBarProps {
-  mode: string;
-}
-
-export const VimStatusBar = ({ mode }: VimStatusBarProps) => {
+export const VimStatusBar = ({ mode }: { mode: string }) => {
   const getModeColor = (mode: string) => {
     switch (mode.toLowerCase()) {
       case "insert":
