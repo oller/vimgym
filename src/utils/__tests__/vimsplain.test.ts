@@ -1,9 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
   explainSequence,
   formatExplanation,
   summarizeSequence,
 } from "../vimsplain";
+import { SPECIAL_KEYS } from "../vimsplain.types";
 
 describe("vimsplain", () => {
   describe("explainSequence", () => {
@@ -494,7 +495,7 @@ describe("vimsplain", () => {
 
   describe("search mode handling", () => {
     it("explains /pattern search", () => {
-      const result = explainSequence("/targetEnter");
+      const result = explainSequence(`/target${SPECIAL_KEYS.ENTER}`);
       expect(result.commands).toHaveLength(1);
       expect(result.commands[0]).toEqual({
         matched: "/target",
@@ -503,7 +504,7 @@ describe("vimsplain", () => {
     });
 
     it("explains ?pattern search (backward)", () => {
-      const result = explainSequence("?wordEnter");
+      const result = explainSequence(`?word${SPECIAL_KEYS.ENTER}`);
       expect(result.commands[0]).toEqual({
         matched: "?word",
         explanation: 'search backward for "word"',
@@ -511,7 +512,7 @@ describe("vimsplain", () => {
     });
 
     it("handles search followed by n (next match)", () => {
-      const result = explainSequence("/fooEntern");
+      const result = explainSequence(`/foo${SPECIAL_KEYS.ENTER}n`);
       expect(result.commands).toHaveLength(2);
       expect(result.commands[0].explanation).toBe('search forward for "foo"');
       expect(result.commands[1]).toEqual({
@@ -521,7 +522,7 @@ describe("vimsplain", () => {
     });
 
     it("handles search followed by multiple n", () => {
-      const result = explainSequence("/targetEnternnn");
+      const result = explainSequence(`/target${SPECIAL_KEYS.ENTER}nnn`);
       expect(result.commands).toHaveLength(4);
       expect(result.commands[0].matched).toBe("/target");
       expect(result.commands[1].explanation).toBe("next search match");
@@ -541,7 +542,7 @@ describe("vimsplain", () => {
 
   describe("insert mode handling", () => {
     it("treats text after i as typed text", () => {
-      const result = explainSequence("ihelloEsc");
+      const result = explainSequence(`ihello${SPECIAL_KEYS.ESCAPE}`);
       expect(result.commands).toHaveLength(3);
       expect(result.commands[0]).toEqual({
         matched: "i",
@@ -552,13 +553,13 @@ describe("vimsplain", () => {
         explanation: 'type "hello"',
       });
       expect(result.commands[2]).toEqual({
-        matched: "Esc",
+        matched: SPECIAL_KEYS.ESCAPE,
         explanation: "exit insert mode",
       });
     });
 
     it("treats text after cw as typed text", () => {
-      const result = explainSequence("cwnewEsc");
+      const result = explainSequence(`cwnew${SPECIAL_KEYS.ESCAPE}`);
       expect(result.commands).toHaveLength(3);
       expect(result.commands[0].explanation).toContain("change");
       expect(result.commands[1]).toEqual({
@@ -569,7 +570,7 @@ describe("vimsplain", () => {
     });
 
     it("treats text after ciw as typed text", () => {
-      const result = explainSequence("ciwreplacedEsc");
+      const result = explainSequence(`ciwreplaced${SPECIAL_KEYS.ESCAPE}`);
       expect(result.commands[0].matched).toBe("ciw");
       expect(result.commands[1]).toEqual({
         matched: "replaced",
@@ -585,10 +586,89 @@ describe("vimsplain", () => {
     });
 
     it("does not misinterpret ll in insert mode as motions", () => {
-      const result = explainSequence("ihelloEsc");
+      const result = explainSequence(`ihello${SPECIAL_KEYS.ESCAPE}`);
       // The "ll" in "hello" should be part of the typed text, not two motions
       expect(result.commands[1].matched).toBe("hello");
       expect(result.commands[1].explanation).toBe('type "hello"');
+    });
+  });
+
+  describe("special key handling", () => {
+    it("explains [Esc] in normal mode", () => {
+      const result = explainSequence(SPECIAL_KEYS.ESCAPE);
+      expect(result.commands[0]).toEqual({
+        matched: SPECIAL_KEYS.ESCAPE,
+        explanation: "return to normal mode",
+      });
+    });
+
+    it("explains [Enter] in normal mode", () => {
+      const result = explainSequence(SPECIAL_KEYS.ENTER);
+      expect(result.commands[0]).toEqual({
+        matched: SPECIAL_KEYS.ENTER,
+        explanation: "execute/confirm",
+      });
+    });
+
+    it("explains [Backspace] in normal mode", () => {
+      const result = explainSequence(SPECIAL_KEYS.BACKSPACE);
+      expect(result.commands[0]).toEqual({
+        matched: SPECIAL_KEYS.BACKSPACE,
+        explanation: "delete char left",
+      });
+    });
+
+    it("handles [Backspace] in insert mode separately", () => {
+      const result = explainSequence(
+        `ihe${SPECIAL_KEYS.BACKSPACE}llo${SPECIAL_KEYS.ESCAPE}`,
+      );
+      expect(result.commands).toHaveLength(5);
+      expect(result.commands[0].explanation).toBe("insert before cursor");
+      expect(result.commands[1]).toEqual({
+        matched: "he",
+        explanation: 'type "he"',
+      });
+      expect(result.commands[2]).toEqual({
+        matched: SPECIAL_KEYS.BACKSPACE,
+        explanation: "delete character",
+      });
+      expect(result.commands[3]).toEqual({
+        matched: "llo",
+        explanation: 'type "llo"',
+      });
+      expect(result.commands[4]).toEqual({
+        matched: SPECIAL_KEYS.ESCAPE,
+        explanation: "exit insert mode",
+      });
+    });
+
+    it("handles [Enter] in insert mode separately", () => {
+      const result = explainSequence(
+        `iline1${SPECIAL_KEYS.ENTER}line2${SPECIAL_KEYS.ESCAPE}`,
+      );
+      expect(result.commands).toHaveLength(5);
+      expect(result.commands[1]).toEqual({
+        matched: "line1",
+        explanation: 'type "line1"',
+      });
+      expect(result.commands[2]).toEqual({
+        matched: SPECIAL_KEYS.ENTER,
+        explanation: "new line",
+      });
+      expect(result.commands[3]).toEqual({
+        matched: "line2",
+        explanation: 'type "line2"',
+      });
+    });
+
+    it("handles [Backspace] in search mode", () => {
+      const result = explainSequence(
+        `/testt${SPECIAL_KEYS.BACKSPACE}${SPECIAL_KEYS.ENTER}`,
+      );
+      expect(result.commands[0]).toEqual({
+        matched: "/test",
+        explanation: 'search forward for "test"',
+      });
     });
   });
 });

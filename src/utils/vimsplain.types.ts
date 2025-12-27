@@ -33,3 +33,12 @@ export type CommandDefinition = {
   /** Whether this command expects a motion after it */
   expectsMotion?: boolean;
 };
+
+/** Special key representations for motion logging */
+export const SPECIAL_KEYS = {
+  ESCAPE: "[Esc]",
+  ENTER: "[Enter]",
+  BACKSPACE: "[Backspace]",
+} as const;
+
+export type SpecialKey = (typeof SPECIAL_KEYS)[keyof typeof SPECIAL_KEYS];

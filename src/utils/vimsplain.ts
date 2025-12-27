@@ -5,10 +5,11 @@
  * Based on the Python vimsplain script, simplified for common VimGym commands.
  */
 
-import type {
-  CommandDefinition,
-  ExplainedCommand,
-  ExplainResult,
+import {
+  type CommandDefinition,
+  type ExplainedCommand,
+  type ExplainResult,
+  SPECIAL_KEYS,
 } from "./vimsplain.types";
 
 /** Commands that enter insert mode */
@@ -373,6 +374,19 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^<</, description: "dedent line", isMotion: false },
   { pattern: /^>(\d*)j/, description: "indent $1 lines down", isMotion: false },
   { pattern: /^<(\d*)j/, description: "dedent $1 lines down", isMotion: false },
+
+  // --- Special keys (in normal mode) ---
+  {
+    pattern: /^\[Esc\]/,
+    description: "return to normal mode",
+    isMotion: false,
+  },
+  { pattern: /^\[Enter\]/, description: "execute/confirm", isMotion: false },
+  {
+    pattern: /^\[Backspace\]/,
+    description: "delete char left",
+    isMotion: false,
+  },
 ];
 
 /**
@@ -439,8 +453,8 @@ export function explainSequence(input: string): ExplainResult {
   let searchBuffer = "";
 
   while (remaining.length > 0) {
-    // Check for Esc to exit insert mode
-    if (inInsertMode && remaining.startsWith("Esc")) {
+    // Check for [Esc] to exit insert mode
+    if (inInsertMode && remaining.startsWith(SPECIAL_KEYS.ESCAPE)) {
       // Flush insert buffer if any
       if (insertBuffer.length > 0) {
         commands.push({
@@ -450,11 +464,45 @@ export function explainSequence(input: string): ExplainResult {
         insertBuffer = "";
       }
       commands.push({
-        matched: "Esc",
+        matched: SPECIAL_KEYS.ESCAPE,
         explanation: "exit insert mode",
       });
-      remaining = remaining.slice(3);
+      remaining = remaining.slice(SPECIAL_KEYS.ESCAPE.length);
       inInsertMode = false;
+      continue;
+    }
+
+    // Check for [Backspace] in insert mode (display separately)
+    if (inInsertMode && remaining.startsWith(SPECIAL_KEYS.BACKSPACE)) {
+      if (insertBuffer.length > 0) {
+        commands.push({
+          matched: insertBuffer,
+          explanation: `type "${insertBuffer}"`,
+        });
+        insertBuffer = "";
+      }
+      commands.push({
+        matched: SPECIAL_KEYS.BACKSPACE,
+        explanation: "delete character",
+      });
+      remaining = remaining.slice(SPECIAL_KEYS.BACKSPACE.length);
+      continue;
+    }
+
+    // Check for [Enter] in insert mode (display separately)
+    if (inInsertMode && remaining.startsWith(SPECIAL_KEYS.ENTER)) {
+      if (insertBuffer.length > 0) {
+        commands.push({
+          matched: insertBuffer,
+          explanation: `type "${insertBuffer}"`,
+        });
+        insertBuffer = "";
+      }
+      commands.push({
+        matched: SPECIAL_KEYS.ENTER,
+        explanation: "new line",
+      });
+      remaining = remaining.slice(SPECIAL_KEYS.ENTER.length);
       continue;
     }
 
@@ -465,16 +513,23 @@ export function explainSequence(input: string): ExplainResult {
       continue;
     }
 
-    // Check for Enter to complete search
-    if (inSearchMode && remaining.startsWith("Enter")) {
+    // Check for [Enter] to complete search
+    if (inSearchMode && remaining.startsWith(SPECIAL_KEYS.ENTER)) {
       const direction = inSearchMode === "/" ? "forward" : "backward";
       commands.push({
         matched: `${inSearchMode}${searchBuffer}`,
         explanation: `search ${direction} for "${searchBuffer}"`,
       });
-      remaining = remaining.slice(5); // "Enter".length
+      remaining = remaining.slice(SPECIAL_KEYS.ENTER.length);
       inSearchMode = false;
       searchBuffer = "";
+      continue;
+    }
+
+    // Check for [Backspace] in search mode (remove last char from search buffer)
+    if (inSearchMode && remaining.startsWith(SPECIAL_KEYS.BACKSPACE)) {
+      searchBuffer = searchBuffer.slice(0, -1);
+      remaining = remaining.slice(SPECIAL_KEYS.BACKSPACE.length);
       continue;
     }
 

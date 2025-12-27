@@ -6,6 +6,7 @@ import {
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import { useGameStore } from "../../store/useGameStore";
+import { SPECIAL_KEYS } from "../../utils/vimsplain.types";
 import { VimEditor } from "../VimEditor";
 
 const renderWithRouter = (component: React.ReactNode) => {
@@ -63,10 +64,16 @@ describe("VimEditor Keypress Logging", () => {
     // Test special key normalization
     fireEvent.keyDown(editorContainer, { key: "Escape" });
     fireEvent.keyDown(editorContainer, { key: "Enter" });
+    fireEvent.keyDown(editorContainer, { key: "Backspace" });
     fireEvent.keyDown(editorContainer, { key: " " });
 
     const history = useGameStore.getState().history;
-    expect(history).toEqual(["Esc", "Enter", " "]);
+    expect(history).toEqual([
+      SPECIAL_KEYS.ESCAPE,
+      SPECIAL_KEYS.ENTER,
+      SPECIAL_KEYS.BACKSPACE,
+      " ",
+    ]);
   });
 
   it("does not log modifier keys", async () => {

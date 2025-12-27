@@ -7,6 +7,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { cn } from "../utils/cn";
+import { SPECIAL_KEYS } from "../utils/vimsplain.types";
 import { VimStatusBar } from "./VimStatusBar";
 
 export const VimEditor = () => {
@@ -65,9 +66,11 @@ export const VimEditor = () => {
         return;
       }
 
-      // Log the key
+      // Log the key with special key normalization
       let key = event.key;
-      if (key === "Escape") key = "Esc";
+      if (key === "Escape") key = SPECIAL_KEYS.ESCAPE;
+      else if (key === "Enter") key = SPECIAL_KEYS.ENTER;
+      else if (key === "Backspace") key = SPECIAL_KEYS.BACKSPACE;
 
       addKeyStrokeRef.current(key);
     };
