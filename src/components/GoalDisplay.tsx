@@ -36,7 +36,6 @@ export const GoalDisplay = () => {
             >
               Best: {bestScore} keys
               {typeof perfectScore === "number" &&
-                Number.isFinite(perfectScore) &&
                 bestScore <= perfectScore && (
                   <span
                     title="This is a perfect score!"

@@ -8,8 +8,8 @@ export const LevelSelector = () => {
   const navigate = useNavigate({ from: "/" });
 
   return (
-    <div className="md:pl-4 md:border-l border-gray-700">
-      <div className="space-y-2">
+    <div className="md:pl-4 md:border-l border-gray-700 h-full flex flex-col min-h-0">
+      <div className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
         {LEVELS.map((level) => {
           const score = highScores[level.id];
           const isCurrentLevel = level.id === currentLevel;
