@@ -16,12 +16,21 @@ export const LevelSelector = () => {
           const isPerfectScore =
             score !== undefined && score <= level.perfectScore;
           const isUnplayedLevel = score === undefined;
+          // 6 is the animation cycle duration
+          // % 6 ensures we always have a delay between 0 and 6
+          // * 0.7 is for a pseudo-random delay without bringing in Math.random()
+          const delay = (level.id * 0.7) % 6;
 
           return (
             <button
               type="button"
               key={level.id}
               onClick={() => navigate({ search: { levelId: level.id } })}
+              style={
+                {
+                  "--shimmer-delay": `-${delay}s`,
+                } as React.CSSProperties
+              }
               className={cn(
                 "w-full cursor-pointer text-left p-3 rounded transition-all ",
                 isCurrentLevel &&

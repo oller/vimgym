@@ -23,10 +23,13 @@
   --color-tokyo-night: #1a1b26;
 
   @keyframes shimmer {
-    from {
+    0% {
       transform: translateX(-100%);
     }
-    to {
+    25% {
+      transform: translateX(100%);
+    }
+    100% {
       transform: translateX(100%);
     }
   }
@@ -54,7 +57,7 @@
       rgba(255, 255, 255, 0.4),
       transparent
     );
-    animation: shimmer 3s infinite;
+    animation: shimmer 6s infinite var(--shimmer-delay, 0s);
   }
 }
 
