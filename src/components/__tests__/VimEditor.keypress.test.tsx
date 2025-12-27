@@ -66,7 +66,7 @@ describe("VimEditor Keypress Logging", () => {
     fireEvent.keyDown(editorContainer, { key: " " });
 
     const history = useGameStore.getState().history;
-    expect(history).toEqual(["Esc", "Enter", "Space"]);
+    expect(history).toEqual(["Esc", "Enter", " "]);
   });
 
   it("does not log modifier keys", async () => {

@@ -68,8 +68,6 @@ export const VimEditor = () => {
       // Log the key
       let key = event.key;
       if (key === "Escape") key = "Esc";
-      if (key === "Enter") key = "Enter";
-      if (key === " ") key = "Space";
 
       addKeyStrokeRef.current(key);
     };
