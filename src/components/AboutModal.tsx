@@ -56,7 +56,7 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
           <p>
             Having avoided Vim for 20 years as an engineer, insipred by younger
             and wiser colleagues, I finally decided to give it a try. This game
-            is a result of that fulfilling journey.
+            is a result of that ongoing and fulfilling journey.
           </p>
 
           <p>
