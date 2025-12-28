@@ -1,5 +1,6 @@
 import { useSearch } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { AboutModal } from "./components/AboutModal";
 import { GoalDisplay } from "./components/GoalDisplay";
 import { LevelSelector } from "./components/LevelSelector";
 import { MotionLog } from "./components/MotionLog";
@@ -10,12 +11,14 @@ const Home = () => {
   const { levelId } = useSearch({ from: "/" });
   const setLevel = useGameStore((state) => state.setLevel);
   const resetCount = useGameStore((state) => state.resetCount);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
 
   useEffect(() => {
     setLevel(levelId);
   }, [levelId, setLevel]);
   return (
     <div className="h-screen overflow-hidden bg-tokyo-night text-white flex flex-col p-4 md:p-6 font-sans">
+      <AboutModal isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
       <header className="mb-4 flex justify-between items-center border-b border-gray-800 pb-4">
         <div>
           <h1 className="text-xl text-gray-400 font-roboto-mono flex items-center">
@@ -23,6 +26,13 @@ const Home = () => {
             <span className="tracking-wider">imGym</span>
           </h1>
         </div>
+        <button
+          type="button"
+          onClick={() => setIsAboutOpen(true)}
+          className="cursor-pointer text-sm text-gray-500 hover:text-gray-300 transition-colors font-roboto-mono"
+        >
+          about
+        </button>
       </header>
 
       <main className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 min-h-0">
