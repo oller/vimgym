@@ -14,7 +14,7 @@ export const LEVELS = [
     startText: "The quick brown fox jumps over the lazy dog.",
     targetText: "The quick brown fox jumps.",
     description: "Delete 'over the lazy dog' from the sentence",
-    perfectScore: 6,
+    perfectScore: 6, // fsldt.
   },
   {
     id: 2,
@@ -88,6 +88,78 @@ export const LEVELS = [
     targetText: "function greet(x, y, z) { return x; }",
     description: "Change function parameters using parenthesis text objects",
     perfectScore: 12,
+  },
+  {
+    id: 11,
+    name: "Tag Switcheroo",
+    startText: "<div>Hello</div>",
+    targetText: "<article>Hello</article>",
+    description: "Change the tag type using 'cit' or 'cat'",
+    perfectScore: 11, // citarticleEsc
+  },
+  {
+    id: 12,
+    name: "Argument Swap",
+    startText: 'display(data, "Result")',
+    targetText: 'display("Result", data)',
+    description: "Swap the function arguments",
+    perfectScore: 12, // fddt,2xea, Escp
+  },
+  {
+    id: 13,
+    name: "Typos Galore",
+    startText: "const valeu = 1;",
+    targetText: "const value = 1;",
+    description: "Fix the typo using 'xp' (transpose)",
+    perfectScore: 4, // fexp
+  },
+  {
+    id: 14,
+    name: "Snake to Kebab",
+    startText: 'class="menu_item_active"',
+    targetText: 'class="menu-item-active"',
+    description: "Convert snake_case to kebab-case using find and repeat",
+    perfectScore: 6, // f_r-;.
+  },
+  {
+    id: 15,
+    name: "Unwrap Block",
+    startText: "if (isValid) { save(); }",
+    targetText: "save();",
+    description: "Remove the if statement wrapper",
+    perfectScore: 5, // di{Vp
+  },
+  {
+    id: 16,
+    name: "Semicolon Appender",
+    startText: "const a = 1\nconst b = 2\nconst c = 3",
+    targetText: "const a = 1;\nconst b = 2;\nconst c = 3;",
+    description: "Append semicolons to end of lines",
+    perfectScore: 7, // A;Escj.j.
+  },
+  {
+    id: 17,
+    name: "Markdown Header",
+    startText: "Title\nSubtitle\nSection",
+    targetText: "## Title\n## Subtitle\n## Section",
+    description: "Add markdown headers to lines",
+    perfectScore: 9, // I## Escj.j.
+  },
+  {
+    id: 18,
+    name: "Object Property",
+    startText: 'const color = "red"',
+    targetText: 'const color = { value: "red" }',
+    description: "Wrap the value in an object",
+    perfectScore: 16, // f"i{ value: Escea }Esc
+  },
+  {
+    id: 19,
+    name: "Inner HTML Clear",
+    startText: '<div id="app"><span>Loading...</span></div>',
+    targetText: '<div id="app"></div>',
+    description: "Clear the inner HTML of the div",
+    perfectScore: 3, // dit
   },
 ] as const satisfies Level[];
 
