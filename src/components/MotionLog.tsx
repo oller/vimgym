@@ -36,7 +36,7 @@ export const MotionLog = () => {
   }, [history.length]);
 
   return (
-    <div className="flex flex-col bg-tokyo-night-storm rounded-lg border border-gray-800 p-4">
+    <div className="flex flex-col rounded-lg border border-gray-800 p-4">
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
           Motion Log
@@ -56,12 +56,14 @@ export const MotionLog = () => {
           {explainedCommands.map((cmd, index) => (
             <div
               key={`${index}-${cmd.matched}`}
-              className="flex items-center gap-1 bg-gray-800/50 rounded border border-gray-800"
+              className="flex items-center gap-1 bg-slate-700/50 rounded"
             >
-              <kbd className="px-1.5 py-0.5 bg-gray-900 rounded text-yellow-500 font-bold">
+              <kbd className="px-1.5 py-0.5 bg-slate-800/80 rounded text-yellow-500">
                 {formatKeyForDisplay(cmd.matched)}
               </kbd>
-              <span className="text-gray-400 text-xs">{cmd.explanation}</span>
+              <span className="text-gray-400 text-xs px-1">
+                {cmd.explanation}
+              </span>
             </div>
           ))}
         </div>
