@@ -715,5 +715,25 @@ describe("vimsplain", () => {
         );
       });
     });
+
+    describe("visual mode text objects", () => {
+      it('identifies vi" as a single command', () => {
+        const result = explainSequence('vi"');
+        expect(result.commands).toHaveLength(1);
+        expect(result.commands[0].explanation).toBe('select inside ""');
+      });
+
+      it("identifies vi{ as a single command", () => {
+        const result = explainSequence("vi{");
+        expect(result.commands).toHaveLength(1);
+        expect(result.commands[0].explanation).toBe("select inside {}");
+      });
+
+      it("identifies vat as a single command", () => {
+        const result = explainSequence("vat");
+        expect(result.commands).toHaveLength(1);
+        expect(result.commands[0].explanation).toBe("select around tag");
+      });
+    });
   });
 });
