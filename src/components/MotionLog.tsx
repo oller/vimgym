@@ -38,7 +38,7 @@ export const MotionLog = () => {
   return (
     <div className="flex flex-col rounded-lg border border-gray-800 p-4">
       <div className="flex justify-between items-center mb-2">
-        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
+        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
           Motion Log
         </h3>
         <span className="text-sm font-mono text-yellow-500">
