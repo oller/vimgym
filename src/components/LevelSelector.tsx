@@ -1,11 +1,17 @@
 import { useNavigate } from "@tanstack/react-router";
 import { LEVELS } from "../data/levels";
+import { useScrollIntoView } from "../hooks/useScrollIntoView";
 import { useGameStore } from "../store/useGameStore";
 import { cn } from "../utils/cn";
 
 export const LevelSelector = () => {
   const { currentLevel, highScores } = useGameStore();
   const navigate = useNavigate({ from: "/" });
+
+  const scrollRef = useScrollIntoView<HTMLButtonElement>(currentLevel, {
+    behavior: "smooth",
+    block: "center",
+  });
 
   return (
     <div className="md:pl-4 md:border-l border-gray-800 h-full flex flex-col min-h-0">
@@ -18,12 +24,13 @@ export const LevelSelector = () => {
           const isUnplayedLevel = score === undefined;
           // 6 is the animation cycle duration
           // % 6 ensures we always have a delay between 0 and 6
-          // * 0.7 is for a pseudo-random delay without bringing in Math.random()
+          // level.id * 0.7 is for a pseudo-random delay without bringing in Math.random()
           const delay = (level.id * 0.7) % 6;
 
           return (
             <button
               type="button"
+              ref={isCurrentLevel ? scrollRef : null}
               key={level.id}
               onClick={() => navigate({ search: { levelId: level.id } })}
               style={

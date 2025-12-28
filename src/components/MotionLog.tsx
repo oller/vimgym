@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
+import { useScrollIntoView } from "../hooks/useScrollIntoView";
 import { useGameStore } from "../store/useGameStore";
 import { explainSequence } from "../utils/vimsplain";
 
@@ -17,7 +18,11 @@ const formatKeyForDisplay = (key: string): string => {
 
 export const MotionLog = () => {
   const { history } = useGameStore();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollRef = useScrollIntoView<HTMLDivElement>(history.length, {
+    behavior: "smooth",
+    block: "end",
+  });
 
   // Join history into a string and explain it
   const explainedCommands = useMemo(() => {
@@ -26,14 +31,6 @@ export const MotionLog = () => {
     const result = explainSequence(sequence);
     return result.commands;
   }, [history]);
-
-  // Auto-scroll to bottom when number of commands changes
-  useEffect(() => {
-    if (scrollContainerRef.current && history.length > 0) {
-      scrollContainerRef.current.scrollTop =
-        scrollContainerRef.current.scrollHeight;
-    }
-  }, [history.length]);
 
   return (
     <div className="flex flex-col rounded-lg border border-gray-800 p-4">
@@ -45,10 +42,7 @@ export const MotionLog = () => {
           {history.length} keys
         </span>
       </div>
-      <div
-        ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto scrollbar-thin font-roboto-mono text-sm space-y-1 max-h-30"
-      >
+      <div className="flex-1 overflow-y-auto scrollbar-thin font-roboto-mono text-sm space-y-1 max-h-30">
         {history.length === 0 && (
           <span className="text-gray-600">Start typing...</span>
         )}
@@ -67,6 +61,8 @@ export const MotionLog = () => {
             </div>
           ))}
         </div>
+        {/* Dummy element to scroll into view - moved outside flex container to ensure it's at the very bottom */}
+        <div ref={scrollRef} className="size-0" />
       </div>
     </div>
   );
