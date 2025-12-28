@@ -14,7 +14,7 @@ export const useScrollIntoView = <T extends HTMLElement>(
     // We want to trigger this effect when `trigger` changes,
     // even if we don't use the value directly.
     void trigger;
-    if (ref.current) {
+    if (ref.current && typeof ref.current.scrollIntoView === "function") {
       ref.current.scrollIntoView(options);
     }
   }, [trigger, options]);
