@@ -75,12 +75,10 @@
   @keyframes vim-blink {
     0%,
     49% {
-      /* color: #1a1b26; */
       background-color: #ff9696;
     }
     50%,
     100% {
-      /* color: var(--color-gray-400); */
       background-color: transparent;
     }
   }
@@ -93,7 +91,6 @@
 /* Ensure the vim cursor (fat cursor) is visible and flashes like a block */
 .cm-editor .cm-fat-cursor {
   background-color: #ff9696 !important;
-  /* color: #1a1b26 !important; */
   outline: none !important;
   animation: vim-blink 1s step-end infinite;
   transition:

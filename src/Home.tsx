@@ -22,7 +22,7 @@ const Home = () => {
       <header className="mb-4 flex justify-between items-center border-b border-gray-800 pb-4">
         <div>
           <h1 className="text-xl text-gray-400 font-roboto-mono flex items-center">
-            <span className="animate-vim-blink px-[1px]">V</span>
+            <span className="animate-vim-blink px-px">V</span>
             <span className="tracking-wider">imGym</span>
           </h1>
         </div>
