@@ -48,7 +48,7 @@ export const MotionLog = () => {
           {explainedCommands.map((cmd, index) => (
             <div
               key={`${index}-${cmd.matched}`}
-              className="flex items-center gap-1 bg-gray-800/50 rounded px-2 py-1 border border-gray-800"
+              className="flex items-center gap-1 bg-gray-800/50 rounded border border-gray-800"
             >
               <kbd className="px-1.5 py-0.5 bg-gray-900 rounded text-yellow-500 font-bold">
                 {formatKeyForDisplay(cmd.matched)}
