@@ -16,15 +16,12 @@ const Home = () => {
   }, [levelId, setLevel]);
   return (
     <div className="h-screen overflow-hidden bg-tokyo-night text-white flex flex-col p-4 md:p-6 font-sans">
-      <header className="mb-4 flex justify-between items-center border-b border-gray-700 pb-4">
+      <header className="mb-4 flex justify-between items-center border-b border-gray-800 pb-4">
         <div>
-          <h1 className="text-xl font-bold text-white">
-            VimGym 💪🖥
-            <span className="scale-x-[-1] inline-block">💪</span>
+          <h1 className="text-xl text-gray-400 font-roboto-mono flex items-center">
+            <span className="animate-vim-blink px-[1px]">V</span>
+            <span className="tracking-wider">imGym</span>
           </h1>
-          {/* <p className="text-gray-400 text-sm mt-1"> */}
-          {/*   Master Vim motions through practice */}
-          {/* </p> */}
         </div>
       </header>
 

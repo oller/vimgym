@@ -13,7 +13,7 @@ export const VimStatusBar = ({ mode }: { mode: string }) => {
   };
 
   return (
-    <div className="flex items-center bg-tokyo-night text-xs border-t border-gray-700 font-roboto-mono">
+    <div className="flex items-center bg-tokyo-night text-xs border-t border-gray-800 font-roboto-mono">
       <div
         className={`${getModeColor(mode)} text-white px-3 py-1 font-bold uppercase transition-colors duration-200`}
       >
