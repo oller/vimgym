@@ -22,9 +22,6 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
 
   if (!editor) throw new Error("Editor container not found");
 
-  // Log initial state
-  console.log("Initial text:", editor?.textContent);
-
   // Focus the editor by clicking on it
   await act(async () => {
     await userEvent.click(editor);
