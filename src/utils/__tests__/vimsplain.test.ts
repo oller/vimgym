@@ -670,5 +670,50 @@ describe("vimsplain", () => {
         explanation: 'search forward for "test"',
       });
     });
+
+    describe("arrow keys", () => {
+      it("explains arrow keys in normal mode", () => {
+        const up = explainSequence(SPECIAL_KEYS.ARROW_UP);
+        expect(up.commands[0].explanation).toBe("move up");
+
+        const down = explainSequence(SPECIAL_KEYS.ARROW_DOWN);
+        expect(down.commands[0].explanation).toBe("move down");
+
+        const left = explainSequence(SPECIAL_KEYS.ARROW_LEFT);
+        expect(left.commands[0].explanation).toBe("move left");
+
+        const right = explainSequence(SPECIAL_KEYS.ARROW_RIGHT);
+        expect(right.commands[0].explanation).toBe("move right");
+      });
+
+      it("flushes insert buffer and logs arrow key in insert mode", () => {
+        const result = explainSequence(
+          `iabc${SPECIAL_KEYS.ARROW_RIGHT}def${SPECIAL_KEYS.ESCAPE}`,
+        );
+        expect(result.commands).toHaveLength(5);
+        expect(result.commands[1]).toEqual({
+          matched: "abc",
+          explanation: 'type "abc"',
+        });
+        expect(result.commands[2]).toEqual({
+          matched: SPECIAL_KEYS.ARROW_RIGHT,
+          explanation: "move right",
+        });
+        expect(result.commands[3]).toEqual({
+          matched: "def",
+          explanation: 'type "def"',
+        });
+      });
+
+      it("ignores arrow keys in search mode", () => {
+        const result = explainSequence(
+          `/pattern${SPECIAL_KEYS.ARROW_UP}${SPECIAL_KEYS.ENTER}`,
+        );
+        expect(result.commands).toHaveLength(1);
+        expect(result.commands[0].explanation).toBe(
+          'search forward for "pattern"',
+        );
+      });
+    });
   });
 });

@@ -39,6 +39,10 @@ export const SPECIAL_KEYS = {
   ESCAPE: "[Esc]",
   ENTER: "[Enter]",
   BACKSPACE: "[Backspace]",
+  ARROW_UP: "[Up]",
+  ARROW_DOWN: "[Down]",
+  ARROW_LEFT: "[Left]",
+  ARROW_RIGHT: "[Right]",
 } as const;
 
 export type SpecialKey = (typeof SPECIAL_KEYS)[keyof typeof SPECIAL_KEYS];

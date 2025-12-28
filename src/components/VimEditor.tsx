@@ -71,6 +71,10 @@ export const VimEditor = () => {
       if (key === "Escape") key = SPECIAL_KEYS.ESCAPE;
       else if (key === "Enter") key = SPECIAL_KEYS.ENTER;
       else if (key === "Backspace") key = SPECIAL_KEYS.BACKSPACE;
+      else if (key === "ArrowUp") key = SPECIAL_KEYS.ARROW_UP;
+      else if (key === "ArrowDown") key = SPECIAL_KEYS.ARROW_DOWN;
+      else if (key === "ArrowLeft") key = SPECIAL_KEYS.ARROW_LEFT;
+      else if (key === "ArrowRight") key = SPECIAL_KEYS.ARROW_RIGHT;
 
       addKeyStrokeRef.current(key);
     };

@@ -2,9 +2,17 @@ import { useEffect, useMemo, useRef } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { explainSequence } from "../utils/vimsplain";
 
-/** Format a key sequence for display - replace spaces with visible symbol */
+/** Format a key sequence for display - replace spaces and specials with visible symbols */
 const formatKeyForDisplay = (key: string): string => {
-  return key.replace(/ /g, "␣");
+  return key
+    .replace(/ /g, "␣")
+    .replace(/\[Up\]/g, "↑")
+    .replace(/\[Down\]/g, "↓")
+    .replace(/\[Left\]/g, "←")
+    .replace(/\[Right\]/g, "→")
+    .replace(/\[Enter\]/g, "↵")
+    .replace(/\[Esc\]/g, "Esc")
+    .replace(/\[Backspace\]/g, "⌫");
 };
 
 export const MotionLog = () => {

@@ -387,6 +387,10 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
     description: "delete char left",
     isMotion: false,
   },
+  { pattern: /^\[Up\]/, description: "move up", isMotion: true },
+  { pattern: /^\[Down\]/, description: "move down", isMotion: true },
+  { pattern: /^\[Left\]/, description: "move left", isMotion: true },
+  { pattern: /^\[Right\]/, description: "move right", isMotion: true },
 ];
 
 /**
@@ -506,6 +510,31 @@ export function explainSequence(input: string): ExplainResult {
       continue;
     }
 
+    // Check for arrow keys in insert mode (flush buffer and log motion)
+    const arrowKey = [
+      SPECIAL_KEYS.ARROW_UP,
+      SPECIAL_KEYS.ARROW_DOWN,
+      SPECIAL_KEYS.ARROW_LEFT,
+      SPECIAL_KEYS.ARROW_RIGHT,
+    ].find((key) => remaining.startsWith(key));
+
+    if (inInsertMode && arrowKey) {
+      if (insertBuffer.length > 0) {
+        commands.push({
+          matched: insertBuffer,
+          explanation: `type "${insertBuffer}"`,
+        });
+        insertBuffer = "";
+      }
+      const direction = arrowKey.slice(1, -1).toLowerCase();
+      commands.push({
+        matched: arrowKey,
+        explanation: `move ${direction}`,
+      });
+      remaining = remaining.slice(arrowKey.length);
+      continue;
+    }
+
     // In insert mode, accumulate characters
     if (inInsertMode) {
       insertBuffer += remaining[0];
@@ -535,6 +564,19 @@ export function explainSequence(input: string): ExplainResult {
 
     // In search mode, accumulate pattern characters
     if (inSearchMode) {
+      // Ignore arrow keys in search mode (or handle as search termination if desired)
+      const arrowKey = [
+        SPECIAL_KEYS.ARROW_UP,
+        SPECIAL_KEYS.ARROW_DOWN,
+        SPECIAL_KEYS.ARROW_LEFT,
+        SPECIAL_KEYS.ARROW_RIGHT,
+      ].find((key) => remaining.startsWith(key));
+
+      if (arrowKey) {
+        remaining = remaining.slice(arrowKey.length);
+        continue;
+      }
+
       searchBuffer += remaining[0];
       remaining = remaining.slice(1);
       continue;
