@@ -47,7 +47,7 @@ export const MotionLog = () => {
       </div>
       <div
         ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto font-roboto-mono text-sm space-y-1 max-h-30"
+        className="flex-1 overflow-y-auto scrollbar-thin font-roboto-mono text-sm space-y-1 max-h-30"
       >
         {history.length === 0 && (
           <span className="text-gray-600">Start typing...</span>
