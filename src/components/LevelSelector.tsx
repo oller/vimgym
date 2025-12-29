@@ -71,7 +71,7 @@ export const LevelSelector = () => {
                   {score !== undefined && (
                     <div
                       className={cn(
-                        "text-xs font-mono px-2 py-1 rounded bg-black/20 text-white",
+                        "text-xs font-roboto-mono px-2 py-1 rounded bg-black/20 text-white",
                       )}
                     >
                       {score} keys

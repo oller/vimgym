@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400...700&display=swap");
 @import "tailwindcss";
 @plugin "tailwind-scrollbar";
-@import "tw-animate-css";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

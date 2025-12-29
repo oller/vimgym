@@ -20,18 +20,26 @@ type MotionItemProps = {
   };
 };
 
-export const MotionItem = ({ command }: MotionItemProps) => {
+export const MotionLogItem = ({ command }: MotionItemProps) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ type: "spring", stiffness: 500, damping: 30 }}
-      className="flex items-center gap-1 bg-slate-700/50 rounded"
+      layout
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="flex items-center gap-1 bg-slate-700/50 rounded overflow-hidden"
     >
-      <kbd className="px-1.5 py-0.5 bg-slate-800/80 rounded text-yellow-500">
+      <motion.kbd
+        layout
+        className="px-1.5 py-0.5 bg-slate-800/80 rounded text-yellow-500 min-w-[20px] text-center"
+      >
         {formatKeyForDisplay(command.matched)}
-      </kbd>
-      <span className="text-gray-400 text-xs px-1">{command.explanation}</span>
+      </motion.kbd>
+      <motion.span
+        layout
+        className="text-gray-400 text-xs px-1 whitespace-nowrap"
+      >
+        {command.explanation}
+      </motion.span>
     </motion.div>
   );
 };

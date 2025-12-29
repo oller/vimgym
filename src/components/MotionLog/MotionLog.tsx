@@ -1,8 +1,8 @@
 import { useMemo } from "react";
-import { useScrollIntoView } from "../hooks/useScrollIntoView";
-import { useGameStore } from "../store/useGameStore";
-import { explainSequence } from "../utils/vimsplain";
-import { MotionItem } from "./MotionItem";
+import { useScrollIntoView } from "../../hooks/useScrollIntoView";
+import { useGameStore } from "../../store/useGameStore";
+import { explainSequence } from "../../utils/vimsplain";
+import { MotionLogItem } from "./MotionLogItem";
 
 export const MotionLog = () => {
   const { history } = useGameStore();
@@ -26,7 +26,7 @@ export const MotionLog = () => {
         <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
           Motion Log
         </h3>
-        <span className="text-sm font-mono text-yellow-500">
+        <span className="text-sm font-roboto-mono text-yellow-500">
           {history.length} keys
         </span>
       </div>
@@ -36,7 +36,8 @@ export const MotionLog = () => {
         )}
         <div className="flex flex-wrap gap-2 items-center">
           {explainedCommands.map((cmd, index) => (
-            <MotionItem key={`${index}-${cmd.matched}`} command={cmd} />
+            // biome-ignore lint/suspicious/noArrayIndexKey: Index is stable for append-only log and required for morphing animation
+            <MotionLogItem key={index} command={cmd} />
           ))}
         </div>
         {/* Dummy element to scroll into view - moved outside flex container to ensure it's at the very bottom */}
