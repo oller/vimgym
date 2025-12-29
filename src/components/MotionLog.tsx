@@ -2,19 +2,7 @@ import { useMemo } from "react";
 import { useScrollIntoView } from "../hooks/useScrollIntoView";
 import { useGameStore } from "../store/useGameStore";
 import { explainSequence } from "../utils/vimsplain";
-
-/** Format a key sequence for display - replace spaces and specials with visible symbols */
-const formatKeyForDisplay = (key: string): string => {
-  return key
-    .replace(/ /g, "␣")
-    .replace(/\[Up\]/g, "↑")
-    .replace(/\[Down\]/g, "↓")
-    .replace(/\[Left\]/g, "←")
-    .replace(/\[Right\]/g, "→")
-    .replace(/\[Enter\]/g, "↵")
-    .replace(/\[Esc\]/g, "Esc")
-    .replace(/\[Backspace\]/g, "⌫");
-};
+import { MotionItem } from "./MotionItem";
 
 export const MotionLog = () => {
   const { history } = useGameStore();
@@ -48,17 +36,7 @@ export const MotionLog = () => {
         )}
         <div className="flex flex-wrap gap-2 items-center">
           {explainedCommands.map((cmd, index) => (
-            <div
-              key={`${index}-${cmd.matched}`}
-              className="flex items-center gap-1 bg-slate-700/50 rounded"
-            >
-              <kbd className="px-1.5 py-0.5 bg-slate-800/80 rounded text-yellow-500">
-                {formatKeyForDisplay(cmd.matched)}
-              </kbd>
-              <span className="text-gray-400 text-xs px-1">
-                {cmd.explanation}
-              </span>
-            </div>
+            <MotionItem key={`${index}-${cmd.matched}`} command={cmd} />
           ))}
         </div>
         {/* Dummy element to scroll into view - moved outside flex container to ensure it's at the very bottom */}

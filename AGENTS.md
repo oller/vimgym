@@ -53,6 +53,10 @@ This file contains coding conventions and workflows for AI agents working on the
 - External dependencies first, then internal modules (auto-organized by Biome)
 - Type imports: `import type { X } from "..."`
 
+### Package Management
+
+- Use `pnpm` as the package manager when adding or removing dependencies
+
 ### Component Structure
 
 - Functional components with hooks only
@@ -79,7 +83,7 @@ This file contains coding conventions and workflows for AI agents working on the
 ### Testing
 
 - Use Vitest with jsdom environment
-- Test files use `.test.ts` or `.test.tsx` suffix
+- Test files use `.test.ts` or `.test.tsx` suffix 
 - Use `describe` blocks to group related tests
 - Use `beforeEach` to reset state (especially store state)
 - Mock JSDOM APIs in `tests/setup.ts` (e.g., `document.createRange`)
@@ -92,7 +96,7 @@ This file contains coding conventions and workflows for AI agents working on the
 
 - Use optional chaining (`?.`) for potentially null/undefined access
 - Use nullish coalescing (`??`) for default values
-- Add comments when intentionally ignoring TypeScript errors with `@ts-expect-error`
+- Ensure you address all linting errors, it is not acceptable to ignore them
 
 ### CSS/Tailwind
 
