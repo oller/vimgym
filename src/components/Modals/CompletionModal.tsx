@@ -29,7 +29,7 @@ export const CompletionModal = ({
 
   return (
     <Modal
-      className="bg-[#1a1b26] border-green-500/50 max-w-sm text-center"
+      className="bg-tokyo-night border-green-500/50 max-w-sm text-center"
       showCloseButton={false}
     >
       {/* Glow effect */}
@@ -39,7 +39,7 @@ export const CompletionModal = ({
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1 }}
-        className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-emerald-600 mb-2"
+        className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-br from-green-400 to-emerald-600 mb-2"
       >
         Level Complete!
       </motion.h2>

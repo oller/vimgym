@@ -1,10 +1,10 @@
 import { useNavigate, useSearch } from "@tanstack/react-router"; // Added useNavigate
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { AboutModal } from "./components/Modals/AboutModal";
-import { CompletionModal } from "./components/Modals/CompletionModal";
 import { GoalDisplay } from "./components/GoalDisplay";
 import { LevelSelector } from "./components/LevelSelector";
+import { AboutModal } from "./components/Modals/AboutModal";
+import { CompletionModal } from "./components/Modals/CompletionModal";
 import { MotionLog } from "./components/MotionLog/MotionLog";
 import { VimEditor } from "./components/VimEditor";
 import { LEVELS } from "./data/levels"; // Added for hasNextLevel check
