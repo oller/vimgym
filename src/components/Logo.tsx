@@ -71,7 +71,7 @@ export const Logo = () => {
               {showCursor && (
                 <motion.span
                   layoutId="logo-cursor"
-                  className="absolute inset-0 bg-[#ff9696] z-0 block"
+                  className="absolute inset-0 bg-tokyo-night-pink z-0 block"
                   animate={
                     isBlinkingActive ? { opacity: [1, 0, 1] } : { opacity: 1 }
                   }

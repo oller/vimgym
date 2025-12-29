@@ -37,7 +37,7 @@ export const LevelSelector = () => {
               {isCurrentLevel && (
                 <motion.div
                   layoutId="active-level-indicator"
-                  className="absolute left-[-1rem] top-0 bottom-0 w-1 bg-slate-500 rounded-r-full"
+                  className="absolute -left-4 top-0 bottom-0 w-1 bg-slate-500 rounded-r-full"
                 />
               )}
               <button
