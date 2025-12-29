@@ -2,6 +2,8 @@ import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { cn } from "../utils/cn";
 
+const TYPING_SPEED_MS = 60;
+
 export const Logo = () => {
   const text = "VimGym";
   const [displayedText, setDisplayedText] = useState("");
@@ -23,7 +25,7 @@ export const Logo = () => {
         // Blink for 1.2s (enough for on-off-on) then disappear
         setTimeout(() => setIsBlinking(false), 1200);
       }
-    }, 60);
+    }, TYPING_SPEED_MS);
 
     return () => clearInterval(interval);
   }, []);
@@ -55,8 +57,7 @@ export const Logo = () => {
               // biome-ignore lint/suspicious/noArrayIndexKey: Characters are static and stable
               key={i}
               className={cn(
-                "relative px-px transition-colors duration-100",
-                showCursor ? "text-tokyo-night-storm" : "text-gray-400",
+                "relative px-px transition-colors duration-100 text-gray-400",
               )}
               onMouseEnter={() => !isTyping && !isBlinking && setCursorIndex(i)}
             >
@@ -81,9 +82,9 @@ export const Logo = () => {
                       repeat: 1, // Repeat once to get on-off-on
                     },
                     layout: {
-                      type: "spring",
-                      stiffness: 500,
-                      damping: 30,
+                      // During typing, match the interval exactly so cursor lands as char appears
+                      duration: isTyping ? TYPING_SPEED_MS / 1000 : 0.15,
+                      ease: isTyping ? "linear" : "easeOut",
                     },
                   }}
                 />

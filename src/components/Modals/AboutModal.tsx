@@ -32,9 +32,11 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
       <div className="space-y-4 text-gray-300">
         <p className="font-bold">The 2nd best time to learn Vim is now.</p>
         <p>
-          Having avoided Vim for 20 years as an engineer, insipred by younger
-          and wiser colleagues, I finally decided to give it a try. This game is
-          a result of that ongoing and fulfilling journey.
+          From Hotdog, to Dreamweaver to Sublime to VS Code. In my 20 years as
+          an engineer, I have used many editors and become a ninja with
+          multi-cursor. All the while, avoiding the elephant in the room: Vim.
+          Inspired by younger and wiser colleagues, I finally decided to give it
+          a try. This game is a result of that ongoing and fulfilling journey.
         </p>
 
         <p>

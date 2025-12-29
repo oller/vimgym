@@ -15,7 +15,7 @@ export const LevelSelector = () => {
   });
 
   return (
-    <div className="md:border-l border-gray-800 h-full flex flex-col min-h-0 pl-0">
+    <div className="w-full md:border-l border-gray-800 h-full flex flex-col min-h-0 pl-0">
       <div className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent md:pl-4">
         {LEVELS.map((level) => {
           const score = highScores[level.id];
