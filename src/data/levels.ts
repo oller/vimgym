@@ -95,7 +95,7 @@ export const LEVELS = [
     startText: "<div>Hello</div>",
     targetText: "<article>Hello</article>",
     description: "Change the tag type using 'cit' or 'cat'",
-    perfectScore: 11, // citarticleEsc
+    perfectScore: 11, // citarticleEsc // UNSURE - cit should change inside tags not surrounding
   },
   {
     id: 12,
@@ -103,7 +103,7 @@ export const LEVELS = [
     startText: 'display(data, "Result")',
     targetText: 'display("Result", data)',
     description: "Swap the function arguments",
-    perfectScore: 12, // fddt,2xea, Escp
+    perfectScore: 12, // fddt,2xea, Escp // UNSURE
   },
   {
     id: 13,
