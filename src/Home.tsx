@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { GoalDisplay } from "./components/GoalDisplay";
 import { LevelSelector } from "./components/LevelSelector";
+import { Logo } from "./components/Logo";
 import { AboutModal } from "./components/Modals/AboutModal";
 import { CompletionModal } from "./components/Modals/CompletionModal";
 import { MotionLog } from "./components/MotionLog/MotionLog";
@@ -51,10 +52,7 @@ const Home = () => {
 
       <header className="mb-4 flex justify-between items-center border-b border-gray-800 pb-4">
         <div>
-          <h1 className="text-xl text-gray-400 font-roboto-mono flex items-center">
-            <span className="animate-vim-blink px-px">V</span>
-            <span className="tracking-wider">imGym</span>
-          </h1>
+          <Logo />
         </div>
         <button
           type="button"
