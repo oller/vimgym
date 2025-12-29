@@ -5,6 +5,23 @@ type AboutModalProps = {
   onClose: () => void;
 };
 
+const TechLink = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="hover:text-gray-300 underline decoration-gray-600 hover:decoration-gray-400"
+  >
+    {children}
+  </a>
+);
+
 export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -38,32 +55,12 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
         </p>
         <p className="text-sm text-gray-400">
           Powered by{" "}
-          <a
-            href="https://tanstack.com/start"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-300 underline decoration-gray-600 hover:decoration-gray-400"
-          >
-            tanstack start
-          </a>
-          ,{" "}
-          <a
-            href="https://tailwindcss.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-300 underline decoration-gray-600 hover:decoration-gray-400"
-          >
-            tailwindcss
-          </a>{" "}
-          &amp;{" "}
-          <a
-            href="https://github.com/replit/codemirror-vim"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-300 underline decoration-gray-600 hover:decoration-gray-400"
-          >
+          <TechLink href="https://tanstack.com/start">tanstack start</TechLink>,{" "}
+          <TechLink href="https://tailwindcss.com">tailwindcss</TechLink>,{" "}
+          <TechLink href="https://motion.dev">motion</TechLink> &amp;{" "}
+          <TechLink href="https://github.com/replit/codemirror-vim">
             codemirror-vim
-          </a>
+          </TechLink>
         </p>
       </div>
     </Modal>
