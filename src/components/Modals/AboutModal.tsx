@@ -32,14 +32,13 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
       <div className="space-y-4 text-gray-300">
         <p className="font-bold">The 2nd best time to learn Vim is now.</p>
         <p>
-          From Hotdog to Dreamweaver to Sublime to VS Code. In my 20+ years as
-          an engineer I have used many editors, taking pride in become a ninja
-          with multi-cursor. All the while, avoiding the elephant in the room:
-          Vim. Inspired by younger and wiser colleagues, I finally decided to
-          give it a try. This game is a result of that ongoing and fulfilling
-          journey.
+          From Hotdog to Dreamweaver to TextMate to Sublime to VS Code. In 20+
+          years as an engineer, you adapt with the times and the tools. I took
+          pride in becoming a ninja with multi-cursor. All the while, avoiding
+          the elephant in the room: Vim. Inspired by younger and wiser
+          colleagues, I finally decided to give it a try. This little game is a
+          result of that ongoing and satisfying journey.
         </p>
-
         <p>
           VimGym is an interactive playground designed to help you build muscle
           memory for Vim motions and operators.
