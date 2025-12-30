@@ -32,8 +32,8 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
       <div className="space-y-4 text-gray-300">
         <p className="font-bold">The 2nd best time to learn Vim is now.</p>
         <p>
-          From Hotdog to Dreamweaver to TextMate to Sublime to VS Code. In 20+
-          years as an engineer, you adapt with the times and the tools. I took
+          Hotdog, Dreamweaver, TextMate, Sublime Text and VS Code. In 20+ years
+          as a software engineer, you adapt with the times and the tools. I took
           pride in becoming a ninja with multi-cursor. All the while, avoiding
           the elephant in the room: Vim. Inspired by younger and wiser
           colleagues, I finally decided to give it a try. This little game is a
