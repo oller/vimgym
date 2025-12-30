@@ -65,6 +65,9 @@ const Home = () => {
 
       <motion.main
         layout
+        initial={{ opacity: 0, filter: "blur(10px)" }}
+        animate={{ opacity: 1, filter: "blur(0px)" }}
+        transition={{ duration: 0.2, ease: "easeOut", delay: 0.8 }}
         className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 min-h-0"
       >
         {/* Main Content */}
