@@ -19,6 +19,7 @@ interface GameState {
   resetLevel: () => void;
   nextLevel: () => void;
   checkAndUpdateHighScore: () => void;
+  clearScores: () => void;
 }
 
 const level1 = LEVELS[0];
@@ -112,6 +113,10 @@ export const useGameStore = create<GameState>()(
             isCompleted: false,
           });
         }
+      },
+
+      clearScores: () => {
+        set({ highScores: {} });
       },
     }),
     {

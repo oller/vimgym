@@ -6,7 +6,7 @@ import { useGameStore } from "../store/useGameStore";
 import { cn } from "../utils/cn";
 
 export const LevelSelector = () => {
-  const { currentLevel, highScores } = useGameStore();
+  const { currentLevel, highScores, clearScores } = useGameStore();
   const navigate = useNavigate({ from: "/" });
 
   const scrollRef = useScrollIntoView<HTMLDivElement>(currentLevel, {
@@ -82,6 +82,19 @@ export const LevelSelector = () => {
             </div>
           );
         })}
+      </div>
+      <div className="md:pl-4 pt-4 mt-auto">
+        <button
+          type="button"
+          onClick={() => {
+            if (window.confirm("Are you sure you want to clear all scores?")) {
+              clearScores();
+            }
+          }}
+          className="w-full cursor-pointer text-xs text-tokyo-night-pink p-2 text-center transition-colors font-roboto-mono uppercase tracking-wider"
+        >
+          Reset all progress
+        </button>
       </div>
     </div>
   );

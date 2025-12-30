@@ -57,9 +57,9 @@ const Home = () => {
         <button
           type="button"
           onClick={() => setIsAboutOpen(true)}
-          className="cursor-pointer text-sm text-gray-500 hover:text-gray-300 transition-colors font-roboto-mono"
+          className="cursor-pointer p-2 text-xs text-gray-500 hover:text-tokyo-night-pink transition-colors font-roboto-mono uppercase tracking-wider"
         >
-          about
+          About
         </button>
       </header>
 
