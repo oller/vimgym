@@ -91,7 +91,7 @@ export const LevelSelector = () => {
               clearScores();
             }
           }}
-          className="w-full cursor-pointer text-xs text-tokyo-night-pink p-2 text-center transition-colors font-roboto-mono uppercase tracking-wider"
+          className="w-full cursor-pointer text-xs text-tokyo-night-pink hover:bg-tokyo-night-pink/10 active:bg-tokyo-night-pink/15 p-2 text-center transition-colors font-roboto-mono uppercase tracking-wider"
         >
           Reset all progress
         </button>
