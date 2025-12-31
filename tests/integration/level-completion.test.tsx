@@ -1,4 +1,4 @@
-import { act, render, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { expect, test } from "vitest";
 import App from "../../src/App";
@@ -41,30 +41,26 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
   // Wait for the completion message to appear in the DOM
   await waitFor(
     () => {
-      const completeMessage = container.querySelector(
-        '[data-testid="level-complete"]',
-      );
-      expect(completeMessage).toBeTruthy();
+      expect(
+        screen.getByRole("heading", { level: 2, name: "Level Complete!" }),
+      ).toBeInTheDocument();
     },
     { timeout: 3000 },
   );
 
   // Check that the level is marked as complete
-  const completeMessage = container.querySelector(
-    '[data-testid="level-complete"]',
-  );
-  expect(completeMessage).toBeTruthy();
-  expect(completeMessage?.textContent).toContain("Level Complete");
+  const completeMessage = screen.getByRole("heading", {
+    level: 2,
+    name: "Level Complete!",
+  });
+  expect(completeMessage).toBeInTheDocument();
 
   // Check that the keystroke count is 6
-  const keystrokeCount = container.querySelector(
-    '[data-testid="keystroke-count"]',
-  );
-  expect(keystrokeCount?.textContent).toContain(
-    `Completed in ${solution.length} keystrokes`,
-  );
+  const keystrokeCount = screen.getByLabelText("keystrokes");
+  expect(keystrokeCount?.textContent).toContain(`${solution.length}`);
+  expect(keystrokeCount?.textContent).toContain(`${solution.length}`);
 
   // Check that the best score is also 6
-  const bestScore = container.querySelector('[data-testid="best-score"]');
+  const bestScore = screen.getByLabelText("best score");
   expect(bestScore?.textContent).toContain(`Best: ${solution.length}`);
 });

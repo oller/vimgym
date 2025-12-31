@@ -40,6 +40,7 @@ export const CompletionModal = ({
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1 }}
         className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-br from-green-400 to-emerald-600 mb-2"
+        data-testid="level-complete"
       >
         Level Complete!
       </motion.h2>
@@ -52,14 +53,17 @@ export const CompletionModal = ({
       >
         <div className="py-4">
           <div className="text-gray-400 text-sm">Keystrokes</div>
-          <div className="text-4xl font-roboto-mono font-bold text-white flex flex-col gap-2">
+          <output
+            className="text-4xl font-roboto-mono font-bold text-white flex flex-col gap-2"
+            aria-label="keystrokes"
+          >
             {history.length}
             {isNewBest && (
               <span className="text-xs bg-yellow-500/20 text-yellow-500 px-2 py-1 rounded border border-yellow-500/50 animate-pulse">
                 NEW BEST!
               </span>
             )}
-          </div>
+          </output>
         </div>
 
         {hasNextLevel ? (

@@ -22,8 +22,8 @@ export const GoalDisplay = () => {
 
         <div className="flex gap-4 items-center">
           {bestScore !== undefined && (
-            <span
-              data-testid="best-score"
+            <output
+              aria-label="best score"
               className="text-sm text-yellow-500 font-roboto-mono"
             >
               Best: {bestScore} keys
@@ -36,7 +36,7 @@ export const GoalDisplay = () => {
                     🏆
                   </span>
                 )}
-            </span>
+            </output>
           )}
           <button
             type="button"
