@@ -51,7 +51,7 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
             rel="noopener noreferrer"
             target="_blank"
           >
-            David Ollerhead
+            David
           </a>{" "}
           during Christmas 2025 🎄🎁
         </p>
