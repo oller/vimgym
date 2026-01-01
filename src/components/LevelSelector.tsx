@@ -30,24 +30,17 @@ export const LevelSelector = () => {
 
           return (
             <div
+              className="relative w-full"
               key={level.id}
               ref={isCurrentLevel ? scrollRef : null}
-              className="relative w-full"
             >
               {isCurrentLevel && (
                 <motion.div
-                  layoutId="active-level-indicator"
                   className="absolute -left-4 top-0 bottom-0 w-1 bg-slate-500 rounded-r-full"
+                  layoutId="active-level-indicator"
                 />
               )}
               <button
-                type="button"
-                onClick={() => navigate({ search: { levelId: level.id } })}
-                style={
-                  {
-                    "--shimmer-delay": `-${delay}s`,
-                  } as React.CSSProperties
-                }
                 className={cn(
                   "relative w-full cursor-pointer text-left p-3 rounded transition-all ", // Added relative
                   isCurrentLevel &&
@@ -60,6 +53,13 @@ export const LevelSelector = () => {
                   isPerfectScore &&
                     "bg-gold-gradient text-slate-800 animate-shimmer",
                 )}
+                onClick={() => navigate({ search: { levelId: level.id } })}
+                style={
+                  {
+                    "--shimmer-delay": `-${delay}s`,
+                  } as React.CSSProperties
+                }
+                type="button"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex-1 space-y-1">
@@ -85,13 +85,13 @@ export const LevelSelector = () => {
       </div>
       <div className="md:pl-4 pt-4 mt-auto">
         <button
-          type="button"
+          className="w-full cursor-pointer text-xs text-tokyo-night-pink hover:bg-tokyo-night-pink/10 active:bg-tokyo-night-pink/15 p-2 text-center transition-colors font-roboto-mono uppercase tracking-wider"
           onClick={() => {
             if (window.confirm("Are you sure you want to clear all scores?")) {
               clearScores();
             }
           }}
-          className="w-full cursor-pointer text-xs text-tokyo-night-pink hover:bg-tokyo-night-pink/10 active:bg-tokyo-night-pink/15 p-2 text-center transition-colors font-roboto-mono uppercase tracking-wider"
+          type="button"
         >
           Reset all progress
         </button>

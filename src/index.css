@@ -52,7 +52,6 @@
   @apply relative overflow-hidden;
   &::after {
     content: "";
-    @apply inset-0 absolute;
     background: linear-gradient(
       90deg,
       transparent,
@@ -60,6 +59,7 @@
       transparent
     );
     animation: shimmer 6s infinite var(--shimmer-delay, 0s);
+    @apply inset-0 absolute;
   }
 }
 
@@ -92,13 +92,13 @@
 
 /* Ensure the vim cursor (fat cursor) is visible and flashes like a block */
 .cm-editor .cm-fat-cursor {
-  background-color: var(--color-tokyo-night-pink) !important;
   outline: none !important;
-  animation: vim-blink 1s step-end infinite;
+  background-color: var(--color-tokyo-night-pink) !important;
   transition:
     left 0.08s ease-out,
     top 0.08s ease-out,
     transform 0.08s ease-out;
+  animation: vim-blink 1s step-end infinite;
 }
 
 /* Also style the standard cursor for consistency, though vim uses fat cursor */

@@ -37,11 +37,11 @@ export const MotionLog = () => {
         <div className="flex flex-wrap gap-2 items-center">
           {explainedCommands.map((cmd, index) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: Index is stable for append-only log and required for morphing animation
-            <MotionLogItem key={index} command={cmd} />
+            <MotionLogItem command={cmd} key={index} />
           ))}
         </div>
         {/* Dummy element to scroll into view - moved outside flex container to ensure it's at the very bottom */}
-        <div ref={scrollRef} className="size-0" />
+        <div className="size-0" ref={scrollRef} />
       </div>
     </div>
   );

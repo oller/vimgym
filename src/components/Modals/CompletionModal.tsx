@@ -36,26 +36,26 @@ export const CompletionModal = ({
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-green-500/20 blur-3xl rounded-full pointer-events-none" />
 
       <motion.h2
-        initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1 }}
         className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-br from-green-400 to-emerald-600 mb-2"
         data-testid="level-complete"
+        initial={{ y: -20, opacity: 0 }}
+        transition={{ delay: 0.1 }}
       >
         Level Complete!
       </motion.h2>
 
       <motion.div
-        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
         className="space-y-4"
+        initial={{ opacity: 0 }}
+        transition={{ delay: 0.2 }}
       >
         <div className="py-4">
           <div className="text-gray-400 text-sm">Keystrokes</div>
           <output
-            className="text-4xl font-roboto-mono font-bold text-white flex flex-col gap-2"
             aria-label="keystrokes"
+            className="text-4xl font-roboto-mono font-bold text-white flex flex-col gap-2"
           >
             {history.length}
             {isNewBest && (
@@ -69,9 +69,9 @@ export const CompletionModal = ({
         {hasNextLevel ? (
           <div className="space-y-2">
             <button
-              type="button"
-              onClick={onNext}
               className="w-full cursor-pointer bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg shadow-green-900/20"
+              onClick={onNext}
+              type="button"
             >
               Next Level
             </button>
@@ -95,8 +95,12 @@ export const CompletionModal = ({
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           {[...Array(100)].map((_, i) => (
             <motion.div
-              // biome-ignore lint/suspicious/noArrayIndexKey: Visual-only particles, stable count
-              key={i}
+              animate={{
+                left: `${50 + (Math.random() * 100 - 50)}%`,
+                top: `${50 + (Math.random() * 100 - 50)}%`,
+                scale: [0, 1, 0],
+                opacity: [1, 1, 0],
+              }}
               className={cn(
                 "absolute size-1.5 rounded-full",
                 [
@@ -113,12 +117,8 @@ export const CompletionModal = ({
                 y: "-50%",
                 scale: 0,
               }}
-              animate={{
-                left: `${50 + (Math.random() * 100 - 50)}%`,
-                top: `${50 + (Math.random() * 100 - 50)}%`,
-                scale: [0, 1, 0],
-                opacity: [1, 1, 0],
-              }}
+              // biome-ignore lint/suspicious/noArrayIndexKey: Visual-only particles, stable count
+              key={i}
               transition={{
                 duration: 1,
                 ease: "easeOut",

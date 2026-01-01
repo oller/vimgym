@@ -116,11 +116,11 @@ export const VimEditor = () => {
 
   return (
     <div
-      data-testid="vim-editor"
       className={cn(
         "border text-xl md:text-3xl grow rounded-md font-roboto-mono overflow-hidden bg-tokyo-night-storm transition-colors flex flex-col",
         isCompleted ? "border-green-500" : "border-gray-800",
       )}
+      data-testid="vim-editor"
     >
       <div className="grow flex items-center px-4 overflow-x-auto scrollbar-thin">
         <div>
@@ -133,12 +133,6 @@ export const VimEditor = () => {
             {targetText}
           </div>
           <CodeMirror
-            key={currentLevel}
-            value={startText}
-            extensions={extensions}
-            onChange={onChange}
-            onCreateEditor={onCreateEditor}
-            theme={tokyoNightStorm}
             autoFocus
             basicSetup={{
               lineNumbers: false,
@@ -147,6 +141,12 @@ export const VimEditor = () => {
               autocompletion: false,
               closeBrackets: false,
             }}
+            extensions={extensions}
+            key={currentLevel}
+            onChange={onChange}
+            onCreateEditor={onCreateEditor}
+            theme={tokyoNightStorm}
+            value={startText}
           />
         </div>
       </div>

@@ -30,8 +30,8 @@ export const GoalDisplay = () => {
               {typeof perfectScore === "number" &&
                 bestScore <= perfectScore && (
                   <span
-                    title="This is a perfect score!"
                     className="ml-2 cursor-help"
+                    title="This is a perfect score!"
                   >
                     🏆
                   </span>
@@ -39,10 +39,10 @@ export const GoalDisplay = () => {
             </output>
           )}
           <button
-            type="button"
-            onClick={resetLevel}
             className="cursor-pointer text-sm bg-tokyo-night-storm/80 hover:bg-tokyo-night-storm text-white px-4 py-2 rounded transition-colors"
+            onClick={resetLevel}
             title={isCompleted ? "Retry Level" : "Reset Level"}
+            type="button"
           >
             {isCompleted ? "Retry" : "Reset"}
           </button>

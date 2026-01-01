@@ -23,20 +23,20 @@ type MotionItemProps = {
 export const MotionLogItem = ({ command }: MotionItemProps) => {
   return (
     <motion.div
-      layout
-      initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       className="flex items-center gap-1 bg-slate-700/50 rounded overflow-hidden"
+      initial={{ opacity: 0, scale: 0.8 }}
+      layout
     >
       <motion.kbd
-        layout
         className="px-1.5 py-0.5 bg-slate-800/80 rounded text-yellow-500 min-w-[20px] text-center"
+        layout
       >
         {formatKeyForDisplay(command.matched)}
       </motion.kbd>
       <motion.span
-        layout
         className="text-gray-400 text-xs px-1 whitespace-nowrap"
+        layout
       >
         {command.explanation}
       </motion.span>

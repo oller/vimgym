@@ -13,10 +13,10 @@ const TechLink = ({
   children: React.ReactNode;
 }) => (
   <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
     className="hover:text-gray-300 underline decoration-gray-600 hover:decoration-gray-400"
+    href={href}
+    rel="noopener noreferrer"
+    target="_blank"
   >
     {children}
   </a>
@@ -46,10 +46,10 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
         <p>
           Built by{" "}
           <a
-            href="https://davidollerhead.com"
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-yellow-500 hover:text-yellow-400 underline decoration-yellow-500/30 hover:decoration-yellow-400 transition-all"
+            href="https://davidollerhead.com"
+            rel="noopener noreferrer"
+            target="_blank"
           >
             David Ollerhead
           </a>{" "}

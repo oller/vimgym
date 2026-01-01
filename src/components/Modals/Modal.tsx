@@ -31,48 +31,48 @@ export const Modal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <motion.div
-        initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
         animate={{ opacity: 1, backdropFilter: "blur(0px)" }}
-        exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
         aria-hidden="true"
+        className="absolute inset-0 bg-black/50"
+        exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+        initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+        onClick={onClose}
       />
 
       {/* Modal Content */}
       <motion.div
-        initial={{ scale: 0.95, opacity: 0, y: 10 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.95, opacity: 0, y: 10 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        aria-modal="true"
         className={cn(
           "relative w-full max-w-lg bg-tokyo-night-storm border border-gray-700 rounded-lg shadow-xl p-6 overflow-hidden",
           className,
         )}
+        exit={{ scale: 0.95, opacity: 0, y: 10 }}
+        initial={{ scale: 0.95, opacity: 0, y: 10 }}
         role="dialog"
-        aria-modal="true"
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         {showCloseButton && onClose && (
           <button
-            type="button"
-            onClick={onClose}
-            className="cursor-pointer absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-10"
             aria-label="Close"
+            className="cursor-pointer absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-10"
+            onClick={onClose}
+            type="button"
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
               fill="none"
+              height="20"
               stroke="currentColor"
-              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              width="20"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <title>Close</title>
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="18" x2="6" y1="6" y2="18" />
+              <line x1="6" x2="18" y1="6" y2="18" />
             </svg>
           </button>
         )}

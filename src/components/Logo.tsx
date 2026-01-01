@@ -32,11 +32,11 @@ export const Logo = () => {
 
   return (
     <motion.div
+      animate={{ opacity: 1 }}
       className="relative text-xl font-roboto-mono cursor-default select-none"
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      onHoverStart={() => setCursorIndex(0)}
       onHoverEnd={() => setCursorIndex(null)}
+      onHoverStart={() => setCursorIndex(0)}
     >
       <div className="flex">
         {text.split("").map((char, i) => {
@@ -54,11 +54,11 @@ export const Logo = () => {
 
           return (
             <motion.span
-              // biome-ignore lint/suspicious/noArrayIndexKey: Characters are static and stable
-              key={i}
               className={cn(
                 "relative px-px transition-colors duration-100 text-gray-400",
               )}
+              // biome-ignore lint/suspicious/noArrayIndexKey: Characters are static and stable
+              key={i}
               onMouseEnter={() => !isTyping && !isBlinking && setCursorIndex(i)}
             >
               {/* The Character */}
@@ -70,11 +70,11 @@ export const Logo = () => {
               {/* The Cursor Block */}
               {showCursor && (
                 <motion.span
-                  layoutId="logo-cursor"
-                  className="absolute inset-0 bg-tokyo-night-pink z-0 block"
                   animate={
                     isBlinkingActive ? { opacity: [1, 0, 1] } : { opacity: 1 }
                   }
+                  className="absolute inset-0 bg-tokyo-night-pink z-0 block"
+                  layoutId="logo-cursor"
                   transition={{
                     opacity: {
                       duration: 0.8,
