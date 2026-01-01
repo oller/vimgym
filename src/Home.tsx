@@ -1,6 +1,7 @@
-import { useNavigate, useSearch } from "@tanstack/react-router"; // Added useNavigate
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
 import { GoalDisplay } from "./components/GoalDisplay";
 import { LevelSelector } from "./components/LevelSelector";
 import { Logo } from "./components/Logo";
@@ -8,7 +9,7 @@ import { AboutModal } from "./components/Modals/AboutModal";
 import { CompletionModal } from "./components/Modals/CompletionModal";
 import { MotionLog } from "./components/MotionLog/MotionLog";
 import { VimEditor } from "./components/VimEditor";
-import { LEVELS } from "./data/levels"; // Added for hasNextLevel check
+import { LEVELS } from "./data/levels";
 import { useGameStore } from "./store/useGameStore";
 
 const Home = () => {
@@ -23,11 +24,11 @@ const Home = () => {
   const currentLevelId = typeof levelId === "number" ? levelId : 1;
   const hasNextLevel = currentLevelId < LEVELS.length;
 
-  const handleNextLevel = () => {
+  const handleNextLevel = useCallback(() => {
     if (hasNextLevel) {
       navigate({ search: { levelId: currentLevelId + 1 } });
     }
-  };
+  }, [hasNextLevel, currentLevelId, navigate]);
 
   useEffect(() => {
     setLevel(levelId);
