@@ -94,7 +94,8 @@ export const LEVELS = [
     name: "Tag Switcheroo",
     startText: "<div>Hello</div>",
     targetText: "<article>Hello</article>",
-    description: "Change the tag type using 'cit' or 'cat'",
+    description:
+      "Change the wrapping tag (note codemirror doesn't support all text objects 😢)",
     perfectScore: 11, // citarticleEsc // UNSURE - cit should change inside tags not surrounding
   },
   {
