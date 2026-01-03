@@ -43,6 +43,13 @@ export const SPECIAL_KEYS = {
   ARROW_DOWN: "[Down]",
   ARROW_LEFT: "[Left]",
   ARROW_RIGHT: "[Right]",
+  CTRL_R: "[C-r]",
+} as const;
+
+/** Key mapping for modifier combinations */
+export const MODIFIER_KEY_MAP = {
+  // Ctrl+key combinations
+  "ctrl+r": SPECIAL_KEYS.CTRL_R,
 } as const;
 
 export type SpecialKey = (typeof SPECIAL_KEYS)[keyof typeof SPECIAL_KEYS];

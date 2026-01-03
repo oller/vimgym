@@ -402,6 +402,14 @@ describe("vimsplain", () => {
         expect(result.commands[0].explanation).toBe("undo");
       });
 
+      it("explains [C-r] (redo)", () => {
+        const result = explainSequence(SPECIAL_KEYS.CTRL_R);
+        expect(result.commands[0]).toEqual({
+          matched: SPECIAL_KEYS.CTRL_R,
+          explanation: "redo",
+        });
+      });
+
       it("explains p (paste)", () => {
         const result = explainSequence("p");
         expect(result.commands[0].explanation).toBe("paste after cursor");

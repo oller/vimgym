@@ -35,7 +35,7 @@ This file contains coding conventions and workflows for AI agents working on the
 
 - Strict mode is enabled
 - Use `import type` for type-only imports
-- Use `as const` for arrays that should be treated as readonly tuples
+- Use `as const` for arrays that should be treated as readonly tuples and object literals that should preserve literal types
 - Use `satisfies` to validate arrays against type definitions
 - Use `@ts-expect-error` for intentional type errors (e.g., global window properties)
 

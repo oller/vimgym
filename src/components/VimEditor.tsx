@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useGameStore } from "../store/useGameStore";
 import { cn } from "../utils/cn";
-import { SPECIAL_KEYS } from "../utils/vimsplain.types";
+import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "../utils/vimsplain.types";
 import { VimStatusBar } from "./VimStatusBar";
 
 export const VimEditor = () => {
@@ -69,7 +69,16 @@ export const VimEditor = () => {
 
       // Log the key with special key normalization
       let key = event.key;
-      if (key === "Escape") key = SPECIAL_KEYS.ESCAPE;
+
+      // Check for modifier combinations first
+      if (event.ctrlKey) {
+        const modifierKey = `ctrl+${key.toLowerCase()}`;
+        if (MODIFIER_KEY_MAP[modifierKey]) {
+          key = MODIFIER_KEY_MAP[modifierKey];
+        }
+      }
+      // Then check for standalone special keys (only if not already handled by modifier)
+      else if (key === "Escape") key = SPECIAL_KEYS.ESCAPE;
       else if (key === "Enter") key = SPECIAL_KEYS.ENTER;
       else if (key === "Backspace") key = SPECIAL_KEYS.BACKSPACE;
       else if (key === "ArrowUp") key = SPECIAL_KEYS.ARROW_UP;

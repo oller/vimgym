@@ -329,6 +329,7 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
   // --- Undo/redo ---
   { pattern: /^u/, description: "undo", isMotion: false },
   { pattern: /^U/, description: "undo line", isMotion: false },
+  { pattern: /^\[C-r\]/, description: "redo", isMotion: false },
 
   // --- Put/paste ---
   { pattern: /^p/, description: "paste after cursor", isMotion: false },

@@ -1,16 +1,35 @@
 import { motion } from "motion/react";
 
+/** Display mapping for special key sequences */
+const SPECIAL_KEY_DISPLAY_MAP = {
+  "[Up]": "↑",
+  "[Down]": "↓",
+  "[Left]": "←",
+  "[Right]": "→",
+  "[Enter]": "↵",
+  "[Esc]": "Esc",
+  "[Backspace]": "⌫",
+  "[C-r]": "Ctrl+R",
+} as const;
+
 /** Format a key sequence for display - replace spaces and specials with visible symbols */
-const formatKeyForDisplay = (key: string): string => {
-  return key
-    .replace(/ /g, "␣")
-    .replace(/\[Up\]/g, "↑")
-    .replace(/\[Down\]/g, "↓")
-    .replace(/\[Left\]/g, "←")
-    .replace(/\[Right\]/g, "→")
-    .replace(/\[Enter\]/g, "↵")
-    .replace(/\[Esc\]/g, "Esc")
-    .replace(/\[Backspace\]/g, "⌫");
+// biome-ignore lint/style/useComponentExportOnlyModules: Utility function used by component
+export const formatKeyForDisplay = (key: string): string => {
+  let formatted = key.replace(/ /g, "␣");
+
+  // Apply special key mappings
+  // The regex escapes all special regex characters in the pattern to treat
+  // literal strings like "[C-r]" as literal characters, not regex patterns
+  for (const [pattern, replacement] of Object.entries(
+    SPECIAL_KEY_DISPLAY_MAP,
+  )) {
+    formatted = formatted.replace(
+      new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"),
+      replacement,
+    );
+  }
+
+  return formatted;
 };
 
 type MotionItemProps = {
