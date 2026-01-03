@@ -74,7 +74,7 @@ export const LevelSelector = () => {
                         "text-xs font-roboto-mono px-2 py-1 rounded bg-black/20 text-white",
                       )}
                     >
-                      {score} keys
+                      {score}
                     </div>
                   )}
                 </div>
