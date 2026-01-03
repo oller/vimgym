@@ -73,8 +73,8 @@ export const VimEditor = () => {
       // Check for modifier combinations first
       if (event.ctrlKey) {
         const modifierKey = `ctrl+${key.toLowerCase()}`;
-        if (MODIFIER_KEY_MAP[modifierKey]) {
-          key = MODIFIER_KEY_MAP[modifierKey];
+        if (modifierKey in MODIFIER_KEY_MAP) {
+          key = MODIFIER_KEY_MAP[modifierKey as keyof typeof MODIFIER_KEY_MAP];
         }
       }
       // Then check for standalone special keys (only if not already handled by modifier)
