@@ -4,19 +4,19 @@ This file contains coding conventions and workflows for AI agents working on the
 
 ## Build, Lint, and Test Commands
 
-### Development
+### Development commands
 
 - `pnpm dev` - Start development server
 - `pnpm build` - Build for production (runs TypeScript compiler + Vite)
 - `pnpm preview` - Preview production build
 
-### Code Quality
+### Linting and formatting commands
 
 - `pnpm lint` - Run Biome linter to check for issues
 - `pnpm lint:fix` - Automatically fix linting issues
 - `pnpm format` - Format code with Biome
 
-### Testing
+### Testing commands
 
 - `pnpm test` - Run all Vitest tests in jsdom environment
 - `pnpm test:browser` - Run tests in browser environment
@@ -83,7 +83,7 @@ This file contains coding conventions and workflows for AI agents working on the
 ### Testing
 
 - Use Vitest with jsdom environment
-- Test files use `.test.ts` or `.test.tsx` suffix 
+- Test files use `.test.ts` or `.test.tsx` suffix
 - Use `describe` blocks to group related tests
 - Use `beforeEach` to reset state (especially store state)
 - Mock JSDOM APIs in `tests/setup.ts` (e.g., `document.createRange`)
