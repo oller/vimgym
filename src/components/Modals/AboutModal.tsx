@@ -33,9 +33,9 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
         <p className="font-bold">The 2nd best time to learn Vim is now.</p>
         <p>
           Hotdog, Dreamweaver, TextMate, Sublime Text and VS Code. In 20+ years
-          as a software engineer, you adapt with the times and the tools. I took
-          pride in becoming a ninja with multi-cursor. All the while, avoiding
-          the elephant in the room: Vim. Inspired by younger and wiser
+          as a software engineer, your tools evolve with the technologies. I
+          took pride in becoming a ninja with multi-cursor. All the while,
+          avoiding the elephant in the room: Vim. Inspired by younger and wiser
           colleagues, I finally decided to give it a try. This little game is a
           result of that ongoing and satisfying journey.
         </p>

@@ -1,6 +1,5 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { cn } from "../utils/cn";
 
 const TYPING_SPEED_MS = 60;
 
@@ -26,9 +25,16 @@ export const Logo = () => {
         setTimeout(() => setIsBlinking(false), 1200);
       }
     }, TYPING_SPEED_MS);
-
     return () => clearInterval(interval);
   }, []);
+
+  // Determine which character should show the cursor
+  const getActiveCursor = (i: number) => {
+    if (isTyping && i === displayedText.length) return "caret";
+    if (isBlinking && i === text.length - 1) return "block";
+    if (!isTyping && !isBlinking && cursorIndex === i) return "block";
+    return null;
+  };
 
   return (
     <motion.div
@@ -36,65 +42,57 @@ export const Logo = () => {
       className="relative text-xl font-roboto-mono cursor-default select-none"
       initial={{ opacity: 0 }}
       onHoverEnd={() => setCursorIndex(null)}
-      onHoverStart={() => setCursorIndex(0)}
     >
-      <div className="flex">
+      <div className="relative flex">
+        {/* Layer 1: Cursors + invisible placeholders for sizing/events */}
         {text.split("").map((char, i) => {
-          // Determine if this character is currently "active" (being typed or hovered)
-          const isTypingActive =
-            isTyping &&
-            i === displayedText.length - 1 &&
-            displayedText.length > 0;
-          const isBlinkingActive = isBlinking && i === text.length - 1;
-          const isHoverActive = !isTyping && !isBlinking && cursorIndex === i;
-
-          // Show cursor on this character?
-          const showCursor =
-            isTypingActive || isBlinkingActive || isHoverActive;
-
+          const cursor = getActiveCursor(i);
           return (
-            <motion.span
-              className={cn(
-                "relative px-px transition-colors duration-100 text-gray-400",
-              )}
-              // biome-ignore lint/suspicious/noArrayIndexKey: Characters are static and stable
+            // biome-ignore lint/a11y/noStaticElementInteractions: Presentational only
+            <span
+              className="relative px-px"
+              // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
               key={i}
               onMouseEnter={() => !isTyping && !isBlinking && setCursorIndex(i)}
             >
-              {/* The Character */}
-              <span className="relative z-10">
-                {/* Only show char if it's been typed already */}
-                {i < displayedText.length ? char : ""}
-              </span>
-
-              {/* The Cursor Block */}
-              {showCursor && (
+              {cursor === "caret" && (
                 <motion.span
-                  animate={
-                    isBlinkingActive ? { opacity: [1, 0, 1] } : { opacity: 1 }
-                  }
-                  className="absolute inset-0 bg-tokyo-night-pink z-0 block"
+                  className="absolute left-0 top-0 bottom-0 w-0.5 bg-tokyo-night-pink"
                   layoutId="logo-cursor"
                   transition={{
-                    opacity: {
-                      duration: 0.8,
-                      ease: "easeInOut",
-                      repeat: 1, // Repeat once to get on-off-on
-                    },
                     layout: {
-                      // During typing, match the interval exactly so cursor lands as char appears
-                      duration: isTyping ? TYPING_SPEED_MS / 1000 : 0.15,
-                      ease: isTyping ? "linear" : "easeOut",
+                      duration: TYPING_SPEED_MS / 1000,
+                      ease: "linear",
                     },
                   }}
                 />
               )}
-            </motion.span>
+              {cursor === "block" && (
+                <motion.span
+                  animate={isBlinking ? { opacity: [1, 0, 1] } : { opacity: 1 }}
+                  className="absolute inset-0 bg-tokyo-night-pink"
+                  layoutId="logo-cursor"
+                  transition={{
+                    opacity: { duration: 0.8, ease: "easeInOut", repeat: 1 },
+                    layout: { duration: 0.15, ease: "easeOut" },
+                  }}
+                />
+              )}
+              {/* Invisible char for sizing */}
+              <span className="invisible">{char}</span>
+            </span>
           );
         })}
-        {/* Blinking cursor at the end during typing phase if needed, 
-            but the design above puts cursor ON the character. 
-            Standard Vim cursor is a block ON the char. */}
+
+        {/* Layer 2: Visible text overlay - blends with all cursors below */}
+        <div className="absolute inset-0 flex pointer-events-none">
+          {text.split("").map((char, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
+            <span className="px-px text-gray-400 mix-blend-difference" key={i}>
+              {i < displayedText.length ? char : "\u00A0"}
+            </span>
+          ))}
+        </div>
       </div>
     </motion.div>
   );
