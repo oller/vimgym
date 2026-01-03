@@ -14,17 +14,17 @@ import {
 
 /** Commands that enter insert mode */
 const INSERT_MODE_TRIGGERS = new Set([
-  "i",
-  "I",
-  "a",
-  "A",
-  "o",
-  "O",
-  "s",
-  "S",
-  "C",
-  "cc",
-  "R",
+  "i", // insert before cursor
+  "I", // insert at beginning of line
+  "a", // append after cursor
+  "A", // append at end of line
+  "o", // open new line below
+  "O", // open new line above
+  "s", // substitute character under cursor
+  "S", // substitute entire line
+  "C", // change to end of line
+  "cc", // change entire line
+  "R", // enter replace mode
 ]);
 
 /**
