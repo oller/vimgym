@@ -1,6 +1,6 @@
 # VimGym
 
-This is very much WIP. Vibe-engineered. There is some debt to pay, I suspect more useEffects can go.
+This was built using Tanstack Start, Tailwind CSS, Motion.dev, Codemirror and CodeMirror-Vim.
 
 To do:
 
