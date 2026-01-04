@@ -8,7 +8,7 @@ import { Logo } from "./components/Logo";
 import { AboutModal } from "./components/Modals/AboutModal";
 import { CompletionModal } from "./components/Modals/CompletionModal";
 import { MotionLog } from "./components/MotionLog/MotionLog";
-import { VimEditor } from "./components/VimEditor";
+import { VimEditor } from "./components/VimEditor/VimEditor";
 import { LEVELS } from "./data/levels";
 import { useGameStore } from "./store/useGameStore";
 

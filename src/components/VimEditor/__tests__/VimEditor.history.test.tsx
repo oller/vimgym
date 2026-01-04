@@ -8,7 +8,7 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import "@testing-library/jest-dom";
 import { act } from "@testing-library/react";
-import { useGameStore } from "../../store/useGameStore";
+import { useGameStore } from "../../../store/useGameStore";
 import { VimEditor } from "../VimEditor";
 
 // Mock scrollIntoView
