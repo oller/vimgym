@@ -63,44 +63,31 @@
   }
 }
 
+/* -------------------------------- */
 /* CodeMirror overrides */
+/* -------------------------------- */
 /* Override to allow tailwind setting of font-family as parent className */
 .cm-editor .cm-scroller {
   font-family: inherit;
 }
 
+/* Remove outline appearing around editor when focused */
 .cm-editor.cm-focused {
   outline: none; /* Removes default outline */
 }
 
-@theme {
-  @keyframes vim-blink {
-    0%,
-    49% {
-      background-color: var(--color-tokyo-night-pink);
-    }
-    50%,
-    100% {
-      background-color: transparent;
-    }
-  }
-}
-
-@utility animate-vim-blink {
-  animation: vim-blink 1s step-end 2;
+/* For performant text colour inversion when block cursor is over characters */
+.cm-cursorLayer {
+  mix-blend-mode: difference;
 }
 
 /* Ensure the vim cursor (fat cursor) is visible and flashes like a block */
 .cm-editor .cm-fat-cursor {
-  outline: none !important;
-  background-color: var(--color-tokyo-night-pink) !important;
   transition:
     left 0.08s ease-out,
     top 0.08s ease-out,
     transform 0.08s ease-out;
-  animation: vim-blink 1s step-end infinite;
 }
-
 /* Also style the standard cursor for consistency, though vim uses fat cursor */
 .cm-editor .cm-cursor {
   border-left: 2px solid var(--color-tokyo-night-pink) !important;
@@ -109,3 +96,6 @@
     top 0.08s ease-out,
     transform 0.08s ease-out;
 }
+/* -------------------------------- */
+/* End CodeMirror overrides */
+/* -------------------------------- */
