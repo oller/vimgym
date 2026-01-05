@@ -63,4 +63,12 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
   // Check that the best score is also 6
   const bestScore = screen.getByLabelText("best score");
   expect(bestScore?.textContent).toContain(`Best: ${solution.length}`);
+
+  // Type extra characters after completion
+  await act(async () => {
+    await userEvent.keyboard("jjkk");
+  });
+
+  // Verify count is STILL 6 (should not increase)
+  expect(keystrokeCount?.textContent).toContain(`${solution.length}`);
 });

@@ -58,6 +58,8 @@ export const VimEditor = () => {
 
     // Listen for ALL keypresses (including insert mode typing)
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (isCompletedRef.current) return;
+
       // Skip modifier keys
       if (
         ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(
