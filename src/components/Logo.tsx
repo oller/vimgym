@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 const TYPING_SPEED_MS = 60;
 
 export const Logo = () => {
-  const text = "VimGym";
+  const LOGO_TEXT = "VimGym";
   const [displayedText, setDisplayedText] = useState("");
   const [isTyping, setIsTyping] = useState(true);
   const [isBlinking, setIsBlinking] = useState(false);
@@ -14,8 +14,8 @@ export const Logo = () => {
   useEffect(() => {
     let currentIndex = 0;
     const interval = setInterval(() => {
-      if (currentIndex <= text.length) {
-        setDisplayedText(text.slice(0, currentIndex));
+      if (currentIndex <= LOGO_TEXT.length) {
+        setDisplayedText(LOGO_TEXT.slice(0, currentIndex));
         currentIndex++;
       } else {
         clearInterval(interval);
@@ -31,7 +31,7 @@ export const Logo = () => {
   // Determine which character should show the cursor
   const getActiveCursor = (i: number) => {
     if (isTyping && i === displayedText.length) return "caret";
-    if (isBlinking && i === text.length - 1) return "block";
+    if (isBlinking && i === LOGO_TEXT.length - 1) return "block";
     if (!isTyping && !isBlinking && cursorIndex === i) return "block";
     return null;
   };
@@ -45,7 +45,7 @@ export const Logo = () => {
     >
       <div className="relative flex">
         {/* Layer 1: Cursors + invisible placeholders for sizing/events */}
-        {text.split("").map((char, i) => {
+        {LOGO_TEXT.split("").map((char, i) => {
           const cursor = getActiveCursor(i);
           return (
             // biome-ignore lint/a11y/noStaticElementInteractions: Presentational only
@@ -86,7 +86,7 @@ export const Logo = () => {
 
         {/* Layer 2: Visible text overlay - blends with all cursors below */}
         <div className="absolute inset-0 flex pointer-events-none">
-          {text.split("").map((char, i) => (
+          {LOGO_TEXT.split("").map((char, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
             <span className="px-px text-gray-400 mix-blend-difference" key={i}>
               {i < displayedText.length ? char : "\u00A0"}

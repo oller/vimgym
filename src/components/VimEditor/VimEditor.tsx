@@ -128,7 +128,7 @@ export const VimEditor = () => {
   return (
     <div
       className={cn(
-        "border text-xl md:text-3xl grow rounded-md font-roboto-mono overflow-hidden bg-tokyo-night-storm transition-colors flex flex-col",
+        "border text-xl md:text-3xl leading-8 md:leading-11 grow rounded-md font-roboto-mono overflow-hidden bg-tokyo-night-storm transition-colors flex flex-col",
         isCompleted ? "border-green-500" : "border-gray-800",
       )}
       data-testid="vim-editor"
@@ -137,7 +137,7 @@ export const VimEditor = () => {
         <div>
           <div
             className={cn(
-              "pl-1.5 leading-11 mb-2 whitespace-pre-wrap",
+              "pl-1.5 mb-2 whitespace-pre-wrap",
               isCompleted ? "text-green-500" : "text-gray-600",
             )}
           >

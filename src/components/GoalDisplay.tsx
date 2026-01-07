@@ -39,7 +39,7 @@ export const GoalDisplay = () => {
             </output>
           )}
           <button
-            className="cursor-pointer text-sm bg-tokyo-night-storm/80 hover:bg-tokyo-night-storm text-white px-4 py-2 rounded transition-colors"
+            className="cursor-pointer text-sm bg-tokyo-night-storm/60 hover:bg-tokyo-night-storm text-white px-4 py-2 rounded transition-colors"
             onClick={resetLevel}
             title={isCompleted ? "Retry Level" : "Reset Level"}
             type="button"
