@@ -48,7 +48,7 @@ export const MotionLogItem = ({ command }: MotionItemProps) => {
       layout
     >
       <motion.kbd
-        className="px-1.5 py-0.5 bg-slate-800/80 rounded text-yellow-500 min-w-[20px] text-center"
+        className="px-1.5 py-0.5 bg-slate-800/80 rounded text-yellow-500 min-w-5 text-center"
         layout
       >
         {formatKeyForDisplay(command.matched)}

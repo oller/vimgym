@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 
 import { GoalDisplay } from "./components/GoalDisplay";
-import { LevelSelector } from "./components/LevelSelector";
+import { LevelSelector } from "./components/LevelSelector/LevelSelector";
 import { Logo } from "./components/Logo";
 import { AboutModal } from "./components/Modals/AboutModal";
 import { CompletionModal } from "./components/Modals/CompletionModal";
