@@ -12,6 +12,7 @@ This file contains coding conventions and workflows for AI agents working on the
 
 ### Linting and formatting commands
 
+- `pnpm tsc` - Run typescript type checking
 - `pnpm lint` - Run Biome linter to check for issues
 - `pnpm lint:fix` - Automatically fix linting issues
 - `pnpm format` - Format code with Biome
@@ -56,6 +57,7 @@ This file contains coding conventions and workflows for AI agents working on the
 ### Package Management
 
 - Use `pnpm` as the package manager when adding or removing dependencies
+- Use `pnpm` as the package manager for all scripts (e.g., `pnpm dev`, `pnpm test`)
 
 ### Component Structure
 

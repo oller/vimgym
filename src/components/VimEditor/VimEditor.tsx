@@ -4,7 +4,7 @@ import { getCM, vim } from "@replit/codemirror-vim";
 import { useNavigate } from "@tanstack/react-router";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
@@ -120,10 +120,13 @@ export const VimEditor = () => {
   }, [navigate]);
 
   // Make editor read-only when completed
-  const extensions = [
-    vim(), // vim bindings
-    ...(isCompleted ? [EditorState.readOnly.of(true)] : []),
-  ];
+  const extensions = useMemo(
+    () => [
+      vim(), // vim bindings
+      ...(isCompleted ? [EditorState.readOnly.of(true)] : []),
+    ],
+    [isCompleted],
+  );
 
   return (
     <div

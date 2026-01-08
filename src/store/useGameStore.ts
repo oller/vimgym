@@ -74,11 +74,15 @@ export const useGameStore = create<GameState>()(
           const previousBest = highScores[currentLevel];
 
           // Record level completion with vexo
-          // @ts-expect-error - vexo is a global injected by Vexo platform
-          window?.vexo?.customEvent("levelComplete", {
-            level: currentLevel,
-            score: currentScore,
-          });
+          try {
+            // @ts-expect-error - vexo is a global injected by Vexo platform
+            window?.vexo?.customEvent?.("levelComplete", {
+              level: currentLevel,
+              score: currentScore,
+            });
+          } catch {
+            // Silently ignore if vexo is not available or fails
+          }
 
           if (previousBest === undefined || currentScore < previousBest) {
             set({

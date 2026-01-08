@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/complexity/noImportantStyles: We're wrestling with codemirror styles */
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400...700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap");
 @import "tailwindcss";
 @plugin "tailwind-scrollbar";
 
@@ -90,7 +90,7 @@
 }
 /* Also style the standard cursor for consistency, though vim uses fat cursor */
 .cm-editor .cm-cursor {
-  border-left: 2px solid var(--color-tokyo-night-pink) !important;
+  border-left: 2px solid var(--color-tokyo-night-pink);
   transition:
     left 0.08s ease-out,
     top 0.08s ease-out,

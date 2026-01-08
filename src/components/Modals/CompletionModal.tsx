@@ -84,7 +84,7 @@ export const CompletionModal = ({
             </p>
           </div>
         ) : (
-          <div className="text-yellow-400 font-medium">
+          <div className="text-yellow-400 font-normal">
             🎉 All levels completed!
           </div>
         )}
