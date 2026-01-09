@@ -99,7 +99,7 @@ export const VimEditor = () => {
         );
       };
     },
-    [isCompleted, addKeyStrokeCallback],
+    [addKeyStrokeCallback],
   );
 
   // Global keydown listener to intercept Enter when completed
