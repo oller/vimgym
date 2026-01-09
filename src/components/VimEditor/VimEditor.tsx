@@ -22,15 +22,7 @@ export const VimEditor = () => {
   } = useGameStore();
   const navigate = useNavigate({ from: "/" });
   const [vimMode, setVimMode] = useState("normal");
-  const isCompletedRef = useRef(isCompleted);
-  const currentLevelRef = useRef(currentLevel);
   const editorViewRef = useRef<EditorView | null>(null);
-
-  // Keep refs in sync with latest values
-  useEffect(() => {
-    isCompletedRef.current = isCompleted;
-    currentLevelRef.current = currentLevel;
-  }, [isCompleted, currentLevel]);
 
   const onChange = useCallback(
     (val: string) => {
@@ -39,76 +31,86 @@ export const VimEditor = () => {
     [updateText],
   );
 
-  const addKeyStrokeRef = useRef(addKeyStroke);
-  useEffect(() => {
-    addKeyStrokeRef.current = addKeyStroke;
-  }, [addKeyStroke]);
+  const addKeyStrokeCallback = useCallback(
+    (key: string) => addKeyStroke(key),
+    [addKeyStroke],
+  );
 
-  const onCreateEditor = useCallback((editorView: EditorView) => {
-    editorViewRef.current = editorView;
-    const cm = getCM(editorView);
-    if (!cm) return;
+  const onCreateEditor = useCallback(
+    (editorView: EditorView) => {
+      editorViewRef.current = editorView;
+      const cm = getCM(editorView);
+      if (!cm) return;
 
-    // editorView.contentAttributes.of({ "aria-label": "Vim editor" });
+      // editorView.contentAttributes.of({ "aria-label": "Vim editor" });
 
-    // Listen for mode changes
-    cm.on("vim-mode-change", (e: { mode: string }) => {
-      setVimMode(e.mode);
-    });
+      // Listen for mode changes
+      cm.on("vim-mode-change", (e: { mode: string }) => {
+        setVimMode(e.mode);
+      });
 
-    // Listen for ALL keypresses (including insert mode typing)
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (isCompletedRef.current) return;
+      // Handle keydown events in editor
+      const handleEditorKeyDown = (event: KeyboardEvent) => {
+        // Get current completion state from store
+        const currentIsCompleted = useGameStore.getState().isCompleted;
+        if (currentIsCompleted) return;
 
-      // Skip modifier keys
-      if (
-        ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(
-          event.key,
-        )
-      ) {
-        return;
-      }
-
-      // Log the key with special key normalization
-      let key = event.key;
-
-      // Check for modifier combinations first
-      if (event.ctrlKey) {
-        const modifierKey = `ctrl+${key.toLowerCase()}`;
-        if (modifierKey in MODIFIER_KEY_MAP) {
-          key = MODIFIER_KEY_MAP[modifierKey as keyof typeof MODIFIER_KEY_MAP];
+        // Skip modifier keys
+        if (
+          ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(
+            event.key,
+          )
+        ) {
+          return;
         }
-      }
-      // Then check for standalone special keys (only if not already handled by modifier)
-      else if (key === "Escape") key = SPECIAL_KEYS.ESCAPE;
-      else if (key === "Enter") key = SPECIAL_KEYS.ENTER;
-      else if (key === "Backspace") key = SPECIAL_KEYS.BACKSPACE;
-      else if (key === "ArrowUp") key = SPECIAL_KEYS.ARROW_UP;
-      else if (key === "ArrowDown") key = SPECIAL_KEYS.ARROW_DOWN;
-      else if (key === "ArrowLeft") key = SPECIAL_KEYS.ARROW_LEFT;
-      else if (key === "ArrowRight") key = SPECIAL_KEYS.ARROW_RIGHT;
 
-      addKeyStrokeRef.current(key);
-    };
+        // Log the key with special key normalization
+        let key = event.key;
 
-    // Use capture phase to ensure we get keys before CodeMirror consumes them
-    editorView.dom.addEventListener("keydown", handleKeyDown, true);
+        // Check for modifier combinations first
+        if (event.ctrlKey) {
+          const modifierKey = `ctrl+${key.toLowerCase()}`;
+          if (modifierKey in MODIFIER_KEY_MAP) {
+            key =
+              MODIFIER_KEY_MAP[modifierKey as keyof typeof MODIFIER_KEY_MAP];
+          }
+        }
+        // Then check for standalone special keys (only if not already handled by modifier)
+        else if (key === "Escape") key = SPECIAL_KEYS.ESCAPE;
+        else if (key === "Enter") key = SPECIAL_KEYS.ENTER;
+        else if (key === "Backspace") key = SPECIAL_KEYS.BACKSPACE;
+        else if (key === "ArrowUp") key = SPECIAL_KEYS.ARROW_UP;
+        else if (key === "ArrowDown") key = SPECIAL_KEYS.ARROW_DOWN;
+        else if (key === "ArrowLeft") key = SPECIAL_KEYS.ARROW_LEFT;
+        else if (key === "ArrowRight") key = SPECIAL_KEYS.ARROW_RIGHT;
 
-    // Cleanup on unmount
-    return () => {
-      editorView.dom.removeEventListener("keydown", handleKeyDown, true);
-    };
-  }, []);
+        addKeyStrokeCallback(key);
+      };
+
+      // Use capture phase to ensure we get keys before CodeMirror consumes them
+      editorView.dom.addEventListener("keydown", handleEditorKeyDown, true);
+
+      // Cleanup on unmount
+      return () => {
+        editorView.dom.removeEventListener(
+          "keydown",
+          handleEditorKeyDown,
+          true,
+        );
+      };
+    },
+    [isCompleted, addKeyStrokeCallback],
+  );
 
   // Global keydown listener to intercept Enter when completed
   useEffect(() => {
     const handleGlobalKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter" && isCompletedRef.current) {
+      if (event.key === "Enter" && isCompleted) {
         event.preventDefault();
         event.stopPropagation();
 
         // Navigate to next level
-        navigate({ search: { levelId: currentLevelRef.current + 1 } });
+        navigate({ search: { levelId: currentLevel + 1 } });
       }
     };
 
@@ -117,7 +119,7 @@ export const VimEditor = () => {
     return () => {
       document.removeEventListener("keydown", handleGlobalKeyDown, true);
     };
-  }, [navigate]);
+  }, [navigate, isCompleted, currentLevel]);
 
   // Make editor read-only when completed
   const extensions = useMemo(
