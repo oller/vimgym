@@ -68,8 +68,8 @@
 /* -------------------------------- */
 /* Override to allow tailwind setting of font-family as parent className */
 .cm-editor .cm-scroller {
-  font-family: inherit;
   overflow-x: hidden;
+  font-family: inherit;
 }
 
 /* Remove outline appearing around editor when focused */
