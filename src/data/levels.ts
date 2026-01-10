@@ -42,39 +42,6 @@ export const LEVELS = [
   },
   {
     id: 5,
-    name: "Clean Up List",
-    startText: "- Apples\n- Bananas\n- Oranges\n- Grapes\n- Mangoes",
-    targetText: "Apples, Bananas, Oranges, Grapes, Mangoes",
-    description: "Convert the list into a comma-separated line",
-    perfectScore: 8,
-  },
-  {
-    id: 6,
-    name: "Comment Block",
-    startText: "const a = 1;\nconst b = 2;\nconst c = 3;\nconst d = 4;",
-    targetText:
-      "// const a = 1;\n// const b = 2;\n// const c = 3;\n// const d = 4;",
-    description: "Comment out all lines using Visual Block mode",
-    perfectScore: 10,
-  },
-  {
-    id: 7,
-    name: "JSONify",
-    startText: "name: John\nage: 30\ncity: New York",
-    targetText: '"name": "John",\n"age": "30",\n"city": "New York",',
-    description: "Convert yaml-like key-values to JSON format",
-    perfectScore: 18,
-  },
-  {
-    id: 8,
-    name: "Snake to Camel",
-    startText: 'const user_first_name = "John";\nconst user_last_name = "Doe";',
-    targetText: 'const userFirstName = "John";\nconst userLastName = "Doe";',
-    description: "Convert snake_case variables to camelCase",
-    perfectScore: 12,
-  },
-  {
-    id: 9,
     name: "Quote Wrapping",
     startText: 'const greeting = "Hello World"; const name = "John";',
     targetText: 'const greeting = "Hi"; const name = "Jane";',
@@ -82,7 +49,7 @@ export const LEVELS = [
     perfectScore: 12,
   },
   {
-    id: 10,
+    id: 6,
     name: "Function Parameters",
     startText: "function greet(name, age, city) { return name; }",
     targetText: "function greet(x, y, z) { return x; }",
@@ -90,7 +57,7 @@ export const LEVELS = [
     perfectScore: 12,
   },
   {
-    id: 11,
+    id: 7,
     name: "Tag Switcheroo",
     startText: "<div>Hello</div>",
     targetText: "<article>Hello</article>",
@@ -99,7 +66,7 @@ export const LEVELS = [
     perfectScore: 11, // citarticleEsc // UNSURE - cit should change inside tags not surrounding
   },
   {
-    id: 12,
+    id: 8,
     name: "Argument Swap",
     startText: 'display(data, "Result")',
     targetText: 'display("Result", data)',
@@ -107,7 +74,7 @@ export const LEVELS = [
     perfectScore: 12, // fddt,2xea, Escp // UNSURE
   },
   {
-    id: 13,
+    id: 9,
     name: "Typos Galore",
     startText: "const valeu = 1;",
     targetText: "const value = 1;",
@@ -115,7 +82,7 @@ export const LEVELS = [
     perfectScore: 4, // fexp
   },
   {
-    id: 14,
+    id: 10,
     name: "Snake to Kebab",
     startText: 'class="menu_item_active"',
     targetText: 'class="menu-item-active"',
@@ -123,7 +90,7 @@ export const LEVELS = [
     perfectScore: 6, // f_r-;.
   },
   {
-    id: 15,
+    id: 11,
     name: "Unwrap Block",
     startText: "if (isValid) { save(); }",
     targetText: "save();",
@@ -131,7 +98,7 @@ export const LEVELS = [
     perfectScore: 5, // di{Vp
   },
   {
-    id: 16,
+    id: 12,
     name: "Semicolon Appender",
     startText: "const a = 1\nconst b = 2\nconst c = 3",
     targetText: "const a = 1;\nconst b = 2;\nconst c = 3;",
@@ -139,7 +106,7 @@ export const LEVELS = [
     perfectScore: 7, // A;Escj.j.
   },
   {
-    id: 17,
+    id: 13,
     name: "Markdown Header",
     startText: "Title\nSubtitle\nSection",
     targetText: "## Title\n## Subtitle\n## Section",
@@ -147,7 +114,7 @@ export const LEVELS = [
     perfectScore: 9, // I## Escj.j.
   },
   {
-    id: 18,
+    id: 14,
     name: "Object Property",
     startText: 'const color = "red"',
     targetText: 'const color = { value: "red" }',
@@ -155,12 +122,45 @@ export const LEVELS = [
     perfectScore: 16, // f"i{ value: Escea }Esc
   },
   {
-    id: 19,
+    id: 15,
     name: "Inner HTML Clear",
     startText: '<div id="app"><span>Loading...</span></div>',
     targetText: '<div id="app"></div>',
     description: "Clear the inner HTML of the div",
-    perfectScore: 3, // dit
+    perfectScore: 3, // dit - if text object works
+  },
+  {
+    id: 16,
+    name: "Clean Up List",
+    startText: "- Apples\n- Bananas\n- Oranges\n- Grapes\n- Mangoes",
+    targetText: "Apples, Bananas, Oranges, Grapes, Mangoes",
+    description: "Convert the list into a comma-separated line",
+    perfectScore: 8,
+  },
+  {
+    id: 17,
+    name: "Comment Block",
+    startText: "const a = 1;\nconst b = 2;\nconst c = 3;\nconst d = 4;",
+    targetText:
+      "// const a = 1;\n// const b = 2;\n// const c = 3;\n// const d = 4;",
+    description: "Comment out all lines using Visual Block mode",
+    perfectScore: 10,
+  },
+  {
+    id: 18,
+    name: "JSONify",
+    startText: "name: John\nage: 30\ncity: New York",
+    targetText: '"name": "John",\n"age": "30",\n"city": "New York",',
+    description: "Convert yaml-like key-values to JSON format",
+    perfectScore: 18,
+  },
+  {
+    id: 19,
+    name: "Snake to Camel",
+    startText: 'const user_first_name = "John";\nconst user_last_name = "Doe";',
+    targetText: 'const userFirstName = "John";\nconst userLastName = "Doe";',
+    description: "Convert snake_case variables to camelCase",
+    perfectScore: 12,
   },
 ] as const satisfies Level[];
 
