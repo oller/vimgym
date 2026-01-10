@@ -23,3 +23,18 @@ beforeEach(() => {
     return range;
   };
 });
+
+// Suppress "act" warnings
+const originalConsoleError = console.error;
+console.error = (...args) => {
+  if (
+    typeof args[0] === "string" &&
+    (args[0].includes("inside a test was not wrapped in act(...)") ||
+      args[0].includes(
+        "The current testing environment is not configured to support act(...)",
+      ))
+  ) {
+    return;
+  }
+  originalConsoleError(...args);
+};
