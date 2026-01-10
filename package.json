@@ -9,7 +9,6 @@
     "preview": "vite preview",
     "lint": "biome check .",
     "lint:fix": "biome check . --fix",
-    "format": "biome format . --write",
     "test": "vitest",
     "test:browser": "vitest --config vitest.browser.config.ts"
   },

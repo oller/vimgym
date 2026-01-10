@@ -14,8 +14,7 @@ This file contains coding conventions and workflows for AI agents working on the
 
 - `pnpm tsc` - Run typescript type checking
 - `pnpm lint` - Run Biome linter to check for issues
-- `pnpm lint:fix` - Automatically fix linting issues
-- `pnpm format` - Format code with Biome
+- `pnpm lint:fix` - Automatically fix all linting and formatting issues
 
 ### Testing commands
 
