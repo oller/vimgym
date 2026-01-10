@@ -26,7 +26,7 @@ export const GoalDisplay = () => {
               aria-label="best score"
               className="text-sm text-yellow-500 font-roboto-mono"
             >
-              Best: {bestScore} keys
+              Your best: {bestScore} keys
               {typeof perfectScore === "number" &&
                 bestScore <= perfectScore && (
                   <span
@@ -39,12 +39,12 @@ export const GoalDisplay = () => {
             </output>
           )}
           <button
-            className="cursor-pointer text-sm bg-tokyo-night-storm/60 hover:bg-tokyo-night-storm text-white px-4 py-2 rounded transition-colors"
+            className="cursor-pointer text-xs bg-tokyo-night-storm hover:bg-slate-700/60 text-white px-4 py-2 transition-colors font-roboto-mono uppercase"
             onClick={resetLevel}
             title={isCompleted ? "Retry Level" : "Reset Level"}
             type="button"
           >
-            {isCompleted ? "Retry" : "Reset"}
+            {isCompleted ? "Retry" : "Reset"} Level
           </button>
         </div>
       </div>

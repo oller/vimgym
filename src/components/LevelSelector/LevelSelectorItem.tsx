@@ -16,7 +16,7 @@ const styleVariants = {
   perfect: ["bg-gold-gradient", "text-slate-800", "animate-shimmer"],
   completed: ["bg-green-600", "text-gray-200"],
   current: ["bg-tokyo-night-storm", "text-white"],
-  unplayed: ["text-gray-400", "hover:bg-tokyo-night-storm/30"],
+  unplayed: ["text-gray-400", "hover:bg-tokyo-night-storm"],
 } as const;
 
 const getVariant = (

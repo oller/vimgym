@@ -42,7 +42,7 @@ export const LevelSelector = () => {
           }}
           type="button"
         >
-          Reset all progress
+          Reset all scores
         </button>
       </div>
     </div>
