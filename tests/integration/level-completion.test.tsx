@@ -12,23 +12,14 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
   // 3. The user interactions are already properly wrapped in act()
   //
   // Mount the app
-  const { container } = render(<App />);
+  render(<App />);
 
-  // Wait for the editor to be present
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  const editor = container.querySelector(".cm-content");
-  expect(editor).toBeTruthy();
-
-  if (!editor) throw new Error("Editor container not found");
+  const editor = await screen.findByRole("textbox", {}, { timeout: 3000 });
 
   // Focus the editor by clicking on it
   await act(async () => {
     await userEvent.click(editor);
   });
-
-  // Wait a bit after focus
-  await new Promise((resolve) => setTimeout(resolve, 200));
 
   const solution = "fsldt.";
 
@@ -39,21 +30,13 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
   });
 
   // Wait for the completion message to appear in the DOM
-  await waitFor(
-    () => {
-      expect(
-        screen.getByRole("heading", { level: 2, name: "Level Complete!" }),
-      ).toBeInTheDocument();
-    },
+  const completeMessage = await waitFor(
+    () => screen.getByRole("heading", { level: 2, name: "Level Complete!" }),
     { timeout: 3000 },
   );
 
   // Check that the level is marked as complete
-  const completeMessage = screen.getByRole("heading", {
-    level: 2,
-    name: "Level Complete!",
-  });
-  expect(completeMessage).toBeInTheDocument();
+  expect(document.contains(completeMessage)).toBe(true);
 
   // Check that the keystroke count is 6
   const keystrokeCount = screen.getByLabelText("keystrokes");
