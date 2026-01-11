@@ -9,8 +9,7 @@
     "preview": "vite preview",
     "lint": "biome check .",
     "lint:fix": "biome check . --fix",
-    "test": "vitest",
-    "test:browser": "vitest --config vitest.browser.config.ts"
+    "test": "vitest"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.4",

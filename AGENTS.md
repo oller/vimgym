@@ -20,7 +20,7 @@ This file contains coding conventions and workflows for AI agents working on the
 
 - `pnpm test` - Run all Vitest tests in jsdom environment
 - `pnpm test:browser` - Run tests in browser environment
-- **Run single test:** `vitest <path-to-test-file>` (e.g., `vitest src/components/VimEditor.test.tsx`)
+- **Run single test:** `pnpm test <path-to-test-file>` (e.g., `pnpm test src/components/VimEditor.test.tsx`)
 
 ## Code Style Guidelines
 
