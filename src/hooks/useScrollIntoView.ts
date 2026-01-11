@@ -11,11 +11,16 @@ export const useScrollIntoView = <T extends HTMLElement>(
   const ref = useRef<T>(null);
 
   useEffect(() => {
-    // We want to trigger this effect when `trigger` changes,
-    // even if we don't use the value directly.
     void trigger;
-    if (ref.current && typeof ref.current.scrollIntoView === "function") {
-      ref.current.scrollIntoView(options);
+    if (ref.current) {
+      const rafId = requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (ref.current && typeof ref.current.scrollIntoView === "function") {
+            ref.current.scrollIntoView(options);
+          }
+        });
+      });
+      return () => cancelAnimationFrame(rafId);
     }
   }, [trigger, options]);
 

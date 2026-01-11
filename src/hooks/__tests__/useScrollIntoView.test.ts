@@ -3,11 +3,31 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useScrollIntoView } from "../useScrollIntoView";
 
 const mockScrollIntoView = vi.fn();
+let rafCallbacks: (() => void)[] = [];
 
 beforeEach(() => {
   vi.clearAllMocks();
+  rafCallbacks = [];
+  vi.stubGlobal("requestAnimationFrame", (cb: () => void) => {
+    rafCallbacks.push(cb);
+    return rafCallbacks.length - 1;
+  });
+  vi.stubGlobal("cancelAnimationFrame", (id: number) => {
+    rafCallbacks[id] = () => {};
+  });
   window.HTMLElement.prototype.scrollIntoView = mockScrollIntoView;
 });
+
+const flushRAF = async () => {
+  rafCallbacks.forEach((cb) => {
+    cb();
+  });
+  rafCallbacks.forEach((cb) => {
+    cb();
+  });
+  rafCallbacks = [];
+  await new Promise((resolve) => setTimeout(resolve, 0));
+};
 
 describe("useScrollIntoView", () => {
   it("returns a ref", () => {
@@ -28,6 +48,7 @@ describe("useScrollIntoView", () => {
     result.current.current = div;
 
     rerender({ trigger: 1 });
+    await flushRAF();
 
     expect(mockScrollIntoView).toHaveBeenCalledExactlyOnceWith({
       behavior: "smooth",
@@ -70,6 +91,7 @@ describe("useScrollIntoView", () => {
       trigger: 1,
       options: { behavior: "auto", block: "start", inline: "center" } as const,
     });
+    await flushRAF();
 
     expect(mockScrollIntoView).toHaveBeenCalledExactlyOnceWith({
       behavior: "auto",
@@ -90,8 +112,13 @@ describe("useScrollIntoView", () => {
     result.current.current = div;
 
     rerender({ trigger: 1 });
+    await flushRAF();
+
     rerender({ trigger: 2 });
+    await flushRAF();
+
     rerender({ trigger: 3 });
+    await flushRAF();
 
     expect(mockScrollIntoView).toHaveBeenCalledTimes(3);
   });
