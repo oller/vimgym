@@ -2,9 +2,9 @@ import { useNavigate, useSearch } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 
-import { GoalDisplay } from "./components/GoalDisplay";
+import { GoalDisplay } from "./components/GoalDisplay/GoalDisplay";
 import { LevelSelector } from "./components/LevelSelector/LevelSelector";
-import { Logo } from "./components/Logo";
+import { Logo } from "./components/Logo/Logo";
 import { AboutModal } from "./components/Modals/AboutModal";
 import { CompletionModal } from "./components/Modals/CompletionModal";
 import { MotionLog } from "./components/MotionLog/MotionLog";

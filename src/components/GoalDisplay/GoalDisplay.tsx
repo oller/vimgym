@@ -1,5 +1,5 @@
-import { getLevel, LEVELS } from "../data/levels";
-import { useGameStore } from "../store/useGameStore";
+import { getLevel, LEVELS } from "../../data/levels";
+import { useGameStore } from "../../store/useGameStore";
 
 export const GoalDisplay = () => {
   const { isCompleted, resetLevel, currentLevel, highScores } = useGameStore();
