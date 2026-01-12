@@ -14,12 +14,11 @@ This file contains coding conventions and workflows for AI agents working on the
 
 - `pnpm tsc` - Run typescript type checking
 - `pnpm lint` - Run Biome linter to check for issues
-- `pnpm lint:fix` - Automatically fix all linting and formatting issues
+- `pnpm lint:fix` - Automatically fix fixable linting and formatting issues
 
 ### Testing commands
 
 - `pnpm test` - Run all Vitest tests in jsdom environment
-- `pnpm test:browser` - Run tests in browser environment
 - **Run single test:** `pnpm test <path-to-test-file>` (e.g., `pnpm test src/components/VimEditor.test.tsx`)
 
 ## Code Style Guidelines
@@ -28,7 +27,7 @@ This file contains coding conventions and workflows for AI agents working on the
 
 - **Indentation:** 2 spaces
 - **Quotes:** Double quotes for all JavaScript/TypeScript
-- **Import organization:** Auto-organized by Biome (run `pnpm format` before committing)
+- **Import organization:** Auto-organized by Biome (run `pnpm lint:fix` before committing)
 - **No trailing whitespace** (auto-removed by Biome)
 
 ### TypeScript
