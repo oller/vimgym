@@ -43,15 +43,8 @@ export const VimEditor = () => {
       const cm = getCM(editorView);
       if (!cm) return;
 
-      // Define ex commands for easter egg
-      Vim.defineEx("q", "", () => {
-        setPoweredOff(true);
-      });
-      Vim.defineEx("wq", "", () => {
-        setPoweredOff(true);
-      });
-      Vim.defineEx("qa", "", () => {
-        setPoweredOff(true);
+      ["q", "wq", "qa"].forEach((cmd) => {
+        Vim.defineEx(cmd, "", () => setPoweredOff(true));
       });
 
       // editorView.contentAttributes.of({ "aria-label": "Vim editor" });
