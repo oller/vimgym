@@ -69,6 +69,7 @@
 /* Override to allow tailwind setting of font-family as parent className */
 .cm-editor .cm-scroller {
   overflow-x: hidden;
+  overflow-y: hidden;
   font-family: inherit;
 }
 

@@ -11,6 +11,7 @@ interface GameState {
   isCompleted: boolean;
   resetCount: number;
   highScores: Partial<Record<number, number>>; // Level -> Min Keystrokes
+  isPoweredOff: boolean;
 
   // Actions
   setLevel: (level: number) => void;
@@ -20,6 +21,7 @@ interface GameState {
   nextLevel: () => void;
   checkAndUpdateHighScore: () => void;
   clearScores: () => void;
+  setPoweredOff: (isPoweredOff: boolean) => void; // Added setPoweredOff action
 }
 
 const level1 = LEVELS[0];
@@ -35,6 +37,7 @@ export const useGameStore = create<GameState>()(
       isCompleted: false,
       resetCount: 0,
       highScores: {},
+      isPoweredOff: false, // Initial state for isPoweredOff
 
       setLevel: (levelId) => {
         const level = getLevel(levelId);
@@ -122,6 +125,8 @@ export const useGameStore = create<GameState>()(
       clearScores: () => {
         set({ highScores: {} });
       },
+
+      setPoweredOff: (isPoweredOff) => set({ isPoweredOff }),
     }),
     {
       name: "vimgym-storage",

@@ -1,6 +1,6 @@
 import { EditorState } from "@codemirror/state";
 import type { EditorView } from "@codemirror/view";
-import { getCM, vim } from "@replit/codemirror-vim";
+import { getCM, Vim, vim } from "@replit/codemirror-vim";
 import { useNavigate } from "@tanstack/react-router";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
@@ -19,6 +19,7 @@ export const VimEditor = () => {
     updateText,
     addKeyStroke,
     isCompleted,
+    setPoweredOff,
   } = useGameStore();
   const navigate = useNavigate({ from: "/" });
   const [vimMode, setVimMode] = useState("normal");
@@ -41,6 +42,17 @@ export const VimEditor = () => {
       editorViewRef.current = editorView;
       const cm = getCM(editorView);
       if (!cm) return;
+
+      // Define ex commands for easter egg
+      Vim.defineEx("q", "", () => {
+        setPoweredOff(true);
+      });
+      Vim.defineEx("wq", "", () => {
+        setPoweredOff(true);
+      });
+      Vim.defineEx("qa", "", () => {
+        setPoweredOff(true);
+      });
 
       // editorView.contentAttributes.of({ "aria-label": "Vim editor" });
 
@@ -99,7 +111,7 @@ export const VimEditor = () => {
         );
       };
     },
-    [addKeyStrokeCallback],
+    [addKeyStrokeCallback, setPoweredOff],
   );
 
   // Global keydown listener to intercept Enter when completed
