@@ -56,7 +56,6 @@ export const CrtEffect = ({
               }
         }
         className="w-full h-full bg-tokyo-night"
-        initial={false}
         onAnimationComplete={handleAnimationComplete}
         transition={{
           duration: isPoweredOff ? 0.6 : 0.6,
