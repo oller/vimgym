@@ -1,12 +1,11 @@
 import { AnimatePresence, motion } from "motion/react";
-import { type ReactNode, useEffect, useRef } from "react";
+import { type PropsWithChildren, useEffect, useRef } from "react";
 import { useGameStore } from "../store/useGameStore";
 
-interface CrtEffectProps {
-  children: ReactNode;
-  onPowerOnComplete?: () => void;
-  onPowerOffStart?: () => void;
-}
+type CrtEffectProps = PropsWithChildren<{
+  onPowerOnComplete: () => void;
+  onPowerOffStart: () => void;
+}>;
 
 export const CrtEffect = ({
   children,
@@ -21,7 +20,7 @@ export const CrtEffect = ({
   // Detect when isPoweredOff changes from false to true (power off starts)
   useEffect(() => {
     if (isPoweredOff && !wasPoweredOff.current) {
-      onPowerOffStart?.();
+      onPowerOffStart();
     }
     wasPoweredOff.current = isPoweredOff;
   }, [isPoweredOff, onPowerOffStart]);
@@ -34,7 +33,7 @@ export const CrtEffect = ({
       }, 100);
     } else {
       // Logic for when turning ON completes
-      onPowerOnComplete?.();
+      onPowerOnComplete();
     }
   };
 
