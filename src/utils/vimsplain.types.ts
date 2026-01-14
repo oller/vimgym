@@ -3,9 +3,6 @@
  * Types for the Vim command explanation system.
  */
 
-/** Represents a Vim mode */
-export type VimMode = "normal" | "insert" | "visual";
-
 /** A single explained command from a sequence */
 export type ExplainedCommand = {
   /** The matched key sequence */

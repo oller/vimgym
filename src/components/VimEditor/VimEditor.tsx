@@ -47,8 +47,6 @@ export const VimEditor = () => {
         Vim.defineEx(cmd, "", () => setPoweredOff(true));
       });
 
-      // editorView.contentAttributes.of({ "aria-label": "Vim editor" });
-
       // Listen for mode changes
       cm.on("vim-mode-change", (e: { mode: string }) => {
         setVimMode(e.mode);
