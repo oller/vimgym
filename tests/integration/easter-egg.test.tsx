@@ -1,5 +1,5 @@
-import { act, cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { CrtEffect } from "../../src/components/CrtEffect";
 import { useGameStore } from "../../src/store/useGameStore";
 
@@ -12,9 +12,14 @@ describe("CRT Easter Egg", () => {
   describe("CrtEffect Component", () => {
     it("should render 'SIGNAL LOST' and 'Reconnect' button when powered off", () => {
       useGameStore.setState({ isPoweredOff: true });
+      const onPowerOnComplete = vi.fn();
+      const onPowerOffStart = vi.fn();
 
       render(
-        <CrtEffect>
+        <CrtEffect
+          onPowerOffStart={onPowerOffStart}
+          onPowerOnComplete={onPowerOnComplete}
+        >
           <div>App Content</div>
         </CrtEffect>,
       );
@@ -25,9 +30,14 @@ describe("CRT Easter Egg", () => {
 
     it("should set isPoweredOff to false when Reconnect button is clicked", () => {
       useGameStore.setState({ isPoweredOff: true });
+      const onPowerOnComplete = vi.fn();
+      const onPowerOffStart = vi.fn();
 
       render(
-        <CrtEffect>
+        <CrtEffect
+          onPowerOffStart={onPowerOffStart}
+          onPowerOnComplete={onPowerOnComplete}
+        >
           <div>App Content</div>
         </CrtEffect>,
       );
@@ -43,14 +53,68 @@ describe("CRT Easter Egg", () => {
 
     it("should render children when not powered off", () => {
       useGameStore.setState({ isPoweredOff: false });
+      const onPowerOnComplete = vi.fn();
+      const onPowerOffStart = vi.fn();
 
       render(
-        <CrtEffect>
+        <CrtEffect
+          onPowerOffStart={onPowerOffStart}
+          onPowerOnComplete={onPowerOnComplete}
+        >
           <div data-testid="child-content">App Content</div>
         </CrtEffect>,
       );
 
       expect(screen.getByTestId("child-content")).toBeInTheDocument();
+    });
+
+    it("should call onPowerOffStart when isPoweredOff changes to true", async () => {
+      useGameStore.setState({ isPoweredOff: false });
+      const onPowerOnComplete = vi.fn();
+      const onPowerOffStart = vi.fn();
+
+      render(
+        <CrtEffect
+          onPowerOffStart={onPowerOffStart}
+          onPowerOnComplete={onPowerOnComplete}
+        >
+          <div>App Content</div>
+        </CrtEffect>,
+      );
+
+      act(() => {
+        useGameStore.getState().setPoweredOff(true);
+      });
+
+      await waitFor(() => {
+        expect(onPowerOffStart).toHaveBeenCalledTimes(1);
+      });
+      expect(onPowerOnComplete).not.toHaveBeenCalled();
+    });
+
+    it("should call onPowerOnComplete when power on animation completes", async () => {
+      useGameStore.setState({ isPoweredOff: true });
+      const onPowerOnComplete = vi.fn();
+      const onPowerOffStart = vi.fn();
+
+      render(
+        <CrtEffect
+          onPowerOffStart={onPowerOffStart}
+          onPowerOnComplete={onPowerOnComplete}
+        >
+          <div>App Content</div>
+        </CrtEffect>,
+      );
+
+      const button = screen.getByText("Reconnect");
+
+      act(() => {
+        button.click();
+      });
+
+      await waitFor(() => {
+        expect(onPowerOnComplete).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
