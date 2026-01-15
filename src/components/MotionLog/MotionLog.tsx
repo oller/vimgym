@@ -26,7 +26,7 @@ export const MotionLog = () => {
         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
           Motion Log
         </h3>
-        <span className="text-sm font-roboto-mono text-yellow-500">
+        <span className="text-sm font-roboto-mono text-tokyo-night-pink">
           {history.length} keys
         </span>
       </div>

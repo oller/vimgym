@@ -28,7 +28,8 @@ export const VimStatusBar = ({ mode }: { mode: string }) => {
         <div className="px-3 text-gray-400">Vim Mode</div>
       </div>
       <div className="px-3 text-gray-400">
-        Hint: You can use <kbd>:e</kbd> to reset
+        Hint: You can use <kbd className="text-tokyo-night-pink">:e</kbd> to
+        reset
       </div>
     </div>
   );
