@@ -19,6 +19,7 @@ export const VimEditor = () => {
     updateText,
     addKeyStroke,
     isCompleted,
+    resetLevel,
     setPoweredOff,
   } = useGameStore();
   const navigate = useNavigate({ from: "/" });
@@ -46,6 +47,9 @@ export const VimEditor = () => {
       ["q", "wq", "qa"].forEach((cmd) => {
         Vim.defineEx(cmd, "", () => setPoweredOff(true));
       });
+
+      // At Phil's request. Shout out to Phil
+      Vim.defineEx("e", "", () => resetLevel());
 
       // Listen for mode changes
       cm.on("vim-mode-change", (e: { mode: string }) => {
@@ -102,7 +106,7 @@ export const VimEditor = () => {
         );
       };
     },
-    [addKeyStrokeCallback, setPoweredOff],
+    [addKeyStrokeCallback, setPoweredOff, resetLevel],
   );
 
   // Global keydown listener to intercept Enter when completed
