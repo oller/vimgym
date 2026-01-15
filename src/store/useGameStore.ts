@@ -82,6 +82,7 @@ export const useGameStore = create<GameState>()(
             window?.vexo?.customEvent?.("levelComplete", {
               level: currentLevel,
               score: currentScore,
+              keystrokes: history,
             });
           } catch {
             // Silently ignore if vexo is not available or fails
