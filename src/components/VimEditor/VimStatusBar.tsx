@@ -15,16 +15,21 @@ export const VimStatusBar = ({ mode }: { mode: string }) => {
   };
 
   return (
-    <div className="flex items-center bg-tokyo-night text-xs border-t border-gray-800 font-roboto-mono">
-      <div
-        className={cn(
-          getModeColor(mode),
-          "text-white px-3 py-1 font-bold uppercase transition-colors duration-200",
-        )}
-      >
-        {mode}
+    <div className="flex justify-between items-center bg-tokyo-night text-xs font-roboto-mono">
+      <div className="flex items-center">
+        <div
+          className={cn(
+            getModeColor(mode),
+            "text-white px-3 py-1 font-bold uppercase transition-colors duration-200",
+          )}
+        >
+          {mode}
+        </div>
+        <div className="px-3 text-gray-400">Vim Mode</div>
       </div>
-      <div className="px-3 text-gray-400">Vim Mode</div>
+      <div className="px-3 text-gray-400">
+        Hint: You can use <kbd>:e</kbd> to reset
+      </div>
     </div>
   );
 };
