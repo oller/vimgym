@@ -55,6 +55,7 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
           </a>{" "}
           during Christmas 2025 🎄🎁
         </p>
+        <p>Dedicated to Grace &amp; Clara 👶👶</p>
         <p className="text-sm text-gray-400">
           Powered by{" "}
           <TechLink href="https://tanstack.com/start">tanstack start</TechLink>,{" "}
