@@ -1,11 +1,11 @@
 import { EditorState } from "@codemirror/state";
 import type { EditorView } from "@codemirror/view";
+import NumberFlow from "@number-flow/react";
 import { getCM, Vim, vim } from "@replit/codemirror-vim";
 import { useNavigate } from "@tanstack/react-router";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
 import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
 import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "../../utils/vimsplain.types";
@@ -19,6 +19,7 @@ export const VimEditor = () => {
     updateText,
     addKeyStroke,
     isCompleted,
+    history,
     resetLevel,
     setPoweredOff,
   } = useGameStore();
@@ -145,7 +146,10 @@ export const VimEditor = () => {
       )}
       data-testid="vim-editor"
     >
-      <div className="grow flex items-center px-4 overflow-x-auto scrollbar-thin">
+      <div className="relative grow flex items-center px-4 overflow-x-auto scrollbar-thin">
+        <div className="absolute top-4 right-4 text-tokyo-night-pink">
+          <NumberFlow value={history.length} />
+        </div>
         <div>
           <div
             className={cn(

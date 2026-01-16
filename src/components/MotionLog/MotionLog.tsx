@@ -26,9 +26,6 @@ export const MotionLog = () => {
         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
           Motion Log
         </h3>
-        <span className="text-sm font-roboto-mono text-tokyo-night-pink">
-          {history.length} keys
-        </span>
       </div>
       <div className="flex-1 overflow-y-auto scrollbar-thin font-roboto-mono text-sm space-y-1 max-h-30">
         {history.length === 0 && (
