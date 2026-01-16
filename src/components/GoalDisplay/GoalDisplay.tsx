@@ -21,23 +21,23 @@ export const GoalDisplay = () => {
         </div>
 
         <div className="flex gap-4 items-center">
-          {bestScore !== undefined && (
-            <output
-              aria-label="best score"
-              className="text-sm text-yellow-500 font-roboto-mono"
-            >
-              Your best: {bestScore} keys
-              {typeof perfectScore === "number" &&
-                bestScore <= perfectScore && (
-                  <span
-                    className="ml-2 cursor-help"
-                    title="This is a perfect score!"
-                  >
-                    🏆
-                  </span>
-                )}
-            </output>
-          )}
+          {/* {bestScore !== undefined && ( */}
+          {/*   <output */}
+          {/*     aria-label="best score" */}
+          {/*     className="text-sm text-yellow-500 font-roboto-mono" */}
+          {/*   > */}
+          {/*     Your best: {bestScore} keys */}
+          {/*     {typeof perfectScore === "number" && */}
+          {/*       bestScore <= perfectScore && ( */}
+          {/*         <span */}
+          {/*           className="ml-2 cursor-help" */}
+          {/*           title="This is a perfect score!" */}
+          {/*         > */}
+          {/*           🏆 */}
+          {/*         </span> */}
+          {/*       )} */}
+          {/*   </output> */}
+          {/* )} */}
           <button
             className="cursor-pointer text-xs bg-tokyo-night-storm hover:bg-slate-700/60 text-white px-4 py-2 transition-colors font-roboto-mono uppercase"
             onClick={resetLevel}

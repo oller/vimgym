@@ -147,9 +147,10 @@ export const VimEditor = () => {
       data-testid="vim-editor"
     >
       <div className="relative grow flex items-center px-4 overflow-x-auto scrollbar-thin">
-        <div className="absolute top-4 right-4 text-tokyo-night-pink">
-          <NumberFlow value={history.length} />
-        </div>
+        <NumberFlow
+          className="absolute top-4 left-6 text-tokyo-night-pink"
+          value={history.length}
+        />
         <div>
           <div
             className={cn(
