@@ -4,7 +4,7 @@
 
 This was built using:
 
-Tanstack Start, Tailwind CSS, Motion.dev, Codemirror and CodeMirror-Vim.
+Vite, Tanstack Start, Tailwind CSS, Motion.dev, Codemirror and CodeMirror-Vim.
 
 It was built using Neovim and sometimes Antigravity.
 The LLMs used were Gemini 3.5 Pro and Opus, they were mainly deployed to port vimsplain.py to Typescript and in testing.
