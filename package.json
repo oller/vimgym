@@ -43,5 +43,11 @@
     "typescript": "~5.9.3",
     "vite": "^7.2.4",
     "vitest": "^4.0.15"
+  },
+  "pnpm": {
+    "overrides": {
+      "//": "This fixes an issue with number-flow failing the vitest tests - see https://github.com/barvian/number-flow/issues/104",
+      "esm-env": "npm:esm-env-runtime@^0.1.1"
+    }
   }
 }

@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  esm-env: npm:esm-env-runtime@^0.1.1
+
 importers:
 
   .:
@@ -1010,8 +1013,9 @@ packages:
     resolution: {integrity: sha512-WUj2qlxaQtO4g6Pq5c29GTcWGDyd8itL8zTlipgECz3JesAiiOKotd8JU6otB3PACgG6xkJUyVhboMS+bje/jA==}
     engines: {node: '>=6'}
 
-  esm-env@1.2.2:
-    resolution: {integrity: sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==}
+  esm-env-runtime@0.1.1:
+    resolution: {integrity: sha512-s5c/JKEF8faaXr3y1O9IZljnVO4FXFvmxB+/dGAKWUQF2nyjsoALGN5MCNu4ZLbAVLmtNFwU0fwb8FExIRwWmw==}
+    engines: {pnpm: ^9.0.0}
 
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
@@ -1961,7 +1965,7 @@ snapshots:
 
   '@number-flow/react@0.5.10(react-dom@19.2.1(react@19.2.1))(react@19.2.1)':
     dependencies:
-      esm-env: 1.2.2
+      esm-env: esm-env-runtime@0.1.1
       number-flow: 0.5.8
       react: 19.2.1
       react-dom: 19.2.1(react@19.2.1)
@@ -2477,7 +2481,7 @@ snapshots:
 
   escalade@3.2.0: {}
 
-  esm-env@1.2.2: {}
+  esm-env-runtime@0.1.1: {}
 
   estree-walker@3.0.3:
     dependencies:
@@ -2667,7 +2671,7 @@ snapshots:
 
   number-flow@0.5.8:
     dependencies:
-      esm-env: 1.2.2
+      esm-env: esm-env-runtime@0.1.1
 
   obug@2.1.1: {}
 
