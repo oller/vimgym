@@ -1,5 +1,7 @@
 # VimGym
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f74dacba-e3b4-4781-8c47-323e153b644f/deploy-status)](https://app.netlify.com/projects/vim-gym/deploys)
+
 This was built using:
 
 Tanstack Start, Tailwind CSS, Motion.dev, Codemirror and CodeMirror-Vim.
