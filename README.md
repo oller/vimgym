@@ -13,9 +13,9 @@ To do:
 - [x] Some sort of token parsing so the motion log can group and show the actual motion (all the libs I've found related to this seem abandoned)
 - [x] For each level, also store the perfect answer - so a user can compare how far they are off optimum (level selector could represent this per level)
 - [x] Analytics (using vexo) to record level score events to crowd-source optimum scores. Payload `{ level, score, keystrokes }`
+- [x] Don't just record the perfectScore as a number, but also the keystrokes and surface these to the user if they want to see them
 - [ ] Consider publishing vimsplain.ts as a package
 - [ ] Consider how we can improve Codemirror vim to support text objects
-- [x] Don't just record the perfectScore as a number, but also the keystrokes and surface these to the user if they want to see them
 - [ ] Perhaps a sense of medals based on how far you are off optimum
 - [ ] Theme picker
 - [ ] Crowd source submissions for levels?
