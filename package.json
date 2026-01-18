@@ -46,7 +46,6 @@
   },
   "pnpm": {
     "overrides": {
-      "//": "This fixes an issue with number-flow failing the vitest tests - see https://github.com/barvian/number-flow/issues/104",
       "esm-env": "npm:esm-env-runtime@^0.1.1"
     }
   }
