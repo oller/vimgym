@@ -6,8 +6,7 @@ This was built using:
 
 Vite, Tanstack Start, Tailwind CSS, Motion.dev, Codemirror and CodeMirror-Vim.
 
-It was built using Neovim and sometimes Antigravity.
-The LLMs used were Gemini 3.5 Pro and Opus, they were mainly deployed to port vimsplain.py to Typescript and in testing.
+It was built using Neovim and sometimes Antigravity. The LLMs used were Gemini 3.5 Pro and Opus, they were mainly deployed to port vimsplain.py to Typescript and in testing.
 
 To do:
 
@@ -16,7 +15,7 @@ To do:
 - [x] Analytics (using vexo) to record level score events to crowd-source optimum scores. Payload `{ level, score }`
 - [ ] Consider publishing vimsplain.ts as a package
 - [ ] Consider how we can improve Codemirror vim to support text objects
-- [ ] Don't just record the perfectScore as a number, but also the keystrokes and surface these to the user if they want to see them
+- [x] Don't just record the perfectScore as a number, but also the keystrokes and surface these to the user if they want to see them
 - [ ] Perhaps a sense of medals based on how far you are off optimum
 - [ ] Theme picker
 - [ ] Crowd source submissions for levels?
