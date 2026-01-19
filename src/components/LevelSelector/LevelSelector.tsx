@@ -25,7 +25,9 @@ export const LevelSelector = () => {
               isCurrentLevel={isCurrentLevel}
               key={level.id}
               level={level}
-              onClick={() => navigate({ search: { levelId: level.id } })}
+              onClick={() =>
+                navigate({ search: { levelId: level.id }, replace: true })
+              }
               score={score}
               scrollRef={scrollRef}
             />

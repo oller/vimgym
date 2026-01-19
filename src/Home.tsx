@@ -28,7 +28,7 @@ const Home = () => {
 
   const handleNextLevel = useCallback(() => {
     if (hasNextLevel) {
-      navigate({ search: { levelId: currentLevelId + 1 } });
+      navigate({ search: { levelId: currentLevelId + 1 }, replace: true });
     }
   }, [hasNextLevel, currentLevelId, navigate]);
 

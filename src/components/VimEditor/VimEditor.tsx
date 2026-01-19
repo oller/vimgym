@@ -6,6 +6,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { getLevel } from "../../data/levels";
 import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
 import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "../../utils/vimsplain.types";
@@ -50,7 +51,27 @@ export const VimEditor = () => {
       });
 
       // At Phil's request. Shout out to Phil
-      Vim.defineEx("e", "", () => resetLevel());
+      Vim.defineEx("e", "", (_cm, params) => {
+        const arg = params.argString?.trim();
+
+        if (!arg) {
+          resetLevel();
+          return;
+        }
+
+        const levelId = Number.parseInt(arg, 10);
+
+        if (Number.isNaN(levelId)) {
+          return;
+        }
+
+        const level = getLevel(levelId);
+        if (!level) {
+          return;
+        }
+
+        navigate({ search: { levelId }, replace: true });
+      });
 
       // Listen for mode changes
       cm.on("vim-mode-change", (e: { mode: string }) => {
@@ -107,7 +128,7 @@ export const VimEditor = () => {
         );
       };
     },
-    [addKeyStrokeCallback, setPoweredOff, resetLevel],
+    [addKeyStrokeCallback, setPoweredOff, resetLevel, navigate],
   );
 
   // Global keydown listener to intercept Enter when completed
@@ -118,7 +139,7 @@ export const VimEditor = () => {
         event.stopPropagation();
 
         // Navigate to next level
-        navigate({ search: { levelId: currentLevel + 1 } });
+        navigate({ search: { levelId: currentLevel + 1 }, replace: true });
       }
     };
 

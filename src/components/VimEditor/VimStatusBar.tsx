@@ -29,7 +29,8 @@ export const VimStatusBar = ({ mode }: { mode: string }) => {
       </div>
       <div className="px-3 text-gray-400">
         Hint: You can use <kbd className="text-tokyo-night-pink">:e</kbd> to
-        reset
+        reset, <kbd className="text-tokyo-night-pink">:e X</kbd> to jump to
+        level X or <kbd className="text-tokyo-night-pink">:q</kbd> to quit.
       </div>
     </div>
   );
