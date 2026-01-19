@@ -173,6 +173,8 @@ export const VimEditor = () => {
             key={currentLevel}
             onChange={onChange}
             onCreateEditor={onCreateEditor}
+            // Block users from cheating with the mouse! 󰍾
+            onMouseDownCapture={(e) => e.preventDefault()}
             theme={tokyoNightStorm}
             value={startText}
           />
