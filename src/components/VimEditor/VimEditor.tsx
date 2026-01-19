@@ -119,6 +119,19 @@ export const VimEditor = () => {
       // Use capture phase to ensure we get keys before CodeMirror consumes them
       editorView.dom.addEventListener("keydown", handleEditorKeyDown, true);
 
+      // Prevent mouse selection but allow focus
+      const handleMouseDown = (e: MouseEvent) => {
+        // Allow focus but prevent selection
+        if (!editorView.hasFocus) {
+          editorView.focus();
+        }
+        // Prevent text selection and cursor movement
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      editorView.dom.addEventListener("mousedown", handleMouseDown, true);
+
       // Cleanup on unmount
       return () => {
         editorView.dom.removeEventListener(
@@ -126,6 +139,7 @@ export const VimEditor = () => {
           handleEditorKeyDown,
           true,
         );
+        editorView.dom.removeEventListener("mousedown", handleMouseDown, true);
       };
     },
     [addKeyStrokeCallback, setPoweredOff, resetLevel, navigate],
@@ -194,8 +208,6 @@ export const VimEditor = () => {
             key={currentLevel}
             onChange={onChange}
             onCreateEditor={onCreateEditor}
-            // Block users from cheating with the mouse! 󰍾
-            onMouseDownCapture={(e) => e.preventDefault()}
             theme={tokyoNightStorm}
             value={startText}
           />
