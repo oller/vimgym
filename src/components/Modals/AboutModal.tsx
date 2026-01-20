@@ -26,7 +26,7 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <h2 className="text-xl font-roboto-mono text-white mb-4">
-        About VimGym <span>💪</span>
+        About VimGym <span>🦾</span>
       </h2>
 
       <div className="space-y-4 text-gray-300">
