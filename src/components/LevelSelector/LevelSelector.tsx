@@ -5,7 +5,9 @@ import { useGameStore } from "../../store/useGameStore";
 import { LevelSelectorItem } from "./LevelSelectorItem";
 
 export const LevelSelector = () => {
-  const { currentLevel, highScores, clearScores } = useGameStore();
+  const currentLevel = useGameStore((state) => state.currentLevel);
+  const highScores = useGameStore((state) => state.highScores);
+  const clearScores = useGameStore((state) => state.clearScores);
   const navigate = useNavigate({ from: "/" });
 
   const scrollRef = useScrollIntoView<HTMLDivElement>(currentLevel, {

@@ -5,7 +5,7 @@ import { explainSequence } from "../../utils/vimsplain";
 import { MotionLogItem } from "./MotionLogItem";
 
 export const MotionLog = () => {
-  const { history } = useGameStore();
+  const history = useGameStore((state) => state.history);
 
   const scrollRef = useScrollIntoView<HTMLDivElement>(history.length, {
     behavior: "smooth",

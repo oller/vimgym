@@ -13,17 +13,15 @@ import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "../../utils/vimsplain.types";
 import { VimStatusBar } from "./VimStatusBar";
 
 export const VimEditor = () => {
-  const {
-    currentLevel,
-    startText,
-    targetText,
-    updateText,
-    addKeyStroke,
-    isCompleted,
-    history,
-    resetLevel,
-    setPoweredOff,
-  } = useGameStore();
+  const currentLevel = useGameStore((state) => state.currentLevel);
+  const startText = useGameStore((state) => state.startText);
+  const targetText = useGameStore((state) => state.targetText);
+  const updateText = useGameStore((state) => state.updateText);
+  const addKeyStroke = useGameStore((state) => state.addKeyStroke);
+  const isCompleted = useGameStore((state) => state.isCompleted);
+  const history = useGameStore((state) => state.history);
+  const resetLevel = useGameStore((state) => state.resetLevel);
+  const setPoweredOff = useGameStore((state) => state.setPoweredOff);
   const navigate = useNavigate({ from: "/" });
   const [vimMode, setVimMode] = useState("normal");
   const editorViewRef = useRef<EditorView | null>(null);
@@ -182,10 +180,12 @@ export const VimEditor = () => {
       data-testid="vim-editor"
     >
       <div className="relative grow flex items-center px-4 overflow-x-auto scrollbar-thin">
-        <NumberFlow
-          className="absolute top-4 left-6 text-tokyo-night-pink"
-          value={history.length}
-        />
+        <div>
+          <NumberFlow
+            className="absolute top-4 left-6 text-tokyo-night-pink"
+            value={history.length}
+          />
+        </div>
         <div>
           <div
             className={cn(
@@ -208,6 +208,8 @@ export const VimEditor = () => {
             key={currentLevel}
             onChange={onChange}
             onCreateEditor={onCreateEditor}
+            // Block users from cheating with the mouse! 󰍾
+            onMouseDownCapture={(e) => e.preventDefault()}
             theme={tokyoNightStorm}
             value={startText}
           />

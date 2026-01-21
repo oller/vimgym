@@ -13,7 +13,9 @@ export const CompletionModal = ({
   onNext,
   hasNextLevel,
 }: CompletionModalProps) => {
-  const { history, currentLevel, highScores } = useGameStore();
+  const history = useGameStore((state) => state.history);
+  const currentLevel = useGameStore((state) => state.currentLevel);
+  const highScores = useGameStore((state) => state.highScores);
   const [showConfetti, setShowConfetti] = useState(false);
   const bestScore = highScores[currentLevel];
   const isNewBest =

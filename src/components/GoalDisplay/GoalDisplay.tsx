@@ -2,7 +2,9 @@ import { getLevel, LEVELS } from "../../data/levels";
 import { useGameStore } from "../../store/useGameStore";
 
 export const GoalDisplay = () => {
-  const { isCompleted, resetLevel, currentLevel } = useGameStore();
+  const isCompleted = useGameStore((state) => state.isCompleted);
+  const resetLevel = useGameStore((state) => state.resetLevel);
+  const currentLevel = useGameStore((state) => state.currentLevel);
   // const bestScore = highScores[currentLevel];
   const currentLevelData = getLevel(currentLevel);
   // const perfectScore = currentLevelData?.perfectScore;
