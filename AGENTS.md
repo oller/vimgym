@@ -1,122 +1,36 @@
-# VimGym - Agent Guidelines
+# VimGym
 
-This file contains coding conventions and workflows for AI agents working on the VimGym repository.
+Interactive Vim training game where users complete levels by transforming text using Vim motions.
 
-## Build, Lint, and Test Commands
+## Commands
 
-### Development commands
+```bash
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm tsc          # Type check
+pnpm lint:fix     # Fix linting and formatting issues
+pnpm test         # Run all tests
+pnpm test <file>  # Run single test file
+```
 
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production (runs TypeScript compiler + Vite)
-- `pnpm preview` - Preview production build
+## Key Context
 
-### Linting and formatting commands
+- **Package manager:** pnpm
+- **Linter/Formatter:** Biome (run `pnpm lint:fix` before committing)
+- **Editor:** CodeMirror with @replit/codemirror-vim
+- **State:** Zustand with persistence middleware
 
-- `pnpm tsc` - Run typescript type checking
-- `pnpm lint` - Run Biome linter to check for issues
-- `pnpm lint:fix` - Automatically fix fixable linting and formatting issues
+## Pre-commit Checklist
 
-### Testing commands
+1. All tests pass (`pnpm test`)
+2. No lint errors (`pnpm lint:fix`)
+3. No type errors (`pnpm tsc`)
 
-- `pnpm test` - Run all Vitest tests in jsdom environment
-- **Run single test:** `pnpm test <path-to-test-file>` (e.g., `pnpm test src/components/VimEditor.test.tsx`)
+## Conventions
 
-## Code Style Guidelines
+See [.agent/conventions/](.agent/conventions/) for detailed guidelines:
 
-### Formatting (Biome)
-
-- **Indentation:** 2 spaces
-- **Quotes:** Double quotes for all JavaScript/TypeScript
-- **Import organization:** Auto-organized by Biome (run `pnpm lint:fix` before committing)
-- **No trailing whitespace** (auto-removed by Biome)
-
-### TypeScript
-
-- Strict mode is enabled
-- Use `import type` for type-only imports
-- Use `as const` for arrays that should be treated as readonly tuples and object literals that should preserve literal types
-- Use `satisfies` to validate arrays against type definitions
-- Use `@ts-expect-error` for intentional type errors (e.g., global window properties)
-
-### Naming Conventions
-
-- **Components:** PascalCase (e.g., `VimEditor`, `GoalDisplay`)
-- **Hooks:** camelCase with `use` prefix (e.g., `useGameStore`, `useEffect`)
-- **Functions/Utils:** camelCase (e.g., `cn`, `getLevel`, `updateText`)
-- **Constants:** UPPER_SNAKE_CASE for global constants (e.g., `LEVELS`)
-- **Test files:** Same name as source file with `.test.ts` or `.test.tsx` suffix
-
-### Imports
-
-- Use verbatim module syntax (no .js extensions needed)
-- External dependencies first, then internal modules (auto-organized by Biome)
-- Type imports: `import type { X } from "..."`
-
-### Package Management
-
-- Use `pnpm` as the package manager when adding or removing dependencies
-- Use `pnpm` as the package manager for all scripts (e.g., `pnpm dev`, `pnpm test`)
-
-### Component Structure
-
-- Functional components with hooks only
-- Use `useCallback` for event handlers and functions passed to children
-- Use `useRef` for values that need to persist across renders without causing re-renders
-- Prefer `cn()` utility for conditional Tailwind classes
-- Add `data-testid` attributes to elements for testing
-
-### State Management (Zustand)
-
-- Store defined with `create<Interface>()(persist(...))`
-- Use `getState()` for synchronous access in tests and non-reactive code
-- Use selectors in components for reactivity: `useGameStore((state) => state.currentLevel)`
-- Persist middleware stores only high scores (partialize for selective persistence)
-
-### React Best Practices
-
-- Always include dependency arrays in `useEffect`, `useCallback`, `useMemo`
-- Use refs for values needed in event listeners to avoid stale closures
-- Cleanup event listeners and timers in `useEffect` return function
-- Use capture phase (`true` parameter) for event listeners when intercepting events
-- Use `key` prop when components need to remount on value change
-
-### Testing
-
-- Use Vitest with jsdom environment
-- Test files use `.test.ts` or `.test.tsx` suffix
-- Use `describe` blocks to group related tests
-- Use `beforeEach` to reset state (especially store state)
-- Mock JSDOM APIs in `tests/setup.ts` (e.g., `document.createRange`)
-- Wrap React state updates in `act()` from `@testing-library/react` to avoid warnings
-- Test user interactions with `userEvent.setup()` from `@testing-library/user-event`
-- Prefer testing through store state over DOM assertions when possible
-- Integration tests should test real component behavior, not mocks
-
-### Error Handling
-
-- Use optional chaining (`?.`) for potentially null/undefined access
-- Use nullish coalescing (`??`) for default values
-- Ensure you address all linting errors, it is not acceptable to ignore them
-
-### CSS/Tailwind
-
-- Use `cn()` utility for conditional classes (merges clsx + tailwind-merge)
-- Follow existing theme colors (tokyo-night-storm theme)
-- Use semantic Tailwind classes (e.g., `text-green-400` for success states)
-
-## Project Context
-
-VimGym is an interactive Vim training game. Users complete levels by transforming text using Vim motions.
-
-- **Tech Stack:** React 19, TypeScript, Zustand, Vite, Vitest, Biome, Tailwind CSS
-- **Key Libraries:** CodeMirror (editor), @tanstack/react-router, @replit/codemirror-vim
-- **Testing:** Vitest + React Testing Library + user-event
-- **State:** Zustand with persistence middleware for high scores
-
-## Important Notes
-
-- All tests must pass before committing changes
-- Run `pnpm lint:fix` and `pnpm format` before committing
-- New features should include tests
-- CodeMirror is complex - prefer integration tests over unit tests for editor-related code
-- Store state is the source of truth for testing application behavior
+- [TypeScript](.agent/conventions/typescript.md) - Type patterns specific to this codebase
+- [React Components](.agent/conventions/react-components.md) - Component patterns and `cn()` utility
+- [Testing](.agent/conventions/testing.md) - Vitest setup, store testing, CodeMirror testing
+- [Zustand](.agent/conventions/zustand.md) - Store patterns and persistence
