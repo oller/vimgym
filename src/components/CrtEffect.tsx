@@ -1,30 +1,16 @@
+import type { TargetAndTransition } from "motion/react";
 import { AnimatePresence, motion } from "motion/react";
 import type { PropsWithChildren } from "react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useGameStore } from "../store/useGameStore";
 
-type CrtEffectProps = PropsWithChildren<{
-  onPowerOnComplete: () => void;
-  onPowerOffStart: () => void;
-}>;
+type CrtEffectProps = PropsWithChildren;
 
-export const CrtEffect = ({
-  children,
-  onPowerOnComplete,
-  onPowerOffStart,
-}: CrtEffectProps) => {
+export const CrtEffect = ({ children }: CrtEffectProps) => {
   const isPoweredOff = useGameStore((state) => state.isPoweredOff);
   const setPoweredOff = useGameStore((state) => state.setPoweredOff);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const wasPoweredOff = useRef(isPoweredOff);
-
-  // Detect when isPoweredOff changes from false to true (power off starts)
-  useEffect(() => {
-    if (isPoweredOff && !wasPoweredOff.current) {
-      onPowerOffStart();
-    }
-    wasPoweredOff.current = isPoweredOff;
-  }, [isPoweredOff, onPowerOffStart]);
 
   // Focus the resume button when the animation completes
   const handleAnimationComplete = () => {
@@ -32,30 +18,48 @@ export const CrtEffect = ({
       setTimeout(() => {
         buttonRef.current?.focus();
       }, 100);
-    } else {
-      // Logic for when turning ON completes
-      onPowerOnComplete();
     }
   };
+
+  const offAnimation: TargetAndTransition = {
+    scaleY: [1, 0.005, 0.005],
+    scaleX: [1, 1, 0],
+    filter: ["brightness(1)", "brightness(2)", "brightness(0)"],
+  };
+
+  const onAnimation: TargetAndTransition = {
+    scaleY: [0.005, 0.005, 1],
+    scaleX: [0, 1, 1],
+    filter: "brightness(1)",
+  };
+
+  const staticOnState: TargetAndTransition = {
+    scaleY: 1,
+    scaleX: 1,
+    filter: "brightness(1)",
+  };
+
+  // Determine which animation state to use
+  let animateState: TargetAndTransition;
+
+  if (isPoweredOff) {
+    // Only animate off if we were previously on
+    animateState = offAnimation;
+  } else if (wasPoweredOff.current) {
+    // Only animate on if we were previously off
+    animateState = onAnimation;
+  } else {
+    // Otherwise (initial mount, or stable ON state), stay static
+    animateState = staticOnState;
+  }
 
   return (
     <div className="relative w-full h-full bg-black overflow-hidden">
       {/* The actual App Content - We animate this container */}
       <motion.div
-        animate={
-          isPoweredOff
-            ? {
-                scaleY: [1, 0.005, 0.005],
-                scaleX: [1, 1, 0],
-                filter: ["brightness(1)", "brightness(2)", "brightness(0)"],
-              }
-            : {
-                scaleY: [0.005, 0.005, 1],
-                scaleX: [0, 1, 1],
-                filter: "brightness(1)",
-              }
-        }
+        animate={animateState}
         className="w-full h-full bg-tokyo-night"
+        initial={false}
         onAnimationComplete={handleAnimationComplete}
         transition={{
           duration: isPoweredOff ? 0.6 : 0.6,

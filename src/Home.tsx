@@ -20,7 +20,6 @@ const Home = () => {
   const resetCount = useGameStore((state) => state.resetCount);
   const isCompleted = useGameStore((state) => state.isCompleted);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
-  const [isLogoReady, setIsLogoReady] = useState(false);
 
   // Check if there is next level
   const currentLevelId = typeof levelId === "number" ? levelId : 1;
@@ -37,10 +36,7 @@ const Home = () => {
   }, [levelId, setLevel]);
 
   return (
-    <CrtEffect
-      onPowerOffStart={() => setIsLogoReady(false)}
-      onPowerOnComplete={() => setIsLogoReady(true)}
-    >
+    <CrtEffect>
       <div className="h-screen overflow-hidden bg-tokyo-night text-white flex flex-col p-4 md:p-6 font-sans relative">
         <AnimatePresence>
           {isAboutOpen && (
@@ -58,7 +54,7 @@ const Home = () => {
         </AnimatePresence>
 
         <header className="mb-4 flex justify-between items-center border-b border-gray-800 pb-4">
-          <div>{isLogoReady && <Logo />}</div>
+          <Logo />
           <button
             className="cursor-pointer p-2 text-xs text-gray-500 hover:text-tokyo-night-pink transition-colors font-roboto-mono uppercase tracking-wider"
             onClick={() => setIsAboutOpen(true)}
