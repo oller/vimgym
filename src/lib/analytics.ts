@@ -11,7 +11,6 @@ export function setInvalidateQueriesCallback(
   invalidateQueriesCallback = callback;
 }
 
-// Get or create user ID synchronously
 export function getUserId(): string {
   let userId = localStorage.getItem(USER_ID_KEY);
 

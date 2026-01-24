@@ -1,8 +1,15 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { expect, test } from "vitest";
+import { expect, test, vi } from "vitest";
 import App from "../../src/App";
+
+// Mock Supabase client to prevent network requests
+vi.mock("../../src/lib/supabase/client", () => ({
+  getSupabaseClient: () => ({
+    rpc: vi.fn().mockResolvedValue({ data: null, error: null }),
+  }),
+}));
 
 const queryClient = new QueryClient({
   defaultOptions: {
