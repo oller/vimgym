@@ -78,9 +78,26 @@ export type Database = {
         };
         Relationships: [];
       };
+      view_user_level_bests: {
+        Row: {
+          best_score: number | null;
+          level: number | null;
+          user_id: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "level_completions_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
     Functions: {
       get_level_stats: { Args: never; Returns: Json };
+      get_player_dashboard: { Args: { p_user_id: string }; Returns: Json };
       get_user_best_scores: { Args: { p_user_id: string }; Returns: Json };
       submit_level_completion: {
         Args: {

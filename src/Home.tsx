@@ -1,6 +1,6 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { CrtEffect } from "./components/CrtEffect";
 import { GoalDisplay } from "./components/GoalDisplay/GoalDisplay";
@@ -25,11 +25,11 @@ const Home = () => {
   const currentLevelId = typeof levelId === "number" ? levelId : 1;
   const hasNextLevel = currentLevelId < LEVELS.length;
 
-  const handleNextLevel = useCallback(() => {
+  const handleNextLevel = () => {
     if (hasNextLevel) {
       navigate({ search: { levelId: currentLevelId + 1 }, replace: true });
     }
-  }, [hasNextLevel, currentLevelId, navigate]);
+  };
 
   useEffect(() => {
     setLevel(levelId);

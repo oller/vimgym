@@ -1,32 +1,21 @@
-import { useLevelStats } from "../../hooks/api";
-
 type LevelStatsCardProps = {
-  levelId: number;
-  userScore?: number;
+  globalAverage: number | null | undefined;
+  globalBest: number | null | undefined;
 };
 
-export const LevelStatsCard = ({ levelId }: LevelStatsCardProps) => {
-  const { data: stats, isLoading } = useLevelStats();
-  const levelStats = stats?.[levelId];
-
-  if (isLoading || !levelStats || levelStats.totalCompletions === 0) {
+export const LevelStatsCard = ({
+  globalAverage,
+  globalBest,
+}: LevelStatsCardProps) => {
+  if (!globalAverage || !globalBest) {
     return null;
   }
-
   return (
     <div className="mt-3 space-y-2 w-full">
       <div className="flex justify-between text-[10px] opacity-70 font-medium tracking-wider uppercase">
-        <span>Record: {levelStats.bestScore}</span>
-        <span>Avg: {levelStats.avgKeystrokes}</span>
+        <span>Record: {globalBest}</span>
+        <span>Avg: {globalAverage}</span>
       </div>
-
-      {/* {userScore && (
-        <PerformanceBar
-          avgScore={levelStats.avgKeystrokes}
-          bestPossibleScore={levelStats.bestScore}
-          userScore={userScore}
-        />
-      )} */}
     </div>
   );
 };

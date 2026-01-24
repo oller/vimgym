@@ -1,14 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  getAllLevelStats,
-  getUserBestScores,
-  submitLevelCompletion,
-} from "../../api";
-import type {
-  AllLevelStats,
-  LevelCompletionInput,
-  UserBestScores,
-} from "../../schemas";
+import { getPlayerDashboard, submitLevelCompletion } from "../../api";
+import type { LevelCompletionInput, PlayerDashboard } from "../../schemas";
 
 export const useSubmitCompletion = () => {
   const queryClient = useQueryClient();
@@ -17,29 +9,29 @@ export const useSubmitCompletion = () => {
     mutationFn: (data: LevelCompletionInput) => submitLevelCompletion(data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ["userBestScores", variables.userId],
+        queryKey: ["playerDashboard", variables.userId],
       });
     },
   });
 };
 
-export const useLevelStats = () => {
-  return useQuery<AllLevelStats>({
-    queryKey: ["levelStats"],
-    queryFn: getAllLevelStats,
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-  });
-};
-
-export const useUserBestScores = (userId: string | null) => {
-  return useQuery<UserBestScores>({
-    queryKey: ["userBestScores", userId],
+export const usePlayerDashboard = (userId: string | null) => {
+  return useQuery<Record<number, PlayerDashboard[string]>>({
+    queryKey: ["playerDashboard", userId],
     queryFn: () => {
+      // Even if userId is null, we can return generic stats?
+      // Actually, RPC requires a UUID. If no user, we might want just "global stats".
+      // But get_player_dashboard requires p_user_id.
+      // For now, only enabled if userId exists (Dashboard implies User).
+      // Wait, LevelStatsCard is shown even for unplayed levels? Yes.
+      // But if no userId, we can't get percentiles.
+      // If anonymous, just pass a dummy UUID? Or handle in API?
+      // existing code only enabled if !!userId.
       if (!userId) return Promise.resolve({});
-      return getUserBestScores(userId);
+      return getPlayerDashboard(userId);
     },
     enabled: !!userId,
+    // Keep it fresh, but not too aggressive
     staleTime: 1 * 60 * 1000,
   });
 };

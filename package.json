@@ -43,6 +43,7 @@
     "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
+    "babel-plugin-react-compiler": "^1.0.0",
     "globals": "^16.5.0",
     "jsdom": "^27.4.0",
     "supabase": "^2.72.8",

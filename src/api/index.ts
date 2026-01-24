@@ -1,14 +1,6 @@
 import { getSupabaseClient } from "../lib/supabase/client";
-import type {
-  AllLevelStats,
-  LevelCompletionInput,
-  UserBestScores,
-} from "../schemas";
-import {
-  allLevelStatsSchema,
-  levelCompletionInputSchema,
-  userBestScoresSchema,
-} from "../schemas";
+import type { LevelCompletionInput, PlayerDashboard } from "../schemas";
+import { levelCompletionInputSchema, playerDashboardSchema } from "../schemas";
 
 export const submitLevelCompletion = async (
   data: LevelCompletionInput,
@@ -50,60 +42,33 @@ export const submitLevelCompletion = async (
   }
 };
 
-export const getAllLevelStats = async (): Promise<AllLevelStats> => {
-  const client = getSupabaseClient();
-
-  if (!client) {
-    return {};
-  }
-
-  const { data, error } = await client.rpc("get_level_stats");
-
-  if (error || !data) {
-    console.error("Failed to fetch level stats:", error);
-    return {};
-  }
-
-  try {
-    // Supabase RPC returns Json, so we must validate it matches our Map structure
-    // We expect { "1": { ... } }
-    const validated = allLevelStatsSchema.parse(data);
-    return validated;
-  } catch (err) {
-    console.error("Failed to parse level stats:", err);
-    return {};
-  }
-};
-
-export const getUserBestScores = async (
+export const getPlayerDashboard = async (
   userId: string,
-): Promise<UserBestScores> => {
+): Promise<Record<number, PlayerDashboard[string]>> => {
   const client = getSupabaseClient();
 
   if (!client) {
     return {};
   }
 
-  const { data, error } = await client.rpc("get_user_best_scores", {
+  const { data, error } = await client.rpc("get_player_dashboard", {
     p_user_id: userId,
   });
 
   if (error || !data) {
-    console.error("Failed to fetch user best scores:", error);
+    console.error("Failed to fetch player dashboard:", error);
     return {};
   }
 
   try {
-    const validated = userBestScoresSchema.parse(data);
-    // Convert string keys to number keys for internal consistency if needed,
-    // or just return as is if the app handles string keys?
-    const result: Record<number, number> = {};
+    const validated = playerDashboardSchema.parse(data);
+    const result: Record<number, PlayerDashboard[string]> = {};
     for (const [key, value] of Object.entries(validated)) {
       result[Number(key)] = value;
     }
     return result;
   } catch (err) {
-    console.error("Failed to parse user best scores:", err);
+    console.error("Failed to parse player dashboard:", err);
     return {};
   }
 };

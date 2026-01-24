@@ -6,9 +6,11 @@ import { LevelStatsCard } from "../LevelStatsCard/LevelStatsCard";
 
 type Variant = "perfect" | "completed" | "current" | "unplayed";
 
+import type { PlayerDashboard } from "../../schemas";
+
 type LevelSelectorItemProps = {
   level: Level;
-  score: number | undefined;
+  levelData: PlayerDashboard[string] | undefined;
   isCurrentLevel: boolean;
   onClick: () => void;
   scrollRef: React.RefObject<HTMLDivElement | null>;
@@ -34,15 +36,17 @@ const getVariant = (
 
 export const LevelSelectorItem = ({
   level,
-  score,
+  levelData: score,
   isCurrentLevel,
   onClick,
   scrollRef,
 }: LevelSelectorItemProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const bestScore = score?.user?.best;
+  const percentile = score?.user?.percentile;
   const isPerfectScore =
-    score !== undefined && score <= (level.perfectScore ?? Infinity);
-  const hasScore = score !== undefined;
+    bestScore != null && bestScore <= (score?.global.best ?? Infinity);
+  const hasScore = bestScore != null;
 
   // 6 is the animation cycle duration
   // % 6 ensures we always have a delay between 0 and 6
@@ -55,6 +59,24 @@ export const LevelSelectorItem = ({
   // Disable pointer events on the stats card container to prevent button click issues if necessary,
   // but usually it's fine inside a button.
   // We enable layout animation for smooth expanding.
+
+  const getPercentileLabel = () => {
+    if (isPerfectScore) return "Top score!";
+    if (percentile == null) return null;
+
+    // If percentile is >= 50, we show "Top X%"
+    // e.g. 90th percentile -> Top 10%
+    if (percentile >= 50) {
+      const topPercent = Math.max(1, Math.round(100 - percentile));
+      return `Top ${topPercent}%`;
+    }
+
+    // If percentile is < 50, we show "Bottom X%"
+    // e.g. 10th percentile -> Bottom 10%
+    return `Bottom ${Math.max(1, Math.round(percentile))}%`;
+  };
+
+  const percentileLabel = getPercentileLabel();
 
   return (
     <div
@@ -89,14 +111,19 @@ export const LevelSelectorItem = ({
               <div className="font-bold text-xs">Level {level.id}</div>
               <div className="text-xs">{level.name}</div>
             </div>
-            {score !== undefined && (
+            {bestScore != null && (
               <div
                 className={cn(
-                  "text-xs font-roboto-mono px-2 py-1 rounded bg-black/20 backdrop-blur-sm",
+                  "text-xs font-roboto-mono px-2 py-1 rounded bg-black/20 backdrop-blur-sm flex flex-col items-center gap-2",
                   // Ensure specific text color if needed, but inheriting is better generally
                 )}
               >
-                {score}
+                <span>{bestScore}</span>
+                {percentileLabel && (
+                  <span className="text-[10px] opacity-75 border-t border-white/20 pt-2 whitespace-nowrap">
+                    {percentileLabel}
+                  </span>
+                )}
               </div>
             )}
           </div>
@@ -111,7 +138,10 @@ export const LevelSelectorItem = ({
               initial={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
-              <LevelStatsCard levelId={level.id} userScore={score} />
+              <LevelStatsCard
+                globalAverage={score?.global?.average}
+                globalBest={score?.global?.best}
+              />
             </motion.div>
           )}
         </AnimatePresence>

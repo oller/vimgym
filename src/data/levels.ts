@@ -4,7 +4,6 @@ export type Level = {
   startText: string;
   targetText: string;
   description: string;
-  perfectScore?: number;
 };
 
 export const LEVELS = [
@@ -14,7 +13,6 @@ export const LEVELS = [
     startText: "The quick brown fox jumps over the lazy dog.",
     targetText: "The quick brown fox jumps.",
     description: "Delete 'over the lazy dog' from the sentence",
-    perfectScore: 6, // fsldt.
   },
   {
     id: 2,
@@ -22,7 +20,6 @@ export const LEVELS = [
     startText: "const activity = isSunny ? 'xbox' : 'golf'",
     targetText: "const activity = isSunny ? 'golf' : 'xbox'",
     description: "Swap 'golf' and 'xbox' in the ternary",
-    perfectScore: 13,
   },
   {
     id: 3,
@@ -30,7 +27,6 @@ export const LEVELS = [
     startText: "The 2nd best time to hiccup plant a tree hiccup is now hiccup.",
     targetText: "The 2nd best time to plant a tree is now.",
     description: "The hiccups are annoying, remove them all",
-    perfectScore: 16,
   },
   {
     id: 4,
@@ -38,7 +34,6 @@ export const LEVELS = [
     startText: "Visit us at https://www.example.com/about for more info.",
     targetText: "Visit us at example.com for more info.",
     description: "Extract the domain from the URL",
-    perfectScore: 11,
   },
   {
     id: 5,
@@ -46,7 +41,6 @@ export const LEVELS = [
     startText: 'const greeting = "Hello World"; const name = "John";',
     targetText: 'const greeting = "Hi"; const name = "Jane";',
     description: "Change text inside quotes using text objects",
-    perfectScore: 12,
   },
   {
     id: 6,
@@ -54,7 +48,6 @@ export const LEVELS = [
     startText: "function greet(name, age, city) { return name; }",
     targetText: "function greet(x, y, z) { return x; }",
     description: "Change function parameters using parenthesis text objects",
-    perfectScore: 12,
   },
   {
     id: 7,
@@ -63,7 +56,6 @@ export const LEVELS = [
     targetText: "<article>Hello</article>",
     description:
       "Change the wrapping tag (note codemirror doesn't support all text objects 😢)",
-    perfectScore: 11, // citarticleEsc // UNSURE - cit should change inside tags not surrounding
   },
   {
     id: 8,
@@ -71,7 +63,6 @@ export const LEVELS = [
     startText: 'display(data, "Result")',
     targetText: 'display("Result", data)',
     description: "Swap the function arguments",
-    perfectScore: 12, // fddt,2xea, Escp // UNSURE
   },
   {
     id: 9,
@@ -79,7 +70,6 @@ export const LEVELS = [
     startText: "const valeu = 1;",
     targetText: "const value = 1;",
     description: "Fix the typo using 'xp' (transpose)",
-    perfectScore: 4, // fexp
   },
   {
     id: 10,
@@ -87,7 +77,6 @@ export const LEVELS = [
     startText: 'class="menu_item_active"',
     targetText: 'class="menu-item-active"',
     description: "Convert snake_case to kebab-case using find and repeat",
-    perfectScore: 6, // f_r-;.
   },
   {
     id: 11,
@@ -95,7 +84,6 @@ export const LEVELS = [
     startText: "if (isValid) { save(); }",
     targetText: "save();",
     description: "Remove the if statement wrapper",
-    perfectScore: 5, // di{Vp
   },
   {
     id: 12,
@@ -103,7 +91,6 @@ export const LEVELS = [
     startText: "const a = 1\nconst b = 2\nconst c = 3",
     targetText: "const a = 1;\nconst b = 2;\nconst c = 3;",
     description: "Append semicolons to end of lines",
-    perfectScore: 7, // A;Escj.j.
   },
   {
     id: 13,
@@ -111,7 +98,6 @@ export const LEVELS = [
     startText: "Title\nSubtitle\nSection",
     targetText: "## Title\n## Subtitle\n## Section",
     description: "Add markdown headers to lines",
-    perfectScore: 9, // I## Escj.j.
   },
   {
     id: 14,
@@ -119,7 +105,6 @@ export const LEVELS = [
     startText: 'const color = "red"',
     targetText: 'const color = { value: "red" }',
     description: "Wrap the value in an object",
-    perfectScore: 16, // f"i{ value: Escea }Esc
   },
   {
     id: 15,
@@ -127,7 +112,6 @@ export const LEVELS = [
     startText: '<div id="app"><span>Loading...</span></div>',
     targetText: '<div id="app"></div>',
     description: "Clear the inner HTML of the div",
-    perfectScore: 3, // dit - if text object works
   },
   {
     id: 16,
@@ -135,7 +119,6 @@ export const LEVELS = [
     startText: "- Apples\n- Bananas\n- Oranges\n- Grapes\n- Mangoes",
     targetText: "Apples, Bananas, Oranges, Grapes, Mangoes",
     description: "Convert the list into a comma-separated line",
-    perfectScore: 8,
   },
   {
     id: 17,
@@ -144,7 +127,6 @@ export const LEVELS = [
     targetText:
       "// const a = 1;\n// const b = 2;\n// const c = 3;\n// const d = 4;",
     description: "Comment out all lines using Visual Block mode",
-    perfectScore: 10,
   },
   {
     id: 18,
@@ -152,7 +134,6 @@ export const LEVELS = [
     startText: "name: John\nage: 30\ncity: New York",
     targetText: '"name": "John",\n"age": "30",\n"city": "New York",',
     description: "Convert yaml-like key-values to JSON format",
-    perfectScore: 18,
   },
   {
     id: 19,
@@ -160,7 +141,6 @@ export const LEVELS = [
     startText: 'const user_first_name = "John";\nconst user_last_name = "Doe";',
     targetText: 'const userFirstName = "John";\nconst userLastName = "Doe";',
     description: "Convert snake_case variables to camelCase",
-    perfectScore: 12,
   },
 ] as const satisfies Level[];
 

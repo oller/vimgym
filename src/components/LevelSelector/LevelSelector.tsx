@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { LEVELS } from "../../data/levels";
-import { useUserBestScores } from "../../hooks/api";
+import { usePlayerDashboard } from "../../hooks/api";
 import { useScrollIntoView } from "../../hooks/useScrollIntoView";
 import { getUserId, setInvalidateQueriesCallback } from "../../lib/analytics";
 import { useGameStore } from "../../store/useGameStore";
@@ -14,12 +14,12 @@ export const LevelSelector = () => {
   const queryClient = useQueryClient();
 
   const userId = getUserId();
-  const { data: highScores = {} } = useUserBestScores(userId);
+  const { data: dashboard = {} } = usePlayerDashboard(userId);
 
   // Set up callback to invalidate queries after completion
   useEffect(() => {
     setInvalidateQueriesCallback((userId) => {
-      queryClient.invalidateQueries({ queryKey: ["userBestScores", userId] });
+      queryClient.invalidateQueries({ queryKey: ["playerDashboard", userId] });
     });
   }, [queryClient]);
 
@@ -32,7 +32,7 @@ export const LevelSelector = () => {
     <div className="w-full md:border-l font-roboto-mono border-gray-800 h-full flex flex-col min-h-0 pl-0">
       <div className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent md:pl-4">
         {LEVELS.map((level) => {
-          const score = highScores[level.id];
+          const levelData = dashboard[level.id];
           const isCurrentLevel = level.id === currentLevel;
 
           return (
@@ -40,10 +40,10 @@ export const LevelSelector = () => {
               isCurrentLevel={isCurrentLevel}
               key={level.id}
               level={level}
+              levelData={levelData}
               onClick={() =>
                 navigate({ search: { levelId: level.id }, replace: true })
               }
-              score={score}
               scrollRef={scrollRef}
             />
           );

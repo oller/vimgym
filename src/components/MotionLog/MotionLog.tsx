@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useScrollIntoView } from "../../hooks/useScrollIntoView";
 import { useGameStore } from "../../store/useGameStore";
 import { explainSequence } from "../../utils/vimsplain";
@@ -13,12 +12,13 @@ export const MotionLog = () => {
   });
 
   // Join history into a string and explain it
-  const explainedCommands = useMemo(() => {
+  // Compiler optimizes this automatically
+  const explainedCommands = (() => {
     if (history.length === 0) return [];
     const sequence = history.join("");
     const result = explainSequence(sequence);
     return result.commands;
-  }, [history]);
+  })();
 
   return (
     <div className="flex flex-col rounded-lg border border-gray-800 p-4">

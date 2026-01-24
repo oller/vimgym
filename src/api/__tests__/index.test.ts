@@ -2,7 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getSupabaseClient } from "../../lib/supabase/client";
 import type { Database } from "../../types/database";
-import { getAllLevelStats, submitLevelCompletion } from "../index";
+import { submitLevelCompletion } from "../index";
 
 vi.mock("../../lib/supabase/client");
 
@@ -52,7 +52,7 @@ describe("API", () => {
       expect(result1.error).toContain("Invalid UUID");
 
       const result2 = await submitLevelCompletion({
-        userId: "123e4567-e89b-12d3-a456-426614174000",
+        userId: "123e4567-e89b-42d3-a456-426614174000",
         level: 1,
         score: -1,
         keystrokes: ["h", "j"],
@@ -77,7 +77,7 @@ describe("API", () => {
       );
 
       const result = await submitLevelCompletion({
-        userId: "123e4567-e89b-12d3-a456-426614174001",
+        userId: "123e4567-e89b-42d3-a456-426614174001",
         level: 1,
         score: 10,
         keystrokes: ["h", "j", "k"],
@@ -87,7 +87,7 @@ describe("API", () => {
         success: true,
       });
       expect(mockClient.insert).toHaveBeenCalledWith({
-        user_id: "123e4567-e89b-12d3-a456-426614174001",
+        user_id: "123e4567-e89b-42d3-a456-426614174001",
         level: 1,
         keystrokes_count: 10,
         keystrokes: ["h", "j", "k"],
@@ -112,7 +112,7 @@ describe("API", () => {
       );
 
       const result = await submitLevelCompletion({
-        userId: "123e4567-e89b-12d3-a456-426614174001",
+        userId: "123e4567-e89b-42d3-a456-426614174001",
         level: 1,
         score: 10,
         keystrokes: ["h", "j"],
@@ -125,12 +125,11 @@ describe("API", () => {
     });
   });
 
-  describe("getAllLevelStats", () => {
+  describe("getPlayerDashboard", () => {
     it("returns empty object when Supabase is not configured", async () => {
       vi.mocked(getSupabaseClient).mockReturnValue(null);
-
-      const result = await getAllLevelStats();
-
+      const { getPlayerDashboard } = await import("../index");
+      const result = await getPlayerDashboard("user-1");
       expect(result).toEqual({});
     });
 
@@ -138,110 +137,48 @@ describe("API", () => {
       const mockClient = {
         rpc: vi.fn().mockResolvedValue({
           data: null,
-          error: { message: "Error fetching stats" },
+          error: { message: "Error fetching dashboard" },
         }),
       };
-
       vi.mocked(getSupabaseClient).mockReturnValue(
         mockClient as unknown as SupabaseClient<Database>,
       );
+      const { getPlayerDashboard } = await import("../index");
 
-      const result = await getAllLevelStats();
-
+      const result = await getPlayerDashboard("user-1");
       expect(result).toEqual({});
     });
 
-    it("returns and validates level stats", async () => {
-      const mockClient = {
-        rpc: vi.fn().mockResolvedValue({
-          data: {
-            "1": {
-              level: 1,
-              totalCompletions: 100,
-              avgKeystrokes: 12.5,
-              bestScore: 8,
-            },
-            "2": {
-              level: 2,
-              totalCompletions: 50,
-              avgKeystrokes: 15.2,
-              bestScore: 10,
-            },
-          },
-          error: null,
-        }),
-      };
-
-      vi.mocked(getSupabaseClient).mockReturnValue(
-        mockClient as unknown as SupabaseClient<Database>,
-      );
-
-      const result = await getAllLevelStats();
-
-      expect(result).toEqual({
-        1: {
-          level: 1,
-          totalCompletions: 100,
-          avgKeystrokes: 12.5,
-          bestScore: 8,
+    it("returns transformed dashboard stats", async () => {
+      const mockData = {
+        "1": {
+          user: { best: 10, percentile: 50.5 },
+          global: { best: 8, average: 12.5, completions: 100 },
         },
-        2: {
-          level: 2,
-          totalCompletions: 50,
-          avgKeystrokes: 15.2,
-          bestScore: 10,
+        "2": {
+          user: { best: null, percentile: null },
+          global: { best: 10, average: 15.0, completions: 50 },
         },
-      });
-      expect(mockClient.rpc).toHaveBeenCalledWith("get_level_stats");
-    });
-  });
-
-  describe("getUserBestScores", () => {
-    it("returns empty object when Supabase is not configured", async () => {
-      vi.mocked(getSupabaseClient).mockReturnValue(null);
-      const { getUserBestScores } = await import("../index");
-      const result = await getUserBestScores("user-1");
-      expect(result).toEqual({});
-    });
-
-    it("returns empty object on error", async () => {
-      const mockClient = {
-        rpc: vi.fn().mockResolvedValue({
-          data: null,
-          error: { message: "Error fetching best scores" },
-        }),
       };
-      vi.mocked(getSupabaseClient).mockReturnValue(
-        mockClient as unknown as SupabaseClient<Database>,
-      );
-      const { getUserBestScores } = await import("../index");
 
-      const result = await getUserBestScores("user-1");
-      expect(result).toEqual({});
-    });
-
-    it("returns transformed best scores", async () => {
       const mockClient = {
         rpc: vi.fn().mockResolvedValue({
-          data: {
-            "1": 10,
-            "2": 15,
-          },
+          data: mockData,
           error: null,
         }),
       };
       vi.mocked(getSupabaseClient).mockReturnValue(
         mockClient as unknown as SupabaseClient<Database>,
       );
-      const { getUserBestScores } = await import("../index");
+      const { getPlayerDashboard } = await import("../index");
 
-      const result = await getUserBestScores("user-1");
+      const result = await getPlayerDashboard("user-1");
 
       expect(result).toEqual({
-        1: 10,
-        2: 15,
+        1: mockData["1"],
+        2: mockData["2"],
       });
-      expect(mockClient.rpc).toHaveBeenCalledWith("get_user_best_scores", {
+      expect(mockClient.rpc).toHaveBeenCalledWith("get_player_dashboard", {
         p_user_id: "user-1",
       });
     });
