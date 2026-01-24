@@ -1,8 +1,11 @@
 import { getSupabaseClient } from "../lib/supabase/client";
+import type {
+  AllLevelStats,
+  LevelCompletionInput,
+  UserBestScores,
+} from "../schemas";
 import {
-  type AllLevelStats,
   allLevelStatsSchema,
-  type LevelCompletionInput,
   levelCompletionInputSchema,
   userBestScoresSchema,
 } from "../schemas";
@@ -74,7 +77,7 @@ export const getAllLevelStats = async (): Promise<AllLevelStats> => {
 
 export const getUserBestScores = async (
   userId: string,
-): Promise<Record<number, number>> => {
+): Promise<UserBestScores> => {
   const client = getSupabaseClient();
 
   if (!client) {

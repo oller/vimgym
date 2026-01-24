@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
-import { type PropsWithChildren, useEffect, useRef } from "react";
+import type { PropsWithChildren } from "react";
+import { useEffect, useRef } from "react";
 import { useGameStore } from "../store/useGameStore";
 
 type CrtEffectProps = PropsWithChildren<{

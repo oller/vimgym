@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
-import { type ReactNode, useEffect } from "react";
+import type { ReactNode } from "react";
+import { useEffect } from "react";
 import { cn } from "../../utils/cn";
 
 type ModalProps = {

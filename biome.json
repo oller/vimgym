@@ -18,6 +18,16 @@
     "domains": {
       "react": "all",
       "test": "all"
+    },
+    "rules": {
+      "style": {
+        "useImportType": {
+          "level": "error",
+          "options": {
+            "style": "separatedType"
+          }
+        }
+      }
     }
   },
   "javascript": {

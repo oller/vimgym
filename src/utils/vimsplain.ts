@@ -5,12 +5,12 @@
  * Based on the Python vimsplain script, simplified for common VimGym commands.
  */
 
-import {
-  type CommandDefinition,
-  type ExplainedCommand,
-  type ExplainResult,
-  SPECIAL_KEYS,
+import type {
+  CommandDefinition,
+  ExplainedCommand,
+  ExplainResult,
 } from "./vimsplain.types";
+import { SPECIAL_KEYS } from "./vimsplain.types";
 
 /** Commands that enter insert mode */
 const INSERT_MODE_TRIGGERS = new Set([
