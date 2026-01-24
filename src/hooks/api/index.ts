@@ -4,7 +4,11 @@ import {
   getUserBestScores,
   submitLevelCompletion,
 } from "../../api";
-import type { AllLevelStats, LevelCompletionInput } from "../../schemas";
+import type {
+  AllLevelStats,
+  LevelCompletionInput,
+  UserBestScores,
+} from "../../schemas";
 
 export const useSubmitCompletion = () => {
   const queryClient = useQueryClient();
@@ -29,7 +33,7 @@ export const useLevelStats = () => {
 };
 
 export const useUserBestScores = (userId: string | null) => {
-  return useQuery<Record<number, number>>({
+  return useQuery<UserBestScores>({
     queryKey: ["userBestScores", userId],
     queryFn: () => {
       if (!userId) return Promise.resolve({});

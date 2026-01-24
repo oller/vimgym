@@ -1,8 +1,8 @@
 import { getSupabaseClient } from "../lib/supabase/client";
 import {
   type AllLevelStats,
-  type LevelCompletionInput,
   allLevelStatsSchema,
+  type LevelCompletionInput,
   levelCompletionInputSchema,
   userBestScoresSchema,
 } from "../schemas";
@@ -94,9 +94,6 @@ export const getUserBestScores = async (
     const validated = userBestScoresSchema.parse(data);
     // Convert string keys to number keys for internal consistency if needed,
     // or just return as is if the app handles string keys?
-    // The previous implementation returned Record<number, number>.
-    // JSON keys are always strings.
-    // Let's convert to Record<number, number> to match expected return type.
     const result: Record<number, number> = {};
     for (const [key, value] of Object.entries(validated)) {
       result[Number(key)] = value;
