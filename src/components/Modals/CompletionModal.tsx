@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { useUserBestScores } from "../../hooks/api";
+import { getUserId } from "../../lib/analytics";
 import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
 import { Modal } from "./Modal";
@@ -15,8 +17,10 @@ export const CompletionModal = ({
 }: CompletionModalProps) => {
   const history = useGameStore((state) => state.history);
   const currentLevel = useGameStore((state) => state.currentLevel);
-  const highScores = useGameStore((state) => state.highScores);
   const [showConfetti, setShowConfetti] = useState(false);
+
+  const userId = getUserId();
+  const { data: highScores = {} } = useUserBestScores(userId);
   const bestScore = highScores[currentLevel];
   const isNewBest =
     bestScore !== undefined &&

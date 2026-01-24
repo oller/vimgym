@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 import { getLevel, LEVELS } from "../data/levels";
+import { submitCompletionAnalytics } from "../lib/analytics";
 
 interface GameState {
   currentLevel: number;
@@ -10,7 +10,6 @@ interface GameState {
   history: string[]; // List of keystrokes/motions
   isCompleted: boolean;
   resetCount: number;
-  highScores: Partial<Record<number, number>>; // Level -> Min Keystrokes
   isPoweredOff: boolean;
 
   // Actions
@@ -19,123 +18,78 @@ interface GameState {
   addKeyStroke: (key: string) => void;
   resetLevel: () => void;
   nextLevel: () => void;
-  checkAndUpdateHighScore: () => void;
-  clearScores: () => void;
-  setPoweredOff: (isPoweredOff: boolean) => void; // Added setPoweredOff action
+  setPoweredOff: (isPoweredOff: boolean) => void;
 }
 
 const level1 = LEVELS[0];
 
-export const useGameStore = create<GameState>()(
-  persist(
-    (set, get) => ({
-      currentLevel: 1,
-      startText: level1.startText,
-      targetText: level1.targetText,
-      currentText: level1.startText,
+export const useGameStore = create<GameState>((set, get) => ({
+  currentLevel: 1,
+  startText: level1.startText,
+  targetText: level1.targetText,
+  currentText: level1.startText,
+  history: [],
+  isCompleted: false,
+  resetCount: 0,
+  isPoweredOff: false,
+
+  setLevel: (levelId) => {
+    const level = getLevel(levelId);
+    if (!level) return;
+
+    set({
+      currentLevel: levelId,
+      startText: level.startText,
+      targetText: level.targetText,
+      currentText: level.startText,
       history: [],
       isCompleted: false,
-      resetCount: 0,
-      highScores: {},
-      isPoweredOff: false, // Initial state for isPoweredOff
+    });
+  },
 
-      setLevel: (levelId) => {
-        const level = getLevel(levelId);
-        if (!level) return;
+  updateText: (text) => {
+    const { targetText, currentLevel, history } = get();
+    const isCompleted = text.trim() === targetText.trim();
+    set({ currentText: text, isCompleted });
 
-        const { highScores } = get(); // Preserve high scores
-        set({
-          currentLevel: levelId,
-          startText: level.startText,
-          targetText: level.targetText,
-          currentText: level.startText,
-          history: [],
-          isCompleted: false,
-          highScores, // Keep existing high scores
-        });
-      },
+    if (isCompleted) {
+      // Submit analytics (fire and forget)
+      const currentScore = history.length;
+      submitCompletionAnalytics(currentLevel, currentScore, history);
+    }
+  },
 
-      updateText: (text) => {
-        const { targetText, checkAndUpdateHighScore } = get();
-        const isCompleted = text.trim() === targetText.trim();
-        set({ currentText: text, isCompleted });
+  addKeyStroke: (key) =>
+    set((state) => ({
+      history: [...state.history, key],
+    })),
 
-        if (isCompleted) {
-          checkAndUpdateHighScore();
-        }
-      },
+  resetLevel: () => {
+    const { startText, resetCount } = get();
+    set({
+      currentText: startText,
+      history: [],
+      isCompleted: false,
+      resetCount: resetCount + 1,
+    });
+  },
 
-      addKeyStroke: (key) =>
-        set((state) => ({
-          history: [...state.history, key],
-        })),
+  nextLevel: () => {
+    const { currentLevel } = get();
+    const nextLevelId = currentLevel + 1;
+    const nextLevelData = getLevel(nextLevelId);
 
-      checkAndUpdateHighScore: () => {
-        const { isCompleted, history, currentLevel, highScores } = get();
-        if (isCompleted) {
-          const currentScore = history.length;
-          const previousBest = highScores[currentLevel];
+    if (nextLevelData) {
+      set({
+        currentLevel: nextLevelId,
+        startText: nextLevelData.startText,
+        targetText: nextLevelData.targetText,
+        currentText: nextLevelData.startText,
+        history: [],
+        isCompleted: false,
+      });
+    }
+  },
 
-          // Record level completion with vexo
-          try {
-            // @ts-expect-error - vexo is a global injected by Vexo platform
-            window?.vexo?.customEvent?.("levelComplete", {
-              level: currentLevel,
-              score: currentScore,
-              keystrokes: history,
-            });
-          } catch {
-            // Silently ignore if vexo is not available or fails
-          }
-
-          if (previousBest === undefined || currentScore < previousBest) {
-            set({
-              highScores: { ...highScores, [currentLevel]: currentScore },
-            });
-          }
-        }
-      },
-
-      resetLevel: () => {
-        const { startText, resetCount } = get();
-        set({
-          currentText: startText,
-          history: [],
-          isCompleted: false,
-          resetCount: resetCount + 1,
-        });
-      },
-
-      nextLevel: () => {
-        const { currentLevel } = get();
-        const nextLevelId = currentLevel + 1;
-        const nextLevelData = getLevel(nextLevelId);
-
-        if (nextLevelData) {
-          set({
-            currentLevel: nextLevelId,
-            startText: nextLevelData.startText,
-            targetText: nextLevelData.targetText,
-            currentText: nextLevelData.startText,
-            history: [],
-            isCompleted: false,
-          });
-        }
-      },
-
-      clearScores: () => {
-        set({ highScores: {} });
-      },
-
-      setPoweredOff: (isPoweredOff) => set({ isPoweredOff }),
-    }),
-    {
-      name: "vimgym-storage",
-      partialize: (state) => ({ highScores: state.highScores }), // Only persist high scores
-      merge: (persistedState, currentState) => ({
-        ...currentState,
-        highScores: (persistedState as Partial<GameState>)?.highScores || {},
-      }),
-    },
-  ),
-);
+  setPoweredOff: (isPoweredOff) => set({ isPoweredOff }),
+}));

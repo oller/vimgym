@@ -1,14 +1,27 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { LEVELS } from "../../data/levels";
+import { useUserBestScores } from "../../hooks/api";
 import { useScrollIntoView } from "../../hooks/useScrollIntoView";
+import { getUserId, setInvalidateQueriesCallback } from "../../lib/analytics";
 import { useGameStore } from "../../store/useGameStore";
 import { LevelSelectorItem } from "./LevelSelectorItem";
 
 export const LevelSelector = () => {
   const currentLevel = useGameStore((state) => state.currentLevel);
-  const highScores = useGameStore((state) => state.highScores);
-  const clearScores = useGameStore((state) => state.clearScores);
   const navigate = useNavigate({ from: "/" });
+  const queryClient = useQueryClient();
+
+  const userId = getUserId();
+  const { data: highScores = {} } = useUserBestScores(userId);
+
+  // Set up callback to invalidate queries after completion
+  useEffect(() => {
+    setInvalidateQueriesCallback((userId) => {
+      queryClient.invalidateQueries({ queryKey: ["userBestScores", userId] });
+    });
+  }, [queryClient]);
 
   const scrollRef = useScrollIntoView<HTMLDivElement>(currentLevel, {
     behavior: "smooth",
@@ -35,19 +48,6 @@ export const LevelSelector = () => {
             />
           );
         })}
-      </div>
-      <div className="md:pl-4 pt-4 mt-auto">
-        <button
-          className="w-full cursor-pointer text-xs text-tokyo-night-pink bg-tokyo-night-pink/10 hover:bg-tokyo-night-pink/15 active:bg-tokyo-night-pink/25 p-2 text-center transition-colors font-roboto-mono uppercase tracking-wider"
-          onClick={() => {
-            if (window.confirm("Are you sure you want to clear all scores?")) {
-              clearScores();
-            }
-          }}
-          type="button"
-        >
-          Reset all scores
-        </button>
       </div>
     </div>
   );

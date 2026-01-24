@@ -27,7 +27,6 @@ describe("VimEditor Keypress Logging", () => {
       currentText: "Test text",
       history: [],
       isCompleted: false,
-      highScores: {},
     });
   });
 

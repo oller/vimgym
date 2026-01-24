@@ -1,7 +1,17 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { expect, test } from "vitest";
 import App from "../../src/App";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 test("complete level 1 with keystrokes fsldt. and verify score is 6", async () => {
   // Note: This integration test may produce React act() warnings about
@@ -12,7 +22,11 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
   // 3. The user interactions are already properly wrapped in act()
   //
   // Mount the app
-  render(<App />);
+  render(
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>,
+  );
 
   const editor = await screen.findByRole("textbox", {}, { timeout: 3000 });
 

@@ -1,6 +1,8 @@
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 import type { Level } from "../../data/levels";
 import { cn } from "../../utils/cn";
+import { LevelStatsCard } from "../LevelStatsCard/LevelStatsCard";
 
 type Variant = "perfect" | "completed" | "current" | "unplayed";
 
@@ -37,6 +39,7 @@ export const LevelSelectorItem = ({
   onClick,
   scrollRef,
 }: LevelSelectorItemProps) => {
+  const [isHovered, setIsHovered] = useState(false);
   const isPerfectScore =
     score !== undefined && score <= (level.perfectScore ?? Infinity);
   const hasScore = score !== undefined;
@@ -48,6 +51,10 @@ export const LevelSelectorItem = ({
 
   const variant = getVariant(isPerfectScore, hasScore, isCurrentLevel);
   const variantClasses = styleVariants[variant];
+
+  // Disable pointer events on the stats card container to prevent button click issues if necessary,
+  // but usually it's fine inside a button.
+  // We enable layout animation for smooth expanding.
 
   return (
     <div
@@ -63,10 +70,12 @@ export const LevelSelectorItem = ({
       )}
       <button
         className={cn(
-          "w-full cursor-pointer text-left p-3 transition-colors",
+          "w-full cursor-pointer text-left p-3 transition-colors relative overflow-hidden",
           ...variantClasses,
         )}
         onClick={onClick}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         style={
           {
             "--shimmer-delay": `-${delay}s`,
@@ -74,21 +83,38 @@ export const LevelSelectorItem = ({
         }
         type="button"
       >
-        <div className="flex justify-between items-center">
-          <div className="flex-1 space-y-1">
-            <div className="font-bold text-xs">Level {level.id}</div>
-            <div className="text-xs">{level.name}</div>
-          </div>
-          {score !== undefined && (
-            <div
-              className={cn(
-                "text-xs font-roboto-mono px-2 py-1 rounded bg-black/30 text-white",
-              )}
-            >
-              {score}
+        <motion.div layout>
+          <div className="flex justify-between items-center relative z-10">
+            <div className="flex-1 space-y-1">
+              <div className="font-bold text-xs">Level {level.id}</div>
+              <div className="text-xs">{level.name}</div>
             </div>
+            {score !== undefined && (
+              <div
+                className={cn(
+                  "text-xs font-roboto-mono px-2 py-1 rounded bg-black/20 backdrop-blur-sm",
+                  // Ensure specific text color if needed, but inheriting is better generally
+                )}
+              >
+                {score}
+              </div>
+            )}
+          </div>
+        </motion.div>
+
+        <AnimatePresence>
+          {(isHovered || isCurrentLevel) && (
+            <motion.div
+              animate={{ height: "auto", opacity: 1 }}
+              className="overflow-hidden"
+              exit={{ height: 0, opacity: 0 }}
+              initial={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              <LevelStatsCard levelId={level.id} userScore={score} />
+            </motion.div>
           )}
-        </div>
+        </AnimatePresence>
       </button>
     </div>
   );

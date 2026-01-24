@@ -18,25 +18,20 @@ describe("useGameStore", () => {
     expect(state.targetText).toBe("The quick brown fox jumps.");
     expect(state.history).toEqual([]);
     expect(state.isCompleted).toBe(false);
-    expect(state.highScores).toEqual({});
   });
 
-  it("updates text, checks completion, and updates high score", () => {
-    const { updateText, addKeyStroke, checkAndUpdateHighScore } =
-      useGameStore.getState();
+  it("updates text and checks completion", () => {
+    const { updateText, addKeyStroke } = useGameStore.getState();
 
     // Simulate some moves
     addKeyStroke("x");
     addKeyStroke("x");
 
     updateText("The quick brown fox jumps.");
-    checkAndUpdateHighScore();
 
     const state = useGameStore.getState();
     expect(state.currentText).toBe("The quick brown fox jumps.");
     expect(state.isCompleted).toBe(true);
-    // Level 1 should have high score of 2 (history length)
-    expect(state.highScores[1]).toBe(2);
   });
 
   it("logs keystrokes", () => {
