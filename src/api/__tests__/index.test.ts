@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { getSupabaseClient } from "../../lib/supabase/client";
+import type { Database } from "../../types/database";
 import { getAllLevelStats, submitLevelCompletion } from "../index";
 
 vi.mock("../../lib/supabase/client");
@@ -34,7 +36,9 @@ describe("API", () => {
         single: vi.fn(),
       };
 
-      vi.mocked(getSupabaseClient).mockReturnValue(mockClient as any);
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
 
       const invalidData = {
         userId: "not-a-uuid",
@@ -43,7 +47,7 @@ describe("API", () => {
         keystrokes: ["h", "j"],
       };
 
-      const result1 = await submitLevelCompletion(invalidData as any);
+      const result1 = await submitLevelCompletion(invalidData);
       expect(result1.success).toBe(false);
       expect(result1.error).toContain("Invalid UUID");
 
@@ -52,7 +56,7 @@ describe("API", () => {
         level: 1,
         score: -1,
         keystrokes: ["h", "j"],
-      } as any);
+      });
       expect(result2.success).toBe(false);
       expect(result2.error).toContain("Too small");
     });
@@ -68,7 +72,9 @@ describe("API", () => {
         }),
       };
 
-      vi.mocked(getSupabaseClient).mockReturnValue(mockClient as any);
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
 
       const result = await submitLevelCompletion({
         userId: "123e4567-e89b-12d3-a456-426614174001",
@@ -101,7 +107,9 @@ describe("API", () => {
         }),
       };
 
-      vi.mocked(getSupabaseClient).mockReturnValue(mockClient as any);
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
 
       const result = await submitLevelCompletion({
         userId: "123e4567-e89b-12d3-a456-426614174001",
@@ -134,7 +142,9 @@ describe("API", () => {
         }),
       };
 
-      vi.mocked(getSupabaseClient).mockReturnValue(mockClient as any);
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
 
       const result = await getAllLevelStats();
 
@@ -162,7 +172,9 @@ describe("API", () => {
         }),
       };
 
-      vi.mocked(getSupabaseClient).mockReturnValue(mockClient as any);
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
 
       const result = await getAllLevelStats();
 
@@ -199,7 +211,9 @@ describe("API", () => {
           error: { message: "Error fetching best scores" },
         }),
       };
-      vi.mocked(getSupabaseClient).mockReturnValue(mockClient as any);
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
       const { getUserBestScores } = await import("../index");
 
       const result = await getUserBestScores("user-1");
@@ -216,7 +230,9 @@ describe("API", () => {
           error: null,
         }),
       };
-      vi.mocked(getSupabaseClient).mockReturnValue(mockClient as any);
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
       const { getUserBestScores } = await import("../index");
 
       const result = await getUserBestScores("user-1");
