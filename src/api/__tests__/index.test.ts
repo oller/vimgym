@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { getSupabaseClient } from "../../lib/supabase/client";
 import type { Database } from "../../types/database";
 import { getAllLevelStats, submitLevelCompletion } from "../index";
