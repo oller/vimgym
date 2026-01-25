@@ -11,7 +11,7 @@ export const LevelStatsCard = ({
     return null;
   }
   return (
-    <div className="flex justify-between text-xs font-medium tracking-wider uppercase mt-2">
+    <div className="flex justify-between text-xs font-medium tracking-wider uppercase mt-3">
       <span className="flex items-center gap-1">
         <svg
           className="size-3"
