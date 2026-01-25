@@ -114,13 +114,13 @@ export const LevelSelectorItem = ({
             {bestScore != null && (
               <div
                 className={cn(
-                  "text-xs font-roboto-mono px-2 py-1 rounded bg-black/20 backdrop-blur-sm flex flex-col items-center gap-2",
+                  "text-xs font-roboto-mono flex flex-col items-center ",
                   // Ensure specific text color if needed, but inheriting is better generally
                 )}
               >
-                <span>{bestScore}</span>
+                <span className="text-lg">{bestScore}</span>
                 {percentileLabel && (
-                  <span className="text-[10px] opacity-75 border-t border-white/20 pt-2 whitespace-nowrap">
+                  <span className="text-[10px] opacity-75 whitespace-nowrap">
                     {percentileLabel}
                   </span>
                 )}
