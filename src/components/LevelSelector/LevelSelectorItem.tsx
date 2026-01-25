@@ -42,8 +42,8 @@ export const LevelSelectorItem = ({
   scrollRef,
 }: LevelSelectorItemProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const bestScore = score?.user?.best;
-  const percentile = score?.user?.percentile;
+  const bestScore = score?.user.best;
+  const percentile = score?.user.percentile;
   const isPerfectScore =
     bestScore != null && bestScore <= (score?.global.best ?? Infinity);
   const hasScore = bestScore != null;
@@ -139,8 +139,8 @@ export const LevelSelectorItem = ({
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
               <LevelStatsCard
-                globalAverage={score?.global?.average}
-                globalBest={score?.global?.best}
+                globalAverage={score?.global.average}
+                globalBest={score?.global.best}
               />
             </motion.div>
           )}
