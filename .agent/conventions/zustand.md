@@ -25,11 +25,13 @@ Use `partialize` to persist only specific state (e.g., high scores). Avoid persi
 ## Accessing State
 
 In components (reactive):
+
 ```typescript
 const currentLevel = useGameStore((state) => state.currentLevel);
 ```
 
 In tests and non-reactive code (synchronous):
+
 ```typescript
 const state = useGameStore.getState();
 ```
