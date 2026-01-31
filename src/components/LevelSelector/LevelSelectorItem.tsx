@@ -16,6 +16,7 @@ const styleVariants = {
   perfect: ["text-tokyo-night-gold"],
   completed: ["text-tokyo-night-turquoise"],
   current: ["text-tokyo-night-storm"],
+  unplayed: [""],
 } as const;
 
 const getVariant = (
