@@ -12,7 +12,8 @@
     {
       "includes": ["env.d.ts"],
       "linter": { "enabled": false },
-      "formatter": { "enabled": false }
+      "formatter": { "enabled": false },
+      "assist": { "enabled": false }
     }
   ],
   "formatter": {
