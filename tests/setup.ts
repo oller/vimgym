@@ -1,5 +1,19 @@
-import { beforeEach } from "vitest";
 import "@testing-library/jest-dom/vitest";
+import { beforeEach, vi } from "vitest";
+
+// Global Supabase Mock
+vi.mock("../src/lib/supabase/client", () => ({
+  getSupabaseClient: () => ({
+    rpc: vi.fn().mockResolvedValue({ data: null, error: null }),
+    from: vi.fn().mockReturnThis(),
+    select: vi.fn().mockReturnThis(),
+    insert: vi.fn().mockResolvedValue({ data: null, error: null }),
+    update: vi.fn().mockReturnThis(),
+    delete: vi.fn().mockReturnThis(),
+    eq: vi.fn().mockReturnThis(),
+    single: vi.fn().mockResolvedValue({ data: null, error: null }),
+  }),
+}));
 
 beforeEach(() => {
   document.createRange = () => {
