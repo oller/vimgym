@@ -12,24 +12,6 @@ type LevelSelectorItemProps = {
   scrollRef: React.RefObject<HTMLDivElement | null>;
 };
 
-const styleVariants = {
-  perfect: ["text-tokyo-night-gold"],
-  completed: ["text-tokyo-night-turquoise"],
-  current: ["text-tokyo-night-storm"],
-  unplayed: [""],
-} as const;
-
-const getVariant = (
-  isPerfectScore: boolean,
-  hasScore: boolean,
-  isCurrentLevel: boolean,
-) => {
-  if (isPerfectScore) return "perfect";
-  if (hasScore) return "completed";
-  if (isCurrentLevel) return "current";
-  return "unplayed";
-};
-
 export const LevelSelectorItem = ({
   level,
   levelData: score,
@@ -43,8 +25,8 @@ export const LevelSelectorItem = ({
     bestScore != null && bestScore <= (score?.global.best ?? Infinity);
   const hasScore = bestScore != null;
 
-  const variant = getVariant(isPerfectScore, hasScore, isCurrentLevel);
-  const variantClasses = styleVariants[variant];
+  // const variant = getVariant(isPerfectScore, hasScore);
+  // const variantClasses = styleVariants[variant];
 
   const getPercentileLabel = () => {
     if (isPerfectScore) return null;
@@ -93,7 +75,8 @@ export const LevelSelectorItem = ({
             <div
               className={cn(
                 "text-2xl font-roboto-mono text-transparent bg-clip-text flex flex-col items-center",
-                ...variantClasses,
+                isPerfectScore && "text-tokyo-night-gold",
+                hasScore && !isPerfectScore && "text-tokyo-night-turquoise",
               )}
             >
               {bestScore}
@@ -101,7 +84,8 @@ export const LevelSelectorItem = ({
                 <span
                   className={cn(
                     "text-[10px] opacity-75 whitespace-nowrap",
-                    ...variantClasses,
+                    isPerfectScore && "text-tokyo-night-gold",
+                    hasScore && !isPerfectScore && "text-tokyo-night-turquoise",
                   )}
                 >
                   {percentileLabel}
