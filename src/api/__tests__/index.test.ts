@@ -153,11 +153,21 @@ describe("API", () => {
       const mockData = {
         "1": {
           user: { best: 10, percentile: 50.5 },
-          global: { best: 8, average: 12.5, completions: 100 },
+          global: {
+            best: 8,
+            average: 12.5,
+            completions: 100,
+            best_score_log: ["h", "j"],
+          },
         },
         "2": {
           user: { best: null, percentile: null },
-          global: { best: 10, average: 15.0, completions: 50 },
+          global: {
+            best: 10,
+            average: 15.0,
+            completions: 50,
+            best_score_log: ["k", "l"],
+          },
         },
       };
 
