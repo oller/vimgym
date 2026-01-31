@@ -8,6 +8,13 @@
   "files": {
     "ignoreUnknown": false
   },
+  "overrides": [
+    {
+      "includes": ["env.d.ts"],
+      "linter": { "enabled": false },
+      "formatter": { "enabled": false }
+    }
+  ],
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
