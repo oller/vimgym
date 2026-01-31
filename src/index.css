@@ -23,44 +23,8 @@
   --color-tokyo-night-storm: #24283b;
   --color-tokyo-night: #1a1b26;
   --color-tokyo-night-pink: #ff9696;
-
-  @keyframes shimmer {
-    0% {
-      transform: translateX(-100%);
-    }
-    25% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-}
-
-@utility bg-gold-gradient {
-  background: #d19e1d;
-  background: -webkit-linear-gradient(
-    90deg,
-    #d19e1d 0%,
-    #ffd86e 50%,
-    #e3a812 100%
-  );
-  background: linear-gradient(90deg, #d19e1d 0%, #ffd86e 50%, #e3a812 100%);
-}
-
-@utility animate-shimmer {
-  @apply relative overflow-hidden;
-  &::after {
-    content: "";
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.4),
-      transparent
-    );
-    animation: shimmer 6s infinite var(--shimmer-delay, 0s);
-    @apply inset-0 absolute;
-  }
+  --color-tokyo-night-turquoise: #73daca;
+  --color-tokyo-night-gold: #e0af68;
 }
 
 /* -------------------------------- */

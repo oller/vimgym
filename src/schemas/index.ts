@@ -18,7 +18,8 @@ export const playerDashboardSchema = z.record(
     global: z.object({
       best: z.number().nullable(),
       average: z.number().nullable(),
-      completions: z.number(),
+      completions: z.number().nullable(),
+      best_score_log: z.array(z.string()).nullable(),
     }),
   }),
 );
