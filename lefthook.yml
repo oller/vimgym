@@ -6,6 +6,8 @@ pre-commit:
     test:
       run: pnpm test --run
     lint:
-      glob: "*.{js,ts,jsx,tsx,json,css}"
+      glob:
+        - "*.{js,ts,jsx,tsx,json,css}"
+        - "!env.d.ts"
       run: pnpm biome check --fix --no-errors-on-unmatched {staged_files}
       stage_fixed: true
