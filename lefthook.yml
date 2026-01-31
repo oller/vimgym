@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: true
+  commands:
+    type-check:
+      run: pnpm type-check
+    test:
+      run: pnpm test --run
+    lint:
+      glob: "*.{js,ts,jsx,tsx,json,css}"
+      run: pnpm biome check --fix --no-errors-on-unmatched {staged_files}
+      stage_fixed: true

@@ -11,7 +11,8 @@
     "lint:fix": "biome check . --fix",
     "test": "vitest",
     "type-check": "tsc -b",
-    "types:gen": "supabase gen types typescript --project-id npgygqytvyudcqzntvvo > src/types/database.ts"
+    "types:gen": "supabase gen types typescript --project-id npgygqytvyudcqzntvvo > src/types/database.ts",
+    "postinstall": "lefthook install"
   },
   "dependencies": {
     "@codemirror/state": "^6.5.4",
@@ -47,6 +48,7 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "globals": "^16.5.0",
     "jsdom": "^27.4.0",
+    "lefthook": "^2.0.16",
     "supabase": "^2.72.8",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.18",
@@ -59,7 +61,8 @@
       "esm-env": "npm:esm-env-runtime@^0.1.1"
     },
     "onlyBuiltDependencies": [
-      "supabase"
+      "supabase",
+      "lefthook"
     ]
   }
 }
