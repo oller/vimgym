@@ -16,9 +16,7 @@ export const MotionLogItem = ({ command }: MotionItemProps) => {
       initial={{ opacity: 0, scale: 0.8 }}
       layout
     >
-      <VimKbd className="bg-transparent border-none text-yellow-500 min-w-5">
-        {command.matched}
-      </VimKbd>
+      <VimKbd className="text-tokyo-night-gold">{command.matched}</VimKbd>
       <motion.span
         className="text-gray-400 text-xs px-1 whitespace-nowrap"
         layout

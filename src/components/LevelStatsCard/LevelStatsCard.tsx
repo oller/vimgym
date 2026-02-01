@@ -53,13 +53,12 @@ export const LevelStatsCard = ({
                 sideOffset={5}
               >
                 <div className="shadow-xl bg-tokyo-night-storm p-2 text-xs font-roboto-mono text-gray-300">
-                  <div className="text-[10px] text-gray-500 mb-1 border-b border-gray-800 pb-1">
+                  <div className="text-xs text-gray-500 mb-1 border-b border-gray-800 pb-1">
                     OPTIMUM RUN
                   </div>
                   <div className="flex flex-wrap gap-1 max-w-50">
                     {bestScoreLog.map((key, i) => (
                       <VimKbd
-                        className="text-[10px] min-w-[1.2em] px-1 py-0"
                         // biome-ignore lint/suspicious/noArrayIndexKey: array is static
                         key={`${key}-${i}`}
                       >

@@ -42,7 +42,7 @@ export async function submitCompletionAnalytics(
       userId,
       level,
       score,
-      keystrokes: keystrokes.length,
+      keystrokes,
     });
 
     // Call database function - atomic operation (1 request!)

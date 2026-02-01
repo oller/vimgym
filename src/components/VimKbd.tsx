@@ -10,7 +10,7 @@ export const VimKbd = ({ children, className }: VimKbdProps) => {
   return (
     <kbd
       className={cn(
-        "px-1.5 py-0.5 bg-slate-800/80 rounded text-yellow-500 min-w-5 text-center font-roboto-mono text-xs border border-slate-700/50",
+        "px-1.5 py-0.5 min-w-5 text-xs rounded text-center font-roboto-mono inline-block bg-slate-800/80 border border-slate-700/50 text-tokyo-night-gold shadow-sm",
         className,
       )}
     >

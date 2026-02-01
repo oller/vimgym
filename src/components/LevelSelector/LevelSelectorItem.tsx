@@ -68,7 +68,7 @@ export const LevelSelectorItem = ({
       >
         <div className="flex justify-between items-center relative z-10">
           <div className="flex-1 space-y-1">
-            <div className="text-[10px] opacity-60">Level {level.id}</div>
+            <div className="text-[10px] text-gray-500">LEVEL {level.id}</div>
             <div className="text-xs">{level.name}</div>
           </div>
           {bestScore != null && (
