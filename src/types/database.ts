@@ -96,9 +96,7 @@ export type Database = {
       };
     };
     Functions: {
-      get_level_stats: { Args: never; Returns: Json };
       get_player_dashboard: { Args: { p_user_id: string }; Returns: Json };
-      get_user_best_scores: { Args: { p_user_id: string }; Returns: Json };
       submit_level_completion: {
         Args: {
           p_keystrokes: string[];
