@@ -1,15 +1,7 @@
+import { queryClient } from "./react-query";
 import { getSupabaseClient } from "./supabase/client";
 
 const USER_ID_KEY = "vimgym-user-id";
-
-// Callback to invalidate React Query cache
-let invalidateQueriesCallback: ((userId: string) => void) | null = null;
-
-export function setInvalidateQueriesCallback(
-  callback: (userId: string) => void,
-) {
-  invalidateQueriesCallback = callback;
-}
 
 export function getUserId(): string {
   let userId = localStorage.getItem(USER_ID_KEY);
@@ -61,9 +53,7 @@ export async function submitCompletionAnalytics(
     console.log("✅ Successfully submitted to Supabase! Completion ID:", data);
 
     // Invalidate React Query cache so UI updates
-    if (invalidateQueriesCallback) {
-      invalidateQueriesCallback(userId);
-    }
+    queryClient.invalidateQueries({ queryKey: ["playerDashboard", userId] });
   } catch (error) {
     // Silently fail - don't block the user experience
     console.error("❌ Analytics submission error:", error);

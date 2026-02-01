@@ -1,27 +1,17 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { LEVELS } from "../../data/levels";
 import { usePlayerDashboard } from "../../hooks/api";
 import { useScrollIntoView } from "../../hooks/useScrollIntoView";
-import { getUserId, setInvalidateQueriesCallback } from "../../lib/analytics";
+import { getUserId } from "../../lib/analytics";
 import { useGameStore } from "../../store/useGameStore";
 import { LevelSelectorItem } from "./LevelSelectorItem";
 
 export const LevelSelector = () => {
   const currentLevel = useGameStore((state) => state.currentLevel);
   const navigate = useNavigate({ from: "/" });
-  const queryClient = useQueryClient();
 
   const userId = getUserId();
   const { data: dashboard = {} } = usePlayerDashboard(userId);
-
-  // Set up callback to invalidate queries after completion
-  useEffect(() => {
-    setInvalidateQueriesCallback((userId) => {
-      queryClient.invalidateQueries({ queryKey: ["playerDashboard", userId] });
-    });
-  }, [queryClient]);
 
   const scrollRef = useScrollIntoView<HTMLDivElement>(currentLevel, {
     behavior: "smooth",
