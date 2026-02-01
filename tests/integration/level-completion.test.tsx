@@ -52,7 +52,7 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
 
   // Wait for the completion message to appear in the DOM
   const completeMessage = await waitFor(
-    () => screen.getByRole("heading", { level: 2, name: "Level Complete!" }),
+    () => screen.getByRole("heading", { level: 2, name: "Level Complete" }),
     { timeout: 3000 },
   );
 

@@ -24,7 +24,7 @@ export const CompletionModal = ({
   const levelStats = dashboard[currentLevel];
   const bestScore = levelStats?.user?.best;
   const isNewBest =
-    bestScore !== null && history.length > 0 && history.length <= bestScore;
+    bestScore !== null && history.length > 0 && history.length < bestScore;
 
   useEffect(() => {
     setShowConfetti(true);
@@ -34,25 +34,22 @@ export const CompletionModal = ({
 
   return (
     <Modal
-      className="bg-tokyo-night border-green-500/50 max-w-sm text-center"
+      className="border-tokyo-night-turquoise max-w-sm text-center"
       showCloseButton={false}
     >
-      {/* Glow effect */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-green-500/20 blur-3xl rounded-full pointer-events-none" />
-
       <motion.h2
         animate={{ y: 0, opacity: 1 }}
-        className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-br from-green-400 to-emerald-600 mb-2"
+        className="text-3xl mb-2 font-roboto-mono text-tokyo-night-turquoise"
         data-testid="level-complete"
         initial={{ y: -20, opacity: 0 }}
         transition={{ delay: 0.1 }}
       >
-        Level Complete!
+        Level Complete
       </motion.h2>
 
       <motion.div
         animate={{ opacity: 1 }}
-        className="space-y-4"
+        className="space-y-4 font"
         initial={{ opacity: 0 }}
         transition={{ delay: 0.2 }}
       >
@@ -60,7 +57,7 @@ export const CompletionModal = ({
           <div className="text-gray-400 text-sm">Keystrokes</div>
           <output
             aria-label="keystrokes"
-            className="text-4xl font-roboto-mono font-bold text-white flex flex-col gap-2"
+            className="text-4xl font-roboto-mono text-tokyo-night-turquoise flex flex-col gap-2"
           >
             {history.length}
             {isNewBest && (
@@ -74,7 +71,7 @@ export const CompletionModal = ({
         {hasNextLevel ? (
           <div className="space-y-2">
             <button
-              className="w-full cursor-pointer bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg shadow-green-900/20"
+              className="w-full cursor-pointer bg-tokyo-night-turquoise/20 hover:bg-tokyo-night-turquoise/30 text-white py-3 px-6 transition-colors font-roboto-mono"
               onClick={onNext}
               type="button"
             >
