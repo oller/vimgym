@@ -66,7 +66,7 @@ export const LevelSelectorItem = ({
         onClick={onClick}
         type="button"
       >
-        <div className="flex justify-between items-center relative z-10">
+        <div className="flex justify-between items-center gap-2">
           <div className="flex-1 space-y-1">
             <div className="text-[10px] text-gray-500">LEVEL {level.id}</div>
             <div className="text-xs">{level.name}</div>
