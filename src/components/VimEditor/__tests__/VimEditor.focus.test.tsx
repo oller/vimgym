@@ -1,11 +1,6 @@
-import {
-  createRootRoute,
-  createRouter,
-  RouterProvider,
-} from "@tanstack/react-router";
 import { act, render, screen, waitFor } from "@testing-library/react";
+import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import "@testing-library/jest-dom";
 import { useGameStore } from "../../../store/useGameStore";
 import { VimEditor } from "../VimEditor";
 
@@ -13,11 +8,7 @@ import { VimEditor } from "../VimEditor";
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
 const renderWithRouter = (component: React.ReactNode) => {
-  const rootRoute = createRootRoute({
-    component: () => component,
-  });
-  const router = createRouter({ routeTree: rootRoute });
-  return render(<RouterProvider router={router} />);
+  return render(<NuqsAdapter>{component}</NuqsAdapter>);
 };
 
 describe("VimEditor Focus", () => {

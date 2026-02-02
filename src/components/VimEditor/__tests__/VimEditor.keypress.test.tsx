@@ -1,20 +1,12 @@
-import {
-  createRootRoute,
-  createRouter,
-  RouterProvider,
-} from "@tanstack/react-router";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import { useGameStore } from "../../../store/useGameStore";
 import { SPECIAL_KEYS } from "../../../utils/vimsplain.types";
 import { VimEditor } from "../VimEditor";
 
 const renderWithRouter = (component: React.ReactNode) => {
-  const rootRoute = createRootRoute({
-    component: () => component,
-  });
-  const router = createRouter({ routeTree: rootRoute });
-  return render(<RouterProvider router={router} />);
+  return render(<NuqsAdapter>{component}</NuqsAdapter>);
 };
 
 describe("VimEditor Keypress Logging", () => {

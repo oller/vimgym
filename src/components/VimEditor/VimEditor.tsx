@@ -2,11 +2,11 @@ import { EditorState } from "@codemirror/state";
 import type { EditorView } from "@codemirror/view";
 import NumberFlow from "@number-flow/react";
 import { getCM, Vim, vim } from "@replit/codemirror-vim";
-import { useNavigate } from "@tanstack/react-router";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
 import { useEffect, useRef, useState } from "react";
 import { getLevel } from "../../data/levels";
+import { useLevelId } from "../../hooks/useLevelId";
 import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
 import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "../../utils/vimsplain.types";
@@ -22,7 +22,7 @@ export const VimEditor = () => {
   const history = useGameStore((state) => state.history);
   const resetLevel = useGameStore((state) => state.resetLevel);
   const setPoweredOff = useGameStore((state) => state.setPoweredOff);
-  const navigate = useNavigate({ from: "/" });
+  const [, setLevelId] = useLevelId();
   const [vimMode, setVimMode] = useState("normal");
   const editorViewRef = useRef<EditorView | null>(null);
 
@@ -61,7 +61,7 @@ export const VimEditor = () => {
         return;
       }
 
-      navigate({ search: { levelId }, replace: true });
+      setLevelId(levelId);
     });
 
     // Listen for mode changes
@@ -137,7 +137,7 @@ export const VimEditor = () => {
         event.stopPropagation();
 
         // Navigate to next level
-        navigate({ search: { levelId: currentLevel + 1 }, replace: true });
+        setLevelId(currentLevel + 1);
       }
     };
 
@@ -146,7 +146,7 @@ export const VimEditor = () => {
     return () => {
       document.removeEventListener("keydown", handleGlobalKeyDown, true);
     };
-  }, [navigate, isCompleted, currentLevel]);
+  }, [setLevelId, isCompleted, currentLevel]);
 
   // Make editor read-only when completed
   // Make editor read-only when completed

@@ -1,6 +1,6 @@
-import { useNavigate } from "@tanstack/react-router";
 import { LEVELS } from "../../data/levels";
 import { usePlayerDashboard } from "../../hooks/api";
+import { useLevelId } from "../../hooks/useLevelId";
 import { useScrollIntoView } from "../../hooks/useScrollIntoView";
 import { getUserId } from "../../lib/analytics";
 import { useGameStore } from "../../store/useGameStore";
@@ -8,7 +8,7 @@ import { LevelSelectorItem } from "./LevelSelectorItem";
 
 export const LevelSelector = () => {
   const currentLevel = useGameStore((state) => state.currentLevel);
-  const navigate = useNavigate({ from: "/" });
+  const [, setLevelId] = useLevelId();
 
   const userId = getUserId();
   const { data: dashboard = {} } = usePlayerDashboard(userId);
@@ -31,9 +31,7 @@ export const LevelSelector = () => {
               key={level.id}
               level={level}
               levelData={levelData}
-              onClick={() =>
-                navigate({ search: { levelId: level.id }, replace: true })
-              }
+              onClick={() => setLevelId(level.id)}
               scrollRef={scrollRef}
             />
           );

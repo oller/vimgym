@@ -1,4 +1,3 @@
-import { useNavigate, useSearch } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
@@ -11,29 +10,35 @@ import { CompletionModal } from "./components/Modals/CompletionModal";
 import { MotionLog } from "./components/MotionLog/MotionLog";
 import { VimEditor } from "./components/VimEditor/VimEditor";
 import { LEVELS } from "./data/levels";
+import { useLevelId } from "./hooks/useLevelId";
 import { useGameStore } from "./store/useGameStore";
 
 const Home = () => {
-  const { levelId } = useSearch({ from: "/" });
-  const navigate = useNavigate({ from: "/" });
+  const [levelId, setLevelId] = useLevelId();
   const setLevel = useGameStore((state) => state.setLevel);
   const resetCount = useGameStore((state) => state.resetCount);
   const isCompleted = useGameStore((state) => state.isCompleted);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
-  // Check if there is next level
-  const currentLevelId = typeof levelId === "number" ? levelId : 1;
+  // Validate level exists
+  const isValidLevel = LEVELS.some((l) => l.id === levelId);
+  const currentLevelId = isValidLevel && levelId ? levelId : 1;
   const hasNextLevel = currentLevelId < LEVELS.length;
 
   const handleNextLevel = () => {
     if (hasNextLevel) {
-      navigate({ search: { levelId: currentLevelId + 1 }, replace: true });
+      setLevelId(currentLevelId + 1);
     }
   };
 
   useEffect(() => {
-    setLevel(levelId);
-  }, [levelId, setLevel]);
+    // If invalid level in URL, redirect to 1
+    if (!isValidLevel || !levelId) {
+      setLevelId(1);
+      return;
+    }
+    setLevel(currentLevelId);
+  }, [currentLevelId, setLevel, isValidLevel, levelId, setLevelId]);
 
   return (
     <CrtEffect>

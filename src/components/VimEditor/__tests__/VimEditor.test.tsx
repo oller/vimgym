@@ -1,20 +1,12 @@
-import {
-  createRootRoute,
-  createRouter,
-  RouterProvider,
-} from "@tanstack/react-router";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import { useGameStore } from "../../../store/useGameStore";
 import { VimEditor } from "../VimEditor";
 
 const renderWithRouter = (component: React.ReactNode) => {
-  const rootRoute = createRootRoute({
-    component: () => component,
-  });
-  const router = createRouter({ routeTree: rootRoute });
-  return render(<RouterProvider router={router} />);
+  return render(<NuqsAdapter>{component}</NuqsAdapter>);
 };
 
 // Mock getCM to avoid null issues in tests if JSDOM doesn't support full CM
