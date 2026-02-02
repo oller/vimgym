@@ -60,6 +60,7 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
           Powered by <TechLink href="https://vite.dev">vite</TechLink>,{" "}
           <TechLink href="https://tailwindcss.com">tailwindcss</TechLink>,{" "}
           <TechLink href="https://motion.dev">motion</TechLink> &amp;{" "}
+          <TechLink href="https://nuqs.dev">nuqs</TechLink> &amp;{" "}
           <TechLink href="https://github.com/replit/codemirror-vim">
             codemirror-vim
           </TechLink>
