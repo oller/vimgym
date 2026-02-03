@@ -2,20 +2,60 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f74dacba-e3b4-4781-8c47-323e153b644f/deploy-status)](https://app.netlify.com/projects/vim-gym/deploys)
 
-This was built using:
+Interactive Vim training game where users complete levels by transforming text using Vim motions.
 
-Vite, Tanstack Start, Tailwind CSS, Motion.dev, Codemirror and CodeMirror-Vim.
+## Features
 
-It was built using Neovim and sometimes Antigravity. The LLMs used were Gemini 3.5 Pro and Opus, they were mainly deployed to port vimsplain.py to Typescript and in testing.
+- **Interactive Levels:** Practice Vim motions in a real editor environment.
+- **Scoring System:** Compare your solution against the optimal keystrokes.
+- **Progress Tracking:** Track your scores and improvements.
+- **Vim Emulation:** Powered by `@replit/codemirror-vim` for accurate Vim behavior.
 
-To do:
+## Tech Stack
 
-- [x] Some sort of token parsing so the motion log can group and show the actual motion (all the libs I've found related to this seem abandoned)
-- [x] For each level, also store the perfect answer - so a user can compare how far they are off optimum (level selector could represent this per level)
-- [x] Analytics (using vexo) to record level score events to crowd-source optimum scores. Payload `{ level, score, keystrokes }`
-- [x] Don't just record the perfectScore as a number, but also the keystrokes and surface these to the user if they want to see them
-- [ ] Consider publishing vimsplain.ts as a package
-- [ ] Consider how we can improve Codemirror vim to support text objects
-- [ ] Perhaps a sense of medals based on how far you are off optimum
+- **Framework:** [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) + [Motion](https://motion.dev/)
+- **Editor:** [CodeMirror 6](https://codemirror.net/) with [@replit/codemirror-vim](https://github.com/replit/codemirror-vim)
+- **State Management:** [Zustand](https://github.com/pmndrs/zustand)
+- **Backend/Network:** [Supabase](https://supabase.com/) (RPC-first) + [Zod](https://zod.dev/)
+- **Testing:** [Vitest](https://vitest.dev/) + React Testing Library
+- **Tooling:** [Biome](https://biomejs.dev/) (Linter/Formatter)
+
+## Development
+
+### Prerequisites
+
+- Node.js (Latest LTS recommended)
+- pnpm
+
+### Setup
+
+1. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+2. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+
+### Commands
+
+- `pnpm dev`: Start development server
+- `pnpm build`: Build for production
+- `pnpm lint:fix`: Fix linting and formatting issues (Biome)
+- `pnpm test`: Run tests
+- `pnpm type-check`: Run TypeScript type checking
+
+## Roadmap
+
+- [x] Motion log grouping
+- [x] Optimal solution comparison
+- [x] Analytics (Vexo)
+- [x] Keystroke visualization
+- [ ] Vimsplain.ts package
+- [ ] Text object support improvements
+- [ ] Medals/Achievements system
 - [ ] Theme picker
-- [ ] Crowd source submissions for levels?
+- [ ] Crowd-sourced levels
