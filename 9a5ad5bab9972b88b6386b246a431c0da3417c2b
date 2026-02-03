@@ -1,0 +1,33 @@
+src/components/MotionLog/MotionLogContext.tsx
+  fc33ab00790155d5 1-23
+src/components/MotionLog/MotionLog.tsx
+  fc33ab00790155d5 2-4,6-7,9,15-18,20,22-23,26-36,39-48
+src/components/MotionLog/MotionLogRoot.tsx
+  fc33ab00790155d5 1-30
+src/components/MotionLog/MotionLogHeader.tsx
+  fc33ab00790155d5 1-9
+src/components/MotionLog/MotionLogList.tsx
+  fc33ab00790155d5 1-20
+src/components/MotionLog/MotionLogEmptyState.tsx
+  fc33ab00790155d5 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "9a5ad5bab9972b88b6386b246a431c0da3417c2b",
+  "prompts": {
+    "fc33ab00790155d5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3da5cd12fffeBCo21RUHPPJjXl",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 182,
+      "total_deletions": 90,
+      "accepted_lines": 130,
+      "overriden_lines": 0
+    }
+  }
+}
