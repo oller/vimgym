@@ -1,0 +1,23 @@
+README.md
+  af203768cfcb4daa 5,7,9-12,14,16-59,61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "ae771e3a110d2da1425532c7ca326c1b3eb02761",
+  "prompts": {
+    "af203768cfcb4daa": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3dad7b67fffehZWZWjf36KqHf9",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 52,
+      "total_deletions": 12,
+      "accepted_lines": 52,
+      "overriden_lines": 0
+    }
+  }
+}
