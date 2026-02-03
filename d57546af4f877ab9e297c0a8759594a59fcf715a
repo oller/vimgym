@@ -1,0 +1,46 @@
+src/components/LevelSelector/LevelSelectorItemStats.tsx
+  fc33ab00790155d5 1-102
+src/components/LevelSelector/LevelSelectorItemContext.tsx
+  fc33ab00790155d5 1-25
+src/components/LevelSelector/LevelSelectorContext.tsx
+  fc33ab00790155d5 1-22
+src/components/LevelSelector/LevelSelectorItem.tsx
+  fc33ab00790155d5 2-3,7-9,11,17-18,21-24,28-35,37-42,44-46,50,54-60,62,64-68
+src/components/LevelSelector/LevelSelector.tsx
+  fc33ab00790155d5 1,7,9,12-47,61-64,66,77-81,84-85
+src/components/LevelSelector/LevelSelectorItemTrigger.tsx
+  fc33ab00790155d5 1-86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "d57546af4f877ab9e297c0a8759594a59fcf715a",
+  "prompts": {
+    "af203768cfcb4daa": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3dad7b67fffehZWZWjf36KqHf9",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 144,
+      "total_deletions": 4,
+      "accepted_lines": 140,
+      "overriden_lines": 0
+    },
+    "fc33ab00790155d5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3da5cd12fffeBCo21RUHPPJjXl",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 498,
+      "total_deletions": 358,
+      "accepted_lines": 340,
+      "overriden_lines": 0
+    }
+  }
+}
