@@ -72,3 +72,24 @@ export const getPlayerDashboard = async (
     return {};
   }
 };
+
+export const getLevelScoreDistribution = async (
+  levelId: number,
+): Promise<{ score: number; count: number }[]> => {
+  const client = getSupabaseClient();
+
+  if (!client) {
+    return [];
+  }
+
+  const { data, error } = await client.rpc("get_level_score_distribution", {
+    p_level_id: levelId,
+  });
+
+  if (error) {
+    console.error("Failed to fetch level score distribution:", error);
+    throw error;
+  }
+
+  return data ?? [];
+};

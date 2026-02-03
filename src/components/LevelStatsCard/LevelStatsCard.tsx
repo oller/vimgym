@@ -4,24 +4,24 @@ import { useState } from "react";
 import { VimKbd } from "../VimKbd";
 
 type LevelStatsCardProps = {
-  globalAverage: number | null | undefined;
   globalBest: number | null | undefined;
   bestScoreLog: string[] | null | undefined;
+  onShowStats?: () => void;
 };
 
 export const LevelStatsCard = ({
-  globalAverage,
   globalBest,
   bestScoreLog,
+  onShowStats,
 }: LevelStatsCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  if (!globalAverage || !globalBest) {
+  if (!globalBest) {
     return null;
   }
 
   return (
-    <div className="flex justify-between text-xs font-medium tracking-wider uppercase mt-3 ">
+    <div className="flex justify-between text-xs font-medium tracking-wider uppercase mt-3">
       <Tooltip.Provider delayDuration={40}>
         <Tooltip.Root onOpenChange={setIsOpen} open={isOpen}>
           <Tooltip.Trigger asChild>
@@ -84,13 +84,35 @@ export const LevelStatsCard = ({
               </Tooltip.Portal>
             )}
           </AnimatePresence>
+          <button
+            className="cursor-pointer flex items-center gap-1 text-gray-400 hover:text-white"
+            onClick={(e) => {
+              e.stopPropagation();
+              onShowStats?.();
+            }}
+            title="View Stats"
+            type="button"
+          >
+            <span className="text-[10px]">Show Stats</span>
+            <svg
+              fill="currentColor"
+              height="14"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              width="14"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>View stats</title>
+              <line x1="18" x2="18" y1="20" y2="10" />
+              <line x1="12" x2="12" y1="20" y2="4" />
+              <line x1="6" x2="6" y1="20" y2="14" />
+            </svg>
+          </button>
         </Tooltip.Root>
       </Tooltip.Provider>
-
-      <span className="flex items-center gap-1 opacity-70">
-        Avg:
-        {globalAverage}
-      </span>
     </div>
   );
 };

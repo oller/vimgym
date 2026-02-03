@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getPlayerDashboard, submitLevelCompletion } from "../../api";
+import {
+  getLevelScoreDistribution,
+  getPlayerDashboard,
+  submitLevelCompletion,
+} from "../../api";
 import type { LevelCompletionInput, PlayerDashboard } from "../../schemas";
 
 export const useSubmitCompletion = () => {
@@ -33,5 +37,16 @@ export const usePlayerDashboard = (userId: string | null) => {
     enabled: !!userId,
     // Keep it fresh, but not too aggressive
     staleTime: 1 * 60 * 1000,
+  });
+};
+
+export const useLevelScoreDistribution = (
+  levelId: number,
+  enabled: boolean,
+) => {
+  return useQuery({
+    queryKey: ["level-distribution", levelId],
+    queryFn: () => getLevelScoreDistribution(levelId),
+    enabled,
   });
 };

@@ -97,6 +97,15 @@ export type Database = {
     };
     Functions: {
       get_player_dashboard: { Args: { p_user_id: string }; Returns: Json };
+      get_level_score_distribution: {
+        Args: {
+          p_level_id: number;
+        };
+        Returns: {
+          score: number;
+          count: number;
+        }[];
+      };
       submit_level_completion: {
         Args: {
           p_keystrokes: string[];
