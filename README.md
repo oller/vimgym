@@ -16,7 +16,7 @@ Interactive Vim training game where users complete levels by transforming text u
 - **Framework:** [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) + [Motion](https://motion.dev/)
 - **Editor:** [CodeMirror 6](https://codemirror.net/) with [@replit/codemirror-vim](https://github.com/replit/codemirror-vim)
-- **State Management:** [Zustand](https://github.com/pmndrs/zustand)
+- **State Management:** [Zustand](https://github.com/pmndrs/zustand) + [Nuqs](https://nuqs.47ng.com/) (URL state)
 - **Backend/Network:** [Supabase](https://supabase.com/) (RPC-first) + [Zod](https://zod.dev/)
 - **Testing:** [Vitest](https://vitest.dev/) + React Testing Library
 - **Tooling:** [Biome](https://biomejs.dev/) (Linter/Formatter)
