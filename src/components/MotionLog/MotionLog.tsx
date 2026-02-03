@@ -6,8 +6,6 @@ import { MotionLogItem } from "./MotionLogItem";
 import { MotionLogList } from "./MotionLogList";
 import { MotionLogRoot } from "./MotionLogRoot";
 
-// --- Container (Legacy Support / Smart Component) ---
-
 export const MotionLog = () => {
   const history = useGameStore((state) => state.history);
 
@@ -37,8 +35,7 @@ const MotionLogItems = () => {
   );
 };
 
-// --- Compound Export ---
-
+// biome-ignore lint/style/useComponentExportOnlyModules: Allow compound component pattern
 export const MotionLogComposite = Object.assign(MotionLogRoot, {
   Header: MotionLogHeader,
   List: MotionLogList,

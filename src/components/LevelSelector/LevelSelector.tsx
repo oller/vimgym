@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 import { LEVELS } from "../../data/levels";
 import { usePlayerDashboard } from "../../hooks/api";
 import { useLevelId } from "../../hooks/useLevelId";
@@ -9,10 +9,7 @@ import { useGameStore } from "../../store/useGameStore";
 import { LevelSelectorContext } from "./LevelSelectorContext";
 import { LevelSelectorItem } from "./LevelSelectorItem";
 
-// --- Components ---
-
 type LevelSelectorRootProps = {
-  children: ReactNode;
   currentLevelId: number;
   onSelectLevel: (id: number) => void;
   dashboardData: PlayerDashboard;
@@ -23,7 +20,7 @@ export const LevelSelectorRoot = ({
   currentLevelId,
   onSelectLevel,
   dashboardData,
-}: LevelSelectorRootProps) => {
+}: PropsWithChildren<LevelSelectorRootProps>) => {
   return (
     <LevelSelectorContext.Provider
       value={{ currentLevelId, onSelectLevel, dashboardData }}
@@ -35,7 +32,7 @@ export const LevelSelectorRoot = ({
   );
 };
 
-export const LevelSelectorList = ({ children }: { children: ReactNode }) => {
+export const LevelSelectorList = ({ children }: PropsWithChildren) => {
   return (
     <div className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent md:pl-4">
       {children}

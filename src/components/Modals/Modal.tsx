@@ -1,12 +1,11 @@
 import { motion } from "motion/react";
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 import { useEffect } from "react";
 import { cn } from "../../utils/cn";
 
 type ModalProps = {
   isOpen?: boolean; // Optional if controlled by AnimatePresence in parent
   onClose?: () => void;
-  children: ReactNode;
   className?: string;
   showCloseButton?: boolean;
 };
@@ -17,7 +16,7 @@ export const Modal = ({
   children,
   className,
   showCloseButton = true,
-}: ModalProps) => {
+}: PropsWithChildren<ModalProps>) => {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape" && onClose) onClose();

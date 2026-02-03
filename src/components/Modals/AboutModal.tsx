@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from "react";
 import { Modal } from "./Modal";
 
 type AboutModalProps = {
@@ -8,10 +9,9 @@ type AboutModalProps = {
 const TechLink = ({
   href,
   children,
-}: {
+}: PropsWithChildren<{
   href: string;
-  children: React.ReactNode;
-}) => (
+}>) => (
   <a
     className="hover:text-gray-300 underline decoration-gray-600 hover:decoration-gray-400"
     href={href}

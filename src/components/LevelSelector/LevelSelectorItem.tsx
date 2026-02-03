@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 import { forwardRef, useState } from "react";
 import type { Level } from "../../data/levels";
 import type { PlayerDashboard } from "../../schemas";
@@ -9,18 +9,17 @@ import { LevelSelectorItemStats } from "./LevelSelectorItemStats";
 import { LevelSelectorItemTrigger } from "./LevelSelectorItemTrigger";
 
 // --- Item Root ---
-
 type LevelSelectorItemProps = {
   level: Level;
   levelData: PlayerDashboard[string] | undefined;
   isCurrentLevel: boolean;
-  children: ReactNode;
   className?: string;
 };
 
+// biome-ignore lint/style/useComponentExportOnlyModules: Allow local component for compound pattern
 const LevelSelectorItemRoot = forwardRef<
   HTMLDivElement,
-  LevelSelectorItemProps
+  PropsWithChildren<LevelSelectorItemProps>
 >(({ level, levelData, isCurrentLevel, children, className }, ref) => {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
 
