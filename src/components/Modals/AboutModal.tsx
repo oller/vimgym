@@ -46,7 +46,7 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
         <p>
           Built by{" "}
           <a
-            className="text-yellow-500 hover:text-yellow-400 underline decoration-yellow-500/30 hover:decoration-yellow-400 transition-all"
+            className="text-tokyo-night-pink underline decoration-tokyo-night-pink/30 hover:decoration-tokyo-night-pink transition-all"
             href="https://davidollerhead.com"
             rel="noopener noreferrer"
             target="_blank"
@@ -58,9 +58,14 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
         <p>Dedicated to Grace &amp; Clara 👶 👶</p>
         <p className="text-sm text-gray-400">
           Powered by <TechLink href="https://vite.dev">vite</TechLink>,{" "}
-          <TechLink href="https://tailwindcss.com">tailwindcss</TechLink>,{" "}
+          <TechLink href="https://supabase.com">supabase</TechLink>,{" "}
+          <TechLink href="https://tanstack.com/query/latest">
+            tanstack query
+          </TechLink>
+          , <TechLink href="https://tailwindcss.com">tailwindcss</TechLink>,{" "}
           <TechLink href="https://motion.dev">motion</TechLink>,{" "}
-          <TechLink href="https://nuqs.dev">nuqs</TechLink> &amp;{" "}
+          <TechLink href="https://nuqs.dev">nuqs</TechLink>,{" "}
+          <TechLink href="https://codemirror.net/">codemirror</TechLink> &amp;{" "}
           <TechLink href="https://github.com/replit/codemirror-vim">
             codemirror-vim
           </TechLink>

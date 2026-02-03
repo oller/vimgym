@@ -93,7 +93,7 @@ export const LevelStatsCard = ({
             title="View Stats"
             type="button"
           >
-            <span className="text-[10px]">Show Stats</span>
+            <span className="text-[10px] uppercase">Stats</span>
             <svg
               fill="currentColor"
               height="14"
