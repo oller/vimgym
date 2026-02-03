@@ -1,0 +1,25 @@
+src/components/LevelSelector/LevelSelectorItem.tsx
+  fc33ab00790155d5 19
+src/components/MotionLog/MotionLog.tsx
+  fc33ab00790155d5 38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "b5f74eb6cc9072b4d2791a63ca5190f56a254c23",
+  "prompts": {
+    "fc33ab00790155d5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3da5cd12fffeBCo21RUHPPJjXl",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 4,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}
