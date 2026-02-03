@@ -1,0 +1,35 @@
+src/api/index.ts
+  af203768cfcb4daa 75-95
+src/types/database.ts
+  af203768cfcb4daa 100-108
+supabase/migrations/20260203000000_add_score_distribution_rpc.sql
+  af203768cfcb4daa 1-16
+src/components/LevelSelector/LevelSelectorItem.tsx
+  af203768cfcb4daa 2,4,8,25,31-34,36-39,67,71-76,78-80,82-92,94-95,97,102-109,111-113,115-116,119-125,128-134,136-143,145-163,165-182,184-205
+src/components/Sparkline/Sparkline.tsx
+  af203768cfcb4daa 1-162
+src/components/LevelStatsCard/LevelStatsCard.tsx
+  af203768cfcb4daa 9,15,91
+src/hooks/api/index.ts
+  af203768cfcb4daa 3,5,42-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "37317791ad431a838994e45bee8687e5146f9ac5",
+  "prompts": {
+    "af203768cfcb4daa": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3dad7b67fffehZWZWjf36KqHf9",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 813,
+      "total_deletions": 456,
+      "accepted_lines": 365,
+      "overriden_lines": 3
+    }
+  }
+}
