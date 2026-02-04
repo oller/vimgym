@@ -25,7 +25,7 @@ export const LevelSelectorRoot = ({
     <LevelSelectorContext.Provider
       value={{ currentLevelId, onSelectLevel, dashboardData }}
     >
-      <div className="w-full md:border-l font-roboto-mono border-gray-800 h-full flex flex-col min-h-0 pl-0">
+      <div className="w-full md:border-l font-roboto-mono border-gray-800 h-full flex flex-col min-h-0">
         {children}
       </div>
     </LevelSelectorContext.Provider>
@@ -34,7 +34,7 @@ export const LevelSelectorRoot = ({
 
 export const LevelSelectorList = ({ children }: PropsWithChildren) => {
   return (
-    <div className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent md:pl-4">
+    <div className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent pl-0 md:pl-4">
       {children}
     </div>
   );

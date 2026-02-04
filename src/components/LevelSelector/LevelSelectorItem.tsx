@@ -35,24 +35,26 @@ const LevelSelectorItemRoot = forwardRef<
     >
       <div
         className={cn(
-          "relative w-full overflow-hidden shrink-0 transition-colors bg-tokyo-night-storm/20 hover:bg-tokyo-night-storm group",
+          "relative w-full shrink-0 transition-colors bg-tokyo-night-storm/20 hover:bg-tokyo-night-storm group",
           className,
         )}
         ref={ref}
       >
         {isCurrentLevel && (
           <motion.div
-            className="absolute -left-4 top-0 bottom-0 w-1 bg-tokyo-night-storm rounded-r-full z-10"
+            className="absolute -left-4 top-0 bottom-0 w-1 bg-tokyo-night-storm rounded-r-full z-50"
             layoutId="active-level-indicator"
           />
         )}
-        <motion.div
-          animate={{ x: isStatsOpen ? "-50%" : "0%" }}
-          className="flex w-[200%]"
-          transition={{ type: "spring", stiffness: 300, damping: 35 }}
-        >
-          {children}
-        </motion.div>
+        <div className="w-full overflow-hidden">
+          <motion.div
+            animate={{ x: isStatsOpen ? "-50%" : "0%" }}
+            className="flex w-[200%]"
+            transition={{ type: "spring", stiffness: 300, damping: 35 }}
+          >
+            {children}
+          </motion.div>
+        </div>
       </div>
     </LevelSelectorItemContext.Provider>
   );
