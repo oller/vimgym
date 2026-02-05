@@ -1,0 +1,23 @@
+supabase/migrations/20260205000000_fix_dashboard_average.sql
+  1a1f3159d2a6c1c7 1-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "8219487151d9631e56456e9d6d9366264a877d66",
+  "prompts": {
+    "1a1f3159d2a6c1c7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3cff6274fffeLXz7IM1IyT5Jut",
+        "model": "google/gemini-3-flash-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 87,
+      "total_deletions": 0,
+      "accepted_lines": 87,
+      "overriden_lines": 0
+    }
+  }
+}
