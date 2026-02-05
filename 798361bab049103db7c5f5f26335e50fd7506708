@@ -1,0 +1,23 @@
+src/store/useGameStore.ts
+  c554ccab293366ac 2,28-36,57,61-62,64,69,77-81,84-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "798361bab049103db7c5f5f26335e50fd7506708",
+  "prompts": {
+    "c554ccab293366ac": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3d09ad3f8ffeggcQysmsQeypjc",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 124,
+      "total_deletions": 133,
+      "accepted_lines": 29,
+      "overriden_lines": 0
+    }
+  }
+}
