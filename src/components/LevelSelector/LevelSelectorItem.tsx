@@ -5,8 +5,8 @@ import type { Level } from "../../data/levels";
 import type { PlayerDashboard } from "../../schemas";
 import { cn } from "../../utils/cn";
 import { LevelSelectorItemContext } from "./LevelSelectorItemContext";
-import { LevelSelectorItemStats } from "./LevelSelectorItemStats";
-import { LevelSelectorItemTrigger } from "./LevelSelectorItemTrigger";
+import { LevelSelectorItemScoreCard } from "./LevelSelectorItemScoreCard";
+import { LevelSelectorItemStatsCard } from "./LevelSelectorItemStatsCard";
 
 // --- Item Root ---
 type LevelSelectorItemProps = {
@@ -64,6 +64,6 @@ LevelSelectorItemRoot.displayName = "LevelSelectorItem";
 
 // Use Object.assign to create the compound component with dot notation
 export const LevelSelectorItem = Object.assign(LevelSelectorItemRoot, {
-  Trigger: LevelSelectorItemTrigger,
-  Stats: LevelSelectorItemStats,
+  ScoreCard: LevelSelectorItemScoreCard,
+  StatsCard: LevelSelectorItemStatsCard,
 });

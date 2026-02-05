@@ -1,14 +1,14 @@
 import { cn } from "../../utils/cn";
-import { LevelStatsCard } from "../LevelStatsCard/LevelStatsCard";
 import { useLevelSelectorItem } from "./LevelSelectorItemContext";
+import { LevelSelectorItemRecord } from "./LevelSelectorItemRecord";
 
-type LevelSelectorItemTriggerProps = {
+type LevelSelectorItemScoreCardProps = {
   onClick: () => void;
 };
 
-export const LevelSelectorItemTrigger = ({
+export const LevelSelectorItemScoreCard = ({
   onClick,
-}: LevelSelectorItemTriggerProps) => {
+}: LevelSelectorItemScoreCardProps) => {
   const {
     level,
     levelData: score,
@@ -75,7 +75,7 @@ export const LevelSelectorItemTrigger = ({
           )}
         </div>
 
-        <LevelStatsCard
+        <LevelSelectorItemRecord
           bestScoreLog={score?.global.best_score_log}
           globalBest={score?.global.best}
           onShowStats={() => setIsStatsOpen(true)}

@@ -3,17 +3,17 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { VimKbd } from "../VimKbd";
 
-type LevelStatsCardProps = {
+type LevelSelectorItemRecordProps = {
   globalBest: number | null | undefined;
   bestScoreLog: string[] | null | undefined;
   onShowStats?: () => void;
 };
 
-export const LevelStatsCard = ({
+export const LevelSelectorItemRecord = ({
   globalBest,
   bestScoreLog,
   onShowStats,
-}: LevelStatsCardProps) => {
+}: LevelSelectorItemRecordProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   if (!globalBest) {

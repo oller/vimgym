@@ -3,7 +3,7 @@ import { useLevelScoreDistribution } from "../../hooks/api";
 import { Sparkline } from "../Sparkline/Sparkline";
 import { useLevelSelectorItem } from "./LevelSelectorItemContext";
 
-export const LevelSelectorItemStats = () => {
+export const LevelSelectorItemStatsCard = () => {
   const {
     level,
     levelData: score,
@@ -81,10 +81,9 @@ export const LevelSelectorItemStats = () => {
         <div className="flex-1 h-10 flex items-end justify-end pb-1">
           {distribution && distribution.length > 0 ? (
             <Sparkline
+              className="size-full"
               data={distribution}
-              height={40}
               onHover={setHoveredPoint}
-              width={140}
             />
           ) : (
             <div className="h-full w-full flex items-center justify-end text-[10px] text-gray-500">

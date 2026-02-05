@@ -73,8 +73,10 @@ export const LevelSelector = () => {
               levelData={levelData}
               ref={isCurrentLevel ? scrollRef : null}
             >
-              <LevelSelectorItem.Trigger onClick={() => setLevelId(level.id)} />
-              <LevelSelectorItem.Stats />
+              <LevelSelectorItem.ScoreCard
+                onClick={() => setLevelId(level.id)}
+              />
+              <LevelSelectorItem.StatsCard />
             </LevelSelectorItem>
           );
         })}
