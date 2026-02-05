@@ -1,0 +1,33 @@
+src/components/icons/CloseIcon.tsx
+  c554ccab293366ac 1-18
+src/components/Modals/Modal.tsx
+  c554ccab293366ac 5,63
+src/components/LevelSelector/LevelSelectorItemRecord.tsx
+  c554ccab293366ac 4-5,34,87
+src/components/icons/StatsIcon.tsx
+  c554ccab293366ac 1-19
+src/components/LevelSelector/LevelSelectorItemStatsCard.tsx
+  c554ccab293366ac 3,42
+src/components/icons/TrophyIcon.tsx
+  c554ccab293366ac 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "2b18c50343e30fd5a98a38fde4bd00c6211fe26f",
+  "prompts": {
+    "c554ccab293366ac": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3d09ad3f8ffeggcQysmsQeypjc",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 143,
+      "total_deletions": 140,
+      "accepted_lines": 142,
+      "overriden_lines": 0
+    }
+  }
+}
