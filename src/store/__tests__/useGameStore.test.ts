@@ -5,8 +5,6 @@ import { useGameStore } from "../useGameStore";
 describe("useGameStore", () => {
   beforeEach(() => {
     // Reset store before each test
-    // Note: Zustand persist might persist state between tests if not cleared.
-    // We can manually reset or just test actions that overwrite.
     useGameStore.getState().setLevel(1);
   });
 

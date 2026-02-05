@@ -18,7 +18,7 @@ pnpm test <file>  # Run single test file
 - **Package manager:** pnpm
 - **Linter/Formatter:** Biome (run `pnpm lint:fix` before committing)
 - **Editor:** CodeMirror with @replit/codemirror-vim
-- **State:** Zustand with persistence middleware
+- **State:** Zustand and nuqs for url param state management
 - **Network:** Supabase RPC-first + Zod validation (see [Network Layer](.agent/conventions/network-layer.md))
 
 ## Pre-commit Checklist
