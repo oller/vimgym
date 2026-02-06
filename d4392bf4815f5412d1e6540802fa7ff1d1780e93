@@ -1,0 +1,9 @@
+src/Home.tsx
+  cd736eb244560e72 61,74,81,97
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "d4392bf4815f5412d1e6540802fa7ff1d1780e93",
+  "prompts": {}
+}
