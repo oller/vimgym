@@ -1,0 +1,33 @@
+src/components/LevelSelector/LevelSelectorItemScoreCard.tsx
+  cd736eb244560e72 43
+src/components/VimEditor/VimEditor.tsx
+  cd736eb244560e72 78,86-90
+src/components/VimEditor/VimStatusBar.tsx
+  cd736eb244560e72 30
+src/components/LevelSelector/LevelSelectorItemStatsCard.tsx
+  cd736eb244560e72 26
+src/Home.tsx
+  cd736eb244560e72 61,74,81,97
+src/components/LevelSelector/LevelSelectorItem.tsx
+  cd736eb244560e72 53-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "f920568c7b86f4d18e3a161f3c16de5cfb83f16e",
+  "prompts": {
+    "cd736eb244560e72": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3cb4863d2ffeHyEbwCFiZHgSrI",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 38,
+      "total_deletions": 18,
+      "accepted_lines": 25,
+      "overriden_lines": 0
+    }
+  }
+}
