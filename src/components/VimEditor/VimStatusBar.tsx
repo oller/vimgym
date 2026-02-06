@@ -27,7 +27,7 @@ export const VimStatusBar = ({ mode }: { mode: string }) => {
         </div>
         <div className="px-3 text-gray-400">Vim Mode</div>
       </div>
-      <div className="px-3 text-gray-400">
+      <div className="px-3 text-gray-400 hidden md:block">
         Hint: You can use <kbd className="text-tokyo-night-pink">:e</kbd> to
         reset, <kbd className="text-tokyo-night-pink">:e X</kbd> to jump to
         level X or <kbd className="text-tokyo-night-pink">:q</kbd> to quit 😉.

@@ -42,7 +42,7 @@ const Home = () => {
 
   return (
     <CrtEffect>
-      <div className="h-screen overflow-hidden bg-tokyo-night text-white flex flex-col p-4 md:p-6 font-sans relative">
+      <div className="h-dvh overflow-hidden bg-tokyo-night text-white flex flex-col p-4 md:p-6 font-sans relative">
         <AnimatePresence>
           {isAboutOpen && (
             <AboutModal
@@ -58,7 +58,7 @@ const Home = () => {
           )}
         </AnimatePresence>
 
-        <header className="mb-4 flex justify-between items-center border-b border-gray-800 pb-4">
+        <header className="mb-2 md:mb-4 flex justify-between items-center border-b border-gray-800 pb-2 md:pb-4">
           <Logo />
           <button
             className="cursor-pointer p-2 text-xs text-gray-500 hover:text-tokyo-night-pink transition-colors font-roboto-mono uppercase tracking-wider"
@@ -71,14 +71,14 @@ const Home = () => {
 
         <motion.main
           animate={{ opacity: 1, filter: "blur(0px)" }}
-          className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6 min-h-0"
+          className="flex-1 flex flex-col md:grid md:grid-cols-12 gap-2 md:gap-6 min-h-0"
           initial={{ opacity: 0, filter: "blur(10px)" }}
           layout
           transition={{ duration: 0.2, ease: "easeOut", delay: 0.8 }}
         >
           {/* Main Content */}
           <motion.section
-            className="md:col-span-9 lg:col-span-10 flex flex-col gap-6 h-full min-h-0"
+            className="flex-1 md:h-full md:col-span-9 lg:col-span-10 flex flex-col gap-2 md:gap-6 min-h-0"
             layout
           >
             <GoalDisplay />
@@ -94,7 +94,7 @@ const Home = () => {
 
           {/* Right: Level Selector */}
           <motion.aside
-            className="md:col-span-3 lg:col-span-2 flex h-full min-h-0"
+            className="h-32 md:h-full md:col-span-3 lg:col-span-2 flex min-h-0 shrink-0"
             layout
           >
             <LevelSelector />
