@@ -4,6 +4,7 @@ import { cn } from "../../utils/cn";
 import { LevelSelectorItemRecord } from "./LevelSelectorItemRecord";
 
 type LevelSelectorItemScoreCardProps = {
+  index: number;
   level: Level;
   score: PlayerDashboard[string] | undefined;
   isCurrentLevel: boolean;
@@ -12,6 +13,7 @@ type LevelSelectorItemScoreCardProps = {
 };
 
 export const LevelSelectorItemScoreCard = ({
+  index,
   level,
   score,
   isCurrentLevel,
@@ -50,7 +52,7 @@ export const LevelSelectorItemScoreCard = ({
       >
         <div className="flex justify-between items-start gap-2">
           <div className="flex-1 space-y-1">
-            <div className="text-[10px] text-gray-500">LEVEL {level.id}</div>
+            <div className="text-[10px] text-gray-500">LEVEL {index}</div>
             <div className="text-xs">{level.name}</div>
           </div>
           {bestScore != null && (

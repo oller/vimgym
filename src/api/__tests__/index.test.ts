@@ -17,7 +17,7 @@ describe("API", () => {
 
       const result = await submitLevelCompletion({
         userId: "test-uuid",
-        level: 1,
+        level: "delete-words",
         score: 10,
         keystrokes: ["h", "j", "k"],
       });
@@ -42,7 +42,7 @@ describe("API", () => {
 
       const invalidData = {
         userId: "not-a-uuid",
-        level: 1,
+        level: "delete-words",
         score: 10,
         keystrokes: ["h", "j"],
       };
@@ -53,7 +53,7 @@ describe("API", () => {
 
       const result2 = await submitLevelCompletion({
         userId: "123e4567-e89b-42d3-a456-426614174000",
-        level: 1,
+        level: "delete-words",
         score: -1,
         keystrokes: ["h", "j"],
       });
@@ -78,7 +78,7 @@ describe("API", () => {
 
       const result = await submitLevelCompletion({
         userId: "123e4567-e89b-42d3-a456-426614174001",
-        level: 1,
+        level: "delete-words",
         score: 10,
         keystrokes: ["h", "j", "k"],
       });
@@ -88,7 +88,7 @@ describe("API", () => {
       });
       expect(mockClient.insert).toHaveBeenCalledWith({
         user_id: "123e4567-e89b-42d3-a456-426614174001",
-        level: 1,
+        level_id: "delete-words",
         keystrokes_count: 10,
         keystrokes: ["h", "j", "k"],
       });
@@ -113,7 +113,7 @@ describe("API", () => {
 
       const result = await submitLevelCompletion({
         userId: "123e4567-e89b-42d3-a456-426614174001",
-        level: 1,
+        level: "delete-words",
         score: 10,
         keystrokes: ["h", "j"],
       });
@@ -151,7 +151,7 @@ describe("API", () => {
 
     it("returns transformed dashboard stats", async () => {
       const mockData = {
-        "1": {
+        "delete-words": {
           user: { best: 10, percentile: 50.5 },
           global: {
             best: 8,
@@ -160,7 +160,7 @@ describe("API", () => {
             best_score_log: ["h", "j"],
           },
         },
-        "2": {
+        "flip-ternary": {
           user: { best: null, percentile: null },
           global: {
             best: 10,
@@ -185,11 +185,12 @@ describe("API", () => {
       const result = await getPlayerDashboard("user-1");
 
       expect(result).toEqual({
-        1: mockData["1"],
-        2: mockData["2"],
+        "delete-words": mockData["delete-words"],
+        "flip-ternary": mockData["flip-ternary"],
       });
       expect(mockClient.rpc).toHaveBeenCalledWith("get_player_dashboard", {
         p_user_id: "user-1",
+        p_level_ids: expect.any(Array),
       });
     });
   });

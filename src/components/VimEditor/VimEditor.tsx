@@ -5,7 +5,7 @@ import { getCM, Vim, vim } from "@replit/codemirror-vim";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
 import { useEffect, useRef, useState } from "react";
-import { getLevel } from "../../data/levels";
+import { LEVELS } from "../../data/levels";
 import { useLevelId } from "../../hooks/useLevelId";
 import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
@@ -50,18 +50,22 @@ export const VimEditor = () => {
         return;
       }
 
-      const levelId = Number.parseInt(arg, 10);
+      const levelIndex = Number.parseInt(arg, 10);
 
-      if (Number.isNaN(levelId)) {
+      if (
+        Number.isNaN(levelIndex) ||
+        levelIndex < 1 ||
+        levelIndex > LEVELS.length
+      ) {
         return;
       }
 
-      const level = getLevel(levelId);
+      const level = LEVELS[levelIndex - 1];
       if (!level) {
         return;
       }
 
-      setLevelId(levelId);
+      setLevelId(level.id);
     });
 
     // Listen for mode changes
@@ -137,7 +141,10 @@ export const VimEditor = () => {
         event.stopPropagation();
 
         // Navigate to next level
-        setLevelId(currentLevel + 1);
+        const currentIndex = LEVELS.findIndex((l) => l.id === currentLevel);
+        if (currentIndex !== -1 && currentIndex < LEVELS.length - 1) {
+          setLevelId(LEVELS[currentIndex + 1].id);
+        }
       }
     };
 

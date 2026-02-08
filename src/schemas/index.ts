@@ -1,10 +1,9 @@
 import { z } from "zod";
-import { LEVELS } from "../data/levels";
 
 // Input schemas
 export const levelCompletionInputSchema = z.object({
   userId: z.uuid({ version: "v4" }),
-  level: z.number().int().min(1).max(LEVELS.length),
+  level: z.string().min(1),
   score: z.number().int().min(1),
   keystrokes: z.array(z.string()).min(1),
 });

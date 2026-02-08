@@ -5,6 +5,7 @@ export const GoalDisplay = () => {
   const isCompleted = useGameStore((state) => state.isCompleted);
   const resetLevel = useGameStore((state) => state.resetLevel);
   const currentLevel = useGameStore((state) => state.currentLevel);
+  const currentLevelIndex = LEVELS.findIndex((l) => l.id === currentLevel) + 1;
   const currentLevelData = getLevel(currentLevel);
 
   return (
@@ -13,7 +14,7 @@ export const GoalDisplay = () => {
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-            Level {currentLevel} of {LEVELS.length}
+            Level {currentLevelIndex} of {LEVELS.length}
           </h3>
           <p className="text-md text-gray-500 mt-1">
             {currentLevelData?.description}

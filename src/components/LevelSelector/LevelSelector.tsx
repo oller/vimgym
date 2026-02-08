@@ -21,12 +21,13 @@ export const LevelSelector = () => {
   return (
     <div className="w-full md:border-l font-roboto-mono border-gray-800 h-full flex flex-col min-h-0">
       <div className="space-y-2 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent pl-0 md:pl-4">
-        {LEVELS.map((level) => {
+        {LEVELS.map((level, index) => {
           const levelData = dashboard[level.id];
           const isCurrentLevel = level.id === currentLevel;
 
           return (
             <LevelSelectorItem
+              index={index + 1}
               isCurrentLevel={isCurrentLevel}
               key={level.id}
               level={level}

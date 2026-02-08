@@ -1,3 +1,4 @@
+import { LEVELS } from "../data/levels";
 import { getSupabaseClient } from "../lib/supabase/client";
 import type { LevelCompletionInput, PlayerDashboard } from "../schemas";
 import { levelCompletionInputSchema, playerDashboardSchema } from "../schemas";
@@ -24,7 +25,7 @@ export const submitLevelCompletion = async (
     console.log("📤 Sending to Supabase...");
     const { error } = await client.from("level_completions").insert({
       user_id: validatedData.userId,
-      level: validatedData.level,
+      level_id: validatedData.level,
       keystrokes_count: validatedData.score,
       keystrokes: validatedData.keystrokes,
     });
@@ -44,7 +45,7 @@ export const submitLevelCompletion = async (
 
 export const getPlayerDashboard = async (
   userId: string,
-): Promise<Record<number, PlayerDashboard[string]>> => {
+): Promise<Record<string, PlayerDashboard[string]>> => {
   const client = getSupabaseClient();
 
   if (!client) {
@@ -53,6 +54,7 @@ export const getPlayerDashboard = async (
 
   const { data, error } = await client.rpc("get_player_dashboard", {
     p_user_id: userId,
+    p_level_ids: LEVELS.map((l) => l.id),
   });
 
   if (error || !data) {
@@ -62,11 +64,7 @@ export const getPlayerDashboard = async (
 
   try {
     const validated = playerDashboardSchema.parse(data);
-    const result: Record<number, PlayerDashboard[string]> = {};
-    for (const [key, value] of Object.entries(validated)) {
-      result[Number(key)] = value;
-    }
-    return result;
+    return validated;
   } catch (err) {
     console.error("Failed to parse player dashboard:", err);
     return {};
@@ -74,7 +72,7 @@ export const getPlayerDashboard = async (
 };
 
 export const getLevelScoreDistribution = async (
-  levelId: number,
+  levelId: string,
 ): Promise<{ score: number; count: number }[]> => {
   const client = getSupabaseClient();
 

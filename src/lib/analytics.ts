@@ -17,7 +17,7 @@ export function getUserId(): string {
 // Submit level completion analytics (fire and forget)
 // Uses database function for atomic user creation + completion insert (1 request!)
 export async function submitCompletionAnalytics(
-  level: number,
+  level: string,
   score: number,
   keystrokes: string[],
 ): Promise<void> {
@@ -40,7 +40,7 @@ export async function submitCompletionAnalytics(
     // Call database function - atomic operation (1 request!)
     const { data, error } = await client.rpc("submit_level_completion", {
       p_user_id: userId,
-      p_level: level,
+      p_level_id: level,
       p_keystrokes_count: score,
       p_keystrokes: keystrokes,
     });

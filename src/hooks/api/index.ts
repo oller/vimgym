@@ -20,7 +20,7 @@ export const useSubmitCompletion = () => {
 };
 
 export const usePlayerDashboard = (userId: string | null) => {
-  return useQuery<Record<number, PlayerDashboard[string]>>({
+  return useQuery<Record<string, PlayerDashboard[string]>>({
     queryKey: ["playerDashboard", userId],
     queryFn: () => {
       // Even if userId is null, we can return generic stats?
@@ -41,7 +41,7 @@ export const usePlayerDashboard = (userId: string | null) => {
 };
 
 export const useLevelScoreDistribution = (
-  levelId: number,
+  levelId: string,
   enabled: boolean,
 ) => {
   return useQuery({

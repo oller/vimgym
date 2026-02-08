@@ -1,9 +1,9 @@
-import { parseAsInteger, useQueryState } from "nuqs";
+import { parseAsString, useQueryState } from "nuqs";
 
 export const useLevelId = () => {
   return useQueryState(
     "levelId",
-    parseAsInteger.withDefault(1).withOptions({
+    parseAsString.withDefault("delete-words").withOptions({
       history: "replace",
       shallow: false,
     }),

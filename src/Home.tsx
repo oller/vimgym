@@ -39,19 +39,23 @@ const Home = () => {
 
   // Validate level exists
   const isValidLevel = LEVELS.some((l) => l.id === levelId);
-  const currentLevelId = isValidLevel && levelId ? levelId : 1;
-  const hasNextLevel = currentLevelId < LEVELS.length;
+  const currentLevelId = isValidLevel && levelId ? levelId : LEVELS[0].id;
+
+  const currentLevelIndex = LEVELS.findIndex((l) => l.id === currentLevelId);
+  const hasNextLevel =
+    currentLevelIndex !== -1 && currentLevelIndex < LEVELS.length - 1;
 
   const handleNextLevel = () => {
     if (hasNextLevel) {
-      setLevelId(currentLevelId + 1);
+      const nextLevel = LEVELS[currentLevelIndex + 1];
+      setLevelId(nextLevel.id);
     }
   };
 
   useEffect(() => {
-    // If invalid level in URL, redirect to 1
+    // If invalid level in URL, redirect to 1 (delete-words)
     if (!isValidLevel || !levelId) {
-      setLevelId(1);
+      setLevelId("delete-words");
       return;
     }
     setLevel(currentLevelId);

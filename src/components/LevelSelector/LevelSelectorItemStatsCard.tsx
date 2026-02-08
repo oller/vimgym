@@ -6,6 +6,7 @@ import { CloseIcon } from "../icons/CloseIcon";
 import { Sparkline } from "../Sparkline/Sparkline";
 
 type LevelSelectorItemStatsCardProps = {
+  index: number;
   level: Level;
   score: PlayerDashboard[string] | undefined;
   isStatsOpen: boolean;
@@ -13,6 +14,7 @@ type LevelSelectorItemStatsCardProps = {
 };
 
 export const LevelSelectorItemStatsCard = ({
+  index,
   level,
   score,
   isStatsOpen,
@@ -32,9 +34,7 @@ export const LevelSelectorItemStatsCard = ({
     <div className="w-1/2 bg-tokyo-night-storm p-3 flex flex-col justify-between">
       <div className="flex justify-between items-start gap-2">
         <div className="flex-1 space-y-1">
-          <div className="text-[10px] text-gray-500">
-            LEVEL {level.id} STATS
-          </div>
+          <div className="text-[10px] text-gray-500">LEVEL {index} STATS</div>
         </div>
         <button
           aria-label="Close stats"

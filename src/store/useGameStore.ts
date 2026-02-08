@@ -4,7 +4,7 @@ import { getLevel, LEVELS } from "../data/levels";
 import { submitCompletionAnalytics } from "../lib/analytics";
 
 interface GameState {
-  currentLevel: number;
+  currentLevel: string;
   startText: string;
   targetText: string;
   currentText: string;
@@ -14,7 +14,7 @@ interface GameState {
   isPoweredOff: boolean;
 
   // Actions
-  setLevel: (level: number) => void;
+  setLevel: (level: string) => void;
   updateText: (text: string) => void;
   addKeyStroke: (key: string) => void;
   resetLevel: () => void;
@@ -26,7 +26,7 @@ const level1 = LEVELS[0];
 
 export const useGameStore = create<GameState>()(
   devtools((set, get) => ({
-    currentLevel: 1,
+    currentLevel: level1.id,
     startText: level1.startText,
     targetText: level1.targetText,
     currentText: level1.startText,
@@ -78,7 +78,10 @@ export const useGameStore = create<GameState>()(
 
     nextLevel: () => {
       const { currentLevel, setLevel } = get();
-      setLevel(currentLevel + 1);
+      const currentIndex = LEVELS.findIndex((l) => l.id === currentLevel);
+      if (currentIndex === -1 || currentIndex === LEVELS.length - 1) return;
+      const nextLevel = LEVELS[currentIndex + 1];
+      setLevel(nextLevel.id);
     },
 
     setPoweredOff: (isPoweredOff) => set({ isPoweredOff }),

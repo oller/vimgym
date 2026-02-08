@@ -5,7 +5,7 @@ import { useGameStore } from "../useGameStore";
 describe("useGameStore", () => {
   beforeEach(() => {
     // Reset store before each test
-    useGameStore.getState().setLevel(1);
+    useGameStore.getState().setLevel(LEVELS[0].id);
   });
 
   it("initializes with correct default values", () => {
@@ -67,13 +67,13 @@ describe("useGameStore", () => {
     updateText(LEVELS[0].targetText);
 
     expect(useGameStore.getState().isCompleted).toBe(true);
-    expect(useGameStore.getState().currentLevel).toBe(1);
+    expect(useGameStore.getState().currentLevel).toBe(LEVELS[0].id);
 
     // Progress to Level 2
     nextLevel();
 
     const state = useGameStore.getState();
-    expect(state.currentLevel).toBe(2);
+    expect(state.currentLevel).toBe(LEVELS[1].id);
     expect(state.startText).toBe(LEVELS[1].startText);
     expect(state.targetText).toBe(LEVELS[1].targetText);
     expect(state.currentText).toBe(LEVELS[1].startText);
@@ -85,7 +85,7 @@ describe("useGameStore", () => {
     const { nextLevel, setLevel } = useGameStore.getState();
 
     // Go to last level
-    setLevel(LEVELS.length);
+    setLevel(LEVELS[LEVELS.length - 1].id);
 
     const beforeLevel = useGameStore.getState().currentLevel;
 

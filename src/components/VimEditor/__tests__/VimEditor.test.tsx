@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it } from "vitest";
+import { LEVELS } from "../../../data/levels";
 import { useGameStore } from "../../../store/useGameStore";
 import { VimEditor } from "../VimEditor";
 
@@ -15,7 +16,7 @@ const renderWithRouter = (component: React.ReactNode) => {
 
 describe("VimEditor Integration", () => {
   beforeEach(() => {
-    useGameStore.getState().setLevel(1);
+    useGameStore.getState().setLevel(LEVELS[0].id);
 
     // HTMLElement.prototype.getClientRects might define layout
     // Is used by some CM measurements

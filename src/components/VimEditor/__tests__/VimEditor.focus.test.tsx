@@ -1,6 +1,7 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { LEVELS } from "../../../data/levels";
 import { useGameStore } from "../../../store/useGameStore";
 import { VimEditor } from "../VimEditor";
 
@@ -13,7 +14,7 @@ const renderWithRouter = (component: React.ReactNode) => {
 
 describe("VimEditor Focus", () => {
   beforeEach(() => {
-    useGameStore.getState().setLevel(1);
+    useGameStore.getState().setLevel(LEVELS[0].id);
   });
 
   it("focuses editor on level change", async () => {
@@ -30,7 +31,7 @@ describe("VimEditor Focus", () => {
 
     // Change level
     act(() => {
-      useGameStore.getState().setLevel(2);
+      useGameStore.getState().setLevel(LEVELS[1].id);
     });
 
     // It should regain focus

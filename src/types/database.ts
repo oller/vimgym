@@ -20,7 +20,7 @@ export type Database = {
           id: string;
           keystrokes: string[];
           keystrokes_count: number;
-          level: number;
+          level_id: string;
           user_id: string | null;
         };
         Insert: {
@@ -28,7 +28,7 @@ export type Database = {
           id?: string;
           keystrokes: string[];
           keystrokes_count: number;
-          level: number;
+          level_id: string;
           user_id?: string | null;
         };
         Update: {
@@ -97,18 +97,21 @@ export type Database = {
     };
     Functions: {
       get_level_score_distribution: {
-        Args: { p_level_id: number };
+        Args: { p_level_id: string };
         Returns: {
           count: number;
           score: number;
         }[];
       };
-      get_player_dashboard: { Args: { p_user_id: string }; Returns: Json };
+      get_player_dashboard: {
+        Args: { p_user_id: string; p_level_ids: string[] };
+        Returns: Json;
+      };
       submit_level_completion: {
         Args: {
           p_keystrokes: string[];
           p_keystrokes_count: number;
-          p_level: number;
+          p_level_id: string;
           p_user_id: string;
         };
         Returns: string;

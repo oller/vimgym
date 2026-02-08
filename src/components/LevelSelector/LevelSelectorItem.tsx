@@ -7,6 +7,7 @@ import { LevelSelectorItemScoreCard } from "./LevelSelectorItemScoreCard";
 import { LevelSelectorItemStatsCard } from "./LevelSelectorItemStatsCard";
 
 type LevelSelectorItemProps = {
+  index: number;
   level: Level;
   levelData: PlayerDashboard[string] | undefined;
   isCurrentLevel: boolean;
@@ -17,7 +18,7 @@ type LevelSelectorItemProps = {
 export const LevelSelectorItem = forwardRef<
   HTMLDivElement,
   LevelSelectorItemProps
->(({ level, levelData, isCurrentLevel, onSelect, className }, ref) => {
+>(({ level, levelData, isCurrentLevel, onSelect, className, index }, ref) => {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
 
   return (
@@ -41,6 +42,7 @@ export const LevelSelectorItem = forwardRef<
           transition={{ type: "spring", stiffness: 300, damping: 35 }}
         >
           <LevelSelectorItemScoreCard
+            index={index}
             isCurrentLevel={isCurrentLevel}
             level={level}
             onClick={onSelect}
@@ -48,6 +50,7 @@ export const LevelSelectorItem = forwardRef<
             score={levelData}
           />
           <LevelSelectorItemStatsCard
+            index={index}
             isStatsOpen={isStatsOpen}
             level={level}
             onCloseStats={() => setIsStatsOpen(false)}

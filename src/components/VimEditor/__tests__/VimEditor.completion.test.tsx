@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it } from "vitest";
+import { LEVELS } from "../../../data/levels";
 import { useGameStore } from "../../../store/useGameStore";
 import { VimEditor } from "../VimEditor";
 
@@ -11,7 +12,7 @@ const renderWithRouter = (component: React.ReactNode) => {
 
 describe("Level Completion", () => {
   beforeEach(() => {
-    useGameStore.getState().setLevel(1);
+    useGameStore.getState().setLevel(LEVELS[0].id);
   });
 
   it("detects level completion", async () => {

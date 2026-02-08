@@ -2,6 +2,7 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { LEVELS } from "../../../data/levels";
 import { useGameStore } from "../../../store/useGameStore";
 import { VimEditor } from "../VimEditor";
 
@@ -14,7 +15,7 @@ const renderWithRouter = (component: React.ReactNode) => {
 
 describe("VimEditor History", () => {
   beforeEach(() => {
-    useGameStore.getState().setLevel(1);
+    useGameStore.getState().setLevel(LEVELS[0].id);
   });
 
   it("resets undo history on level change", async () => {
@@ -33,7 +34,7 @@ describe("VimEditor History", () => {
 
     // Change to Level 2
     act(() => {
-      useGameStore.getState().setLevel(2);
+      useGameStore.getState().setLevel(LEVELS[1].id);
     });
 
     // Wait for Level 2 text

@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it } from "vitest";
+import { LEVELS } from "../../../data/levels";
 import { useGameStore } from "../../../store/useGameStore";
 import { SPECIAL_KEYS } from "../../../utils/vimsplain.types";
 import { VimEditor } from "../VimEditor";
@@ -13,12 +14,14 @@ describe("VimEditor Keypress Logging", () => {
   beforeEach(() => {
     // Reset store and history
     useGameStore.setState({
-      currentLevel: 1,
+      currentLevel: LEVELS[0].id,
       startText: "Test text",
       targetText: "Target",
       currentText: "Test text",
       history: [],
       isCompleted: false,
+      resetCount: 0,
+      isPoweredOff: false,
     });
   });
 

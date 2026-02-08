@@ -5,7 +5,7 @@ import { useGameStore } from "../../../store/useGameStore";
 describe("Editor Initialization", () => {
   beforeEach(() => {
     // Reset to Level 1
-    useGameStore.getState().setLevel(1);
+    useGameStore.getState().setLevel(LEVELS[0].id);
   });
 
   it("startText updates when navigating to a different level", () => {
@@ -13,7 +13,7 @@ describe("Editor Initialization", () => {
     expect(initialStartText).toBe(LEVELS[0].startText);
 
     // Navigate to Level 2
-    useGameStore.getState().setLevel(2);
+    useGameStore.getState().setLevel(LEVELS[1].id);
 
     const newStartText = useGameStore.getState().startText;
     expect(newStartText).toBe(LEVELS[1].startText);
@@ -30,7 +30,7 @@ describe("Editor Initialization", () => {
 
   it("currentText matches startText on level navigation", () => {
     // Navigate to Level 2
-    useGameStore.getState().setLevel(2);
+    useGameStore.getState().setLevel(LEVELS[1].id);
 
     const state = useGameStore.getState();
     expect(state.currentText).toBe(state.startText);
@@ -41,7 +41,7 @@ describe("Editor Initialization", () => {
     const { setLevel, resetLevel } = useGameStore.getState();
 
     // Go to level 1 and modify currentText
-    setLevel(1);
+    setLevel(LEVELS[0].id);
     useGameStore.setState({ currentText: "modified text" });
 
     const startTextBefore = useGameStore.getState().startText;
