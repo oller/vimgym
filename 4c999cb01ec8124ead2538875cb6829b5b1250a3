@@ -1,0 +1,23 @@
+supabase/migrations/20260208000001_cleanup_integer_level_ids.sql
+  4c84eabf474ff93a 1-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "4c999cb01ec8124ead2538875cb6829b5b1250a3",
+  "prompts": {
+    "4c84eabf474ff93a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3c0b86f2dffejuoVzQGGUNJfox",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 10,
+      "total_deletions": 0,
+      "accepted_lines": 10,
+      "overriden_lines": 0
+    }
+  }
+}
