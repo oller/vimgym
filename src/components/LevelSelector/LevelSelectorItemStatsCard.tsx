@@ -1,17 +1,23 @@
 import { useState } from "react";
+import type { Level } from "../../data/levels";
 import { useLevelScoreDistribution } from "../../hooks/api";
+import type { PlayerDashboard } from "../../schemas";
 import { CloseIcon } from "../icons/CloseIcon";
 import { Sparkline } from "../Sparkline/Sparkline";
-import { useLevelSelectorItem } from "./LevelSelectorItemContext";
 
-export const LevelSelectorItemStatsCard = () => {
-  const {
-    level,
-    levelData: score,
-    isStatsOpen,
-    setIsStatsOpen,
-  } = useLevelSelectorItem();
+type LevelSelectorItemStatsCardProps = {
+  level: Level;
+  score: PlayerDashboard[string] | undefined;
+  isStatsOpen: boolean;
+  onCloseStats: () => void;
+};
 
+export const LevelSelectorItemStatsCard = ({
+  level,
+  score,
+  isStatsOpen,
+  onCloseStats,
+}: LevelSelectorItemStatsCardProps) => {
   const [hoveredPoint, setHoveredPoint] = useState<{
     score: number;
     count: number;
@@ -35,7 +41,7 @@ export const LevelSelectorItemStatsCard = () => {
           className="text-gray-500 hover:text-white transition-colors cursor-pointer"
           onClick={(e) => {
             e.stopPropagation();
-            setIsStatsOpen(false);
+            onCloseStats();
           }}
           type="button"
         >

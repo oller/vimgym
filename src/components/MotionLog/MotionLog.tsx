@@ -1,45 +1,33 @@
+import { useMemo } from "react";
 import { useGameStore } from "../../store/useGameStore";
-import { MotionLogContext, useMotionLog } from "./MotionLogContext";
+import { explainSequence } from "../../utils/vimsplain";
 import { MotionLogEmptyState } from "./MotionLogEmptyState";
 import { MotionLogHeader } from "./MotionLogHeader";
 import { MotionLogItem } from "./MotionLogItem";
 import { MotionLogList } from "./MotionLogList";
-import { MotionLogRoot } from "./MotionLogRoot";
 
 export const MotionLog = () => {
   const history = useGameStore((state) => state.history);
 
+  const commands = useMemo(() => {
+    if (history.length === 0) return [];
+    const sequence = history.join("");
+    const result = explainSequence(sequence);
+    return result.commands;
+  }, [history]);
+
   return (
-    <MotionLogRoot history={history}>
+    <div className="flex flex-col rounded-lg border border-gray-800 p-4">
       <MotionLogHeader />
-      <MotionLogList>
-        <MotionLogEmptyState />
+      <MotionLogList count={commands.length}>
+        {history.length === 0 && <MotionLogEmptyState />}
         <div className="flex flex-wrap gap-2 items-center">
-          <MotionLogItems />
+          {commands.map((cmd, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: Index is stable for append-only log and required for morphing animation
+            <MotionLogItem command={cmd} key={index} />
+          ))}
         </div>
       </MotionLogList>
-    </MotionLogRoot>
+    </div>
   );
 };
-
-// Internal helper to access context and map items
-const MotionLogItems = () => {
-  const { commands } = useMotionLog();
-  return (
-    <>
-      {commands.map((cmd, index) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: Index is stable for append-only log and required for morphing animation
-        <MotionLogItem command={cmd} key={index} />
-      ))}
-    </>
-  );
-};
-
-// biome-ignore lint/style/useComponentExportOnlyModules: Allow compound component pattern
-export const MotionLogComposite = Object.assign(MotionLogRoot, {
-  Header: MotionLogHeader,
-  List: MotionLogList,
-  Item: MotionLogItem,
-  EmptyState: MotionLogEmptyState,
-  Context: MotionLogContext,
-});

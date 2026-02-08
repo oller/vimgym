@@ -1,9 +1,9 @@
 import { motion } from "motion/react";
+import type { ExplainedCommand } from "../../utils/vimsplain.types";
 import { VimKbd } from "../VimKbd";
-import type { MotionCommand } from "./MotionLogContext";
 
 type MotionItemProps = {
-  command: MotionCommand;
+  command: ExplainedCommand;
 };
 
 export const MotionLogItem = ({ command }: MotionItemProps) => {

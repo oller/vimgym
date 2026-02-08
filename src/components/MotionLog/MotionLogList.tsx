@@ -1,11 +1,13 @@
 import type { PropsWithChildren } from "react";
 import { useScrollIntoView } from "../../hooks/useScrollIntoView";
-import { useMotionLog } from "./MotionLogContext";
 
-export const MotionLogList = ({ children }: PropsWithChildren) => {
-  const { commands } = useMotionLog();
+type MotionLogListProps = PropsWithChildren<{
+  count: number;
+}>;
+
+export const MotionLogList = ({ children, count }: MotionLogListProps) => {
   // We use the commands length to trigger the scroll
-  const scrollRef = useScrollIntoView<HTMLDivElement>(commands.length, {
+  const scrollRef = useScrollIntoView<HTMLDivElement>(count, {
     behavior: "smooth",
     block: "end",
   });

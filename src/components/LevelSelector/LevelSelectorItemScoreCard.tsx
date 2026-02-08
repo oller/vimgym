@@ -1,21 +1,23 @@
+import type { Level } from "../../data/levels";
+import type { PlayerDashboard } from "../../schemas";
 import { cn } from "../../utils/cn";
-import { useLevelSelectorItem } from "./LevelSelectorItemContext";
 import { LevelSelectorItemRecord } from "./LevelSelectorItemRecord";
 
 type LevelSelectorItemScoreCardProps = {
+  level: Level;
+  score: PlayerDashboard[string] | undefined;
+  isCurrentLevel: boolean;
   onClick: () => void;
+  onShowStats: () => void;
 };
 
 export const LevelSelectorItemScoreCard = ({
+  level,
+  score,
+  isCurrentLevel,
   onClick,
+  onShowStats,
 }: LevelSelectorItemScoreCardProps) => {
-  const {
-    level,
-    levelData: score,
-    isCurrentLevel,
-    setIsStatsOpen,
-  } = useLevelSelectorItem();
-
   const bestScore = score?.user.best;
   const percentile = score?.user.percentile;
   const isPerfectScore =
@@ -78,7 +80,7 @@ export const LevelSelectorItemScoreCard = ({
         <LevelSelectorItemRecord
           bestScoreLog={score?.global.best_score_log}
           globalBest={score?.global.best}
-          onShowStats={() => setIsStatsOpen(true)}
+          onShowStats={onShowStats}
         />
       </button>
     </div>
