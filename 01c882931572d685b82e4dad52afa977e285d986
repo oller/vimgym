@@ -1,0 +1,23 @@
+supabase/migrations/20260208000001_cleanup_integer_level_ids.sql
+  4c84eabf474ff93a 1-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "01c882931572d685b82e4dad52afa977e285d986",
+  "prompts": {
+    "4c84eabf474ff93a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3c0b86f2dffejuoVzQGGUNJfox",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 3,
+      "accepted_lines": 22,
+      "overriden_lines": 0
+    }
+  }
+}
