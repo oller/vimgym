@@ -1,0 +1,25 @@
+index.html
+  dc610acc05403ca3 16
+src/index.css
+  dc610acc05403ca3 5-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "f65c54c1647201063f24047d642167859af9b5cd",
+  "prompts": {
+    "dc610acc05403ca3": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3c5ca39c5ffe8jzKguXtW8S1fQ",
+        "model": "google/gemini-3-flash-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 100,
+      "total_deletions": 39,
+      "accepted_lines": 78,
+      "overriden_lines": 0
+    }
+  }
+}
