@@ -1,0 +1,67 @@
+src/schemas/index.ts
+  4c84eabf474ff93a 6
+src/components/VimEditor/__tests__/VimEditor.completion.test.tsx
+  4c84eabf474ff93a 5,15
+src/api/__tests__/index.test.ts
+  4c84eabf474ff93a 20,45,56,81,91,116,188-189,193
+src/store/useGameStore.ts
+  4c84eabf474ff93a 17,29,81-84
+src/data/levels.ts
+  4c84eabf474ff93a 2,11,18,32,39,53,61,75,82,96,103,117,124,132,139
+src/components/LevelSelector/LevelSelectorItemScoreCard.tsx
+  4c84eabf474ff93a 55
+src/components/LevelSelector/LevelSelector.tsx
+  4c84eabf474ff93a 24,30
+src/components/LevelSelector/LevelSelectorItemStatsCard.tsx
+  4c84eabf474ff93a 17,37
+src/api/index.ts
+  4c84eabf474ff93a 28,48,67,75
+src/components/LevelSelector/LevelSelectorItem.tsx
+  4c84eabf474ff93a 21,53
+src/components/VimEditor/__tests__/VimEditor.initialization.test.ts
+  4c84eabf474ff93a 8,16,44
+src/types/database.ts
+  4c84eabf474ff93a 107-108,114
+src/hooks/useLevelId.ts
+  4c84eabf474ff93a 1,6
+src/components/VimEditor/__tests__/VimEditor.keypress.test.tsx
+  4c84eabf474ff93a 4,17,23-24
+src/components/VimEditor/VimEditor.tsx
+  4c84eabf474ff93a 8,53,56-59,63,68
+src/components/VimEditor/__tests__/VimEditor.test.tsx
+  4c84eabf474ff93a 5,19
+src/components/GoalDisplay/GoalDisplay.tsx
+  4c84eabf474ff93a 8,17
+src/store/__tests__/useGameStore.test.ts
+  4c84eabf474ff93a 8,70,76,88
+src/hooks/api/index.ts
+  4c84eabf474ff93a 23,44
+src/Home.tsx
+  4c84eabf474ff93a 42,44-46,50-51,56,58
+src/components/VimEditor/__tests__/VimEditor.focus.test.tsx
+  4c84eabf474ff93a 4,34
+supabase/migrations/20260208000000_migrate_to_string_ids.sql
+  4c84eabf474ff93a 1-170
+src/lib/analytics.ts
+  4c84eabf474ff93a 43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "bb72e8061257cf4fbae7ccb0bbc20a96c5fd02de",
+  "prompts": {
+    "4c84eabf474ff93a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3c0b86f2dffejuoVzQGGUNJfox",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 283,
+      "total_deletions": 87,
+      "accepted_lines": 264,
+      "overriden_lines": 0
+    }
+  }
+}
