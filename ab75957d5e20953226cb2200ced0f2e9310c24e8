@@ -1,0 +1,132 @@
+src/components/LevelSelector/LevelSelectorItem.tsx
+  4c84eabf474ff93a 21,53
+src/components/VimEditor/__tests__/VimEditor.keypress.test.tsx
+  4c84eabf474ff93a 4,17,23-24
+src/components/VimEditor/VimEditor.tsx
+  4c84eabf474ff93a 8,53,56-59,63,68
+src/data/levels.ts
+  4c84eabf474ff93a 2,11,18,32,39,53,61,75,82,96,103,117,124,132,139
+src/store/useGameStore.ts
+  4c84eabf474ff93a 17,29,81-84
+src/api/index.ts
+  4c84eabf474ff93a 28,48,67,75
+src/components/LevelSelector/LevelSelector.tsx
+  4c84eabf474ff93a 24,30
+src/hooks/useLevelId.ts
+  4c84eabf474ff93a 1,6
+src/store/__tests__/useGameStore.test.ts
+  4c84eabf474ff93a 8,70,76,88
+src/components/VimEditor/__tests__/VimEditor.completion.test.tsx
+  4c84eabf474ff93a 5,15
+src/components/VimEditor/__tests__/VimEditor.test.tsx
+  4c84eabf474ff93a 5,19
+src/Home.tsx
+  4c84eabf474ff93a 42,44-46,50-51,56,58
+src/schemas/index.ts
+  4c84eabf474ff93a 6
+src/components/LevelSelector/LevelSelectorItemScoreCard.tsx
+  4c84eabf474ff93a 55
+src/hooks/api/index.ts
+  4c84eabf474ff93a 23,44
+src/lib/analytics.ts
+  4c84eabf474ff93a 43
+src/components/VimEditor/__tests__/VimEditor.initialization.test.ts
+  4c84eabf474ff93a 8,16,44
+supabase/migrations/20260208000000_migrate_to_string_ids.sql
+  4c84eabf474ff93a 1-170
+src/types/database.ts
+  4c84eabf474ff93a 107-108,114
+src/components/GoalDisplay/GoalDisplay.tsx
+  4c84eabf474ff93a 8,17
+src/api/__tests__/index.test.ts
+  4c84eabf474ff93a 20,45,56,81,91,116,188-189,193
+src/components/LevelSelector/LevelSelectorItemStatsCard.tsx
+  4c84eabf474ff93a 17,37
+src/components/VimEditor/__tests__/VimEditor.focus.test.tsx
+  4c84eabf474ff93a 4,34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.42",
+  "base_commit_sha": "ab75957d5e20953226cb2200ced0f2e9310c24e8",
+  "prompts": {
+    "4c84eabf474ff93a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3c0b86f2dffejuoVzQGGUNJfox",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 283,
+      "total_deletions": 87,
+      "accepted_lines": 264,
+      "overriden_lines": 0
+    },
+    "58830714be3a3a62": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3c114d376ffeAODBMsxRCbVUcz",
+        "model": "google/gemini-3-flash-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 99,
+      "total_deletions": 151,
+      "accepted_lines": 91,
+      "overriden_lines": 1
+    },
+    "af203768cfcb4daa": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3dad7b67fffehZWZWjf36KqHf9",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 144,
+      "total_deletions": 4,
+      "accepted_lines": 140,
+      "overriden_lines": 0
+    },
+    "c554ccab293366ac": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3d09ad3f8ffeggcQysmsQeypjc",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 143,
+      "total_deletions": 140,
+      "accepted_lines": 142,
+      "overriden_lines": 0
+    },
+    "cd736eb244560e72": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3cb4863d2ffeHyEbwCFiZHgSrI",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 38,
+      "total_deletions": 18,
+      "accepted_lines": 25,
+      "overriden_lines": 0
+    },
+    "fc33ab00790155d5": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3da5cd12fffeBCo21RUHPPJjXl",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 9,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    }
+  }
+}
