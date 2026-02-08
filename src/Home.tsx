@@ -1,17 +1,34 @@
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 
 import { CrtEffect } from "./components/CrtEffect";
 import { GoalDisplay } from "./components/GoalDisplay/GoalDisplay";
-import { LevelSelector } from "./components/LevelSelector/LevelSelector";
 import { Logo } from "./components/Logo/Logo";
-import { AboutModal } from "./components/Modals/AboutModal";
-import { CompletionModal } from "./components/Modals/CompletionModal";
 import { MotionLog } from "./components/MotionLog/MotionLog";
-import { VimEditor } from "./components/VimEditor/VimEditor";
 import { LEVELS } from "./data/levels";
 import { useLevelId } from "./hooks/useLevelId";
 import { useGameStore } from "./store/useGameStore";
+
+const VimEditor = lazy(() =>
+  import("./components/VimEditor/VimEditor").then((m) => ({
+    default: m.VimEditor,
+  })),
+);
+const LevelSelector = lazy(() =>
+  import("./components/LevelSelector/LevelSelector").then((m) => ({
+    default: m.LevelSelector,
+  })),
+);
+const AboutModal = lazy(() =>
+  import("./components/Modals/AboutModal").then((m) => ({
+    default: m.AboutModal,
+  })),
+);
+const CompletionModal = lazy(() =>
+  import("./components/Modals/CompletionModal").then((m) => ({
+    default: m.CompletionModal,
+  })),
+);
 
 const Home = () => {
   const [levelId, setLevelId] = useLevelId();
@@ -45,16 +62,20 @@ const Home = () => {
       <div className="h-dvh overflow-hidden bg-tokyo-night text-white flex flex-col p-4 md:p-6 font-sans relative">
         <AnimatePresence>
           {isAboutOpen && (
-            <AboutModal
-              isOpen={isAboutOpen}
-              onClose={() => setIsAboutOpen(false)}
-            />
+            <Suspense fallback={null}>
+              <AboutModal
+                isOpen={isAboutOpen}
+                onClose={() => setIsAboutOpen(false)}
+              />
+            </Suspense>
           )}
           {isCompleted && (
-            <CompletionModal
-              hasNextLevel={hasNextLevel}
-              onNext={handleNextLevel}
-            />
+            <Suspense fallback={null}>
+              <CompletionModal
+                hasNextLevel={hasNextLevel}
+                onNext={handleNextLevel}
+              />
+            </Suspense>
           )}
         </AnimatePresence>
 
@@ -84,7 +105,13 @@ const Home = () => {
             <GoalDisplay />
 
             <div className="flex flex-col grow min-h-0">
-              <VimEditor key={`${levelId}-${resetCount}`} />
+              <Suspense
+                fallback={
+                  <div className="grow bg-tokyo-night-storm rounded-md animate-pulse border border-gray-800" />
+                }
+              >
+                <VimEditor key={`${levelId}-${resetCount}`} />
+              </Suspense>
             </div>
 
             <motion.div className="shrink-0" layout>
@@ -97,7 +124,13 @@ const Home = () => {
             className="h-32 md:h-full md:col-span-3 lg:col-span-2 flex min-h-0 shrink-0"
             layout
           >
-            <LevelSelector />
+            <Suspense
+              fallback={
+                <div className="w-full bg-tokyo-night rounded-md animate-pulse border-l border-gray-800" />
+              }
+            >
+              <LevelSelector />
+            </Suspense>
           </motion.aside>
         </motion.main>
       </div>
