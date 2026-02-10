@@ -1,0 +1,36 @@
+src/components/LevelSelector/LevelSelectorItem.tsx
+  2656da2d2fc5b997 2,16,25-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.1",
+  "base_commit_sha": "3bf4a96a971bfb3c794c131dd0b679067447486b",
+  "prompts": {
+    "2656da2d2fc5b997": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3b674a198ffe5hQa5aY6QIbgBJ",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 467,
+      "total_deletions": 297,
+      "accepted_lines": 51,
+      "overriden_lines": 0
+    },
+    "c0f9ea1f170e2e5a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3b7f02721ffeHcHLhqvmIWb4EN",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 12,
+      "overriden_lines": 0
+    }
+  }
+}
