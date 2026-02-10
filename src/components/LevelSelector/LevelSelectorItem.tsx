@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { forwardRef, useState } from "react";
+import { useState } from "react";
 import type { Level } from "../../data/levels";
 import type { PlayerDashboard } from "../../schemas";
 import { cn } from "../../utils/cn";
@@ -13,12 +13,18 @@ type LevelSelectorItemProps = {
   isCurrentLevel: boolean;
   onSelect: () => void;
   className?: string;
+  ref?: React.Ref<HTMLDivElement>;
 };
 
-export const LevelSelectorItem = forwardRef<
-  HTMLDivElement,
-  LevelSelectorItemProps
->(({ level, levelData, isCurrentLevel, onSelect, className, index }, ref) => {
+export const LevelSelectorItem = ({
+  level,
+  levelData,
+  isCurrentLevel,
+  onSelect,
+  className,
+  index,
+  ref,
+}: LevelSelectorItemProps) => {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
 
   return (
@@ -60,6 +66,4 @@ export const LevelSelectorItem = forwardRef<
       </div>
     </div>
   );
-});
-
-LevelSelectorItem.displayName = "LevelSelectorItem";
+};
