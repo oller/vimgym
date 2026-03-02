@@ -4,7 +4,7 @@ export type Level = {
   startText: string;
   targetText: string;
   description: string;
-  language?: "html" | "javascript" | "markdown" | "json";
+  language: "html" | "javascript" | "markdown" | "json";
 };
 
 export const LEVELS = [
@@ -14,6 +14,7 @@ export const LEVELS = [
     startText: "The quick brown fox jumps over the lazy dog.",
     targetText: "The quick brown fox jumps.",
     description: "Delete 'over the lazy dog' from the sentence",
+    language: "markdown",
   },
   {
     id: "flip-ternary",
@@ -21,6 +22,7 @@ export const LEVELS = [
     startText: "const activity = isSunny ? 'xbox' : 'golf'",
     targetText: "const activity = isSunny ? 'golf' : 'xbox'",
     description: "Swap 'golf' and 'xbox' in the ternary",
+    language: "javascript",
   },
   {
     id: "remove-hiccups",
@@ -28,6 +30,7 @@ export const LEVELS = [
     startText: "The 2nd best time to hiccup plant a tree hiccup is now hiccup.",
     targetText: "The 2nd best time to plant a tree is now.",
     description: "The hiccups are annoying, remove them all",
+    language: "markdown",
   },
   {
     id: "extract-domain",
@@ -35,6 +38,7 @@ export const LEVELS = [
     startText: "Visit us at https://www.example.com/about for more info.",
     targetText: "Visit us at example.com for more info.",
     description: "Extract the domain from the URL",
+    language: "markdown",
   },
   {
     id: "quote-wrapping",
@@ -42,6 +46,7 @@ export const LEVELS = [
     startText: 'const greeting = "Hello World"; const name = "John";',
     targetText: 'const greeting = "Hi"; const name = "Jane";',
     description: "Change text inside quotes using text objects",
+    language: "javascript",
   },
   {
     id: "function-parameters",
@@ -49,6 +54,7 @@ export const LEVELS = [
     startText: "function greet(name, age, city) { return name; }",
     targetText: "function greet(x, y, z) { return x; }",
     description: "Change function parameters using parenthesis text objects",
+    language: "javascript",
   },
   {
     id: "tag-switcheroo",
@@ -64,6 +70,7 @@ export const LEVELS = [
     startText: 'display(data, "Result")',
     targetText: 'display("Result", data)',
     description: "Swap the function arguments",
+    language: "javascript",
   },
   {
     id: "typos-galore",
@@ -71,6 +78,7 @@ export const LEVELS = [
     startText: "const valeu = 1;",
     targetText: "const value = 1;",
     description: "Fix the typo using 'xp' (transpose)",
+    language: "javascript",
   },
   {
     id: "snake-to-kebab",
@@ -86,6 +94,7 @@ export const LEVELS = [
     startText: "if (isValid) { save(); }",
     targetText: "save();",
     description: "Remove the if statement wrapper",
+    language: "javascript",
   },
   {
     id: "semicolon-appender",
@@ -93,6 +102,7 @@ export const LEVELS = [
     startText: "const a = 1\nconst b = 2\nconst c = 3",
     targetText: "const a = 1;\nconst b = 2;\nconst c = 3;",
     description: "Append semicolons to end of lines",
+    language: "javascript",
   },
   {
     id: "markdown-header",
@@ -108,6 +118,7 @@ export const LEVELS = [
     startText: 'const color = "red"',
     targetText: 'const color = { value: "red" }',
     description: "Wrap the value in an object",
+    language: "javascript",
   },
   {
     id: "inner-html-clear",
@@ -123,6 +134,7 @@ export const LEVELS = [
     startText: "- Apples\n- Bananas\n- Oranges\n- Grapes\n- Mangoes",
     targetText: "Apples, Bananas, Oranges, Grapes, Mangoes",
     description: "Convert the list into a comma-separated line",
+    language: "markdown",
   },
   {
     id: "comment-block",
@@ -131,6 +143,7 @@ export const LEVELS = [
     targetText:
       "// const a = 1;\n// const b = 2;\n// const c = 3;\n// const d = 4;",
     description: "Comment out all lines using Visual Block mode",
+    language: "javascript",
   },
   {
     id: "jsonify",
@@ -146,6 +159,7 @@ export const LEVELS = [
     startText: 'const user_first_name = "John";\nconst user_last_name = "Doe";',
     targetText: 'const userFirstName = "John";\nconst userLastName = "Doe";',
     description: "Convert snake_case variables to camelCase",
+    language: "javascript",
   },
 ] as const satisfies Level[];
 

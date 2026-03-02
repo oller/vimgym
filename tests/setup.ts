@@ -54,6 +54,8 @@ console.error = (...args) => {
 };
 
 // Mock localStorage
+// jsdom provides a localStorage object, but its methods (like getItem) are often undefined
+// in this vitest setup, causing "TypeError: localStorage.getItem is not a function".
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
   return {

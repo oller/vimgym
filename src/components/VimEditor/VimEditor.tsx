@@ -162,15 +162,21 @@ export const VimEditor = () => {
   // Make editor read-only when completed
   // Make editor read-only when completed
   const levelObj = getLevel(currentLevel);
-  const lang = levelObj?.language;
-  const languageExtension =
-    lang === "html"
-      ? html()
-      : lang === "markdown"
-        ? markdown()
-        : lang === "json"
-          ? json()
-          : javascript({ jsx: true, typescript: true });
+  const lang = levelObj?.language || "markdown";
+
+  const languageExtension = (() => {
+    switch (lang) {
+      case "html":
+        return html();
+      case "json":
+        return json();
+      case "javascript":
+        return javascript({ jsx: true, typescript: true });
+      case "markdown":
+      default:
+        return markdown();
+    }
+  })();
 
   const extensions = [
     vim(), // vim bindings
