@@ -1,6 +1,14 @@
 import "@testing-library/jest-dom/vitest";
 import { beforeEach, vi } from "vitest";
 
+// Global fetch mock to prevent any network requests during tests
+vi.stubGlobal(
+  "fetch",
+  vi.fn(() => {
+    return Promise.reject(new Error("Network request attempted during test!"));
+  }),
+);
+
 // Global Supabase Mock
 vi.mock("../src/lib/supabase/client", () => ({
   getSupabaseClient: () => ({
@@ -38,8 +46,36 @@ beforeEach(() => {
   };
 });
 
-// Suppress "act" warnings
+// Suppress "act" warnings and Supabase noise
 const originalConsoleError = console.error;
+const originalConsoleLog = console.log;
+const originalConsoleWarn = console.warn;
+
+console.log = (...args) => {
+  if (
+    typeof args[0] === "string" &&
+    (args[0].includes("🚀 Submitting completion analytics") ||
+      args[0].includes("✅ Successfully submitted to Supabase") ||
+      args[0].includes("📡 submitLevelCompletion called with") ||
+      args[0].includes("✅ Supabase client exists") ||
+      args[0].includes("✅ Data validated") ||
+      args[0].includes("📤 Sending to Supabase"))
+  ) {
+    return;
+  }
+  originalConsoleLog(...args);
+};
+
+console.warn = (...args) => {
+  if (
+    typeof args[0] === "string" &&
+    args[0].includes("⚠️ Supabase not configured")
+  ) {
+    return;
+  }
+  originalConsoleWarn(...args);
+};
+
 console.error = (...args) => {
   if (
     typeof args[0] === "string" &&
