@@ -1,3 +1,4 @@
+import { html } from "@codemirror/lang-html";
 import { EditorState } from "@codemirror/state";
 import type { EditorView } from "@codemirror/view";
 import NumberFlow from "@number-flow/react";
@@ -159,6 +160,7 @@ export const VimEditor = () => {
   // Make editor read-only when completed
   const extensions = [
     vim(), // vim bindings
+    html(), // HTML language parser for tag text objects (dit, cit, etc)
     ...(isCompleted ? [EditorState.readOnly.of(true)] : []),
   ];
 
