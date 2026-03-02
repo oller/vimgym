@@ -4,6 +4,7 @@ export type Level = {
   startText: string;
   targetText: string;
   description: string;
+  language?: "html" | "javascript";
 };
 
 export const LEVELS = [
@@ -54,8 +55,8 @@ export const LEVELS = [
     name: "Tag Switcheroo",
     startText: "<div>Hello</div>",
     targetText: "<article>Hello</article>",
-    description:
-      "Change the wrapping tag (note codemirror doesn't support all text objects 😢)",
+    description: "Change the wrapping tag.",
+    language: "html",
   },
   {
     id: "argument-swap",
@@ -77,6 +78,7 @@ export const LEVELS = [
     startText: 'class="menu_item_active"',
     targetText: 'class="menu-item-active"',
     description: "Convert snake_case to kebab-case using find and repeat",
+    language: "html",
   },
   {
     id: "unwrap-block",
@@ -112,6 +114,7 @@ export const LEVELS = [
     startText: '<div id="app"><span>Loading...</span></div>',
     targetText: '<div id="app"></div>',
     description: "Clear the inner HTML of the div",
+    language: "html",
   },
   {
     id: "clean-up-list",

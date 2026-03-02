@@ -1,4 +1,5 @@
 import { html } from "@codemirror/lang-html";
+import { javascript } from "@codemirror/lang-javascript";
 import { EditorState } from "@codemirror/state";
 import type { EditorView } from "@codemirror/view";
 import NumberFlow from "@number-flow/react";
@@ -6,7 +7,7 @@ import { getCM, Vim, vim } from "@replit/codemirror-vim";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
 import { useEffect, useRef, useState } from "react";
-import { LEVELS } from "../../data/levels";
+import { getLevel, LEVELS } from "../../data/levels";
 import { useLevelId } from "../../hooks/useLevelId";
 import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
@@ -158,9 +159,15 @@ export const VimEditor = () => {
 
   // Make editor read-only when completed
   // Make editor read-only when completed
+  const levelObj = getLevel(currentLevel);
+  const languageExtension =
+    levelObj && "language" in levelObj && levelObj.language === "html"
+      ? html()
+      : javascript({ jsx: true, typescript: true });
+
   const extensions = [
     vim(), // vim bindings
-    html(), // HTML language parser for tag text objects (dit, cit, etc)
+    languageExtension,
     ...(isCompleted ? [EditorState.readOnly.of(true)] : []),
   ];
 
