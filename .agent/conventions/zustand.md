@@ -18,10 +18,6 @@ export const useGameStore = create<GameState>()(
 );
 ```
 
-## Selective Persistence
-
-Use `partialize` to persist only specific state (e.g., high scores). Avoid persisting transient UI state.
-
 ## Accessing State
 
 In components (reactive):
