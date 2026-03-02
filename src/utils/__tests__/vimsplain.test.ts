@@ -301,6 +301,20 @@ describe("vimsplain", () => {
         const result = explainSequence("gca(");
         expect(result.commands[0].explanation).toBe("toggle comment around ()");
       });
+
+      it("explains vgc (toggle comment selection)", () => {
+        const result = explainSequence("vgc");
+        expect(result.commands).toHaveLength(2);
+        expect(result.commands[0].explanation).toBe("enter visual mode");
+        expect(result.commands[1].explanation).toBe("toggle comment selection");
+      });
+
+      it("explains Vgc (toggle comment selection in visual line mode)", () => {
+        const result = explainSequence("Vgc");
+        expect(result.commands).toHaveLength(2);
+        expect(result.commands[0].explanation).toBe("enter visual line mode");
+        expect(result.commands[1].explanation).toBe("toggle comment selection");
+      });
     });
 
     describe("find and till", () => {

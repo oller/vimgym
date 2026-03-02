@@ -417,6 +417,7 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
     description: "toggle comment around ()",
     isMotion: false,
   },
+  { pattern: /^gc/, description: "toggle comment selection", isMotion: false },
 
   // --- Indent ---
   { pattern: /^>>/, description: "indent line", isMotion: false },
