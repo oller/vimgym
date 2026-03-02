@@ -4,7 +4,7 @@ export type Level = {
   startText: string;
   targetText: string;
   description: string;
-  language?: "html" | "javascript";
+  language?: "html" | "javascript" | "markdown" | "json";
 };
 
 export const LEVELS = [
@@ -100,6 +100,7 @@ export const LEVELS = [
     startText: "Title\nSubtitle\nSection",
     targetText: "## Title\n## Subtitle\n## Section",
     description: "Add markdown headers to lines",
+    language: "markdown",
   },
   {
     id: "object-property",
@@ -137,6 +138,7 @@ export const LEVELS = [
     startText: "name: John\nage: 30\ncity: New York",
     targetText: '"name": "John",\n"age": "30",\n"city": "New York",',
     description: "Convert yaml-like key-values to JSON format",
+    language: "json",
   },
   {
     id: "snake-to-camel",
@@ -147,6 +149,6 @@ export const LEVELS = [
   },
 ] as const satisfies Level[];
 
-export const getLevel = (id: string) => {
+export const getLevel = (id: string): Level | undefined => {
   return LEVELS.find((level) => level.id === id);
 };

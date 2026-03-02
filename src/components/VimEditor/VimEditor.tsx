@@ -1,5 +1,7 @@
 import { html } from "@codemirror/lang-html";
 import { javascript } from "@codemirror/lang-javascript";
+import { json } from "@codemirror/lang-json";
+import { markdown } from "@codemirror/lang-markdown";
 import { EditorState } from "@codemirror/state";
 import type { EditorView } from "@codemirror/view";
 import NumberFlow from "@number-flow/react";
@@ -160,10 +162,15 @@ export const VimEditor = () => {
   // Make editor read-only when completed
   // Make editor read-only when completed
   const levelObj = getLevel(currentLevel);
+  const lang = levelObj?.language;
   const languageExtension =
-    levelObj && "language" in levelObj && levelObj.language === "html"
+    lang === "html"
       ? html()
-      : javascript({ jsx: true, typescript: true });
+      : lang === "markdown"
+        ? markdown()
+        : lang === "json"
+          ? json()
+          : javascript({ jsx: true, typescript: true });
 
   const extensions = [
     vim(), // vim bindings
