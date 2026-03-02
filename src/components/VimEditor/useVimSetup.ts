@@ -4,14 +4,11 @@ import { Vim } from "@replit/codemirror-vim";
 import { LEVELS } from "../../data/levels";
 import { useGameStore } from "../../store/useGameStore";
 
-export function useVimSetup(
-  editorViewRef: React.MutableRefObject<EditorView | null>,
-  setLevelId: (id: string) => void,
-) {
+export function useVimSetup(setLevelId: (id: string) => void) {
   const resetLevel = useGameStore((state) => state.resetLevel);
   const setPoweredOff = useGameStore((state) => state.setPoweredOff);
 
-  const setupVim = (_editorView: EditorView) => {
+  const setupVim = (editorView: EditorView) => {
     // Define Ex commands
     ["q", "wq", "qa"].forEach((cmd) => {
       Vim.defineEx(cmd, "", () => setPoweredOff(true));
@@ -19,12 +16,13 @@ export function useVimSetup(
 
     // Add comment operator (gcc, gcaw, etc)
     Vim.defineOperator("comment", (_cm: any, _args: any, ranges: any[]) => {
-      if (!editorViewRef.current) return;
-      const view = editorViewRef.current;
-
+      // In @replit/codemirror-vim, the cm object is a CM5 wrapper
+      // We trigger toggleLineComment on the provided EditorView
       const selections = ranges.map((r) => {
         const line = (n: number) =>
-          view.state.doc.line(Math.min(Math.max(n, 1), view.state.doc.lines));
+          editorView.state.doc.line(
+            Math.min(Math.max(n, 1), editorView.state.doc.lines),
+          );
         const anchorLine = line(r.anchor.line + 1);
         const headLine = line(r.head.line + 1);
         const from = anchorLine.from + Math.min(r.anchor.ch, anchorLine.length);
@@ -32,16 +30,16 @@ export function useVimSetup(
         return { anchor: from, head: to };
       });
 
-      view.dispatch({
+      editorView.dispatch({
         selection: { anchor: selections[0].anchor, head: selections[0].head },
       });
 
       // Execute the toggle command
-      toggleLineComment(view);
+      toggleLineComment(editorView);
 
       // We don't restore selection because Vim motions usually place the cursor at the start of the range
       const newCursorPos = Math.min(selections[0].anchor, selections[0].head);
-      view.dispatch({
+      editorView.dispatch({
         selection: { anchor: newCursorPos, head: newCursorPos },
       });
     });

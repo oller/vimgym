@@ -87,3 +87,36 @@ Expected: PASS
 git add src/components/VimEditor/VimEditor.tsx
 git commit -m "feat: add gc comment operator mapping"
 ```
+
+---
+
+### Task 3: Enrich Vimsplain with Comment Motions
+
+**Files:**
+- Modify: `src/utils/vimsplain.ts`
+- Test: `src/utils/__tests__/vimsplain.test.ts`
+
+**Step 1: Update vimsplain.ts**
+Add `gc` related patterns to `NORMAL_COMMANDS`.
+Patterns to add:
+- `{ pattern: /^gcc/, description: "toggle comment line", isMotion: false }`
+- `{ pattern: /^gc(\d*)w/, description: "toggle comment $1 word(s) forward", isMotion: false }`
+- `{ pattern: /^gc(\d*)j/, description: "toggle comment $1 line(s) down", isMotion: false }`
+- `{ pattern: /^gc(\d*)k/, description: "toggle comment $1 line(s) up", isMotion: false }`
+- `{ pattern: /^gciw/, description: "toggle comment inner word", isMotion: false }`
+- `{ pattern: /^gcaw/, description: "toggle comment a word", isMotion: false }`
+- `{ pattern: /^gci\(/, description: "toggle comment inside ()", isMotion: false }`
+- `{ pattern: /^gca\(/, description: "toggle comment around ()", isMotion: false }`
+
+**Step 2: Add tests to vimsplain.test.ts**
+Add test cases for `gcc`, `gcw`, `gciw`, etc.
+
+**Step 3: Run Tests**
+Run: `pnpm test src/utils/__tests__/vimsplain.test.ts`
+Expected: PASS
+
+**Step 4: Commit**
+```bash
+git add src/utils/vimsplain.ts src/utils/__tests__/vimsplain.test.ts
+git commit -m "feat: enrich vimsplain with comment motions"
+```

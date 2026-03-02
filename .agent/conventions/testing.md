@@ -28,13 +28,14 @@ document.createRange = () => ({
 
 ## React State Updates
 
-Wrap React state updates in `act()` to avoid warnings:
+Wrap React state updates in `act()` to avoid warnings. Note that `userEvent` actions are already wrapped in `act()` internally by Testing Library, but manual store updates or complex async flows may still need it:
 
 ```typescript
 import { act } from "@testing-library/react";
 
 await act(async () => {
-  fireEvent.click(button);
+  // Manual state updates or non-userEvent triggers
+  useGameStore.getState().setLevel("next-level");
 });
 ```
 

@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import { LEVELS } from "../../../data/levels";
@@ -26,40 +27,33 @@ describe("VimEditor Keypress Logging", () => {
   });
 
   it("logs keypresses from insert mode", async () => {
+    const user = userEvent.setup();
     renderWithRouter(<VimEditor />);
 
-    // Get the editor container
+    // Get the editor
     const textbox = await screen.findByRole("textbox");
-    const editorContainer = textbox.closest(".cm-editor");
-    expect(editorContainer).toBeTruthy();
-    if (!editorContainer) throw new Error("Editor container not found");
+    await user.click(textbox);
 
-    // Simulate keypresses directly on the DOM
-    // These should be captured by our keydown listener
+    // Simulate typing
     const keys = ["h", "e", "l", "l", "o"];
-
-    keys.forEach((key) => {
-      fireEvent.keyDown(editorContainer, { key });
-    });
+    await user.keyboard("hello");
 
     // Check that all keys were logged
     const history = useGameStore.getState().history;
+    // Note: userEvent.keyboard handles the sequence.
+    // If it types 'hello', it will fire keydown for each character.
     expect(history).toEqual(keys);
   });
 
   it("logs special keys with normalized names", async () => {
+    const user = userEvent.setup();
     renderWithRouter(<VimEditor />);
 
     const textbox = await screen.findByRole("textbox");
-    const editorContainer = textbox.closest(".cm-editor");
-    expect(editorContainer).toBeTruthy();
-    if (!editorContainer) throw new Error("Editor container not found");
+    await user.click(textbox);
 
     // Test special key normalization
-    fireEvent.keyDown(editorContainer, { key: "Escape" });
-    fireEvent.keyDown(editorContainer, { key: "Enter" });
-    fireEvent.keyDown(editorContainer, { key: "Backspace" });
-    fireEvent.keyDown(editorContainer, { key: " " });
+    await user.keyboard("{Escape}{Enter}{Backspace} ");
 
     const history = useGameStore.getState().history;
     expect(history).toEqual([
@@ -71,19 +65,14 @@ describe("VimEditor Keypress Logging", () => {
   });
 
   it("does not log modifier keys", async () => {
+    const user = userEvent.setup();
     renderWithRouter(<VimEditor />);
 
     const textbox = await screen.findByRole("textbox");
-    const editorContainer = textbox.closest(".cm-editor");
-    expect(editorContainer).toBeTruthy();
-    if (!editorContainer) throw new Error("Editor container not found");
+    await user.click(textbox);
 
     // These should be filtered out
-    const modifierKeys = ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"];
-
-    modifierKeys.forEach((key) => {
-      fireEvent.keyDown(editorContainer, { key });
-    });
+    await user.keyboard("{Shift}{Control}{Alt}{Meta}{CapsLock}{Tab}");
 
     // History should be empty
     const history = useGameStore.getState().history;
@@ -91,21 +80,17 @@ describe("VimEditor Keypress Logging", () => {
   });
 
   it("logs mixed alphanumeric and special characters", async () => {
+    const user = userEvent.setup();
     renderWithRouter(<VimEditor />);
 
     const textbox = await screen.findByRole("textbox");
-    const editorContainer = textbox.closest(".cm-editor");
-    expect(editorContainer).toBeTruthy();
-    if (!editorContainer) throw new Error("Editor container not found");
+    await user.click(textbox);
 
-    const keys = ["a", "b", "1", "2", "!", "@", "#"];
-
-    keys.forEach((key) => {
-      fireEvent.keyDown(editorContainer, { key });
-    });
+    const typed = "ab12!@#";
+    await user.keyboard(typed);
 
     const history = useGameStore.getState().history;
-    expect(history).toEqual(keys);
+    expect(history).toEqual([...typed]);
   });
 
   it("clears history on reset", () => {

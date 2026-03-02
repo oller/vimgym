@@ -1,11 +1,11 @@
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it } from "vitest";
 import { CrtEffect } from "../../src/components/CrtEffect";
 import { useGameStore } from "../../src/store/useGameStore";
 
 describe("CRT Easter Egg", () => {
   afterEach(() => {
-    cleanup();
     useGameStore.setState({ isPoweredOff: false }); // Reset store
   });
 
@@ -23,7 +23,8 @@ describe("CRT Easter Egg", () => {
       expect(screen.getByText("Reconnect")).toBeInTheDocument();
     });
 
-    it("should set isPoweredOff to false when Reconnect button is clicked", () => {
+    it("should set isPoweredOff to false when Reconnect button is clicked", async () => {
+      const user = userEvent.setup();
       useGameStore.setState({ isPoweredOff: true });
 
       render(
@@ -33,10 +34,7 @@ describe("CRT Easter Egg", () => {
       );
 
       const button = screen.getByText("Reconnect");
-
-      act(() => {
-        button.click();
-      });
+      await user.click(button);
 
       expect(useGameStore.getState().isPoweredOff).toBe(false);
     });
