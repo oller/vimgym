@@ -247,6 +247,62 @@ describe("vimsplain", () => {
       });
     });
 
+    describe("comment motions", () => {
+      it("explains gcc (toggle comment line)", () => {
+        const result = explainSequence("gcc");
+        expect(result.commands[0]).toEqual({
+          matched: "gcc",
+          explanation: "toggle comment line",
+        });
+      });
+
+      it("explains gcw (toggle comment word)", () => {
+        const result = explainSequence("gcw");
+        expect(result.commands[0].explanation).toBe(
+          "toggle comment word forward",
+        );
+      });
+
+      it("explains gc2w (toggle comment 2 words)", () => {
+        const result = explainSequence("gc2w");
+        expect(result.commands[0].explanation).toBe(
+          "toggle comment 2 word forward",
+        );
+      });
+
+      it("explains gcj (toggle comment line down)", () => {
+        const result = explainSequence("gcj");
+        expect(result.commands[0].explanation).toBe("toggle comment line down");
+      });
+
+      it("explains gck (toggle comment line up)", () => {
+        const result = explainSequence("gck");
+        expect(result.commands[0].explanation).toBe("toggle comment line up");
+      });
+
+      it("explains gciw (toggle comment inner word)", () => {
+        const result = explainSequence("gciw");
+        expect(result.commands[0].explanation).toBe(
+          "toggle comment inner word",
+        );
+      });
+
+      it("explains gcaw (toggle comment a word)", () => {
+        const result = explainSequence("gcaw");
+        expect(result.commands[0].explanation).toBe("toggle comment a word");
+      });
+
+      it("explains gci( (toggle comment inside parens)", () => {
+        const result = explainSequence("gci(");
+        expect(result.commands[0].explanation).toBe("toggle comment inside ()");
+      });
+
+      it("explains gca( (toggle comment around parens)", () => {
+        const result = explainSequence("gca(");
+        expect(result.commands[0].explanation).toBe("toggle comment around ()");
+      });
+    });
+
     describe("find and till", () => {
       it("explains fx (find x forward)", () => {
         const result = explainSequence("fx");

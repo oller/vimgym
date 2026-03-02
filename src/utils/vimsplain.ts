@@ -384,6 +384,40 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^gUU/, description: "uppercase line", isMotion: false },
   { pattern: /^g~~/, description: "toggle case line", isMotion: false },
 
+  // --- Comment ---
+  { pattern: /^gcc/, description: "toggle comment line", isMotion: false },
+  {
+    pattern: /^gc(\d*)w/,
+    description: "toggle comment $1 word(s) forward",
+    isMotion: false,
+  },
+  {
+    pattern: /^gc(\d*)j/,
+    description: "toggle comment $1 line(s) down",
+    isMotion: false,
+  },
+  {
+    pattern: /^gc(\d*)k/,
+    description: "toggle comment $1 line(s) up",
+    isMotion: false,
+  },
+  {
+    pattern: /^gciw/,
+    description: "toggle comment inner word",
+    isMotion: false,
+  },
+  { pattern: /^gcaw/, description: "toggle comment a word", isMotion: false },
+  {
+    pattern: /^gci\(/,
+    description: "toggle comment inside ()",
+    isMotion: false,
+  },
+  {
+    pattern: /^gca\(/,
+    description: "toggle comment around ()",
+    isMotion: false,
+  },
+
   // --- Indent ---
   { pattern: /^>>/, description: "indent line", isMotion: false },
   { pattern: /^<</, description: "dedent line", isMotion: false },
