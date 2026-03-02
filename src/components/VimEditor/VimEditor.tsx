@@ -1,3 +1,4 @@
+import { toggleLineComment } from "@codemirror/commands";
 import { html } from "@codemirror/lang-html";
 import { javascript } from "@codemirror/lang-javascript";
 import { json } from "@codemirror/lang-json";
@@ -44,6 +45,36 @@ export const VimEditor = () => {
     ["q", "wq", "qa"].forEach((cmd) => {
       Vim.defineEx(cmd, "", () => setPoweredOff(true));
     });
+
+    // Add comment operator (gcc, gcaw, etc)
+    Vim.defineOperator("comment", (_cm: any, _args: any, ranges: any[]) => {
+      const selections = ranges.map((r) => {
+        const line = (n: number) =>
+          editorView.state.doc.line(
+            Math.min(Math.max(n, 1), editorView.state.doc.lines),
+          );
+        const anchorLine = line(r.anchor.line + 1);
+        const headLine = line(r.head.line + 1);
+        const from = anchorLine.from + Math.min(r.anchor.ch, anchorLine.length);
+        const to = headLine.from + Math.min(r.head.ch, headLine.length);
+        return { anchor: from, head: to };
+      });
+
+      editorView.dispatch({
+        selection: { anchor: selections[0].anchor, head: selections[0].head },
+      });
+
+      // Execute the toggle command
+      toggleLineComment(editorView);
+
+      // We don't restore selection because Vim motions usually place the cursor at the start of the range
+      const newCursorPos = Math.min(selections[0].anchor, selections[0].head);
+      editorView.dispatch({
+        selection: { anchor: newCursorPos, head: newCursorPos },
+      });
+    });
+
+    Vim.mapCommand("gc", "operator", "comment", {}, {});
 
     // At Phil's request. Shout out to Phil
     Vim.defineEx("e", "", (_cm, params) => {
