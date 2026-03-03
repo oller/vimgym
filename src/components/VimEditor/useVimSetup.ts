@@ -19,14 +19,23 @@ export function useVimSetup(setLevelId: (id: string) => void) {
       // In @replit/codemirror-vim, the cm object is a CM5 wrapper
       // We trigger toggleLineComment on the provided EditorView
       const selections = ranges.map((r) => {
+        const docLines = editorView.state.doc.lines;
         const line = (n: number) =>
-          editorView.state.doc.line(
-            Math.min(Math.max(n, 1), editorView.state.doc.lines),
-          );
+          editorView.state.doc.line(Math.min(Math.max(n, 1), docLines));
+
         const anchorLine = line(r.anchor.line + 1);
-        const headLine = line(r.head.line + 1);
         const from = anchorLine.from + Math.min(r.anchor.ch, anchorLine.length);
-        const to = headLine.from + Math.min(r.head.ch, headLine.length);
+
+        let to: number;
+        if (r.head.line >= docLines) {
+          // If the head is at or beyond the last line, include the entire last line
+          const lastLine = editorView.state.doc.line(docLines);
+          to = lastLine.to;
+        } else {
+          const headLine = line(r.head.line + 1);
+          to = headLine.from + Math.min(r.head.ch, headLine.length);
+        }
+
         return { anchor: from, head: to };
       });
 
