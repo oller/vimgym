@@ -13,7 +13,10 @@ import { getLevel, LEVELS } from "../../data/levels";
 import { useLevelId } from "../../hooks/useLevelId";
 import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
-import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "../../utils/vimsplain.types";
+import {
+  normalizeKeydownEvent,
+  resolveBeforeInputEvent,
+} from "../../utils/keyboard";
 import { useVimSetup } from "./useVimSetup";
 import { VimStatusBar } from "./VimStatusBar";
 
@@ -56,46 +59,52 @@ export const VimEditor = () => {
         setVimMode(e.mode);
       });
 
+      // Ref to track if the last keydown was Unidentified (mobile soft keyboard)
+      let lastKeyWasUnidentified = false;
+
       // Handle keydown events in editor
       const handleEditorKeyDown = (event: KeyboardEvent) => {
         // Get current completion state from store
         const currentIsCompleted = useGameStore.getState().isCompleted;
         if (currentIsCompleted) return;
 
-        // Skip modifier keys
-        if (
-          ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(
-            event.key,
-          )
-        ) {
+        // On mobile, character keys often report as "Unidentified"
+        // We skip logging them here and wait for the beforeinput event
+        if (event.key === "Unidentified") {
+          lastKeyWasUnidentified = true;
           return;
         }
+        lastKeyWasUnidentified = false;
 
-        // Log the key with special key normalization
-        let key = event.key;
-
-        // Check for modifier combinations first
-        if (event.ctrlKey) {
-          const modifierKey = `ctrl+${key.toLowerCase()}`;
-          if (modifierKey in MODIFIER_KEY_MAP) {
-            key =
-              MODIFIER_KEY_MAP[modifierKey as keyof typeof MODIFIER_KEY_MAP];
-          }
+        const key = normalizeKeydownEvent(event);
+        if (key) {
+          addKeyStrokeCallback(key);
         }
-        // Then check for standalone special keys (only if not already handled by modifier)
-        else if (key === "Escape") key = SPECIAL_KEYS.ESCAPE;
-        else if (key === "Enter") key = SPECIAL_KEYS.ENTER;
-        else if (key === "Backspace") key = SPECIAL_KEYS.BACKSPACE;
-        else if (key === "ArrowUp") key = SPECIAL_KEYS.ARROW_UP;
-        else if (key === "ArrowDown") key = SPECIAL_KEYS.ARROW_DOWN;
-        else if (key === "ArrowLeft") key = SPECIAL_KEYS.ARROW_LEFT;
-        else if (key === "ArrowRight") key = SPECIAL_KEYS.ARROW_RIGHT;
-
-        addKeyStrokeCallback(key);
       };
 
-      // Use capture phase to ensure we get keys before CodeMirror consumes them
+      // Handle beforeinput to capture characters from mobile soft keyboards
+      // which report key: "Unidentified" in keydown
+      const handleBeforeInput = (event: InputEvent) => {
+        const currentIsCompleted = useGameStore.getState().isCompleted;
+        if (currentIsCompleted) return;
+
+        if (lastKeyWasUnidentified) {
+          const key = resolveBeforeInputEvent(event);
+          if (key) {
+            addKeyStrokeCallback(key);
+          }
+          lastKeyWasUnidentified = false;
+        }
+      };
+
+      // Use capture phase for keydown to ensure we get keys before CodeMirror consumes them
       editorView.dom.addEventListener("keydown", handleEditorKeyDown, true);
+      // Explicit cast is needed because DOM EventTarget types beforeinput as a generic Event
+      editorView.dom.addEventListener(
+        "beforeinput",
+        handleBeforeInput as EventListener,
+        true,
+      );
 
       // Prevent mouse selection but allow focus
       const handleMouseDown = (e: MouseEvent) => {
@@ -115,6 +124,11 @@ export const VimEditor = () => {
         editorView.dom.removeEventListener(
           "keydown",
           handleEditorKeyDown,
+          true,
+        );
+        editorView.dom.removeEventListener(
+          "beforeinput",
+          handleBeforeInput as EventListener,
           true,
         );
         editorView.dom.removeEventListener("mousedown", handleMouseDown, true);
@@ -157,7 +171,6 @@ export const VimEditor = () => {
         return json();
       case "javascript":
         return javascript({ jsx: true, typescript: true });
-      case "markdown":
       default:
         return markdown();
     }
