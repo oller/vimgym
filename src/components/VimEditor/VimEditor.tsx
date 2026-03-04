@@ -15,9 +15,8 @@ import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
 import {
   normalizeKeydownEvent,
-  normalizeVimKeypress,
+  resolveBeforeInputEvent,
 } from "../../utils/keyboard";
-import { SPECIAL_KEYS } from "../../utils/vimsplain.types";
 import { useVimSetup } from "./useVimSetup";
 import { VimStatusBar } from "./VimStatusBar";
 
@@ -60,88 +59,53 @@ export const VimEditor = () => {
         setVimMode(e.mode);
       });
 
-      const dedupeWindowMs = 10;
-      let lastLoggedKey: string | null = null;
-      let lastLoggedAt = 0;
-      let lastLoggedSource:
-        | "input-keyboard"
-        | "input-handleKey"
-        | "input-text"
-        | "dom-keydown"
-        | null = null;
+      const beforeInputDedupeWindowMs = 80;
+      let lastKeydownLoggedKey: string | null = null;
+      let lastKeydownLoggedAt = 0;
 
-      const logKeyStroke = (
-        key: string,
-        source:
-          | "input-keyboard"
-          | "input-handleKey"
-          | "input-text"
-          | "dom-keydown",
-      ) => {
-        const now = performance.now();
-        if (
-          lastLoggedKey === key &&
-          lastLoggedSource !== source &&
-          now - lastLoggedAt < dedupeWindowMs
-        ) {
-          return;
-        }
-
-        addKeyStrokeCallback(key);
-        lastLoggedKey = key;
-        lastLoggedAt = now;
-        lastLoggedSource = source;
-      };
-
-      const handleInputEvent = (event: unknown) => {
-        const currentIsCompleted = useGameStore.getState().isCompleted;
-        if (currentIsCompleted) return;
-
-        if (event instanceof KeyboardEvent) {
-          const key = normalizeKeydownEvent(event);
-          if (!key) return;
-          if (key.length === 1) return;
-          logKeyStroke(key, "input-keyboard");
-          return;
-        }
-
-        if (event && typeof event === "object" && "type" in event) {
-          const typedEvent = event as {
-            type?: string;
-            key?: string;
-            text?: string;
-          };
-
-          if (typedEvent.type === "handleKey") {
-            const normalized = normalizeVimKeypress(typedEvent.key);
-            if (!normalized) return;
-
-            logKeyStroke(normalized, "input-handleKey");
-            return;
-          }
-
-          if (typedEvent.type === "text") {
-            if (typeof typedEvent.text !== "string") return;
-            if (typedEvent.text.length !== 1) return;
-            const text =
-              typedEvent.text === "\n" ? SPECIAL_KEYS.ENTER : typedEvent.text;
-            logKeyStroke(text, "input-text");
-          }
-        }
-      };
-
+      // Handle keydown events in editor
       const handleEditorKeyDown = (event: KeyboardEvent) => {
+        // Get current completion state from store
         const currentIsCompleted = useGameStore.getState().isCompleted;
         if (currentIsCompleted) return;
+
+        // On mobile, character keys often report as "Unidentified"
+        // We skip logging them here and rely on beforeinput instead.
+        if (event.key === "Unidentified") return;
 
         const key = normalizeKeydownEvent(event);
         if (!key) return;
-        if (key.length === 1) return;
-        logKeyStroke(key, "dom-keydown");
+        addKeyStrokeCallback(key);
+        lastKeydownLoggedKey = key;
+        lastKeydownLoggedAt = performance.now();
       };
 
-      cm.on("inputEvent", handleInputEvent);
+      // Handle beforeinput to capture characters from mobile soft keyboards
+      // which report key: "Unidentified" in keydown
+      const handleBeforeInput = (event: InputEvent) => {
+        const currentIsCompleted = useGameStore.getState().isCompleted;
+        if (currentIsCompleted) return;
+
+        const key = resolveBeforeInputEvent(event);
+        if (!key) return;
+        const now = performance.now();
+        if (
+          lastKeydownLoggedKey === key &&
+          now - lastKeydownLoggedAt < beforeInputDedupeWindowMs
+        ) {
+          return;
+        }
+        addKeyStrokeCallback(key);
+      };
+
+      // Use capture phase for keydown to ensure we get keys before CodeMirror consumes them
       editorView.dom.addEventListener("keydown", handleEditorKeyDown, true);
+      // Explicit cast is needed because DOM EventTarget types beforeinput as a generic Event
+      editorView.dom.addEventListener(
+        "beforeinput",
+        handleBeforeInput as EventListener,
+        true,
+      );
 
       // Prevent mouse selection but allow focus
       const handleMouseDown = (e: MouseEvent) => {
@@ -158,10 +122,14 @@ export const VimEditor = () => {
 
       // Cleanup on unmount
       return () => {
-        cm.off("inputEvent", handleInputEvent);
         editorView.dom.removeEventListener(
           "keydown",
           handleEditorKeyDown,
+          true,
+        );
+        editorView.dom.removeEventListener(
+          "beforeinput",
+          handleBeforeInput as EventListener,
           true,
         );
         editorView.dom.removeEventListener("mousedown", handleMouseDown, true);

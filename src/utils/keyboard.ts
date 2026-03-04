@@ -12,30 +12,6 @@ const SPECIAL_KEY_DISPLAY_MAP = {
   "[C-r]": "Ctrl+R",
 } as const;
 
-const VIM_KEYPRESS_MAP: Record<string, string> = {
-  "<Esc>": SPECIAL_KEYS.ESCAPE,
-  "<CR>": SPECIAL_KEYS.ENTER,
-  "<BS>": SPECIAL_KEYS.BACKSPACE,
-  "<Up>": SPECIAL_KEYS.ARROW_UP,
-  "<Down>": SPECIAL_KEYS.ARROW_DOWN,
-  "<Left>": SPECIAL_KEYS.ARROW_LEFT,
-  "<Right>": SPECIAL_KEYS.ARROW_RIGHT,
-  "<Space>": " ",
-  "<C-r>": SPECIAL_KEYS.CTRL_R,
-  "<C-R>": SPECIAL_KEYS.CTRL_R,
-};
-
-const VIM_IGNORED_KEYS = new Set([
-  "<Shift>",
-  "<Control>",
-  "<Alt>",
-  "<Meta>",
-  "<S-Shift>",
-  "<C-Control>",
-  "<A-Alt>",
-  "<M-Meta>",
-]);
-
 /** Format a key sequence for display - replace spaces and specials with visible symbols */
 export const formatKeyForDisplay = (key: string): string => {
   let formatted = key.replace(/ /g, "␣");
@@ -81,31 +57,6 @@ export const normalizeKeydownEvent = (event: KeyboardEvent): string | null => {
   else if (key === "ArrowDown") key = SPECIAL_KEYS.ARROW_DOWN;
   else if (key === "ArrowLeft") key = SPECIAL_KEYS.ARROW_LEFT;
   else if (key === "ArrowRight") key = SPECIAL_KEYS.ARROW_RIGHT;
-
-  return key;
-};
-
-/**
- * Normalizes @replit/codemirror-vim "vim-keypress" payloads into VimGym format.
- */
-export const normalizeVimKeypress = (
-  key: string | null | undefined,
-): string | null => {
-  if (!key) return null;
-
-  if (VIM_IGNORED_KEYS.has(key)) {
-    return null;
-  }
-
-  if (key in VIM_KEYPRESS_MAP) {
-    return VIM_KEYPRESS_MAP[key];
-  }
-
-  if (key.startsWith("<") && key.endsWith(">")) {
-    const inner = key.slice(1, -1);
-    if (!inner) return null;
-    return `[${inner}]`;
-  }
 
   return key;
 };
