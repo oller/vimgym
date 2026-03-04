@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   formatKeyForDisplay,
   normalizeKeydownEvent,
+  normalizeVimKeypress,
   resolveBeforeInputEvent,
 } from "../keyboard";
 import { SPECIAL_KEYS } from "../vimsplain.types";
@@ -170,5 +171,36 @@ describe("resolveBeforeInputEvent", () => {
         inputType: "historyUndo",
       } as InputEvent),
     ).toBeNull();
+  });
+});
+
+describe("normalizeVimKeypress", () => {
+  it("maps vim special keys to VimGym representations", () => {
+    expect(normalizeVimKeypress("<Esc>")).toBe(SPECIAL_KEYS.ESCAPE);
+    expect(normalizeVimKeypress("<CR>")).toBe(SPECIAL_KEYS.ENTER);
+    expect(normalizeVimKeypress("<BS>")).toBe(SPECIAL_KEYS.BACKSPACE);
+    expect(normalizeVimKeypress("<Up>")).toBe(SPECIAL_KEYS.ARROW_UP);
+    expect(normalizeVimKeypress("<Down>")).toBe(SPECIAL_KEYS.ARROW_DOWN);
+    expect(normalizeVimKeypress("<Left>")).toBe(SPECIAL_KEYS.ARROW_LEFT);
+    expect(normalizeVimKeypress("<Right>")).toBe(SPECIAL_KEYS.ARROW_RIGHT);
+  });
+
+  it("maps vim space and control keys", () => {
+    expect(normalizeVimKeypress("<Space>")).toBe(" ");
+    expect(normalizeVimKeypress("<C-r>")).toBe(SPECIAL_KEYS.CTRL_R);
+  });
+
+  it("wraps unknown vim tokens in brackets", () => {
+    expect(normalizeVimKeypress("<C-w>")).toBe("[C-w]");
+  });
+
+  it("returns plain characters as-is", () => {
+    expect(normalizeVimKeypress("a")).toBe("a");
+  });
+
+  it("returns null for empty or missing values", () => {
+    expect(normalizeVimKeypress("")).toBeNull();
+    expect(normalizeVimKeypress(null)).toBeNull();
+    expect(normalizeVimKeypress(undefined)).toBeNull();
   });
 });
