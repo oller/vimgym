@@ -59,8 +59,9 @@ export const VimEditor = () => {
         setVimMode(e.mode);
       });
 
-      // Ref to track if the last keydown was Unidentified (mobile soft keyboard)
-      let lastKeyWasUnidentified = false;
+      const beforeInputDedupeWindowMs = 80;
+      let lastKeydownLoggedKey: string | null = null;
+      let lastKeydownLoggedAt = 0;
 
       // Handle keydown events in editor
       const handleEditorKeyDown = (event: KeyboardEvent) => {
@@ -69,17 +70,14 @@ export const VimEditor = () => {
         if (currentIsCompleted) return;
 
         // On mobile, character keys often report as "Unidentified"
-        // We skip logging them here and wait for the beforeinput event
-        if (event.key === "Unidentified") {
-          lastKeyWasUnidentified = true;
-          return;
-        }
-        lastKeyWasUnidentified = false;
+        // We skip logging them here and rely on beforeinput instead.
+        if (event.key === "Unidentified") return;
 
         const key = normalizeKeydownEvent(event);
-        if (key) {
-          addKeyStrokeCallback(key);
-        }
+        if (!key) return;
+        addKeyStrokeCallback(key);
+        lastKeydownLoggedKey = key;
+        lastKeydownLoggedAt = performance.now();
       };
 
       // Handle beforeinput to capture characters from mobile soft keyboards
@@ -88,13 +86,16 @@ export const VimEditor = () => {
         const currentIsCompleted = useGameStore.getState().isCompleted;
         if (currentIsCompleted) return;
 
-        if (lastKeyWasUnidentified) {
-          const key = resolveBeforeInputEvent(event);
-          if (key) {
-            addKeyStrokeCallback(key);
-          }
-          lastKeyWasUnidentified = false;
+        const key = resolveBeforeInputEvent(event);
+        if (!key) return;
+        const now = performance.now();
+        if (
+          lastKeydownLoggedKey === key &&
+          now - lastKeydownLoggedAt < beforeInputDedupeWindowMs
+        ) {
+          return;
         }
+        addKeyStrokeCallback(key);
       };
 
       // Use capture phase for keydown to ensure we get keys before CodeMirror consumes them

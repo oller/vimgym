@@ -93,6 +93,28 @@ describe("VimEditor Keypress Logging", () => {
     expect(history).toEqual([...typed]);
   });
 
+  it("logs beforeinput characters even without keydown", async () => {
+    const user = userEvent.setup();
+    renderWithRouter(<VimEditor />);
+
+    const textbox = await screen.findByRole("textbox");
+    await user.click(textbox);
+
+    const beforeInputEvent = new Event("beforeinput", {
+      bubbles: true,
+      cancelable: true,
+    }) as InputEvent;
+    Object.defineProperty(beforeInputEvent, "inputType", {
+      value: "insertText",
+    });
+    Object.defineProperty(beforeInputEvent, "data", { value: "w" });
+
+    textbox.dispatchEvent(beforeInputEvent);
+
+    const history = useGameStore.getState().history;
+    expect(history).toEqual(["w"]);
+  });
+
   it("clears history on reset", () => {
     const { addKeyStroke, resetLevel } = useGameStore.getState();
 
