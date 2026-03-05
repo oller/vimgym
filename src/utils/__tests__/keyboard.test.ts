@@ -2,8 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   formatKeyForDisplay,
   normalizeKeydownEvent,
-  resolveBeforeInputEvent,
-  resolveCompositionEndEvent,
+  normalizeVimKey,
 } from "../keyboard";
 import { SPECIAL_KEYS } from "../vimsplain.types";
 
@@ -72,7 +71,6 @@ describe("normalizeKeydownEvent", () => {
   });
 
   it("leaves unmapped modifier combinations alone (returning original key string)", () => {
-    // ctrl+a is not in MODIFIER_KEY_MAP
     expect(
       normalizeKeydownEvent({ key: "a", ctrlKey: true } as KeyboardEvent),
     ).toBe("a");
@@ -110,104 +108,28 @@ describe("normalizeKeydownEvent", () => {
   });
 });
 
-describe("resolveBeforeInputEvent", () => {
-  it("resolves insertText with a single character", () => {
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "insertText",
-        data: "a",
-      } as InputEvent),
-    ).toBe("a");
-
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "insertText",
-        data: "Z",
-      } as InputEvent),
-    ).toBe("Z");
+describe("normalizeVimKey", () => {
+  it("passes single characters through unchanged", () => {
+    expect(normalizeVimKey("w")).toBe("w");
+    expect(normalizeVimKey("j")).toBe("j");
+    expect(normalizeVimKey("D")).toBe("D");
+    expect(normalizeVimKey(" ")).toBe(" ");
+    expect(normalizeVimKey("1")).toBe("1");
   });
 
-  it("returns null for insertText if data is missing or longer than 1 character", () => {
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "insertText",
-        data: null,
-      } as InputEvent),
-    ).toBeNull();
-
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "insertText",
-        data: "abc",
-      } as InputEvent),
-    ).toBeNull();
+  it("maps vim special keys to VimGym format", () => {
+    expect(normalizeVimKey("<Esc>")).toBe(SPECIAL_KEYS.ESCAPE);
+    expect(normalizeVimKey("<CR>")).toBe(SPECIAL_KEYS.ENTER);
+    expect(normalizeVimKey("<BS>")).toBe(SPECIAL_KEYS.BACKSPACE);
+    expect(normalizeVimKey("<Up>")).toBe(SPECIAL_KEYS.ARROW_UP);
+    expect(normalizeVimKey("<Down>")).toBe(SPECIAL_KEYS.ARROW_DOWN);
+    expect(normalizeVimKey("<Left>")).toBe(SPECIAL_KEYS.ARROW_LEFT);
+    expect(normalizeVimKey("<Right>")).toBe(SPECIAL_KEYS.ARROW_RIGHT);
+    expect(normalizeVimKey("<C-r>")).toBe(SPECIAL_KEYS.CTRL_R);
   });
 
-  it("resolves insertLineBreak as ENTER", () => {
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "insertLineBreak",
-      } as InputEvent),
-    ).toBe(SPECIAL_KEYS.ENTER);
-  });
-
-  it("resolves delete operations as BACKSPACE", () => {
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "deleteContentBackward",
-      } as InputEvent),
-    ).toBe(SPECIAL_KEYS.BACKSPACE);
-
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "deleteWordBackward",
-      } as InputEvent),
-    ).toBe(SPECIAL_KEYS.BACKSPACE);
-  });
-
-  it("resolves insertCompositionText with a single character (Android IME)", () => {
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "insertCompositionText",
-        data: "w",
-      } as InputEvent),
-    ).toBe("w");
-  });
-
-  it("returns null for insertCompositionText with multi-char data", () => {
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "insertCompositionText",
-        data: "word",
-      } as InputEvent),
-    ).toBeNull();
-  });
-
-  it("returns null for unhandled input types", () => {
-    expect(
-      resolveBeforeInputEvent({
-        inputType: "historyUndo",
-      } as InputEvent),
-    ).toBeNull();
-  });
-});
-
-describe("resolveCompositionEndEvent", () => {
-  it("resolves single character composition", () => {
-    expect(resolveCompositionEndEvent({ data: "w" } as CompositionEvent)).toBe(
-      "w",
-    );
-  });
-
-  it("returns null for multi-character composition", () => {
-    expect(
-      resolveCompositionEndEvent({ data: "hello" } as CompositionEvent),
-    ).toBeNull();
-  });
-
-  it("returns null for empty composition", () => {
-    expect(
-      resolveCompositionEndEvent({ data: "" } as CompositionEvent),
-    ).toBeNull();
+  it("returns null for unknown multi-char sequences", () => {
+    expect(normalizeVimKey("<C-x>")).toBeNull();
+    expect(normalizeVimKey("<Unknown>")).toBeNull();
   });
 });

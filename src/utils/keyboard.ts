@@ -61,45 +61,37 @@ export const normalizeKeydownEvent = (event: KeyboardEvent): string | null => {
   return key;
 };
 
-/**
- * Resolves a beforeinput event into a VimGym keystroke.
- * Handles both direct insertion (desktop) and composition-based insertion
- * (Android soft keyboards route all input through IME composition).
- */
-export const resolveBeforeInputEvent = (event: InputEvent): string | null => {
-  if (
-    (event.inputType === "insertText" ||
-      event.inputType === "insertCompositionText") &&
-    event.data &&
-    event.data.length === 1
-  ) {
-    return event.data;
-  }
-
-  if (event.inputType === "insertLineBreak") {
-    return SPECIAL_KEYS.ENTER;
-  }
-
-  if (
-    event.inputType === "deleteContentBackward" ||
-    event.inputType === "deleteWordBackward"
-  ) {
-    return SPECIAL_KEYS.BACKSPACE;
-  }
-
-  return null;
+/** Map from vim's special key format to VimGym's internal representation */
+const VIM_KEY_MAP: Record<string, string> = {
+  "<Esc>": SPECIAL_KEYS.ESCAPE,
+  "<CR>": SPECIAL_KEYS.ENTER,
+  "<BS>": SPECIAL_KEYS.BACKSPACE,
+  "<Up>": SPECIAL_KEYS.ARROW_UP,
+  "<Down>": SPECIAL_KEYS.ARROW_DOWN,
+  "<Left>": SPECIAL_KEYS.ARROW_LEFT,
+  "<Right>": SPECIAL_KEYS.ARROW_RIGHT,
+  "<C-r>": SPECIAL_KEYS.CTRL_R,
 };
 
 /**
- * Resolves a compositionend event into a VimGym keystroke.
- * On Android, each soft keyboard press completes as a separate composition.
- * Returns the composed character if it's a single character, null otherwise.
+ * Normalizes a vim key string (from Vim.handleKey) into VimGym's internal
+ * representation. Vim uses angle-bracket notation for special keys
+ * (e.g. `<Esc>`, `<CR>`, `<C-r>`), which this function maps to our
+ * bracket format (`[Esc]`, `[Enter]`, `[C-r]`).
+ *
+ * Returns null if the key should be ignored.
  */
-export const resolveCompositionEndEvent = (
-  event: CompositionEvent,
-): string | null => {
-  if (event.data && event.data.length === 1) {
-    return event.data;
+export const normalizeVimKey = (vimKey: string): string | null => {
+  // Map known vim special keys
+  if (vimKey in VIM_KEY_MAP) {
+    return VIM_KEY_MAP[vimKey];
   }
+
+  // Single printable characters pass through unchanged
+  if (vimKey.length === 1) {
+    return vimKey;
+  }
+
+  // Unknown multi-char sequences — ignore (e.g. unmapped modifier combos)
   return null;
 };
