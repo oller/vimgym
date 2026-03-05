@@ -114,6 +114,34 @@ export const VimEditor = () => {
         addKeyStrokeCallback(key);
       };
 
+      // ──── TEMPORARY DIAGNOSTIC: remove after debugging mobile ────
+      // Logs ALL input-related events to console so we can see what
+      // actually fires on Android Chrome's soft keyboard.
+      const diagEvents = [
+        "keydown",
+        "keyup",
+        "keypress",
+        "beforeinput",
+        "input",
+        "compositionstart",
+        "compositionupdate",
+        "compositionend",
+      ] as const;
+      const diagHandlers: Array<[string, EventListener]> = [];
+      for (const evtName of diagEvents) {
+        const handler = ((e: Event) => {
+          const info: Record<string, unknown> = { type: evtName };
+          if ("key" in e) info.key = (e as KeyboardEvent).key;
+          if ("keyCode" in e) info.keyCode = (e as KeyboardEvent).keyCode;
+          if ("inputType" in e) info.inputType = (e as InputEvent).inputType;
+          if ("data" in e) info.data = (e as InputEvent).data;
+          console.log("[VimGym diag]", JSON.stringify(info));
+        }) as EventListener;
+        editorView.contentDOM.addEventListener(evtName, handler, true);
+        diagHandlers.push([evtName, handler]);
+      }
+      // ──── END DIAGNOSTIC ────
+
       editorView.dom.addEventListener("keydown", handleEditorKeyDown, true);
       editorView.contentDOM.addEventListener(
         "beforeinput",
@@ -156,6 +184,10 @@ export const VimEditor = () => {
           true,
         );
         editorView.dom.removeEventListener("mousedown", handleMouseDown, true);
+        // Diagnostic cleanup
+        for (const [evtName, handler] of diagHandlers) {
+          editorView.contentDOM.removeEventListener(evtName, handler, true);
+        }
       };
     },
     [setupVim, addKeyStrokeCallback],
