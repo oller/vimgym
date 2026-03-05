@@ -3,6 +3,7 @@ import {
   formatKeyForDisplay,
   normalizeKeydownEvent,
   resolveBeforeInputEvent,
+  resolveCompositionEndEvent,
 } from "../keyboard";
 import { SPECIAL_KEYS } from "../vimsplain.types";
 
@@ -164,11 +165,49 @@ describe("resolveBeforeInputEvent", () => {
     ).toBe(SPECIAL_KEYS.BACKSPACE);
   });
 
+  it("resolves insertCompositionText with a single character (Android IME)", () => {
+    expect(
+      resolveBeforeInputEvent({
+        inputType: "insertCompositionText",
+        data: "w",
+      } as InputEvent),
+    ).toBe("w");
+  });
+
+  it("returns null for insertCompositionText with multi-char data", () => {
+    expect(
+      resolveBeforeInputEvent({
+        inputType: "insertCompositionText",
+        data: "word",
+      } as InputEvent),
+    ).toBeNull();
+  });
+
   it("returns null for unhandled input types", () => {
     expect(
       resolveBeforeInputEvent({
         inputType: "historyUndo",
       } as InputEvent),
+    ).toBeNull();
+  });
+});
+
+describe("resolveCompositionEndEvent", () => {
+  it("resolves single character composition", () => {
+    expect(resolveCompositionEndEvent({ data: "w" } as CompositionEvent)).toBe(
+      "w",
+    );
+  });
+
+  it("returns null for multi-character composition", () => {
+    expect(
+      resolveCompositionEndEvent({ data: "hello" } as CompositionEvent),
+    ).toBeNull();
+  });
+
+  it("returns null for empty composition", () => {
+    expect(
+      resolveCompositionEndEvent({ data: "" } as CompositionEvent),
     ).toBeNull();
   });
 });

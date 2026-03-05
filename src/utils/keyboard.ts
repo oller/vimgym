@@ -62,12 +62,14 @@ export const normalizeKeydownEvent = (event: KeyboardEvent): string | null => {
 };
 
 /**
- * Resolves a mobile soft keyboard beforeinput event into a VimGym keystroke.
- * Maps standard inputTypes to special keys.
+ * Resolves a beforeinput event into a VimGym keystroke.
+ * Handles both direct insertion (desktop) and composition-based insertion
+ * (Android soft keyboards route all input through IME composition).
  */
 export const resolveBeforeInputEvent = (event: InputEvent): string | null => {
   if (
-    event.inputType === "insertText" &&
+    (event.inputType === "insertText" ||
+      event.inputType === "insertCompositionText") &&
     event.data &&
     event.data.length === 1
   ) {
@@ -85,5 +87,19 @@ export const resolveBeforeInputEvent = (event: InputEvent): string | null => {
     return SPECIAL_KEYS.BACKSPACE;
   }
 
+  return null;
+};
+
+/**
+ * Resolves a compositionend event into a VimGym keystroke.
+ * On Android, each soft keyboard press completes as a separate composition.
+ * Returns the composed character if it's a single character, null otherwise.
+ */
+export const resolveCompositionEndEvent = (
+  event: CompositionEvent,
+): string | null => {
+  if (event.data && event.data.length === 1) {
+    return event.data;
+  }
   return null;
 };

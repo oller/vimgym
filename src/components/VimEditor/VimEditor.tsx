@@ -16,6 +16,7 @@ import { cn } from "../../utils/cn";
 import {
   normalizeKeydownEvent,
   resolveBeforeInputEvent,
+  resolveCompositionEndEvent,
 } from "../../utils/keyboard";
 import { useVimSetup } from "./useVimSetup";
 import { VimStatusBar } from "./VimStatusBar";
@@ -59,54 +60,69 @@ export const VimEditor = () => {
         setVimMode(e.mode);
       });
 
-      const beforeInputDedupeWindowMs = 80;
-      let lastKeydownLoggedKey: string | null = null;
-      let lastKeydownLoggedAt = 0;
+      // Dedup state: tracks the last key logged by keydown so that
+      // beforeinput/compositionend don't double-count the same physical press.
+      // Only cross-handler dedup — repeated keys from the same handler
+      // (e.g. typing "ll") are never suppressed.
+      const dedupeWindowMs = 80;
+      let lastKeydownKey: string | null = null;
+      let lastKeydownAt = 0;
 
-      // Handle keydown events in editor
+      // Desktop path: keydown fires with the actual key value.
+      // Mobile: keydown fires with "Unidentified" — skip and rely on
+      // beforeinput/compositionend instead.
       const handleEditorKeyDown = (event: KeyboardEvent) => {
-        // Get current completion state from store
-        const currentIsCompleted = useGameStore.getState().isCompleted;
-        if (currentIsCompleted) return;
-
-        // On mobile, character keys often report as "Unidentified"
-        // We skip logging them here and rely on beforeinput instead.
+        if (useGameStore.getState().isCompleted) return;
         if (event.key === "Unidentified") return;
 
         const key = normalizeKeydownEvent(event);
         if (!key) return;
         addKeyStrokeCallback(key);
-        lastKeydownLoggedKey = key;
-        lastKeydownLoggedAt = performance.now();
+        lastKeydownKey = key;
+        lastKeydownAt = performance.now();
       };
 
-      // Handle beforeinput to capture characters from mobile soft keyboards
-      // which report key: "Unidentified" in keydown
+      // Handles direct text insertion (desktop) and composition-based
+      // insertion (Android soft keyboards that fire insertCompositionText).
+      // Deduped against keydown to avoid double-counting on desktop.
       const handleBeforeInput = (event: InputEvent) => {
-        const currentIsCompleted = useGameStore.getState().isCompleted;
-        if (currentIsCompleted) return;
+        if (useGameStore.getState().isCompleted) return;
 
         const key = resolveBeforeInputEvent(event);
         if (!key) return;
         const now = performance.now();
-        if (
-          lastKeydownLoggedKey === key &&
-          now - lastKeydownLoggedAt < beforeInputDedupeWindowMs
-        ) {
+        if (lastKeydownKey === key && now - lastKeydownAt < dedupeWindowMs) {
           return;
         }
         addKeyStrokeCallback(key);
       };
 
-      // Use capture phase for keydown to ensure we get keys before CodeMirror consumes them
-      editorView.dom.addEventListener("keydown", handleEditorKeyDown, true);
+      // Android soft keyboards route all input through IME composition.
+      // compositionend fires once per completed keypress with the final
+      // character, providing reliable capture even when beforeinput uses
+      // an unhandled inputType or doesn't fire at all.
+      // Deduped against keydown to avoid double-counting on desktop.
+      const handleCompositionEnd = (event: CompositionEvent) => {
+        if (useGameStore.getState().isCompleted) return;
 
-      // Attach beforeinput to contentDOM — the actual contenteditable element.
-      // On mobile, beforeinput fires on contentDOM (not the outer dom wrapper),
-      // so this ensures soft keyboard input is captured on both desktop and mobile.
+        const key = resolveCompositionEndEvent(event);
+        if (!key) return;
+        const now = performance.now();
+        if (lastKeydownKey === key && now - lastKeydownAt < dedupeWindowMs) {
+          return;
+        }
+        addKeyStrokeCallback(key);
+      };
+
+      editorView.dom.addEventListener("keydown", handleEditorKeyDown, true);
       editorView.contentDOM.addEventListener(
         "beforeinput",
         handleBeforeInput as EventListener,
+        true,
+      );
+      editorView.contentDOM.addEventListener(
+        "compositionend",
+        handleCompositionEnd as EventListener,
         true,
       );
 
@@ -123,7 +139,6 @@ export const VimEditor = () => {
 
       editorView.dom.addEventListener("mousedown", handleMouseDown, true);
 
-      // Cleanup on unmount
       return () => {
         editorView.dom.removeEventListener(
           "keydown",
@@ -133,6 +148,11 @@ export const VimEditor = () => {
         editorView.contentDOM.removeEventListener(
           "beforeinput",
           handleBeforeInput as EventListener,
+          true,
+        );
+        editorView.contentDOM.removeEventListener(
+          "compositionend",
+          handleCompositionEnd as EventListener,
           true,
         );
         editorView.dom.removeEventListener("mousedown", handleMouseDown, true);
