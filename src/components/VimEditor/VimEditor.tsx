@@ -100,8 +100,11 @@ export const VimEditor = () => {
 
       // Use capture phase for keydown to ensure we get keys before CodeMirror consumes them
       editorView.dom.addEventListener("keydown", handleEditorKeyDown, true);
-      // Explicit cast is needed because DOM EventTarget types beforeinput as a generic Event
-      editorView.dom.addEventListener(
+
+      // Attach beforeinput to contentDOM — the actual contenteditable element.
+      // On mobile, beforeinput fires on contentDOM (not the outer dom wrapper),
+      // so this ensures soft keyboard input is captured on both desktop and mobile.
+      editorView.contentDOM.addEventListener(
         "beforeinput",
         handleBeforeInput as EventListener,
         true,
@@ -127,7 +130,7 @@ export const VimEditor = () => {
           handleEditorKeyDown,
           true,
         );
-        editorView.dom.removeEventListener(
+        editorView.contentDOM.removeEventListener(
           "beforeinput",
           handleBeforeInput as EventListener,
           true,
