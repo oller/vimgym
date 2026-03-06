@@ -1,8 +1,8 @@
 pre-commit:
   parallel: true
   commands:
-    type-check:
-      run: pnpm type-check
+    tsc:
+      run: pnpm tsc
     test:
       run: pnpm test --run
     lint:
