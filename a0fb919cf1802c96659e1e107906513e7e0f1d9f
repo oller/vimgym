@@ -1,0 +1,23 @@
+vite.config.ts
+  7a3f427be9b22e0c 6-7,10-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "a0fb919cf1802c96659e1e107906513e7e0f1d9f",
+  "prompts": {
+    "7a3f427be9b22e0c": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_33774788bffeeyGZ0Xrap9sGnJ",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 5,
+      "total_deletions": 0,
+      "accepted_lines": 5,
+      "overriden_lines": 0
+    }
+  }
+}
