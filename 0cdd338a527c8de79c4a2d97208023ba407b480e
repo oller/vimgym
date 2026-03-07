@@ -1,0 +1,25 @@
+.biomeignore
+  36eab8483ca181c7 3
+biome.json
+  36eab8483ca181c7 9-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "0cdd338a527c8de79c4a2d97208023ba407b480e",
+  "prompts": {
+    "36eab8483ca181c7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_338120d86ffe2MeA65Amtt55UQ",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 10,
+      "total_deletions": 8,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}
