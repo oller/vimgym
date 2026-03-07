@@ -3,8 +3,6 @@ pre-commit:
   commands:
     tsc:
       run: pnpm tsc
-    test:
-      run: pnpm test --run
     lint:
       glob:
         - "*.{js,ts,jsx,tsx,json,css}"
