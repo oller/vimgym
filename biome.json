@@ -21,6 +21,9 @@
       "test": "all"
     },
     "rules": {
+      "suspicious": {
+        "noConsole": "error"
+      },
       "style": {
         "useImportType": {
           "level": "error",
@@ -31,6 +34,28 @@
       }
     }
   },
+  "overrides": [
+    {
+      "includes": ["src/utils/logger.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["tests/setup.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    }
+  ],
   "javascript": {
     "formatter": {
       "quoteStyle": "double"

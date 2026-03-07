@@ -6,25 +6,26 @@ import {
   levelCompletionInputSchema,
   playerDashboardSchema,
 } from "../schemas";
+import { logger } from "../utils/logger";
 
 export const submitLevelCompletion = async (
   data: LevelCompletionInput,
 ): Promise<{ success: boolean; error?: string }> => {
-  console.log("📡 submitLevelCompletion called with:", data);
+  logger.log("📡 submitLevelCompletion called with:", data);
 
   const client = getSupabaseClient();
 
   if (!client) {
-    console.warn("⚠️ Supabase not configured, skipping analytics");
+    logger.warn("⚠️ Supabase not configured, skipping analytics");
     return { success: false, error: "Supabase not configured" };
   }
 
-  console.log("✅ Supabase client exists");
+  logger.log("✅ Supabase client exists");
 
   // Validate input
   try {
     const validatedData = levelCompletionInputSchema.parse(data);
-    console.log("✅ Data validated:", validatedData);
+    logger.log("✅ Data validated:", validatedData);
 
     const dbPayload = levelCompletionDbInsertSchema.parse({
       user_id: validatedData.userId,
@@ -33,18 +34,18 @@ export const submitLevelCompletion = async (
       keystrokes: validatedData.keystrokes,
     });
 
-    console.log("📤 Sending to Supabase...");
+    logger.log("📤 Sending to Supabase...");
     const { error } = await client.from("level_completions").insert(dbPayload);
 
     if (error) {
-      console.error("❌ Failed to submit level completion:", error);
+      logger.error("❌ Failed to submit level completion:", error);
       return { success: false, error: error.message };
     }
 
-    console.log("✅ Successfully submitted to Supabase!");
+    logger.log("✅ Successfully submitted to Supabase!");
     return { success: true };
   } catch (err) {
-    console.error("❌ Validation error:", err);
+    logger.error("❌ Validation error:", err);
     return { success: false, error: String(err) };
   }
 };
@@ -64,7 +65,7 @@ export const getPlayerDashboard = async (
   });
 
   if (error || !data) {
-    console.error("Failed to fetch player dashboard:", error);
+    logger.error("Failed to fetch player dashboard:", error);
     return {};
   }
 
@@ -72,7 +73,7 @@ export const getPlayerDashboard = async (
     const validated = playerDashboardSchema.parse(data);
     return validated;
   } catch (err) {
-    console.error("Failed to parse player dashboard:", err);
+    logger.error("Failed to parse player dashboard:", err);
     return {};
   }
 };
@@ -91,7 +92,7 @@ export const getLevelScoreDistribution = async (
   });
 
   if (error) {
-    console.error("Failed to fetch level score distribution:", error);
+    logger.error("Failed to fetch level score distribution:", error);
     throw error;
   }
 

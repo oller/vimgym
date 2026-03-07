@@ -4,8 +4,9 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { queryClient } from "./lib/react-query";
+import { logger } from "./utils/logger";
 
-console.log("Deployed version:", __COMMIT_HASH__);
+logger.log("Welcome to the VimGym!🦾 - Deployed version:", __COMMIT_HASH__);
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");

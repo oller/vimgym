@@ -1,5 +1,9 @@
 import "@testing-library/jest-dom/vitest";
 import { beforeEach, vi } from "vitest";
+import { logger } from "../src/utils/logger";
+
+// Silence logger in tests
+logger.setLevel("silent");
 
 // Global fetch mock to prevent any network requests during tests
 vi.stubGlobal(
@@ -46,35 +50,8 @@ beforeEach(() => {
   };
 });
 
-// Suppress "act" warnings and Supabase noise
+// Suppress "act" warnings only
 const originalConsoleError = console.error;
-const originalConsoleLog = console.log;
-const originalConsoleWarn = console.warn;
-
-console.log = (...args) => {
-  if (
-    typeof args[0] === "string" &&
-    (args[0].includes("🚀 Submitting completion analytics") ||
-      args[0].includes("✅ Successfully submitted to Supabase") ||
-      args[0].includes("📡 submitLevelCompletion called with") ||
-      args[0].includes("✅ Supabase client exists") ||
-      args[0].includes("✅ Data validated") ||
-      args[0].includes("📤 Sending to Supabase"))
-  ) {
-    return;
-  }
-  originalConsoleLog(...args);
-};
-
-console.warn = (...args) => {
-  if (
-    typeof args[0] === "string" &&
-    args[0].includes("⚠️ Supabase not configured")
-  ) {
-    return;
-  }
-  originalConsoleWarn(...args);
-};
 
 console.error = (...args) => {
   if (

@@ -1,3 +1,4 @@
+import { logger } from "../utils/logger";
 import { queryClient } from "./react-query";
 import { getSupabaseClient } from "./supabase/client";
 
@@ -24,13 +25,13 @@ export async function submitCompletionAnalytics(
   try {
     const client = getSupabaseClient();
     if (!client) {
-      console.warn("⚠️ Supabase not configured");
+      logger.warn("⚠️ Supabase not configured");
       return;
     }
 
     const userId = getUserId();
 
-    console.log("🚀 Submitting completion analytics:", {
+    logger.log("🚀 Submitting completion analytics:", {
       userId,
       level,
       score,
@@ -46,16 +47,16 @@ export async function submitCompletionAnalytics(
     });
 
     if (error) {
-      console.error("❌ Analytics submission failed:", error);
+      logger.error("❌ Analytics submission failed:", error);
       return;
     }
 
-    console.log("✅ Successfully submitted to Supabase! Completion ID:", data);
+    logger.log("✅ Successfully submitted to Supabase! Completion ID:", data);
 
     // Invalidate React Query cache so UI updates
     queryClient.invalidateQueries({ queryKey: ["playerDashboard", userId] });
   } catch (error) {
     // Silently fail - don't block the user experience
-    console.error("❌ Analytics submission error:", error);
+    logger.error("❌ Analytics submission error:", error);
   }
 }
