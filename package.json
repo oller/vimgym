@@ -13,8 +13,9 @@
     "test:run": "vitest run",
     "tsc": "tsc -b",
     "types:gen": "supabase gen types typescript --project-id npgygqytvyudcqzntvvo > src/types/database.ts",
+    "types:sync": "pnpm types:gen && pnpm tsc",
     "postinstall": "lefthook install",
-    "deploy": "pnpm types:gen && pnpm tsc && pnpm lint && pnpm test:run && pnpm build"
+    "deploy": "pnpm lint && pnpm test:run && pnpm build"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.2",
