@@ -1,0 +1,25 @@
+.opencode/plans/2026-03-07-database-type-inference.md
+  fdb466b2cb529eca 1-77
+.biomeignore
+  fdb466b2cb529eca 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "15259cbc1710c2e205ed5a0cdc2bfaf8597553d0",
+  "prompts": {
+    "fdb466b2cb529eca": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_33862a8ccffeESIyRf9AuzU46V",
+        "model": "google/gemini-2.5-flash"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 79,
+      "overriden_lines": 0
+    }
+  }
+}
