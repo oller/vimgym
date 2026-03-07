@@ -1,0 +1,31 @@
+src/utils/keyboard.ts
+  c28afbb3069bf73e 12,57,71
+src/utils/vimsplain.types.ts
+  c28afbb3069bf73e 44
+src/utils/vimsplain.ts
+  c28afbb3069bf73e 440-444,551-567
+src/utils/__tests__/keyboard.test.ts
+  c28afbb3069bf73e 30,90-92,128
+src/utils/__tests__/vimsplain.test.ts
+  c28afbb3069bf73e 699-706,731-754
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "14b918b5a74028b5d87d3c4d2fec30056160ec82",
+  "prompts": {
+    "c28afbb3069bf73e": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_335dafef5ffecXEtipX0TLR9GK",
+        "model": "google/gemini-3-flash-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 89,
+      "total_deletions": 0,
+      "accepted_lines": 89,
+      "overriden_lines": 0
+    }
+  }
+}
