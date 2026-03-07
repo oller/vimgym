@@ -1,0 +1,23 @@
+src/main.tsx
+  ebcc3d432ad2788a 8-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "f418eec6ddfb8591649e7a74368644fc05b36229",
+  "prompts": {
+    "ebcc3d432ad2788a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_337707bb0ffeQQyJly2qz0ixtd",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}
