@@ -3,12 +3,12 @@ import { javascript } from "@codemirror/lang-javascript";
 import { json } from "@codemirror/lang-json";
 import { markdown } from "@codemirror/lang-markdown";
 import { EditorState } from "@codemirror/state";
-import type { EditorView } from "@codemirror/view";
+import { EditorView } from "@codemirror/view";
 import NumberFlow from "@number-flow/react";
 import { getCM, Vim, vim } from "@replit/codemirror-vim";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { getLevel, LEVELS } from "../../data/levels";
 import { useLevelId } from "../../hooks/useLevelId";
 import { useGameStore } from "../../store/useGameStore";
@@ -60,6 +60,7 @@ Vim.handleKey = (
 };
 
 export const VimEditor = () => {
+  const editorId = useId();
   const currentLevel = useGameStore((state) => state.currentLevel);
   const startText = useGameStore((state) => state.startText);
   const targetText = useGameStore((state) => state.targetText);
@@ -177,6 +178,7 @@ export const VimEditor = () => {
   const extensions = [
     vim(),
     languageExtension,
+    EditorView.contentAttributes.of({ "aria-labelledby": editorId }),
     ...(isCompleted ? [EditorState.readOnly.of(true)] : []),
   ];
 
@@ -188,6 +190,9 @@ export const VimEditor = () => {
       )}
       data-testid="vim-editor"
     >
+      <span className="sr-only" id={editorId}>
+        Vim Editor
+      </span>
       <div className="relative grow flex items-center px-4 overflow-x-auto scrollbar-thin">
         <div>
           <NumberFlow
@@ -205,7 +210,6 @@ export const VimEditor = () => {
             {targetText}
           </div>
           <CodeMirror
-            aria-label="Vim Editor"
             autoFocus
             basicSetup={{
               lineNumbers: false,

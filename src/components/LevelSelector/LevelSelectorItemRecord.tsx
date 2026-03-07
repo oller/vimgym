@@ -28,11 +28,11 @@ export const LevelSelectorItemRecord = ({
         <Tooltip.Root onOpenChange={setIsOpen} open={isOpen}>
           <Tooltip.Trigger asChild>
             <button
-              className="flex items-center gap-1 group cursor-pointer relative before:absolute before:-inset-2 before:content-['']"
+              className="flex items-center gap-1 group/global-best cursor-pointer h-7 min-w-7 relative before:absolute before:-inset-2 before:content-['']"
               type="button"
             >
               <TrophyIcon className="size-3 text-tokyo-night-gold" />
-              <span className="group-hover:text-tokyo-night-gold transition-colors">
+              <span className="group-hover/global-best:text-tokyo-night-gold transition-colors">
                 {globalBest}
               </span>
             </button>
@@ -75,7 +75,7 @@ export const LevelSelectorItemRecord = ({
             )}
           </AnimatePresence>
           <button
-            className="cursor-pointer flex items-center gap-1 text-gray-400 hover:text-white relative before:absolute before:-inset-2 before:content-['']"
+            className="cursor-pointer flex items-center gap-1 text-gray-400 hover:text-white h-7 min-w-7 relative before:absolute before:-inset-2 before:content-['']"
             onClick={(e) => {
               e.stopPropagation();
               onShowStats?.();

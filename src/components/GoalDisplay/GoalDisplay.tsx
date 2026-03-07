@@ -13,9 +13,9 @@ export const GoalDisplay = () => {
       {/* Header with Level Info */}
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-xs font-bold text-gray-300 uppercase tracking-wider">
+          <h2 className="text-xs font-bold text-gray-300 uppercase tracking-wider">
             Level {currentLevelIndex} of {LEVELS.length}
-          </h3>
+          </h2>
           <p className="text-md text-gray-400 mt-1">
             {currentLevelData?.description}
           </p>

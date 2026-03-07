@@ -86,7 +86,7 @@ const Home = () => {
         <header className="mb-2 md:mb-4 flex justify-between items-center border-b border-gray-800 pb-2 md:pb-4">
           <Logo />
           <button
-            className="cursor-pointer p-2 text-xs text-gray-500 hover:text-tokyo-night-pink transition-colors font-roboto-mono uppercase tracking-wider relative before:absolute before:-inset-2 before:content-['']"
+            className="cursor-pointer p-2 text-xs text-gray-400 hover:text-tokyo-night-pink transition-colors font-roboto-mono uppercase tracking-wider relative before:absolute before:-inset-2 before:content-['']"
             onClick={() => setIsAboutOpen(true)}
             type="button"
           >
