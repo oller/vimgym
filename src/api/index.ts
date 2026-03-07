@@ -1,7 +1,11 @@
 import { LEVELS } from "../data/levels";
 import { getSupabaseClient } from "../lib/supabase/client";
 import type { LevelCompletionInput, PlayerDashboard } from "../schemas";
-import { levelCompletionInputSchema, playerDashboardSchema } from "../schemas";
+import {
+  levelCompletionDbInsertSchema,
+  levelCompletionInputSchema,
+  playerDashboardSchema,
+} from "../schemas";
 
 export const submitLevelCompletion = async (
   data: LevelCompletionInput,
@@ -22,13 +26,15 @@ export const submitLevelCompletion = async (
     const validatedData = levelCompletionInputSchema.parse(data);
     console.log("✅ Data validated:", validatedData);
 
-    console.log("📤 Sending to Supabase...");
-    const { error } = await client.from("level_completions").insert({
+    const dbPayload = levelCompletionDbInsertSchema.parse({
       user_id: validatedData.userId,
       level_id: validatedData.level,
       keystrokes_count: validatedData.score,
       keystrokes: validatedData.keystrokes,
     });
+
+    console.log("📤 Sending to Supabase...");
+    const { error } = await client.from("level_completions").insert(dbPayload);
 
     if (error) {
       console.error("❌ Failed to submit level completion:", error);

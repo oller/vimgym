@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { TablesInsert } from "../types/database";
 
 // Input schemas
 export const levelCompletionInputSchema = z.object({
@@ -27,3 +28,12 @@ export const playerDashboardSchema = z.record(
 // Derived types (single source of truth)
 export type LevelCompletionInput = z.infer<typeof levelCompletionInputSchema>;
 export type PlayerDashboard = z.infer<typeof playerDashboardSchema>;
+
+export const levelCompletionDbInsertSchema = z.object({
+  completed_at: z.string().nullable().optional(),
+  id: z.string().optional(),
+  keystrokes: z.array(z.string()),
+  keystrokes_count: z.number(),
+  level_id: z.string(),
+  user_id: z.string().nullable().optional(),
+}) satisfies z.ZodType<TablesInsert<"level_completions">>;
