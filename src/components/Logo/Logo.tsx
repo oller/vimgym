@@ -92,9 +92,9 @@ export const Logo = () => {
           {/* Layer 2: Visible text overlay - blends with all cursors below */}
           <div className="absolute inset-0 flex pointer-events-none">
             {LOGO_TEXT.split("").map((char, i) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
               <span
                 className="px-px text-gray-400 mix-blend-difference"
+                // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
                 key={i}
               >
                 {i < displayedText.length ? char : "\u00A0"}
