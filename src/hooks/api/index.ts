@@ -1,23 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  getLevelScoreDistribution,
-  getPlayerDashboard,
-  submitLevelCompletion,
-} from "../../api";
-import type { LevelCompletionInput, PlayerDashboard } from "../../schemas";
-
-export const useSubmitCompletion = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (data: LevelCompletionInput) => submitLevelCompletion(data),
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ["playerDashboard", variables.userId],
-      });
-    },
-  });
-};
+import { useQuery } from "@tanstack/react-query";
+import { getLevelScoreDistribution, getPlayerDashboard } from "../../api";
+import type { PlayerDashboard } from "../../schemas";
 
 export const usePlayerDashboard = (userId: string | null) => {
   return useQuery<Record<string, PlayerDashboard[string]>>({

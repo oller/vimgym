@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { cn } from "../../utils/cn";
 
-export type SparklineDataPoint = {
+type SparklineDataPoint = {
   score: number;
   count: number;
 };

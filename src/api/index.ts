@@ -1,54 +1,8 @@
 import { LEVELS } from "../data/levels";
 import { getSupabaseClient } from "../lib/supabase/client";
-import type { LevelCompletionInput, PlayerDashboard } from "../schemas";
-import {
-  levelCompletionDbInsertSchema,
-  levelCompletionInputSchema,
-  playerDashboardSchema,
-} from "../schemas";
+import type { PlayerDashboard } from "../schemas";
+import { playerDashboardSchema } from "../schemas";
 import { logger } from "../utils/logger";
-
-export const submitLevelCompletion = async (
-  data: LevelCompletionInput,
-): Promise<{ success: boolean; error?: string }> => {
-  logger.log("📡 submitLevelCompletion called with:", data);
-
-  const client = getSupabaseClient();
-
-  if (!client) {
-    logger.warn("⚠️ Supabase not configured, skipping analytics");
-    return { success: false, error: "Supabase not configured" };
-  }
-
-  logger.log("✅ Supabase client exists");
-
-  // Validate input
-  try {
-    const validatedData = levelCompletionInputSchema.parse(data);
-    logger.log("✅ Data validated:", validatedData);
-
-    const dbPayload = levelCompletionDbInsertSchema.parse({
-      user_id: validatedData.userId,
-      level_id: validatedData.level,
-      keystrokes_count: validatedData.score,
-      keystrokes: validatedData.keystrokes,
-    });
-
-    logger.log("📤 Sending to Supabase...");
-    const { error } = await client.from("level_completions").insert(dbPayload);
-
-    if (error) {
-      logger.error("❌ Failed to submit level completion:", error);
-      return { success: false, error: error.message };
-    }
-
-    logger.log("✅ Successfully submitted to Supabase!");
-    return { success: true };
-  } catch (err) {
-    logger.error("❌ Validation error:", err);
-    return { success: false, error: String(err) };
-  }
-};
 
 export const getPlayerDashboard = async (
   userId: string,

@@ -49,5 +49,3 @@ export const MODIFIER_KEY_MAP = {
   // Ctrl+key combinations
   "ctrl+r": SPECIAL_KEYS.CTRL_R,
 } as const;
-
-export type SpecialKey = (typeof SPECIAL_KEYS)[keyof typeof SPECIAL_KEYS];
