@@ -1,0 +1,23 @@
+docs/plans/2026-03-07-commit-hash-log-implementation.md
+  36eab8483ca181c7 1-104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "dfffe169ae4ac9a11a6968527b587454cee12c47",
+  "prompts": {
+    "36eab8483ca181c7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_338120d86ffe2MeA65Amtt55UQ",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 104,
+      "total_deletions": 0,
+      "accepted_lines": 104,
+      "overriden_lines": 0
+    }
+  }
+}
