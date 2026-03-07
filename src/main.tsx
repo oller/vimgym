@@ -5,6 +5,8 @@ import App from "./App.tsx";
 import "./index.css";
 import { queryClient } from "./lib/react-query";
 
+console.log("Deployed version:", __COMMIT_HASH__);
+
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
 
