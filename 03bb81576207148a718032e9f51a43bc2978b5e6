@@ -1,0 +1,40 @@
+src/api/index.ts
+  621cecbd40079c23 3-4
+docs/plans/2026-03-07-ignore-generated-files-in-knip.md
+  9aa337c74fb2579d 1-37
+src/hooks/api/index.ts
+  621cecbd40079c23 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "03bb81576207148a718032e9f51a43bc2978b5e6",
+  "prompts": {
+    "621cecbd40079c23": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_335bd8bb0ffeO9TEH8lUfRdJcD",
+        "model": "google/gemini-3-flash-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 5,
+      "overriden_lines": 0
+    },
+    "9aa337c74fb2579d": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_335b77f22ffeWH57O4cwChYq77",
+        "model": "google/gemini-3-flash-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 37,
+      "overriden_lines": 0
+    }
+  }
+}
