@@ -93,7 +93,7 @@ export const Logo = () => {
           <div className="absolute inset-0 flex pointer-events-none">
             {LOGO_TEXT.split("").map((char, i) => (
               <span
-                className="px-px text-gray-400 mix-blend-difference"
+                className="px-px text-gray-100 mix-blend-difference"
                 // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
                 key={i}
               >
