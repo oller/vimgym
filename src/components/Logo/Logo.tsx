@@ -37,63 +37,72 @@ export const Logo = () => {
   };
 
   return (
-    <motion.div
-      animate={{ opacity: 1 }}
-      className="relative text-xl font-roboto-mono cursor-default select-none"
-      initial={{ opacity: 0 }}
-      onHoverEnd={() => setCursorIndex(null)}
-    >
-      <div className="relative flex">
-        {/* Layer 1: Cursors + invisible placeholders for sizing/events */}
-        {LOGO_TEXT.split("").map((char, i) => {
-          const cursor = getActiveCursor(i);
-          return (
-            // biome-ignore lint/a11y/noStaticElementInteractions: Presentational only
-            <span
-              className="relative px-px"
-              // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
-              key={i}
-              onMouseEnter={() => !isTyping && !isBlinking && setCursorIndex(i)}
-            >
-              {cursor === "caret" && (
-                <motion.span
-                  className="absolute left-0 top-0 bottom-0 w-0.5 bg-tokyo-night-pink"
-                  layoutId="logo-cursor"
-                  transition={{
-                    layout: {
-                      duration: TYPING_SPEED_MS / 1000,
-                      ease: "linear",
-                    },
-                  }}
-                />
-              )}
-              {cursor === "block" && (
-                <motion.span
-                  animate={isBlinking ? { opacity: [1, 0, 1] } : { opacity: 1 }}
-                  className="absolute inset-0 bg-tokyo-night-pink"
-                  layoutId="logo-cursor"
-                  transition={{
-                    opacity: { duration: 0.8, ease: "easeInOut", repeat: 1 },
-                    layout: { duration: 0.15, ease: "easeOut" },
-                  }}
-                />
-              )}
-              {/* Invisible char for sizing */}
-              <span className="invisible">{char}</span>
-            </span>
-          );
-        })}
+    <h1>
+      <motion.div
+        animate={{ opacity: 1 }}
+        className="relative text-xl font-roboto-mono cursor-default select-none"
+        initial={{ opacity: 0 }}
+        onHoverEnd={() => setCursorIndex(null)}
+      >
+        <div className="relative flex">
+          {/* Layer 1: Cursors + invisible placeholders for sizing/events */}
+          {LOGO_TEXT.split("").map((char, i) => {
+            const cursor = getActiveCursor(i);
+            return (
+              // biome-ignore lint/a11y/noStaticElementInteractions: Presentational only
+              <span
+                className="relative px-px"
+                // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
+                key={i}
+                onMouseEnter={() =>
+                  !isTyping && !isBlinking && setCursorIndex(i)
+                }
+              >
+                {cursor === "caret" && (
+                  <motion.span
+                    className="absolute left-0 top-0 bottom-0 w-0.5 bg-tokyo-night-pink"
+                    layoutId="logo-cursor"
+                    transition={{
+                      layout: {
+                        duration: TYPING_SPEED_MS / 1000,
+                        ease: "linear",
+                      },
+                    }}
+                  />
+                )}
+                {cursor === "block" && (
+                  <motion.span
+                    animate={
+                      isBlinking ? { opacity: [1, 0, 1] } : { opacity: 1 }
+                    }
+                    className="absolute inset-0 bg-tokyo-night-pink"
+                    layoutId="logo-cursor"
+                    transition={{
+                      opacity: { duration: 0.8, ease: "easeInOut", repeat: 1 },
+                      layout: { duration: 0.15, ease: "easeOut" },
+                    }}
+                  />
+                )}
+                {/* Invisible char for sizing */}
+                <span className="invisible">{char}</span>
+              </span>
+            );
+          })}
 
-        {/* Layer 2: Visible text overlay - blends with all cursors below */}
-        <div className="absolute inset-0 flex pointer-events-none">
-          {LOGO_TEXT.split("").map((char, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
-            <span className="px-px text-gray-400 mix-blend-difference" key={i}>
-              {i < displayedText.length ? char : "\u00A0"}
-            </span>
-          ))}
+          {/* Layer 2: Visible text overlay - blends with all cursors below */}
+          <div className="absolute inset-0 flex pointer-events-none">
+            {LOGO_TEXT.split("").map((char, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: Appropriate here since text is static
+              <span
+                className="px-px text-gray-400 mix-blend-difference"
+                key={i}
+              >
+                {i < displayedText.length ? char : "\u00A0"}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </h1>
   );
 };

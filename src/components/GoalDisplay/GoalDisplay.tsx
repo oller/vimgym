@@ -13,17 +13,17 @@ export const GoalDisplay = () => {
       {/* Header with Level Info */}
       <div className="flex justify-between items-center">
         <div>
-          <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+          <h3 className="text-xs font-bold text-gray-300 uppercase tracking-wider">
             Level {currentLevelIndex} of {LEVELS.length}
           </h3>
-          <p className="text-md text-gray-500 mt-1">
+          <p className="text-md text-gray-400 mt-1">
             {currentLevelData?.description}
           </p>
         </div>
 
         <div className="flex gap-4 items-center">
           <button
-            className="cursor-pointer text-xs bg-tokyo-night-storm hover:bg-slate-700/60 text-white px-4 py-2 transition-colors font-roboto-mono uppercase"
+            className="cursor-pointer text-xs bg-tokyo-night-storm hover:bg-slate-700/60 text-white px-4 py-2 transition-colors font-roboto-mono uppercase relative before:absolute before:-inset-2 before:content-['']"
             onClick={resetLevel}
             title={isCompleted ? "Retry Level" : "Reset Level"}
             type="button"

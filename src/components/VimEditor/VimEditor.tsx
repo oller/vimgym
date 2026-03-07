@@ -205,6 +205,7 @@ export const VimEditor = () => {
             {targetText}
           </div>
           <CodeMirror
+            aria-label="Vim Editor"
             autoFocus
             basicSetup={{
               lineNumbers: false,

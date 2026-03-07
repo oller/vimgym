@@ -38,7 +38,7 @@ export const LevelSelectorItemStatsCard = ({
         </div>
         <button
           aria-label="Close stats"
-          className="text-gray-500 hover:text-white transition-colors cursor-pointer"
+          className="text-gray-500 hover:text-white transition-colors cursor-pointer relative before:absolute before:-inset-4 before:content-['']"
           onClick={(e) => {
             e.stopPropagation();
             onCloseStats();

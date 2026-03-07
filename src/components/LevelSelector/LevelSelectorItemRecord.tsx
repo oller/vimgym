@@ -28,7 +28,7 @@ export const LevelSelectorItemRecord = ({
         <Tooltip.Root onOpenChange={setIsOpen} open={isOpen}>
           <Tooltip.Trigger asChild>
             <button
-              className="flex items-center gap-1 group cursor-pointer"
+              className="flex items-center gap-1 group cursor-pointer relative before:absolute before:-inset-2 before:content-['']"
               type="button"
             >
               <TrophyIcon className="size-3 text-tokyo-night-gold" />
@@ -75,7 +75,7 @@ export const LevelSelectorItemRecord = ({
             )}
           </AnimatePresence>
           <button
-            className="cursor-pointer flex items-center gap-1 text-gray-400 hover:text-white"
+            className="cursor-pointer flex items-center gap-1 text-gray-400 hover:text-white relative before:absolute before:-inset-2 before:content-['']"
             onClick={(e) => {
               e.stopPropagation();
               onShowStats?.();

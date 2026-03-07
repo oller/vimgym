@@ -86,7 +86,7 @@ const Home = () => {
         <header className="mb-2 md:mb-4 flex justify-between items-center border-b border-gray-800 pb-2 md:pb-4">
           <Logo />
           <button
-            className="cursor-pointer p-2 text-xs text-gray-500 hover:text-tokyo-night-pink transition-colors font-roboto-mono uppercase tracking-wider"
+            className="cursor-pointer p-2 text-xs text-gray-500 hover:text-tokyo-night-pink transition-colors font-roboto-mono uppercase tracking-wider relative before:absolute before:-inset-2 before:content-['']"
             onClick={() => setIsAboutOpen(true)}
             type="button"
           >
@@ -128,13 +128,15 @@ const Home = () => {
             className="h-32 md:h-full md:col-span-3 lg:col-span-2 flex min-h-0 shrink-0"
             layout
           >
-            <Suspense
-              fallback={
-                <div className="w-full bg-tokyo-night rounded-md animate-pulse border-l border-gray-800" />
-              }
-            >
-              <LevelSelector />
-            </Suspense>
+            <nav aria-label="Level list" className="w-full h-full">
+              <Suspense
+                fallback={
+                  <div className="w-full bg-tokyo-night rounded-md animate-pulse border-l border-gray-800" />
+                }
+              >
+                <LevelSelector />
+              </Suspense>
+            </nav>
           </motion.aside>
         </motion.main>
       </div>
