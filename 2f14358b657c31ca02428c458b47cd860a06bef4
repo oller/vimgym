@@ -1,0 +1,31 @@
+src/components/GoalDisplay/GoalDisplay.tsx
+  c3118beee89eeab4 16,18
+src/components/VimEditor/VimEditor.tsx
+  c3118beee89eeab4 11,63,181,193-195
+src/components/MotionLog/MotionLogHeader.tsx
+  c3118beee89eeab4 4,6
+src/Home.tsx
+  c3118beee89eeab4 89
+src/components/LevelSelector/LevelSelectorItemRecord.tsx
+  c3118beee89eeab4 78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "2f14358b657c31ca02428c458b47cd860a06bef4",
+  "prompts": {
+    "c3118beee89eeab4": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_336bbdbaaffetbAQswCuWZEE1c",
+        "model": "google/gemini-3-flash-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 15,
+      "accepted_lines": 12,
+      "overriden_lines": 0
+    }
+  }
+}
