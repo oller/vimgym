@@ -1,0 +1,23 @@
+src/vite-env.d.ts
+  75f08b67f7626f49 1-2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "897c76bdfd3ffcf57c70fd2a5d3615731a14d209",
+  "prompts": {
+    "75f08b67f7626f49": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_33772504effePbKkFE56ECjNbW",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}
