@@ -59,7 +59,7 @@
     "globals": "^16.5.0",
     "jsdom": "^27.4.0",
     "lefthook": "^2.0.16",
-    "supabase": "^2.72.8",
+    "supabase": "^2.75.0",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
