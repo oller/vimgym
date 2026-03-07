@@ -31,11 +31,13 @@ Interactive Vim training game where users complete levels by transforming text u
 ### Setup
 
 1. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 2. Start the development server:
+
    ```bash
    pnpm dev
    ```
@@ -55,7 +57,5 @@ Interactive Vim training game where users complete levels by transforming text u
 - [x] Analytics (Vexo)
 - [x] Keystroke visualization
 - [ ] Vimsplain.ts package
-- [ ] Text object support improvements
-- [ ] Medals/Achievements system
-- [ ] Theme picker
+- [x] Text object support improvements
 - [ ] Crowd-sourced levels
