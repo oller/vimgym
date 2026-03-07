@@ -36,7 +36,7 @@ export type Database = {
           id?: string;
           keystrokes?: string[];
           keystrokes_count?: number;
-          level?: number;
+          level_id?: string;
           user_id?: string | null;
         };
         Relationships: [
@@ -73,7 +73,7 @@ export type Database = {
         Row: {
           avg_keystrokes: number | null;
           best_score: number | null;
-          level: number | null;
+          level_id: string | null;
           total_completions: number | null;
         };
         Relationships: [];
@@ -81,7 +81,7 @@ export type Database = {
       view_user_level_bests: {
         Row: {
           best_score: number | null;
-          level: number | null;
+          level_id: string | null;
           user_id: string | null;
         };
         Relationships: [
@@ -104,7 +104,7 @@ export type Database = {
         }[];
       };
       get_player_dashboard: {
-        Args: { p_user_id: string; p_level_ids: string[] };
+        Args: { p_level_ids: string[]; p_user_id: string };
         Returns: Json;
       };
       submit_level_completion: {
