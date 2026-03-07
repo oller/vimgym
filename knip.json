@@ -1,0 +1,4 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "ignore": ["env.d.ts", "src/types/database.ts"]
+}
