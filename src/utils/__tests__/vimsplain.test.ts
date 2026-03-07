@@ -696,6 +696,14 @@ describe("vimsplain", () => {
       });
     });
 
+    it("explains [Delete] in normal mode", () => {
+      const result = explainSequence(SPECIAL_KEYS.DELETE);
+      expect(result.commands[0]).toEqual({
+        matched: SPECIAL_KEYS.DELETE,
+        explanation: "delete char under cursor",
+      });
+    });
+
     it("handles [Backspace] in insert mode separately", () => {
       const result = explainSequence(
         `ihe${SPECIAL_KEYS.BACKSPACE}llo${SPECIAL_KEYS.ESCAPE}`,
@@ -709,6 +717,30 @@ describe("vimsplain", () => {
       expect(result.commands[2]).toEqual({
         matched: SPECIAL_KEYS.BACKSPACE,
         explanation: "delete character",
+      });
+      expect(result.commands[3]).toEqual({
+        matched: "llo",
+        explanation: 'type "llo"',
+      });
+      expect(result.commands[4]).toEqual({
+        matched: SPECIAL_KEYS.ESCAPE,
+        explanation: "exit insert mode",
+      });
+    });
+
+    it("handles [Delete] in insert mode separately", () => {
+      const result = explainSequence(
+        `ihe${SPECIAL_KEYS.DELETE}llo${SPECIAL_KEYS.ESCAPE}`,
+      );
+      expect(result.commands).toHaveLength(5);
+      expect(result.commands[0].explanation).toBe("insert before cursor");
+      expect(result.commands[1]).toEqual({
+        matched: "he",
+        explanation: 'type "he"',
+      });
+      expect(result.commands[2]).toEqual({
+        matched: SPECIAL_KEYS.DELETE,
+        explanation: "delete char under cursor",
       });
       expect(result.commands[3]).toEqual({
         matched: "llo",

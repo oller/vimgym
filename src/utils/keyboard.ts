@@ -9,6 +9,7 @@ const SPECIAL_KEY_DISPLAY_MAP = {
   "[Enter]": "↵",
   "[Esc]": "Esc",
   "[Backspace]": "⌫",
+  "[Delete]": "Del",
   "[C-r]": "Ctrl+R",
 } as const;
 
@@ -53,6 +54,7 @@ export const normalizeKeydownEvent = (event: KeyboardEvent): string | null => {
   else if (key === "Escape") key = SPECIAL_KEYS.ESCAPE;
   else if (key === "Enter") key = SPECIAL_KEYS.ENTER;
   else if (key === "Backspace") key = SPECIAL_KEYS.BACKSPACE;
+  else if (key === "Delete") key = SPECIAL_KEYS.DELETE;
   else if (key === "ArrowUp") key = SPECIAL_KEYS.ARROW_UP;
   else if (key === "ArrowDown") key = SPECIAL_KEYS.ARROW_DOWN;
   else if (key === "ArrowLeft") key = SPECIAL_KEYS.ARROW_LEFT;
@@ -66,6 +68,7 @@ const VIM_KEY_MAP: Record<string, string> = {
   "<Esc>": SPECIAL_KEYS.ESCAPE,
   "<CR>": SPECIAL_KEYS.ENTER,
   "<BS>": SPECIAL_KEYS.BACKSPACE,
+  "<Del>": SPECIAL_KEYS.DELETE,
   "<Up>": SPECIAL_KEYS.ARROW_UP,
   "<Down>": SPECIAL_KEYS.ARROW_DOWN,
   "<Left>": SPECIAL_KEYS.ARROW_LEFT,

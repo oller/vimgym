@@ -27,6 +27,7 @@ describe("formatKeyForDisplay", () => {
     expect(formatKeyForDisplay("[Enter]")).toBe("↵");
     expect(formatKeyForDisplay("[Esc]")).toBe("Esc");
     expect(formatKeyForDisplay("[Backspace]")).toBe("⌫");
+    expect(formatKeyForDisplay("[Delete]")).toBe("Del");
     expect(formatKeyForDisplay("[C-r]")).toBe("Ctrl+R");
   });
 
@@ -86,6 +87,9 @@ describe("normalizeKeydownEvent", () => {
     expect(normalizeKeydownEvent({ key: "Backspace" } as KeyboardEvent)).toBe(
       SPECIAL_KEYS.BACKSPACE,
     );
+    expect(normalizeKeydownEvent({ key: "Delete" } as KeyboardEvent)).toBe(
+      SPECIAL_KEYS.DELETE,
+    );
     expect(normalizeKeydownEvent({ key: "ArrowUp" } as KeyboardEvent)).toBe(
       SPECIAL_KEYS.ARROW_UP,
     );
@@ -121,6 +125,7 @@ describe("normalizeVimKey", () => {
     expect(normalizeVimKey("<Esc>")).toBe(SPECIAL_KEYS.ESCAPE);
     expect(normalizeVimKey("<CR>")).toBe(SPECIAL_KEYS.ENTER);
     expect(normalizeVimKey("<BS>")).toBe(SPECIAL_KEYS.BACKSPACE);
+    expect(normalizeVimKey("<Del>")).toBe(SPECIAL_KEYS.DELETE);
     expect(normalizeVimKey("<Up>")).toBe(SPECIAL_KEYS.ARROW_UP);
     expect(normalizeVimKey("<Down>")).toBe(SPECIAL_KEYS.ARROW_DOWN);
     expect(normalizeVimKey("<Left>")).toBe(SPECIAL_KEYS.ARROW_LEFT);

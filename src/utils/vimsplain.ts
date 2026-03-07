@@ -437,6 +437,11 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
     description: "delete char left",
     isMotion: false,
   },
+  {
+    pattern: /^\[Delete\]/,
+    description: "delete char under cursor",
+    isMotion: false,
+  },
   { pattern: /^\[Up\]/, description: "move up", isMotion: true },
   { pattern: /^\[Down\]/, description: "move down", isMotion: true },
   { pattern: /^\[Left\]/, description: "move left", isMotion: true },
@@ -540,6 +545,23 @@ export function explainSequence(input: string): ExplainResult {
         explanation: "delete character",
       });
       remaining = remaining.slice(SPECIAL_KEYS.BACKSPACE.length);
+      continue;
+    }
+
+    // Check for [Delete] in insert mode
+    if (inInsertMode && remaining.startsWith(SPECIAL_KEYS.DELETE)) {
+      if (insertBuffer.length > 0) {
+        commands.push({
+          matched: insertBuffer,
+          explanation: `type "${insertBuffer}"`,
+        });
+        insertBuffer = "";
+      }
+      commands.push({
+        matched: SPECIAL_KEYS.DELETE,
+        explanation: "delete char under cursor",
+      });
+      remaining = remaining.slice(SPECIAL_KEYS.DELETE.length);
       continue;
     }
 
