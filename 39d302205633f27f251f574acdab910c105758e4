@@ -1,0 +1,33 @@
+src/api/index.ts
+  381bdd8f4be7a34e 9,14,19,23,28,37,41,45,48,68,76,95
+tests/setup.ts
+  381bdd8f4be7a34e 3,5-6,53
+biome.json
+  381bdd8f4be7a34e 24-26,37-58
+src/lib/analytics.ts
+  381bdd8f4be7a34e 28,34,50,54,60
+src/utils/logger.ts
+  381bdd8f4be7a34e 1,11,17,22,27,32,37
+src/main.tsx
+  381bdd8f4be7a34e 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "39d302205633f27f251f574acdab910c105758e4",
+  "prompts": {
+    "381bdd8f4be7a34e": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_3373edac5ffe1bDc8Hko47xun3",
+        "model": "google/gemini-3-pro-preview"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 91,
+      "total_deletions": 98,
+      "accepted_lines": 73,
+      "overriden_lines": 0
+    }
+  }
+}
