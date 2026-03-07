@@ -5,14 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "biome check .",
     "lint:fix": "biome check . --fix",
     "test": "vitest",
+    "test:run": "vitest run",
     "tsc": "tsc -b",
     "types:gen": "supabase gen types typescript --project-id npgygqytvyudcqzntvvo > src/types/database.ts",
-    "postinstall": "lefthook install"
+    "postinstall": "lefthook install",
+    "deploy": "pnpm types:gen && pnpm tsc && pnpm lint && pnpm test:run && pnpm build"
   },
   "dependencies": {
     "@codemirror/commands": "^6.10.2",
