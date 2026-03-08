@@ -46,7 +46,7 @@ export const LevelSelectorCategoryGroup = ({
           initial={{ scaleX: 0 }}
           style={{
             background:
-              "linear-gradient(to right, var(--color-tokyo-night-lavender), transparent)",
+              "linear-gradient(to right, transparent, var(--color-tokyo-night-lavender))",
           }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         />
