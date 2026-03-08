@@ -1,0 +1,25 @@
+src/components/VimEditor/__tests__/VimEditor.history.test.tsx
+  2cdc5dec00de5638 17,34,36,39,59-60
+src/data/levels.ts
+  2cdc5dec00de5638 1-8,16,20,28,31-35,37,40-46,49-80,82,84,92,101,104-108,110,113-117,119,122-126,128-140,148-155,157-176,185,188-194,197-211,213,216-220,222-231,240,243-247,249-258,267,276,285-320,322
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "bbd5b29408ac47079a77de696a279b3c0c9ee46a",
+  "prompts": {
+    "2cdc5dec00de5638": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_330df7d5ffferwuOyxzOocQEPG",
+        "model": "anthropic/claude-sonnet-4-6"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 227,
+      "total_deletions": 68,
+      "accepted_lines": 220,
+      "overriden_lines": 0
+    }
+  }
+}

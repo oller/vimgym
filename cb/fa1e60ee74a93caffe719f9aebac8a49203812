@@ -1,0 +1,25 @@
+src/utils/groupLevelsByCategory.ts
+  2cdc5dec00de5638 1-30
+src/utils/__tests__/groupLevelsByCategory.test.ts
+  2cdc5dec00de5638 1-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "cbfa1e60ee74a93caffe719f9aebac8a49203812",
+  "prompts": {
+    "2cdc5dec00de5638": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_330df7d5ffferwuOyxzOocQEPG",
+        "model": "anthropic/claude-sonnet-4-6"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 106,
+      "total_deletions": 1,
+      "accepted_lines": 105,
+      "overriden_lines": 0
+    }
+  }
+}
