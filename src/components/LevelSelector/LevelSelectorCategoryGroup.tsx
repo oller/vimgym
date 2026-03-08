@@ -29,10 +29,10 @@ export const LevelSelectorCategoryGroup = ({
   ).length;
 
   return (
-    <div className="border-b border-gray-800 last:border-b-0">
+    <div className="">
       <button
         aria-expanded={isOpen}
-        className="w-full flex justify-between items-center py-3 px-0 text-left cursor-pointer transition-colors group"
+        className="w-full flex justify-between items-center p-4 text-left cursor-pointer transition-colors group"
         onClick={onToggle}
         type="button"
       >
@@ -45,7 +45,7 @@ export const LevelSelectorCategoryGroup = ({
           </span>
           <motion.span
             animate={{ rotate: isOpen ? 0 : -90 }}
-            className="text-gray-600 text-xs leading-none"
+            className="text-gray-600 text-lg leading-none"
             transition={{ duration: 0.15 }}
           >
             ▾
