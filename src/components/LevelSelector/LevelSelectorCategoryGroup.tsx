@@ -28,14 +28,29 @@ export const LevelSelectorCategoryGroup = ({
     (l) => dashboard[l.id]?.user?.best != null,
   ).length;
 
+  const pct = completedCount / levels.length;
+
   return (
     <div className="">
       <button
         aria-expanded={isOpen}
-        className="w-full flex justify-between items-center p-4 text-left cursor-pointer transition-colors group"
+        className="relative w-full flex justify-between items-center p-4 text-left cursor-pointer transition-colors group overflow-hidden"
         onClick={onToggle}
         type="button"
       >
+        {/* Progress bar — flush to edges, sits at the bottom of the button */}
+        <motion.div
+          animate={{ scaleX: pct }}
+          aria-hidden
+          className="absolute bottom-0 left-0 right-0 h-0.5 origin-left"
+          initial={{ scaleX: 0 }}
+          style={{
+            background:
+              "linear-gradient(to right, var(--color-tokyo-night-lavender), transparent)",
+          }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        />
+
         <span className="text-[10px] uppercase tracking-widest text-gray-500 group-hover:text-gray-300 transition-colors font-roboto-mono">
           {category}
         </span>
