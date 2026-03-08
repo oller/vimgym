@@ -76,7 +76,7 @@ export const LevelSelector = () => {
 
   return (
     <div className="w-full md:border-l font-roboto-mono border-gray-800 h-full flex flex-col min-h-0">
-      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent pl-0 md:pl-4">
+      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
         {groups.map((group) => (
           <LevelSelectorCategoryGroup
             category={group.category}

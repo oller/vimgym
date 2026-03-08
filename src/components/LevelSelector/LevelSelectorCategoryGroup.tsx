@@ -32,7 +32,7 @@ export const LevelSelectorCategoryGroup = ({
     <div className="border-b border-gray-800 last:border-b-0">
       <button
         aria-expanded={isOpen}
-        className="w-full flex justify-between items-center py-2 pl-0 md:pl-4 pr-2 text-left cursor-pointer hover:text-white transition-colors group"
+        className="w-full flex justify-between items-center py-3 px-0 text-left cursor-pointer transition-colors group"
         onClick={onToggle}
         type="button"
       >
@@ -40,7 +40,7 @@ export const LevelSelectorCategoryGroup = ({
           {category}
         </span>
         <div className="flex items-center gap-2 shrink-0">
-          <span className="text-[10px] text-gray-600 font-roboto-mono">
+          <span className="text-[10px] text-gray-600 group-hover:text-gray-300 transition-colors font-roboto-mono">
             {completedCount}/{levels.length}
           </span>
           <motion.span
@@ -57,7 +57,7 @@ export const LevelSelectorCategoryGroup = ({
         {isOpen && (
           <motion.div
             animate={{ height: "auto", opacity: 1 }}
-            className="overflow-hidden space-y-2 pb-2"
+            className="overflow-hidden space-y-2 pb-2 md:pl-4"
             exit={{ height: 0, opacity: 0 }}
             initial={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.15, ease: "easeInOut" }}
