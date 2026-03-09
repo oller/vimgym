@@ -1,0 +1,29 @@
+src/components/LevelSelector/LevelSelectorContext.tsx
+  2cdc5dec00de5638 1-22
+src/components/LevelSelector/LevelSelectorItem.tsx
+  2cdc5dec00de5638 5,22-26,35,53
+src/components/LevelSelector/LevelSelectorCategoryGroup.tsx
+  2cdc5dec00de5638 3,17-19,72,74-76,78
+src/components/LevelSelector/LevelSelector.tsx
+  2cdc5dec00de5638 1,11,67-70,72-81,83-84,86-88,90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "f9490d466daf7fd01e57dd8eddd0e57b687d0d5e",
+  "prompts": {
+    "2cdc5dec00de5638": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_330df7d5ffferwuOyxzOocQEPG",
+        "model": "anthropic/claude-sonnet-4-6"
+      },
+      "human_author": "David Ollerhead <david.ollerhead@gmail.com>",
+      "messages": [],
+      "total_additions": 66,
+      "total_deletions": 64,
+      "accepted_lines": 61,
+      "overriden_lines": 0
+    }
+  }
+}
