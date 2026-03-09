@@ -1,33 +1,25 @@
 import { AnimatePresence, motion } from "motion/react";
 import type { Level, LevelCategory } from "../../data/levels";
-import type { PlayerDashboard } from "../../schemas";
+import { useLevelSelectorContext } from "./LevelSelectorContext";
 import { LevelSelectorItem } from "./LevelSelectorItem";
 
 type LevelSelectorCategoryGroupProps = {
-  category: LevelCategory;
   levels: Level[];
   isOpen: boolean;
   onToggle: () => void;
-  currentLevel: string;
-  dashboard: Record<string, PlayerDashboard[string]>;
-  onSelect: (id: string) => void;
-  scrollRef?: React.RefObject<HTMLDivElement | null>;
 };
 
 export const LevelSelectorCategoryGroup = ({
-  category,
   levels,
   isOpen,
   onToggle,
-  currentLevel,
-  dashboard,
-  onSelect,
-  scrollRef,
 }: LevelSelectorCategoryGroupProps) => {
+  const { dashboard } = useLevelSelectorContext();
+
+  const category: LevelCategory = levels[0].category;
   const completedCount = levels.filter(
     (l) => dashboard[l.id]?.user?.best != null,
   ).length;
-
   const pct = completedCount / levels.length;
 
   return (
@@ -77,20 +69,13 @@ export const LevelSelectorCategoryGroup = ({
             initial={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.15, ease: "easeInOut" }}
           >
-            {levels.map((level) => {
-              const isCurrentLevel = level.id === currentLevel;
-              return (
-                <LevelSelectorItem
-                  index={levels.indexOf(level) + 1}
-                  isCurrentLevel={isCurrentLevel}
-                  key={level.id}
-                  level={level}
-                  levelData={dashboard[level.id]}
-                  onSelect={() => onSelect(level.id)}
-                  ref={isCurrentLevel ? (scrollRef ?? null) : null}
-                />
-              );
-            })}
+            {levels.map((level, index) => (
+              <LevelSelectorItem
+                index={index + 1}
+                key={level.id}
+                level={level}
+              />
+            ))}
           </motion.div>
         )}
       </AnimatePresence>
