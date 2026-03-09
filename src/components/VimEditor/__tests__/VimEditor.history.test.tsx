@@ -2,7 +2,6 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { LEVELS } from "../../../data/levels";
 import { useGameStore } from "../../../store/useGameStore";
 import { VimEditor } from "../VimEditor";
 
@@ -15,7 +14,7 @@ const renderWithRouter = (component: React.ReactNode) => {
 
 describe("VimEditor History", () => {
   beforeEach(() => {
-    useGameStore.getState().setLevel(LEVELS[0].id);
+    useGameStore.getState().setLevel("delete-words");
   });
 
   it("resets undo history on level change", async () => {
@@ -32,12 +31,12 @@ describe("VimEditor History", () => {
       useGameStore.getState().startText,
     );
 
-    // Change to Level 2
+    // Change to flip-ternary level
     act(() => {
-      useGameStore.getState().setLevel(LEVELS[1].id);
+      useGameStore.getState().setLevel("flip-ternary");
     });
 
-    // Wait for Level 2 text
+    // Wait for flip-ternary text
     await waitFor(() => {
       expect(useGameStore.getState().currentText).toContain("const activity");
     });
@@ -57,8 +56,8 @@ describe("VimEditor History", () => {
     // If we undo, it might fail or try to revert previous document state.
 
     // Better check:
-    // If I type something in Level 2, then Undo, it should undo THAT.
-    // But it shouldn't undo past the start of Level 2.
+    // If I type something in flip-ternary, then Undo, it should undo THAT.
+    // But it shouldn't undo past the start of flip-ternary.
 
     await user.keyboard("i");
     await user.keyboard("TEST");

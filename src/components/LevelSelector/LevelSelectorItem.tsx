@@ -1,30 +1,29 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import type { Level } from "../../data/levels";
-import type { PlayerDashboard } from "../../schemas";
 import { cn } from "../../utils/cn";
+import { useLevelSelectorContext } from "./LevelSelectorContext";
 import { LevelSelectorItemScoreCard } from "./LevelSelectorItemScoreCard";
 import { LevelSelectorItemStatsCard } from "./LevelSelectorItemStatsCard";
 
 type LevelSelectorItemProps = {
   index: number;
   level: Level;
-  levelData: PlayerDashboard[string] | undefined;
-  isCurrentLevel: boolean;
-  onSelect: () => void;
   className?: string;
   ref?: React.Ref<HTMLDivElement>;
 };
 
 export const LevelSelectorItem = ({
   level,
-  levelData,
-  isCurrentLevel,
-  onSelect,
   className,
   index,
   ref,
 }: LevelSelectorItemProps) => {
+  const { currentLevel, dashboard, onSelect, scrollRef } =
+    useLevelSelectorContext();
+
+  const isCurrentLevel = level.id === currentLevel;
+  const levelData = dashboard[level.id];
   const [isStatsOpen, setIsStatsOpen] = useState(false);
 
   return (
@@ -33,7 +32,7 @@ export const LevelSelectorItem = ({
         "relative w-full shrink-0 transition-colors bg-tokyo-night-storm/20 hover:bg-tokyo-night-storm group",
         className,
       )}
-      ref={ref}
+      ref={isCurrentLevel ? (ref ?? scrollRef) : ref}
     >
       {isCurrentLevel && (
         <motion.div
@@ -51,7 +50,7 @@ export const LevelSelectorItem = ({
             index={index}
             isCurrentLevel={isCurrentLevel}
             level={level}
-            onClick={onSelect}
+            onClick={() => onSelect(level.id)}
             onShowStats={() => setIsStatsOpen(true)}
             score={levelData}
           />
