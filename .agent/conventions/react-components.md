@@ -55,6 +55,22 @@ Use `key` prop when components need to remount on value change:
 <VimEditor key={levelId} />
 ```
 
+## Context
+
+Use React 19's `use()` API instead of `useContext()`:
+
+```typescript
+// context definition
+export const LevelSelectorContext = createContext<LevelSelectorContextValue | null>(null);
+
+// consumption
+const ctx = use(LevelSelectorContext);
+```
+
+## Animations
+
+Use `motion` (Framer Motion v12) for animations. Follow existing patterns in `CrtEffect` and related components.
+
 ## Theme
 
 Follow existing tokyo-night-storm theme colors. Use semantic Tailwind classes (e.g., `text-green-400` for success states).

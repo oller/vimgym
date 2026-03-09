@@ -2,26 +2,63 @@
 
 ## Environment
 
-Tests run in jsdom environment via Vitest.
+Tests run in jsdom environment via Vitest. Config in `vitest.config.ts`, global setup in `tests/setup.ts`.
+
+## Test File Layout
+
+- Unit/component tests: `src/**/__tests__/*.test.ts(x)` (co-located with source)
+- Integration tests: `tests/integration/*.test.tsx`
+
+## Global Test Setup (`tests/setup.ts`)
+
+The setup file handles several critical mocks automatically — do not duplicate these in individual test files:
+
+- Imports `@testing-library/jest-dom/vitest` for DOM matchers
+- Sets logger to `"silent"` (suppresses all output)
+- Stubs `fetch` globally to reject (prevents any real network calls)
+- Mocks the entire `src/lib/supabase/client` module
+- Mocks `localStorage` with an in-memory implementation
+- Patches `document.createRange` and `getBoundingClientRect` for CodeMirror layout
 
 ## Store State Reset
 
-Always reset store state in `beforeEach` to prevent test pollution:
+Always reset store state in `beforeEach` to prevent test pollution. Use `setLevel`, not a non-existent `reset()` method:
 
 ```typescript
 beforeEach(() => {
-  useGameStore.getState().reset();
+  useGameStore.getState().setLevel(LEVELS[0].id);
 });
 ```
 
-## JSDOM Mocks
-
-Mock missing JSDOM APIs in `tests/setup.ts`. Example:
+For resetting specific fields directly:
 
 ```typescript
-document.createRange = () => ({
-  setStart: () => {},
-  setEnd: () => {},
+afterEach(() => {
+  useGameStore.setState({ isPoweredOff: false });
+});
+```
+
+## Rendering with Router
+
+Integration tests require `<NuqsAdapter>` for components that use `useLevelId` (URL state). Use the shared `renderWithRouter` helper:
+
+```typescript
+import { renderWithRouter } from "../helpers/renderWithRouter";
+
+renderWithRouter(<MyComponent />);
+```
+
+## API Tests
+
+The Supabase client is a module-level singleton. To get a fresh module after mock setup, use dynamic imports:
+
+```typescript
+vi.mock("../../lib/supabase/client");
+
+beforeEach(async () => {
+  vi.mocked(getSupabaseClient).mockReturnValue(mockClient);
+  // Re-import after mock is set up
+  const { getPlayerDashboard } = await import("../index");
   // ...
 });
 ```
@@ -35,7 +72,7 @@ import { act } from "@testing-library/react";
 
 await act(async () => {
   // Manual state updates or non-userEvent triggers
-  useGameStore.getState().setLevel("next-level");
+  useGameStore.getState().setLevel("some-level");
 });
 ```
 
@@ -55,10 +92,10 @@ Prefer testing through store state over DOM assertions when possible. Store stat
 
 ```typescript
 // Preferred
-expect(useGameStore.getState().currentLevel).toBe(2);
+expect(useGameStore.getState().isCompleted).toBe(true);
 
 // Less preferred (but sometimes necessary)
-expect(screen.getByText("Level 2")).toBeInTheDocument();
+expect(screen.getByText("Level complete")).toBeInTheDocument();
 ```
 
 ## CodeMirror Testing

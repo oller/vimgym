@@ -16,7 +16,11 @@ Use `as const` for arrays that should be treated as readonly tuples and object l
 const MODES = ["normal", "insert", "visual"] as const;
 ```
 
-Use `satisfies` to validate arrays against type definitions while preserving literal types.
+Use `satisfies` to validate arrays against type definitions while preserving literal types:
+
+```typescript
+export const LEVELS = [...] satisfies Level[];
+```
 
 ## Global Window Properties
 
@@ -33,4 +37,30 @@ Use UPPER_SNAKE_CASE for global constants:
 
 ```typescript
 export const LEVELS: Level[] = [...]
+```
+
+## Generated Database Types
+
+`src/types/database.ts` is auto-generated via `pnpm types:gen`. Use the helper types rather than raw table/view types directly:
+
+```typescript
+import type { Tables, TablesInsert } from "../types/database";
+
+type LevelCompletion = Tables<"level_completions">;
+type NewCompletion = TablesInsert<"level_completions">;
+```
+
+Do not manually edit `database.ts`.
+
+## Environment Variables
+
+Env vars are typed via `varlock` and declared in `env.d.ts`. Always access them through the typed schema, not raw `import.meta.env`:
+
+```typescript
+// Good
+import { env } from "./env";
+const url = env.VITE_SUPABASE_URL;
+
+// Avoid - no type safety or validation
+const url = import.meta.env.VITE_SUPABASE_URL;
 ```
