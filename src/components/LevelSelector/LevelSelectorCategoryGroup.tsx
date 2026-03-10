@@ -34,7 +34,7 @@ export const LevelSelectorCategoryGroup = ({
         <motion.div
           animate={{ scaleX: pct }}
           aria-hidden
-          className="absolute left-0 right-0 bottom-0 h-0.5 origin-left"
+          className="absolute left-4 right-4 bottom-3 h-0.5 origin-left"
           initial={{ scaleX: 0 }}
           style={{
             background:
