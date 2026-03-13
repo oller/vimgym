@@ -21,12 +21,6 @@ pnpm test <file>  # Run single test file
 - **State:** Zustand and nuqs for url param state management
 - **Network:** Supabase RPC-first + Zod validation (see [Network Layer](.agent/conventions/network-layer.md))
 
-## Pre-commit Checklist
-
-1. All tests pass (`pnpm test`)
-2. No lint errors (`pnpm lint:fix`)
-3. No type errors (`pnpm type-check`)
-
 ## Conventions
 
 See [.agent/conventions/](.agent/conventions/) for detailed guidelines:
