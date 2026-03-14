@@ -56,6 +56,6 @@ Interactive Vim training game where users complete levels by transforming text u
 - [x] Optimal solution comparison
 - [x] Analytics (Vexo)
 - [x] Keystroke visualization
-- [ ] Vimsplain.ts package
+- [x] Vimsplain.ts package
 - [x] Text object support improvements
 - [ ] Crowd-sourced levels
