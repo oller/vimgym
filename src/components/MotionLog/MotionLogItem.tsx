@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import type { ExplainedCommand } from "../../utils/vimsplain.types";
+import type { ExplainedCommand } from "vimsplain";
 import { VimKbd } from "../VimKbd";
 
 type MotionItemProps = {

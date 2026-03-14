@@ -1,4 +1,4 @@
-import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "./vimsplain.types";
+import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "vimsplain";
 
 /** Display mapping for special key sequences */
 const SPECIAL_KEY_DISPLAY_MAP = {

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
+import { explainSequence } from "vimsplain";
 import { useGameStore } from "../../store/useGameStore";
-import { explainSequence } from "../../utils/vimsplain";
 import { MotionLogEmptyState } from "./MotionLogEmptyState";
 import { MotionLogHeader } from "./MotionLogHeader";
 import { MotionLogItem } from "./MotionLogItem";

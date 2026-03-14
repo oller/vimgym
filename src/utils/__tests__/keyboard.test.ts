@@ -1,10 +1,10 @@
+import { SPECIAL_KEYS } from "vimsplain";
 import { describe, expect, it } from "vitest";
 import {
   formatKeyForDisplay,
   normalizeKeydownEvent,
   normalizeVimKey,
 } from "../keyboard";
-import { SPECIAL_KEYS } from "../vimsplain.types";
 
 describe("formatKeyForDisplay", () => {
   it("formats single alphanumeric characters correctly", () => {

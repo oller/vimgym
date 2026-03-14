@@ -43,6 +43,7 @@
     "tailwind-merge": "^3.4.0",
     "varlock": "^0.1.5",
     "zod": "^4.3.6",
+    "vimsplain": "workspace:*",
     "zustand": "^5.0.10"
   },
   "devDependencies": {
