@@ -15,7 +15,7 @@
     "types:gen": "supabase gen types typescript --project-id npgygqytvyudcqzntvvo > src/types/database.ts",
     "types:sync": "pnpm types:gen && pnpm tsc",
     "postinstall": "lefthook install",
-    "deploy": "pnpm types:sync && pnpm lint && pnpm test:run && pnpm build",
+    "deploy": "pnpm --filter vimsplain build && pnpm types:sync && pnpm lint && pnpm test:run && pnpm build",
     "knip": "knip"
   },
   "dependencies": {
