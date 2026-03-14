@@ -880,6 +880,14 @@ describe("vimsplain", () => {
           explanation: "delete line (discard)",
         });
       });
+
+      it('explains "add (delete line into register a)', () => {
+        const result = explainSequence('"add');
+        expect(result.commands[0]).toEqual({
+          matched: '"add',
+          explanation: "delete line into register 'a'",
+        });
+      });
     });
 
     describe("macros", () => {
@@ -1123,6 +1131,22 @@ describe("vimsplain", () => {
         expect(result.commands[0]).toEqual({
           matched: ":noh",
           explanation: "clear search highlights",
+        });
+      });
+
+      it("flushes ex buffer without trailing Enter", () => {
+        const result = explainSequence(":w");
+        expect(result.commands[0]).toEqual({
+          matched: ":w",
+          explanation: "write file",
+        });
+      });
+
+      it("handles unknown ex command with generic fallback", () => {
+        const result = explainSequence(":foo[Enter]");
+        expect(result.commands[0]).toEqual({
+          matched: ":foo",
+          explanation: "run ex command 'foo'",
         });
       });
     });
