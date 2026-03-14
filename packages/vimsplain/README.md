@@ -120,7 +120,7 @@ SPECIAL_KEYS.CTRL_I     // "[C-i]"
 | Keystroke | Description |
 |-----------|-------------|
 | `N` | move $1 chars right |
-| `` | move char right |
+| ` ` | move char right |
 | `"_dd` | delete line (discard) |
 | `"_dNw` | delete $1 word(s) (discard) |
 | `"\+yy` | yank line to system clipboard |

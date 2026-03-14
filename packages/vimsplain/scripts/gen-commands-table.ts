@@ -38,7 +38,7 @@ for (const match of entriesRaw) {
   const description = match[2];
 
   // Clean up the pattern for display
-  const keystroke = rawPattern
+  let keystroke = rawPattern
     .replace(/\\\(/g, "(")
     .replace(/\\\)/g, ")")
     .replace(/\\\[/g, "[")
@@ -49,11 +49,16 @@ for (const match of entriesRaw) {
     .replace(/\\\^/g, "^")
     .replace(/\\\\/, "\\")
     .replace(/\(\?:.*?\)/g, "") // remove non-capture groups
-    .replace(/\(\\d\*\)/g, "N") // (\\d*) -> N
-    .replace(/\(\\d\+\)/g, "N") // (\\d+) -> N
+    .replace(/\(\\d\*\)/g, "N") // (\d*) -> N
+    .replace(/\(\\d\+\)/g, "N") // (\d+) -> N
     .replace(/\(\\.?\)/g, "X") // (.) -> X for char captures
     .replace(/\[a-z\]/g, "a") // [a-z] -> a
     .trim();
+
+  // If cleanup emptied the pattern (e.g. space motion `/ /`), use raw pattern
+  if (!keystroke) {
+    keystroke = rawPattern;
+  }
 
   entries.push({ keystroke, description });
 }
@@ -76,7 +81,8 @@ const updated = readme.replace(
     `<!-- COMMANDS_TABLE_START -->\n\n${table}\n\n<!-- COMMANDS_TABLE_END -->`,
 );
 
-if (updated === readme) {
+// Check that markers exist at all
+if (!/<!-- COMMANDS_TABLE_START -->/.test(readme)) {
   console.error(
     "Could not find COMMANDS_TABLE markers in README.md. Make sure the markers are present.",
   );
