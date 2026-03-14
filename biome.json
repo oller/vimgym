@@ -54,6 +54,16 @@
           }
         }
       }
+    },
+    {
+      "includes": ["packages/vimsplain/scripts/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
     }
   ],
   "javascript": {

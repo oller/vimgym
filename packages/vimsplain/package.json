@@ -17,6 +17,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
+    "gen:commands": "tsx scripts/gen-commands-table.ts",
     "test": "vitest",
     "test:run": "vitest run",
     "typecheck": "tsc --noEmit"
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "tsup": "^8.5.0",
+    "tsx": "^4.19.0",
     "typescript": "~5.9.3",
     "vitest": "^4.0.17"
   }
