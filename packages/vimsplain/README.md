@@ -410,6 +410,28 @@ Issues and PRs welcome. The command definitions live in `src/vimsplain.ts` as a 
 { pattern: /^gf/, description: "go to file under cursor", isMotion: false }
 ```
 
+## Publishing a new version
+
+This package is published from the [oller/vimgym](https://github.com/oller/vimgym) monorepo using [Changesets](https://github.com/changesets/changesets) and GitHub Actions.
+
+To release a new version:
+
+**1. Create a changeset** after making your changes to `packages/vimsplain/`:
+
+```bash
+pnpm changeset
+```
+
+Select `vimsplain`, choose the bump type (`patch` / `minor` / `major`), and write a short summary. Commit the generated `.changeset/*.md` file alongside your code changes.
+
+**2. Open a PR and merge to `main`.** The Changesets bot will comment indicating a version bump is pending.
+
+**3. The bot opens a "Version Packages" PR** that bumps `package.json`, updates `CHANGELOG.md`, and removes the consumed changeset file.
+
+**4. Merge the "Version Packages" PR.** GitHub Actions publishes to npm automatically via OIDC trusted publishing — no tokens required.
+
+You only need to run `pnpm changeset` when the `packages/vimsplain/` source changes. Changes to the vimgym app itself don't require a changeset.
+
 ## Acknowledgements
 
 Inspired by [pafcu/vimsplain](https://github.com/pafcu/vimsplain), a Python script that parses Vim keystroke sequences using Vim's official `index.txt` help file.
