@@ -36,6 +36,49 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^(\d+) /, description: "move $1 chars right", isMotion: true },
   { pattern: /^ /, description: "move char right", isMotion: true },
 
+  // --- Registers ---
+  { pattern: /^"_dd/, description: "delete line (discard)", isMotion: false },
+  {
+    pattern: /^"_d(\d*)w/,
+    description: "delete $1 word(s) (discard)",
+    isMotion: false,
+  },
+  {
+    pattern: /^"\+yy/,
+    description: "yank line to system clipboard",
+    isMotion: false,
+  },
+  {
+    pattern: /^"\+p/,
+    description: "paste from system clipboard after cursor",
+    isMotion: false,
+  },
+  {
+    pattern: /^"\+P/,
+    description: "paste from system clipboard before cursor",
+    isMotion: false,
+  },
+  {
+    pattern: /^"([a-z])yy/,
+    description: "yank line into register '$1'",
+    isMotion: false,
+  },
+  {
+    pattern: /^"([a-z])dd/,
+    description: "delete line into register '$1'",
+    isMotion: false,
+  },
+  {
+    pattern: /^"([a-z])p/,
+    description: "paste from register '$1' after cursor",
+    isMotion: false,
+  },
+  {
+    pattern: /^"([a-z])P/,
+    description: "paste from register '$1' before cursor",
+    isMotion: false,
+  },
+
   // --- Operators with motions (must come before simple motions) ---
   // Delete operators
   { pattern: /^d\$/, description: "delete to end of line", isMotion: false },
@@ -236,6 +279,33 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^vit/, description: "select inside tag", isMotion: false },
   { pattern: /^vat/, description: "select around tag", isMotion: false },
 
+  // Angle bracket text objects
+  { pattern: /^ci</, description: "change inside <>", isMotion: false },
+  { pattern: /^ci>/, description: "change inside <>", isMotion: false },
+  { pattern: /^ca</, description: "change around <>", isMotion: false },
+  { pattern: /^ca>/, description: "change around <>", isMotion: false },
+  { pattern: /^di</, description: "delete inside <>", isMotion: false },
+  { pattern: /^di>/, description: "delete inside <>", isMotion: false },
+  { pattern: /^da</, description: "delete around <>", isMotion: false },
+  { pattern: /^da>/, description: "delete around <>", isMotion: false },
+  { pattern: /^yi</, description: "yank inside <>", isMotion: false },
+  { pattern: /^yi>/, description: "yank inside <>", isMotion: false },
+  { pattern: /^ya</, description: "yank around <>", isMotion: false },
+  { pattern: /^ya>/, description: "yank around <>", isMotion: false },
+  { pattern: /^vi</, description: "select inside <>", isMotion: false },
+  { pattern: /^vi>/, description: "select inside <>", isMotion: false },
+  { pattern: /^va</, description: "select around <>", isMotion: false },
+  { pattern: /^va>/, description: "select around <>", isMotion: false },
+  // Backtick text objects
+  { pattern: /^ci`/, description: "change inside ``", isMotion: false },
+  { pattern: /^ca`/, description: "change around ``", isMotion: false },
+  { pattern: /^di`/, description: "delete inside ``", isMotion: false },
+  { pattern: /^da`/, description: "delete around ``", isMotion: false },
+  { pattern: /^yi`/, description: "yank inside ``", isMotion: false },
+  { pattern: /^ya`/, description: "yank around ``", isMotion: false },
+  { pattern: /^vi`/, description: "select inside ``", isMotion: false },
+  { pattern: /^va`/, description: "select around ``", isMotion: false },
+
   // --- Find and till ---
   { pattern: /^f(.)/, description: "find '$1' forward", isMotion: true },
   { pattern: /^F(.)/, description: "find '$1' backward", isMotion: true },
@@ -347,6 +417,16 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^'(.)/, description: "go to mark '$1' (line)", isMotion: true },
   { pattern: /^`(.)/, description: "go to mark '$1' (exact)", isMotion: true },
 
+  // --- Macros ---
+  {
+    pattern: /^q([a-z])/,
+    description: "start recording macro '$1'",
+    isMotion: false,
+  },
+  { pattern: /^q/, description: "stop recording macro", isMotion: false },
+  { pattern: /^@@/, description: "replay last macro", isMotion: false },
+  { pattern: /^@([a-z])/, description: "play macro '$1'", isMotion: false },
+
   // --- Search ---
   { pattern: /^n/, description: "next search match", isMotion: true },
   { pattern: /^N/, description: "previous search match", isMotion: true },
@@ -361,6 +441,28 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
     isMotion: true,
   },
   { pattern: /^%/, description: "go to matching bracket", isMotion: true },
+
+  // --- Folding ---
+  {
+    pattern: /^zO/,
+    description: "open all folds recursively",
+    isMotion: false,
+  },
+  { pattern: /^zR/, description: "open all folds", isMotion: false },
+  { pattern: /^zM/, description: "close all folds", isMotion: false },
+  { pattern: /^zo/, description: "open fold", isMotion: false },
+  { pattern: /^zc/, description: "close fold", isMotion: false },
+  { pattern: /^za/, description: "toggle fold", isMotion: false },
+  // --- Spell ---
+  {
+    pattern: /^z=/,
+    description: "suggest spelling corrections",
+    isMotion: false,
+  },
+  { pattern: /^zg/, description: "add word to dictionary", isMotion: false },
+  { pattern: /^zw/, description: "mark word as incorrect", isMotion: false },
+  { pattern: /^\]s/, description: "next misspelling", isMotion: true },
+  { pattern: /^\[s/, description: "previous misspelling", isMotion: true },
 
   // --- Scroll ---
   { pattern: /^zz/, description: "center cursor line", isMotion: false },
@@ -419,11 +521,61 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
   },
   { pattern: /^gc/, description: "toggle comment selection", isMotion: false },
 
+  // Extended indentation
+  { pattern: /^=ap/, description: "auto-indent paragraph", isMotion: false },
+  {
+    pattern: /^=G/,
+    description: "auto-indent to end of file",
+    isMotion: false,
+  },
+  {
+    pattern: /^=%/,
+    description: "auto-indent to matching bracket",
+    isMotion: false,
+  },
+  {
+    pattern: /^=(\d*)j/,
+    description: "auto-indent $1 lines down",
+    isMotion: false,
+  },
+
   // --- Indent ---
   { pattern: /^>>/, description: "indent line", isMotion: false },
   { pattern: /^<</, description: "dedent line", isMotion: false },
   { pattern: /^>(\d*)j/, description: "indent $1 lines down", isMotion: false },
   { pattern: /^<(\d*)j/, description: "dedent $1 lines down", isMotion: false },
+
+  // --- Window commands ---
+  {
+    pattern: /^\[C-w\]s/,
+    description: "split window horizontally",
+    isMotion: false,
+  },
+  {
+    pattern: /^\[C-w\]v/,
+    description: "split window vertically",
+    isMotion: false,
+  },
+  { pattern: /^\[C-w\]h/, description: "move to window left", isMotion: false },
+  {
+    pattern: /^\[C-w\]j/,
+    description: "move to window below",
+    isMotion: false,
+  },
+  {
+    pattern: /^\[C-w\]k/,
+    description: "move to window above",
+    isMotion: false,
+  },
+  {
+    pattern: /^\[C-w\]l/,
+    description: "move to window right",
+    isMotion: false,
+  },
+  { pattern: /^\[C-w\]q/, description: "close window", isMotion: false },
+  // --- Jump list ---
+  { pattern: /^\[C-o\]/, description: "jump back", isMotion: true },
+  { pattern: /^\[C-i\]/, description: "jump forward", isMotion: true },
 
   // --- Special keys (in normal mode) ---
   {
@@ -496,6 +648,34 @@ function parseCommand(input: string): {
   };
 }
 
+/** Known ex commands and their explanations */
+const EX_COMMANDS: Record<string, string> = {
+  w: "write file",
+  q: "quit",
+  wq: "write and quit",
+  "q!": "force quit (discard changes)",
+  "wq!": "force write and quit",
+  x: "write and quit",
+  e: "edit file",
+  noh: "clear search highlights",
+  nohl: "clear search highlights",
+  "set nu": "show line numbers",
+  "set nonu": "hide line numbers",
+  "set rnu": "show relative line numbers",
+  "set nornu": "hide relative line numbers",
+};
+
+function explainExCommand(cmd: string): string {
+  const trimmed = cmd.trim();
+  if (trimmed in EX_COMMANDS) {
+    return EX_COMMANDS[trimmed];
+  }
+  if (/^s\//.test(trimmed)) {
+    return "substitute";
+  }
+  return `run ex command '${trimmed}'`;
+}
+
 /**
  * Explain a full Vim command sequence.
  * Returns an array of explained commands.
@@ -510,6 +690,8 @@ export function explainSequence(input: string): ExplainResult {
   let insertBuffer = "";
   let inSearchMode: "/" | "?" | false = false;
   let searchBuffer = "";
+  let inExMode = false;
+  let exBuffer = "";
 
   while (remaining.length > 0) {
     // Check for [Esc] to exit insert mode
@@ -614,6 +796,33 @@ export function explainSequence(input: string): ExplainResult {
       continue;
     }
 
+    // Check for [Enter] to complete ex command
+    if (inExMode && remaining.startsWith(SPECIAL_KEYS.ENTER)) {
+      const explanation = explainExCommand(exBuffer);
+      commands.push({
+        matched: `:${exBuffer}`,
+        explanation,
+      });
+      remaining = remaining.slice(SPECIAL_KEYS.ENTER.length);
+      inExMode = false;
+      exBuffer = "";
+      continue;
+    }
+
+    // In ex mode, accumulate command characters
+    if (inExMode) {
+      exBuffer += remaining[0];
+      remaining = remaining.slice(1);
+      continue;
+    }
+
+    // Check for ex command start
+    if (remaining[0] === ":") {
+      inExMode = true;
+      remaining = remaining.slice(1);
+      continue;
+    }
+
     // Check for [Enter] to complete search
     if (inSearchMode && remaining.startsWith(SPECIAL_KEYS.ENTER)) {
       const direction = inSearchMode === "/" ? "forward" : "backward";
@@ -699,6 +908,14 @@ export function explainSequence(input: string): ExplainResult {
     commands.push({
       matched: `${inSearchMode}${searchBuffer}`,
       explanation: `search ${direction} for "${searchBuffer}"`,
+    });
+  }
+
+  // Flush any remaining ex buffer (no Enter at end)
+  if (inExMode && exBuffer.length > 0) {
+    commands.push({
+      matched: `:${exBuffer}`,
+      explanation: explainExCommand(exBuffer),
     });
   }
 

@@ -846,4 +846,335 @@ describe("vimsplain", () => {
       });
     });
   });
+
+  describe("expanded command coverage", () => {
+    describe("registers", () => {
+      it('explains "ayy (yank line into register a)', () => {
+        const result = explainSequence('"ayy');
+        expect(result.commands[0]).toEqual({
+          matched: '"ayy',
+          explanation: "yank line into register 'a'",
+        });
+      });
+
+      it('explains "ap (paste from register a)', () => {
+        const result = explainSequence('"ap');
+        expect(result.commands[0]).toEqual({
+          matched: '"ap',
+          explanation: "paste from register 'a' after cursor",
+        });
+      });
+
+      it('explains "+p (paste from system clipboard)', () => {
+        const result = explainSequence('"+p');
+        expect(result.commands[0]).toEqual({
+          matched: '"+p',
+          explanation: "paste from system clipboard after cursor",
+        });
+      });
+
+      it('explains "_dd (delete line to black hole register)', () => {
+        const result = explainSequence('"_dd');
+        expect(result.commands[0]).toEqual({
+          matched: '"_dd',
+          explanation: "delete line (discard)",
+        });
+      });
+    });
+
+    describe("macros", () => {
+      it("explains qa (record macro into register a)", () => {
+        const result = explainSequence("qa");
+        expect(result.commands[0]).toEqual({
+          matched: "qa",
+          explanation: "start recording macro 'a'",
+        });
+      });
+
+      it("explains q (stop recording macro)", () => {
+        const result = explainSequence("q");
+        expect(result.commands[0]).toEqual({
+          matched: "q",
+          explanation: "stop recording macro",
+        });
+      });
+
+      it("explains @a (play macro a)", () => {
+        const result = explainSequence("@a");
+        expect(result.commands[0]).toEqual({
+          matched: "@a",
+          explanation: "play macro 'a'",
+        });
+      });
+
+      it("explains @@ (replay last macro)", () => {
+        const result = explainSequence("@@");
+        expect(result.commands[0]).toEqual({
+          matched: "@@",
+          explanation: "replay last macro",
+        });
+      });
+    });
+
+    describe("folding", () => {
+      it("explains zo (open fold)", () => {
+        const result = explainSequence("zo");
+        expect(result.commands[0]).toEqual({
+          matched: "zo",
+          explanation: "open fold",
+        });
+      });
+
+      it("explains zc (close fold)", () => {
+        const result = explainSequence("zc");
+        expect(result.commands[0]).toEqual({
+          matched: "zc",
+          explanation: "close fold",
+        });
+      });
+
+      it("explains za (toggle fold)", () => {
+        const result = explainSequence("za");
+        expect(result.commands[0]).toEqual({
+          matched: "za",
+          explanation: "toggle fold",
+        });
+      });
+
+      it("explains zR (open all folds)", () => {
+        const result = explainSequence("zR");
+        expect(result.commands[0]).toEqual({
+          matched: "zR",
+          explanation: "open all folds",
+        });
+      });
+
+      it("explains zM (close all folds)", () => {
+        const result = explainSequence("zM");
+        expect(result.commands[0]).toEqual({
+          matched: "zM",
+          explanation: "close all folds",
+        });
+      });
+
+      it("explains zO (open all folds recursively)", () => {
+        const result = explainSequence("zO");
+        expect(result.commands[0]).toEqual({
+          matched: "zO",
+          explanation: "open all folds recursively",
+        });
+      });
+    });
+
+    describe("window commands", () => {
+      it("explains [C-w]s (horizontal split)", () => {
+        const result = explainSequence("[C-w]s");
+        expect(result.commands[0]).toEqual({
+          matched: "[C-w]s",
+          explanation: "split window horizontally",
+        });
+      });
+
+      it("explains [C-w]v (vertical split)", () => {
+        const result = explainSequence("[C-w]v");
+        expect(result.commands[0]).toEqual({
+          matched: "[C-w]v",
+          explanation: "split window vertically",
+        });
+      });
+
+      it("explains [C-w]h/j/k/l (move between windows)", () => {
+        expect(explainSequence("[C-w]h").commands[0].explanation).toBe(
+          "move to window left",
+        );
+        expect(explainSequence("[C-w]j").commands[0].explanation).toBe(
+          "move to window below",
+        );
+        expect(explainSequence("[C-w]k").commands[0].explanation).toBe(
+          "move to window above",
+        );
+        expect(explainSequence("[C-w]l").commands[0].explanation).toBe(
+          "move to window right",
+        );
+      });
+
+      it("explains [C-w]q (close window)", () => {
+        const result = explainSequence("[C-w]q");
+        expect(result.commands[0]).toEqual({
+          matched: "[C-w]q",
+          explanation: "close window",
+        });
+      });
+    });
+
+    describe("jump list", () => {
+      it("explains [C-o] (jump back)", () => {
+        const result = explainSequence("[C-o]");
+        expect(result.commands[0]).toEqual({
+          matched: "[C-o]",
+          explanation: "jump back",
+        });
+      });
+
+      it("explains [C-i] (jump forward)", () => {
+        const result = explainSequence("[C-i]");
+        expect(result.commands[0]).toEqual({
+          matched: "[C-i]",
+          explanation: "jump forward",
+        });
+      });
+    });
+
+    describe("spell checking", () => {
+      it("explains ]s (next misspelling)", () => {
+        const result = explainSequence("]s");
+        expect(result.commands[0]).toEqual({
+          matched: "]s",
+          explanation: "next misspelling",
+        });
+      });
+
+      it("explains [s (previous misspelling)", () => {
+        const result = explainSequence("[s");
+        expect(result.commands[0]).toEqual({
+          matched: "[s",
+          explanation: "previous misspelling",
+        });
+      });
+
+      it("explains z= (suggest spelling corrections)", () => {
+        const result = explainSequence("z=");
+        expect(result.commands[0]).toEqual({
+          matched: "z=",
+          explanation: "suggest spelling corrections",
+        });
+      });
+
+      it("explains zg (add word to dictionary)", () => {
+        const result = explainSequence("zg");
+        expect(result.commands[0]).toEqual({
+          matched: "zg",
+          explanation: "add word to dictionary",
+        });
+      });
+    });
+
+    describe("indentation (extended)", () => {
+      it("explains =ap (auto-indent paragraph)", () => {
+        const result = explainSequence("=ap");
+        expect(result.commands[0]).toEqual({
+          matched: "=ap",
+          explanation: "auto-indent paragraph",
+        });
+      });
+
+      it("explains =G (auto-indent to end of file)", () => {
+        const result = explainSequence("=G");
+        expect(result.commands[0]).toEqual({
+          matched: "=G",
+          explanation: "auto-indent to end of file",
+        });
+      });
+
+      it("explains =% (auto-indent to matching bracket)", () => {
+        const result = explainSequence("=%");
+        expect(result.commands[0]).toEqual({
+          matched: "=%",
+          explanation: "auto-indent to matching bracket",
+        });
+      });
+    });
+
+    describe("ex commands", () => {
+      it("explains :w (write file)", () => {
+        const result = explainSequence(":w[Enter]");
+        expect(result.commands[0]).toEqual({
+          matched: ":w",
+          explanation: "write file",
+        });
+      });
+
+      it("explains :q (quit)", () => {
+        const result = explainSequence(":q[Enter]");
+        expect(result.commands[0]).toEqual({
+          matched: ":q",
+          explanation: "quit",
+        });
+      });
+
+      it("explains :wq (write and quit)", () => {
+        const result = explainSequence(":wq[Enter]");
+        expect(result.commands[0]).toEqual({
+          matched: ":wq",
+          explanation: "write and quit",
+        });
+      });
+
+      it("explains :q! (force quit)", () => {
+        const result = explainSequence(":q![Enter]");
+        expect(result.commands[0]).toEqual({
+          matched: ":q!",
+          explanation: "force quit (discard changes)",
+        });
+      });
+
+      it("explains :noh (clear search highlights)", () => {
+        const result = explainSequence(":noh[Enter]");
+        expect(result.commands[0]).toEqual({
+          matched: ":noh",
+          explanation: "clear search highlights",
+        });
+      });
+    });
+
+    describe("additional text objects", () => {
+      it("explains ci< (change inside angle brackets)", () => {
+        const result = explainSequence("ci<");
+        expect(result.commands[0]).toEqual({
+          matched: "ci<",
+          explanation: "change inside <>",
+        });
+      });
+
+      it("explains ca< (change around angle brackets)", () => {
+        const result = explainSequence("ca<");
+        expect(result.commands[0]).toEqual({
+          matched: "ca<",
+          explanation: "change around <>",
+        });
+      });
+
+      it("explains di< (delete inside angle brackets)", () => {
+        const result = explainSequence("di<");
+        expect(result.commands[0]).toEqual({
+          matched: "di<",
+          explanation: "delete inside <>",
+        });
+      });
+
+      it("explains vi< (select inside angle brackets)", () => {
+        const result = explainSequence("vi<");
+        expect(result.commands[0]).toEqual({
+          matched: "vi<",
+          explanation: "select inside <>",
+        });
+      });
+
+      it("explains ci` (change inside backticks)", () => {
+        const result = explainSequence("ci`");
+        expect(result.commands[0]).toEqual({
+          matched: "ci`",
+          explanation: "change inside ``",
+        });
+      });
+
+      it("explains di` (delete inside backticks)", () => {
+        const result = explainSequence("di`");
+        expect(result.commands[0]).toEqual({
+          matched: "di`",
+          explanation: "delete inside ``",
+        });
+      });
+    });
+  });
 });

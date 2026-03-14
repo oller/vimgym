@@ -42,6 +42,9 @@ export const SPECIAL_KEYS = {
   ARROW_RIGHT: "[Right]",
   CTRL_R: "[C-r]",
   DELETE: "[Delete]",
+  CTRL_W: "[C-w]",
+  CTRL_O: "[C-o]",
+  CTRL_I: "[C-i]",
 } as const;
 
 /** Key mapping for modifier combinations */
