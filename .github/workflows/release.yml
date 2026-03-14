@@ -10,6 +10,10 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write      # create release commits and tags
+      pull-requests: write # changesets bot opens version PRs
+      id-token: write      # trusted publishing: mint OIDC token for npm
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,5 +42,8 @@ jobs:
           publish: pnpm changeset publish --no-git-checks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Trusted publishing: no NPM_TOKEN needed.
+          # npm authenticates via the OIDC id-token minted above.
+          # NPM_CONFIG_PROVENANCE tells `changeset publish` (which calls
+          # `npm publish` internally) to attach provenance attestations.
+          NPM_CONFIG_PROVENANCE: "true"

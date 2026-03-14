@@ -1,85 +1,123 @@
 # Publishing vimsplain to npm
 
-Everything is built and versioned at `0.1.0`. Follow these steps once to get the automated pipeline live.
+## What is trusted publishing?
+
+The original approach was to create an npm access token, store it as a GitHub secret, and pass it to CI. That works but has a downside: the token is a long-lived credential that can be leaked or stolen.
+
+**Trusted publishing** (OIDC) removes the token entirely. Instead, GitHub Actions mints a short-lived cryptographic identity token at job runtime that proves "this publish came from workflow `release.yml` in repo `oller/vimgym`, on branch `main`." npm verifies this claim directly — no stored secret, nothing to rotate or leak.
+
+As a bonus it automatically attaches **provenance attestations** to the published package — a public, verifiable record linking the npm tarball back to the exact git commit and workflow run that produced it. Users can verify this with `npm audit signatures`.
+
+The workflow (`release.yml`) is already updated for trusted publishing. You just need to do a one-time setup on npmjs.com.
 
 ---
 
-## 1. Check the package name is available
+## Steps to publish for the first time
+
+### 1. Check the package name is available
 
 ```bash
 npm view vimsplain
 ```
 
-If this returns a 404 / `npm error 404`, the name is free. If it returns package info, you'll need to pick a different name (e.g. `@oller/vimsplain`) and update `packages/vimsplain/package.json` → `"name"` and `.changeset/config.json` → `"access"` (scoped packages need `"restricted"` unless you set `"access": "public"` explicitly, which it already does).
+A 404 means the name is free. If taken, update `"name"` in `packages/vimsplain/package.json` (and `.changeset/config.json` if you use a scoped name).
 
 ---
 
-## 2. Create an npm account (if you don't have one)
+### 2. Create an npm account
 
-Go to [npmjs.com](https://www.npmjs.com) and sign up.
+Go to [npmjs.com](https://www.npmjs.com) and sign up if you don't have an account.
 
 ---
 
-## 3. Generate an npm Automation token
+### 3. Set up trusted publishing on npmjs.com
+
+This is the one-time step that replaces creating an access token.
 
 1. Log in to npmjs.com
-2. Click your avatar → **Access Tokens**
-3. Click **Generate New Token** → **Automation**
-4. Copy the token (you only see it once)
+2. Go to your **profile** → **Publishing** (or navigate directly to the package page once it exists — but for a new package, you set this up before the first publish by creating the package entry first: see step 3a)
 
-Use **Automation** type, not Granular — it bypasses 2FA prompts in CI.
+**For a brand-new package that hasn't been published yet:**
+
+3a. You need to create the package on npm first so you can configure trusted publishing on it. Run this **once** locally to claim the name:
+
+```bash
+# From the repo root
+pnpm --filter vimsplain build
+cd packages/vimsplain
+npm publish --access public --dry-run  # verify the tarball looks right
+npm publish --access public            # actually publish v0.1.0
+```
+
+This requires you to be logged in locally:
+```bash
+npm login
+```
+
+After this first manual publish, all future releases go through the automated trusted publishing flow.
+
+3b. Once the package exists on npm, go to:
+`https://www.npmjs.com/package/vimsplain` → **Settings** → **Trusted publishers**
+
+Click **Add a publisher** and fill in:
+
+| Field | Value |
+|---|---|
+| Repository owner | `oller` |
+| Repository name | `vimgym` |
+| Workflow filename | `release.yml` |
+| Environment | *(leave blank)* |
+
+Click **Add**.
 
 ---
 
-## 4. Add the token as a GitHub secret
+### 4. Install the Changesets GitHub App
 
-1. Go to [github.com/oller/vimgym](https://github.com/oller/vimgym)
-2. **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret**
-4. Name: `NPM_TOKEN`
-5. Value: paste the token from step 3
-6. Click **Add secret**
-
----
-
-## 5. Install the Changesets GitHub App
-
-The Changesets bot opens version bump PRs automatically when you merge changes that include a `.changeset/*.md` file.
+The Changesets bot opens version bump PRs automatically.
 
 1. Go to [github.com/apps/changeset-bot](https://github.com/apps/changeset-bot)
-2. Click **Install**
-3. Select the `oller/vimgym` repository
+2. Click **Install** → select `oller/vimgym`
 
 ---
 
-## 6. Push to main and trigger the first release
-
-The `.changeset/` directory already contains the `0.1.0` changeset, and `packages/vimsplain/CHANGELOG.md` and `package.json` are already versioned at `0.1.0`. The changeset file has already been consumed by `changeset version`, so the release flow works like this:
+### 5. Push to main
 
 ```bash
 git push origin main
 ```
 
-The `release.yml` GitHub Actions workflow will run. Since there are no pending changeset files (they were consumed when we ran `changeset version`), the `changesets/action` will detect that the version has been bumped and **publish `vimsplain@0.1.0` to npm directly**.
+The `release.yml` workflow runs. Since `packages/vimsplain/CHANGELOG.md` and `package.json` are already versioned at `0.1.0` and the changeset file was consumed, the `changesets/action` will detect a publishable version and run `pnpm changeset publish --no-git-checks`.
 
-Watch the workflow at:
-```
-https://github.com/oller/vimgym/actions
-```
+Because `id-token: write` permission is set and the trusted publisher is configured on npm, this publishes **without any stored token**.
+
+Watch it at: `https://github.com/oller/vimgym/actions`
 
 ---
 
-## 7. Verify the publish
-
-Once the action completes:
+### 6. Verify
 
 ```bash
 npm view vimsplain
 ```
 
-Should show version `0.1.0`, description, exports, etc.
+Also visible at `https://www.npmjs.com/package/vimsplain`. The package page will show a **provenance** badge linking back to the workflow run.
 
-You can also view it at `https://www.npmjs.com/package/vimsplain`.
+---
+
+## How it works under the hood
+
+```
+GitHub Actions job starts
+  └─ id-token: write permission → GitHub mints a short-lived OIDC token
+       └─ token contains: repo=oller/vimgym, workflow=release.yml, ref=main
+            └─ npm publish receives NPM_CONFIG_PROVENANCE=true
+                 └─ npm CLI exchanges OIDC token with npm registry
+                      └─ registry verifies claims match trusted publisher config
+                           └─ package published + provenance attestation recorded
+```
+
+No `NPM_TOKEN` secret is needed or stored anywhere.
 
 ---
 
@@ -95,37 +133,34 @@ pnpm changeset
 
 - Select `vimsplain`
 - Choose bump type: `patch` (bug fix), `minor` (new feature), `major` (breaking change)
-- Write a one-line summary of what changed
+- Write a one-line summary
 
-This creates a `.changeset/<random-name>.md` file — commit it alongside your code changes.
+Commit the generated `.changeset/<hash>.md` file alongside your code.
 
 ### 2. Open a PR and merge to main
 
-The Changesets bot will comment on your PR indicating a version bump is pending.
+The Changesets bot comments on the PR indicating a version bump is pending.
 
 ### 3. The bot opens a "Version Packages" PR
 
-After merge, the bot automatically opens a PR titled **"Version Packages"** that:
-- Bumps `packages/vimsplain/package.json` version
-- Updates `packages/vimsplain/CHANGELOG.md`
-- Deletes the consumed `.changeset/*.md` file
+After your PR merges, the bot automatically opens a PR that bumps `package.json`, updates `CHANGELOG.md`, and deletes the consumed `.changeset/*.md` file.
 
 ### 4. Merge the "Version Packages" PR
 
-Merging this PR triggers the `release.yml` workflow which runs `pnpm changeset publish --no-git-checks` and publishes to npm.
+Merging triggers `release.yml` → trusted publish to npm.
 
 ---
 
 ## Troubleshooting
 
 **`release.yml` fails with "No publishable packages found"**
-The changeset was already consumed (this is the state we're in for the first push). Check that `packages/vimsplain/package.json` has `"version": "0.1.0"` and there are no pending `.changeset/*.md` files. The action should publish on first run.
+The changeset was already consumed (expected for the first push after `changeset version` was run locally). The action should publish directly. If it doesn't, check that `packages/vimsplain/package.json` is at `0.1.0` and that version doesn't already exist on npm.
 
-**`release.yml` fails with "npm ERR! 403 Forbidden"**
-The `NPM_TOKEN` secret is missing or expired. Repeat steps 3–4 above.
+**`release.yml` fails with "403 Forbidden" or "Unauthorized"**
+The trusted publisher isn't configured on npmjs.com yet, or the workflow filename / repo name doesn't match exactly. Double-check step 3b above — field values are case-sensitive.
 
-**`release.yml` fails with "This package has been published before"**
-The version in `package.json` already exists on npm. Create a new changeset to bump the version.
+**`release.yml` fails with "Missing permissions: id-token"**
+The repo or org has restricted OIDC token minting. Go to GitHub repo → Settings → Actions → General → "Workflow permissions" and ensure "Read and write permissions" is enabled, or add explicit `id-token: write` at the workflow level (already done in `release.yml`).
 
 **Build fails in CI**
-Run locally first: `pnpm --filter vimsplain build`. If it passes locally but not in CI, check the Node version (CI uses Node 20).
+Run locally first: `pnpm --filter vimsplain build`. If it passes locally but fails in CI, check Node version (CI uses Node 20).
