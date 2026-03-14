@@ -7,6 +7,11 @@ const commitHash = process.env.COMMIT_REF || "dev";
 
 // https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    // In dev, resolve workspace packages to their TypeScript source directly.
+    // The "source" condition is set in packages/vimsplain/package.json exports.
+    conditions: ["source"],
+  },
   define: {
     __COMMIT_HASH__: JSON.stringify(commitHash),
   },
