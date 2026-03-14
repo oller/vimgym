@@ -1,4 +1,5 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "ignore": ["env.d.ts", "src/types/database.ts"]
+  "ignore": ["env.d.ts", "src/types/database.ts"],
+  "ignoreDependencies": ["@changesets/cli", "@changesets/changelog-github"]
 }
