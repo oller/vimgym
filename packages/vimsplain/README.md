@@ -410,6 +410,10 @@ Issues and PRs welcome. The command definitions live in `src/vimsplain.ts` as a 
 { pattern: /^gf/, description: "go to file under cursor", isMotion: false }
 ```
 
+## Acknowledgements
+
+Inspired by [pafcu/vimsplain](https://github.com/pafcu/vimsplain), a Python script that parses Vim keystroke sequences using Vim's official `index.txt` help file.
+
 ## License
 
 MIT

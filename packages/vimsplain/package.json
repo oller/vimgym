@@ -5,8 +5,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.mts"
     }
   },
   "files": [
@@ -15,8 +15,8 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "gen:commands": "tsx scripts/gen-commands-table.ts",
     "test": "vitest",
     "test:run": "vitest run",
@@ -35,7 +35,7 @@
     "node": ">=18"
   },
   "devDependencies": {
-    "tsup": "^8.5.0",
+    "tsdown": "^0.21.2",
     "tsx": "^4.19.0",
     "typescript": "~5.9.3",
     "vitest": "^4.0.17"
