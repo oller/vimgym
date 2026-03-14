@@ -46,9 +46,14 @@ Interactive Vim training game where users complete levels by transforming text u
 
 - `pnpm dev`: Start development server
 - `pnpm build`: Build for production
+- `pnpm preview`: Run webserver to preview production build
+- `pnpm lint`: Check linting and formatting issues (Biome)
 - `pnpm lint:fix`: Fix linting and formatting issues (Biome)
-- `pnpm test`: Run tests
-- `pnpm type-check`: Run TypeScript type checking
+- `pnpm test`: Run tests in watch mode
+- `pnpm test:run`: Run tests once
+- `pnpm knip`: Run knip to find unused dependencies
+- `pnpm tsc`: Run TypeScript type checking
+- `pnpm types:sync`: Get types from Supabase and sync them to the project
 
 ## Roadmap
 
