@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test & Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck vimsplain
+        run: pnpm --filter vimsplain typecheck
+
+      - name: Test vimsplain
+        run: pnpm --filter vimsplain test:run
+
+      - name: Build vimsplain
+        run: pnpm --filter vimsplain build
+
+      - name: Typecheck app
+        run: pnpm tsc
+
+      - name: Test app
+        run: pnpm test:run
+
+      - name: Lint
+        run: pnpm lint
