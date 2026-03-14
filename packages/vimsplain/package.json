@@ -34,7 +34,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oller/vimgym.git",
+    "url": "git+https://github.com/oller/vimgym.git",
     "directory": "packages/vimsplain"
   },
   "homepage": "https://github.com/oller/vimgym/tree/main/packages/vimsplain#readme",
