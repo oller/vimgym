@@ -29,7 +29,7 @@ const block = normalCommandsMatch[0];
 const entries: Array<{ keystroke: string; description: string }> = [];
 const entriesRaw = [
   ...block.matchAll(
-    /\{[^}]*pattern:\s*\/\^?([^/]+)\/[^}]*description:\s*"([^"]+)"/gs,
+    /\{[^}]*pattern:\s*\/\^?([^/]+)\/[^}]*description:\s*['"]([^'"]+)['"]/gs,
   ),
 ];
 
