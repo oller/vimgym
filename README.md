@@ -1,8 +1,9 @@
 # VimGym
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f74dacba-e3b4-4781-8c47-323e153b644f/deploy-status)](https://app.netlify.com/projects/vim-gym/deploys)
-[![npm](https://img.shields.io/npm/v/vimsplain)](https://www.npmjs.com/package/vimsplain)
-
+vimgym: [![Netlify Status](https://api.netlify.com/api/v1/badges/f74dacba-e3b4-4781-8c47-323e153b644f/deploy-status)](https://app.netlify.com/projects/vim-gym/deploys)
+vimsplain: [![npm version](https://img.shields.io/npm/v/vimsplain)](https://www.npmjs.com/package/vimsplain)
+[![npm downloads](https://img.shields.io/npm/dm/vimsplain)](https://www.npmjs.com/package/vimsplain)
+[![CI](https://github.com/oller/vimgym/actions/workflows/ci.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/ci.yml)
 Interactive Vim training game + [`vimsplain`](./packages/vimsplain/README.md) — a published npm package for parsing and explaining Vim keystroke sequences.
 
 ## This repository
@@ -66,7 +67,7 @@ pnpm dev       # Start development server
 
 ## vimsplain
 
-> Parse and explain Vim keystroke sequences. Available as a standalone npm package.
+Parse and explain Vim keystroke sequences. Available as a standalone npm package.
 
 ```ts
 import { explainSequence, summarizeSequence } from "vimsplain";
