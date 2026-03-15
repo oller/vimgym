@@ -417,6 +417,14 @@ Issues and PRs welcome. The command definitions live in `src/vimsplain.ts` as a 
 { pattern: /^gf/, description: "go to file under cursor", isMotion: false }
 ```
 
+After adding, removing, or renaming entries in `NORMAL_COMMANDS`, regenerate the Supported Commands table above:
+
+```bash
+pnpm gen:commands
+```
+
+This rewrites the table between the `<!-- COMMANDS_TABLE_START -->` / `<!-- COMMANDS_TABLE_END -->` markers. Context-aware behavior added via separate maps (e.g. visual mode operators) is not captured by the script — document those manually.
+
 ## Publishing a new version
 
 This package is published from the [oller/vimgym](https://github.com/oller/vimgym) monorepo using [Changesets](https://github.com/changesets/changesets) and GitHub Actions.

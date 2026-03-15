@@ -61,8 +61,11 @@ pnpm --filter vimsplain test:run       # Run tests
 pnpm --filter vimsplain test:coverage  # Run tests with coverage (must stay ≥90% lines)
 pnpm --filter vimsplain build          # Build (tsdown → dist/)
 pnpm --filter vimsplain typecheck      # Type check
+pnpm --filter vimsplain gen:commands   # Regenerate the Supported Commands table in README.md
 pnpm changeset                         # Create a changeset for a vimsplain release
 ```
+
+> **When to run `gen:commands`:** Any time you add, remove, or rename an entry in `NORMAL_COMMANDS` in `src/vimsplain.ts`, run this script and commit the updated `README.md` alongside your code changes. The script reads `NORMAL_COMMANDS` and rewrites the table between the `<!-- COMMANDS_TABLE_START -->` / `<!-- COMMANDS_TABLE_END -->` markers. It does **not** capture context-aware behavior added via separate maps (e.g. `VISUAL_OPERATORS`) — document those manually in the README if needed.
 
 See `packages/vimsplain/README.md` and `docs/plans/PUBLISHING.md` for full details.
 
