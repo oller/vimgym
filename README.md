@@ -1,10 +1,10 @@
 # VimGym
 
-vimgym: [![Netlify Status](https://api.netlify.com/api/v1/badges/f74dacba-e3b4-4781-8c47-323e153b644f/deploy-status)](https://app.netlify.com/projects/vim-gym/deploys)
-vimsplain: [![npm version](https://img.shields.io/npm/v/vimsplain)](https://www.npmjs.com/package/vimsplain)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f74dacba-e3b4-4781-8c47-323e153b644f/deploy-status)](https://app.netlify.com/projects/vim-gym/deploys)
+[![npm version](https://img.shields.io/npm/v/vimsplain)](https://www.npmjs.com/package/vimsplain)
 [![npm downloads](https://img.shields.io/npm/dm/vimsplain)](https://www.npmjs.com/package/vimsplain)
 [![CI](https://github.com/oller/vimgym/actions/workflows/ci.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/ci.yml)
-Interactive Vim training game + [`vimsplain`](./packages/vimsplain/README.md) — a published npm package for parsing and explaining Vim keystroke sequences.
+VimGym is an interactive Vim training game, built to help you learn, hone and test your vim motions.  This repo also contains [`vimsplain`](./packages/vimsplain/README.md) — a published npm package for parsing and explaining Vim keystroke sequences.
 
 ## This repository
 
