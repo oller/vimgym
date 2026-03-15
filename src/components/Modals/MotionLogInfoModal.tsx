@@ -26,8 +26,8 @@ export const MotionLogInfoModal = ({
           <ModalLink href="https://www.npmjs.com/package/vimsplain">
             vimsplain
           </ModalLink>
-          , an open source npm package written for this project. It parses Vim
-          keystroke sequences and returns structured, human-readable
+          , an open source TypeScript npm package written for this project. It
+          parses Vim keystroke sequences and returns structured, human-readable
           explanations for each command.
         </p>
         <p>

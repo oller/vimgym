@@ -5,7 +5,7 @@
 [![CI](https://github.com/oller/vimgym/actions/workflows/ci.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/vimsplain)](https://github.com/oller/vimgym/blob/main/packages/vimsplain/README.md#license)
 
-Parse and explain Vim keystroke sequences.
+A TypeScript package for parsing and explaining Vim keystroke sequences.
 
 ```ts
 import { explainSequence, summarizeSequence } from "vimsplain";
