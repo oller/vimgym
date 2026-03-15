@@ -1,21 +1,10 @@
-import type { PropsWithChildren } from "react";
 import { Modal } from "./Modal";
+import { ModalLink } from "./ModalLink";
 
 type MotionLogInfoModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
-
-const InfoLink = ({ href, children }: PropsWithChildren<{ href: string }>) => (
-  <a
-    className="text-tokyo-night-pink underline decoration-tokyo-night-pink/30 hover:decoration-tokyo-night-pink transition-all"
-    href={href}
-    rel="noopener noreferrer"
-    target="_blank"
-  >
-    {children}
-  </a>
-);
 
 export const MotionLogInfoModal = ({
   isOpen,
@@ -34,18 +23,18 @@ export const MotionLogInfoModal = ({
         </p>
         <p>
           Powered by{" "}
-          <InfoLink href="https://www.npmjs.com/package/vimsplain">
+          <ModalLink href="https://www.npmjs.com/package/vimsplain">
             vimsplain
-          </InfoLink>
+          </ModalLink>
           , an open source npm package written for this project. It parses Vim
           keystroke sequences and returns structured, human-readable
           explanations for each command.
         </p>
         <p>
           Inspired by{" "}
-          <InfoLink href="https://github.com/pafcu/vimsplain">
+          <ModalLink href="https://github.com/pafcu/vimsplain">
             pafcu/vimsplain
-          </InfoLink>
+          </ModalLink>
           , a Python script that parses Vim keystroke sequences using Vim&apos;s
           official{" "}
           <code className="text-xs bg-gray-800 px-1 rounded">index.txt</code>{" "}

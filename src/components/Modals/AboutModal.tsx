@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { Modal } from "./Modal";
+import { ModalLink } from "./ModalLink";
 
 type AboutModalProps = {
   isOpen: boolean;
@@ -46,15 +47,8 @@ export const AboutModal = ({ isOpen, onClose }: AboutModalProps) => {
         </p>
         <p>
           Built by{" "}
-          <a
-            className="text-tokyo-night-pink underline decoration-tokyo-night-pink/30 hover:decoration-tokyo-night-pink transition-all"
-            href="https://davidollerhead.com"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            David
-          </a>{" "}
-          during Christmas 2025 🎄🎁
+          <ModalLink href="https://davidollerhead.com">David</ModalLink> during
+          Christmas 2025 🎄🎁
         </p>
         <p>Dedicated to Grace &amp; Clara 👶 👶</p>
         <p className="text-sm text-gray-400">
