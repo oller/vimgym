@@ -27,8 +27,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          # No registry-url here — it would inject NODE_AUTH_TOKEN into .npmrc
-          # which conflicts with OIDC trusted publishing token exchange.
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -43,8 +42,8 @@ jobs:
           publish: pnpm changeset publish --no-git-checks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Trusted publishing: no NPM_TOKEN needed.
-          # npm authenticates via the OIDC id-token minted above.
-          # NPM_CONFIG_PROVENANCE tells `changeset publish` (which calls
-          # `npm publish` internally) to attach provenance attestations.
+          # Trusted publishing via OIDC — no NPM_TOKEN needed.
+          # registry-url above writes an .npmrc but we clear NODE_AUTH_TOKEN
+          # so npm falls through to the OIDC token exchange instead.
+          NODE_AUTH_TOKEN: ""
           NPM_CONFIG_PROVENANCE: "true"
