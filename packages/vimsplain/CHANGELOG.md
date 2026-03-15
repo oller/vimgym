@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.1.3
+
+### Patch Changes
+
+- [#6](https://github.com/oller/vimgym/pull/6) [`804282a`](https://github.com/oller/vimgym/commit/804282a2a60dde7ab0863e177253b29acd1e5440) Thanks [@oller](https://github.com/oller)! - Fix visual mode operators (d, D, c, C, y, Y, x, X, s, S, ~, >, <, =, J, p, P, gc, gu, gU, g~, gq) now correctly explained as acting on the selection rather than with their normal-mode meanings. Also adds support for block visual mode ([C-v]).
+
 ## 0.1.2
 
 ### Patch Changes
