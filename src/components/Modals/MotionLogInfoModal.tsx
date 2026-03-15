@@ -8,7 +8,7 @@ type MotionLogInfoModalProps = {
 
 const InfoLink = ({ href, children }: PropsWithChildren<{ href: string }>) => (
   <a
-    className="hover:text-gray-300 underline decoration-gray-600 hover:decoration-gray-400"
+    className="text-tokyo-night-pink underline decoration-tokyo-night-pink/30 hover:decoration-tokyo-night-pink transition-all"
     href={href}
     rel="noopener noreferrer"
     target="_blank"
@@ -26,7 +26,7 @@ export const MotionLogInfoModal = ({
       <h2 className="text-xl font-roboto-mono text-white mb-4">
         About the Motion Log
       </h2>
-      <div className="space-y-4 text-gray-300 text-sm">
+      <div className="space-y-4 text-gray-300">
         <p>
           The motion log parses your Vim keystrokes in real time and explains
           each command as you type, helping you build an understanding of what

@@ -13,7 +13,7 @@ export const MotionLogHeader = ({ onOpenInfo }: MotionLogHeaderProps) => {
         onClick={onOpenInfo}
         type="button"
       >
-        about
+        About the motion log
       </button>
     </div>
   );
