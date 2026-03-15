@@ -24,10 +24,15 @@ A pnpm monorepo containing two projects:
 
 ### Features
 
-- **Interactive Levels:** Practice Vim motions in a real editor environment.
-- **Scoring System:** Compare your solution against the optimal keystrokes.
-- **Progress Tracking:** Track your scores and improvements.
-- **Vim Emulation:** Powered by `@replit/codemirror-vim` for accurate Vim behavior.
+- **Interactive Levels:** 33 challenges across 6 categories (Deletion & Insertion, Text Objects, Visual Mode, Search & Replace, Navigation & Editing, Macros & Registers), each with syntax-highlighted multi-language editing (HTML, JS/TS, JSON, Markdown).
+- **Crowd-Sourced Scoring:** Every completion is submitted anonymously. Each level shows the global best score with a full keystroke replay tooltip ("Optimum Run"), the crowd-sourced average, and total completion count.
+- **Score Distribution Chart:** An interactive SVG sparkline renders the histogram of all player scores for a level — hover to see exactly how many players achieved each keystroke count.
+- **Personal Percentile Ranking:** After completing a level your score is ranked against all other players and displayed as a percentile (e.g. "Top 3%"). Tying the global best highlights your score in gold.
+- **Motion Log:** Real-time keystroke parsing powered by `vimsplain` — every Vim command you type is grouped and explained in plain English as animated chips (e.g. `dw` → "delete word").
+- **Progress Tracking:** Collapsible category groups with animated progress bars and per-category completion counts, persisted across sessions.
+- **URL-Based State:** The active level is stored in the URL (`?levelId=...`) so levels are shareable and bookmarkable.
+- **Custom Vim Commands:** `:e` resets the level, `:e N` jumps to level N, `:q`/`:wq`/`:qa` trigger a CRT power-off animation, and `gc` works as a comment operator.
+- **Vim Emulation:** Powered by `@replit/codemirror-vim` for accurate Vim behaviour, with mobile keystroke support and mouse selection disabled to enforce Vim-style navigation.
 
 ### Tech Stack
 
