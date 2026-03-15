@@ -39,16 +39,32 @@ pnpm --filter vimsplain typecheck
 - **State:** Zustand and nuqs for url param state management
 - **Network:** Supabase RPC-first + Zod validation (see [Network Layer](.agent/conventions/network-layer.md))
 
-## Releasing vimsplain
+## Working on vimsplain
 
-Changesets manages versioning and npm publishing via GitHub Actions.
+`packages/vimsplain/` is a **published npm package**. Changes to it require a branch + PR workflow — never commit vimsplain changes directly to `main`.
 
-1. After changing `packages/vimsplain/`, run `pnpm changeset` — select `vimsplain`, pick bump type, write summary
-2. Commit the generated `.changeset/*.md` file with your code changes
-3. Merge PR to `main` → Changesets bot opens a "Version Packages" PR
-4. Merge that PR → GitHub Actions publishes to npm automatically (OIDC, no tokens needed)
+### Required workflow for any change to packages/vimsplain/
 
-See `packages/vimsplain/README.md` for full details.
+1. **Branch from main** — never commit vimsplain changes directly to `main`
+2. Make your changes
+3. **Run `pnpm changeset`** — select `vimsplain`, pick bump type (`patch` / `minor` / `major`), write a one-line summary. Commit the generated `.changeset/*.md` file alongside your code
+4. **Open a PR** — the Changesets bot will comment showing the pending version bump
+5. **Do NOT run `pnpm changeset version` locally** — that consumes the changeset and bypasses the automated flow
+6. Merge the PR to `main`
+7. The Changesets bot automatically opens a **"Version Packages" PR** — the human reviews and merges this when ready to release
+8. Merging that PR triggers GitHub Actions to publish to npm automatically
+
+### vimsplain commands
+
+```bash
+pnpm --filter vimsplain test:run       # Run tests
+pnpm --filter vimsplain test:coverage  # Run tests with coverage (must stay ≥90% lines)
+pnpm --filter vimsplain build          # Build (tsdown → dist/)
+pnpm --filter vimsplain typecheck      # Type check
+pnpm changeset                         # Create a changeset for a vimsplain release
+```
+
+See `packages/vimsplain/README.md` and `docs/plans/PUBLISHING.md` for full details.
 
 ## Conventions
 
