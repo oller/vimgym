@@ -845,6 +845,204 @@ describe("vimsplain", () => {
         expect(result.commands[0].explanation).toBe("select around tag");
       });
     });
+
+    describe("visual mode operators", () => {
+      describe("v (char visual) + operator", () => {
+        it("explains vd as enter visual mode, delete selection", () => {
+          const result = explainSequence("vd");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("delete selection");
+        });
+
+        it("explains vD as enter visual mode, delete selection", () => {
+          const result = explainSequence("vD");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("delete selection");
+        });
+
+        it("explains vc as enter visual mode, change selection", () => {
+          const result = explainSequence("vc");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("change selection");
+        });
+
+        it("explains vc[Esc] as: enter visual mode, change selection, exit insert mode (verifies insert mode transition)", () => {
+          const result = explainSequence(`vc${SPECIAL_KEYS.ESCAPE}`);
+          expect(result.commands).toHaveLength(3);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("change selection");
+          expect(result.commands[2].explanation).toBe("exit insert mode");
+        });
+
+        it("explains vy as enter visual mode, yank selection", () => {
+          const result = explainSequence("vy");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("yank selection");
+        });
+
+        it("explains vx as enter visual mode, delete selection", () => {
+          const result = explainSequence("vx");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("delete selection");
+        });
+
+        it("explains v~ as enter visual mode, toggle case of selection", () => {
+          const result = explainSequence("v~");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe(
+            "toggle case of selection",
+          );
+        });
+
+        it("explains v> as enter visual mode, indent selection", () => {
+          const result = explainSequence("v>");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("indent selection");
+        });
+
+        it("explains v< as enter visual mode, dedent selection", () => {
+          const result = explainSequence("v<");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("dedent selection");
+        });
+
+        it("explains v= as enter visual mode, auto-indent selection", () => {
+          const result = explainSequence("v=");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("auto-indent selection");
+        });
+
+        it("explains vJ as enter visual mode, join selection", () => {
+          const result = explainSequence("vJ");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("join selection");
+        });
+
+        it("explains vp as enter visual mode, paste over selection", () => {
+          const result = explainSequence("vp");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("paste over selection");
+        });
+
+        it("explains vgc as enter visual mode, toggle comment selection (existing behavior preserved)", () => {
+          const result = explainSequence("vgc");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe(
+            "toggle comment selection",
+          );
+        });
+
+        it("explains vgu as enter visual mode, lowercase selection", () => {
+          const result = explainSequence("vgu");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("lowercase selection");
+        });
+
+        it("explains vgU as enter visual mode, uppercase selection", () => {
+          const result = explainSequence("vgU");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("uppercase selection");
+        });
+      });
+
+      describe("V (line visual) + operator", () => {
+        it("explains Vd as enter visual line mode, delete selection", () => {
+          const result = explainSequence("Vd");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual line mode");
+          expect(result.commands[1].explanation).toBe("delete selection");
+        });
+
+        it("explains VD as enter visual line mode, delete selection", () => {
+          const result = explainSequence("VD");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual line mode");
+          expect(result.commands[1].explanation).toBe("delete selection");
+        });
+
+        it("explains Vc as enter visual line mode, change selection", () => {
+          const result = explainSequence("Vc");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual line mode");
+          expect(result.commands[1].explanation).toBe("change selection");
+        });
+
+        it("explains Vy as enter visual line mode, yank selection", () => {
+          const result = explainSequence("Vy");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual line mode");
+          expect(result.commands[1].explanation).toBe("yank selection");
+        });
+
+        it("explains Vgc as enter visual line mode, toggle comment selection (existing behavior preserved)", () => {
+          const result = explainSequence("Vgc");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual line mode");
+          expect(result.commands[1].explanation).toBe(
+            "toggle comment selection",
+          );
+        });
+      });
+
+      describe("motions extend the selection before operator", () => {
+        it("explains vjd as: enter visual mode, move line down, delete selection", () => {
+          const result = explainSequence("vjd");
+          expect(result.commands).toHaveLength(3);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("move line down");
+          expect(result.commands[2].explanation).toBe("delete selection");
+        });
+
+        it("explains Vjd as: enter visual line mode, move line down, delete selection", () => {
+          const result = explainSequence("Vjd");
+          expect(result.commands).toHaveLength(3);
+          expect(result.commands[0].explanation).toBe("enter visual line mode");
+          expect(result.commands[1].explanation).toBe("move line down");
+          expect(result.commands[2].explanation).toBe("delete selection");
+        });
+
+        it("explains v3wd as: enter visual mode, move 3 words forward, delete selection", () => {
+          const result = explainSequence("v3wd");
+          expect(result.commands).toHaveLength(3);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("move 3 words forward");
+          expect(result.commands[2].explanation).toBe("delete selection");
+        });
+      });
+
+      describe("Esc exits visual mode", () => {
+        it("explains v[Esc] as enter visual mode, return to normal mode", () => {
+          const result = explainSequence(`v${SPECIAL_KEYS.ESCAPE}`);
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("return to normal mode");
+        });
+
+        it("explains v[Esc]d as: enter visual mode, return to normal mode, delete char under cursor", () => {
+          const result = explainSequence(`v${SPECIAL_KEYS.ESCAPE}d`);
+          expect(result.commands).toHaveLength(3);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("return to normal mode");
+          expect(result.commands[2].explanation).toBe(
+            "delete char under cursor",
+          );
+        });
+      });
+    });
   });
 
   describe("expanded command coverage", () => {
