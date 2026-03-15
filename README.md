@@ -13,7 +13,7 @@ A pnpm monorepo containing two projects:
 
 | Package | Description |
 |---------|-------------|
-| `/` | **VimGym app** — interactive Vim training game (Vite + React, private) |
+| `/` | **VimGym app** — Interactive Vim training game  |
 | [`packages/vimsplain`](./packages/vimsplain/README.md) | **vimsplain** — npm package for parsing and explaining Vim keystrokes (MIT, published) |
 
 ---
