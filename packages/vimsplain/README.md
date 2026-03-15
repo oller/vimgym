@@ -1,5 +1,10 @@
 # vimsplain
 
+[![npm version](https://img.shields.io/npm/v/vimsplain)](https://www.npmjs.com/package/vimsplain)
+[![npm downloads](https://img.shields.io/npm/dm/vimsplain)](https://www.npmjs.com/package/vimsplain)
+[![CI](https://github.com/oller/vimgym/actions/workflows/ci.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/vimsplain)](https://github.com/oller/vimgym/blob/main/packages/vimsplain/README.md#license)
+
 Parse and explain Vim keystroke sequences.
 
 ```ts
