@@ -337,6 +337,7 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `\.` | repeat last change |
 | `v` | enter visual mode |
 | `V` | enter visual line mode |
+| `[C-v]` | enter visual block mode |
 | `m(.)` | set mark  |
 | `'(.)` | go to mark  |
 | ``(.)` | go to mark  |
@@ -404,6 +405,7 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `[Down]` | move down |
 | `[Left]` | move left |
 | `[Right]` | move right |
+| `d` | delete char under cursor |
 
 <!-- COMMANDS_TABLE_END -->
 
