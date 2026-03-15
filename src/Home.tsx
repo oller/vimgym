@@ -3,6 +3,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 
 import { CrtEffect } from "./components/CrtEffect";
 import { GoalDisplay } from "./components/GoalDisplay/GoalDisplay";
+import { GitHubIcon } from "./components/icons/GitHubIcon";
 import { Logo } from "./components/Logo/Logo";
 import { MotionLog } from "./components/MotionLog/MotionLog";
 import { LEVELS } from "./data/levels";
@@ -85,13 +86,24 @@ const Home = () => {
 
         <header className="mb-2 md:mb-4 flex justify-between items-center border-b border-gray-800 pb-2 md:pb-4">
           <Logo />
-          <button
-            className="cursor-pointer p-2 text-xs text-gray-400 hover:text-tokyo-night-pink transition-colors font-roboto-mono uppercase tracking-wider relative before:absolute before:-inset-2 before:content-['']"
-            onClick={() => setIsAboutOpen(true)}
-            type="button"
-          >
-            About
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              className="cursor-pointer p-2 text-xs text-gray-400 hover:text-tokyo-night-pink transition-colors font-roboto-mono uppercase tracking-wider relative before:absolute before:-inset-2 before:content-['']"
+              onClick={() => setIsAboutOpen(true)}
+              type="button"
+            >
+              About
+            </button>
+            <a
+              aria-label="GitHub repository"
+              className="p-2 text-gray-400 hover:text-tokyo-night-pink transition-colors"
+              href="https://github.com/oller/vimgym"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <GitHubIcon className="w-4 h-4" />
+            </a>
+          </div>
         </header>
 
         <motion.main
