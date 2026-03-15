@@ -13,7 +13,7 @@ export const MotionLogInfoModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <h2 className="text-xl font-roboto-mono text-white mb-4">
-        About the Motion Log
+        The Motion Log
       </h2>
       <div className="space-y-4 text-gray-300">
         <p>

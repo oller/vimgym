@@ -337,6 +337,7 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `\.` | repeat last change |
 | `v` | enter visual mode |
 | `V` | enter visual line mode |
+| `[C-v]` | enter visual block mode |
 | `m(.)` | set mark  |
 | `'(.)` | go to mark  |
 | ``(.)` | go to mark  |
@@ -404,6 +405,7 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `[Down]` | move down |
 | `[Left]` | move left |
 | `[Right]` | move right |
+| `d` | delete char under cursor |
 
 <!-- COMMANDS_TABLE_END -->
 
@@ -414,6 +416,14 @@ Issues and PRs welcome. The command definitions live in `src/vimsplain.ts` as a 
 ```ts
 { pattern: /^gf/, description: "go to file under cursor", isMotion: false }
 ```
+
+After adding, removing, or renaming entries in `NORMAL_COMMANDS`, regenerate the Supported Commands table above:
+
+```bash
+pnpm gen:commands
+```
+
+This rewrites the table between the `<!-- COMMANDS_TABLE_START -->` / `<!-- COMMANDS_TABLE_END -->` markers. Context-aware behavior added via separate maps (e.g. visual mode operators) is not captured by the script — document those manually.
 
 ## Publishing a new version
 

@@ -27,6 +27,36 @@ const INSERT_MODE_TRIGGERS = new Set([
   "R", // enter replace mode
 ]);
 
+/** Visual mode operators that act on the selection */
+const VISUAL_OPERATORS: Record<string, string> = {
+  d: "delete selection",
+  D: "delete selection",
+  c: "change selection",
+  C: "change selection",
+  y: "yank selection",
+  Y: "yank selection",
+  x: "delete selection",
+  X: "delete selection",
+  s: "change selection",
+  S: "change selection",
+  "~": "toggle case of selection",
+  ">": "indent selection",
+  "<": "dedent selection",
+  "=": "auto-indent selection",
+  J: "join selection",
+  p: "paste over selection",
+  P: "paste over selection",
+};
+
+/** Visual mode g-prefixed operators */
+const VISUAL_G_OPERATORS: Record<string, string> = {
+  c: "toggle comment selection",
+  u: "lowercase selection",
+  U: "uppercase selection",
+  "~": "toggle case of selection",
+  q: "format selection",
+};
+
 /**
  * Command definitions for normal mode.
  * Order matters - more specific patterns should come first.
@@ -411,6 +441,11 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
   // --- Visual mode ---
   { pattern: /^v/, description: "enter visual mode", isMotion: false },
   { pattern: /^V/, description: "enter visual line mode", isMotion: false },
+  {
+    pattern: /^\[C-v\]/,
+    description: "enter visual block mode",
+    isMotion: false,
+  },
 
   // --- Marks ---
   { pattern: /^m(.)/, description: "set mark '$1'", isMotion: false },
@@ -598,6 +633,9 @@ const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^\[Down\]/, description: "move down", isMotion: true },
   { pattern: /^\[Left\]/, description: "move left", isMotion: true },
   { pattern: /^\[Right\]/, description: "move right", isMotion: true },
+
+  // Fallback: bare operator keys (when no motion follows)
+  { pattern: /^d/, description: "delete char under cursor", isMotion: false },
 ];
 
 /**
@@ -692,6 +730,7 @@ export function explainSequence(input: string): ExplainResult {
   let searchBuffer = "";
   let inExMode = false;
   let exBuffer = "";
+  let inVisualMode = false;
 
   while (remaining.length > 0) {
     // Check for [Esc] to exit insert mode
@@ -870,6 +909,54 @@ export function explainSequence(input: string): ExplainResult {
       continue;
     }
 
+    // In visual mode: check for operators or Esc
+    if (inVisualMode) {
+      // Esc exits visual mode
+      if (remaining.startsWith(SPECIAL_KEYS.ESCAPE)) {
+        commands.push({
+          matched: SPECIAL_KEYS.ESCAPE,
+          explanation: "return to normal mode",
+        });
+        remaining = remaining.slice(SPECIAL_KEYS.ESCAPE.length);
+        inVisualMode = false;
+        continue;
+      }
+
+      // g-prefixed visual operators (gc, gu, gU, g~, gq)
+      if (remaining[0] === "g" && remaining.length > 1) {
+        const nextChar = remaining[1];
+        if (nextChar in VISUAL_G_OPERATORS) {
+          const op = `g${nextChar}`;
+          commands.push({
+            matched: op,
+            explanation: VISUAL_G_OPERATORS[nextChar],
+          });
+          remaining = remaining.slice(op.length);
+          inVisualMode = false;
+          continue;
+        }
+      }
+
+      // Single-char visual operators
+      if (remaining[0] in VISUAL_OPERATORS) {
+        const op = remaining[0];
+        const isChangeOp = op === "c" || op === "C" || op === "s" || op === "S";
+        commands.push({
+          matched: op,
+          explanation: VISUAL_OPERATORS[op],
+        });
+        remaining = remaining.slice(1);
+        inVisualMode = false;
+        if (isChangeOp) {
+          inInsertMode = true;
+        }
+        continue;
+      }
+
+      // Not an operator — parse as a motion (extends the selection)
+      // Fall through to parseCommand below
+    }
+
     // Parse normal mode command
     const result = parseCommand(remaining);
     if (result.command) {
@@ -883,6 +970,11 @@ export function explainSequence(input: string): ExplainResult {
         matched === "s"
       ) {
         inInsertMode = true;
+      }
+
+      // Check if this command enters visual mode
+      if (matched === "v" || matched === "V" || matched === "[C-v]") {
+        inVisualMode = true;
       }
     }
     remaining = result.remaining;
