@@ -67,7 +67,7 @@ pnpm changeset                         # Create a changeset for a vimsplain rele
 
 > **When to run `gen:commands`:** Any time you add, remove, or rename an entry in `NORMAL_COMMANDS` in `src/vimsplain.ts`, run this script and commit the updated `README.md` alongside your code changes. The script reads `NORMAL_COMMANDS` and rewrites the table between the `<!-- COMMANDS_TABLE_START -->` / `<!-- COMMANDS_TABLE_END -->` markers. It does **not** capture context-aware behavior added via separate maps (e.g. `VISUAL_OPERATORS`) — document those manually in the README if needed.
 
-See `packages/vimsplain/README.md` and `docs/plans/PUBLISHING.md` for full details.
+See `packages/vimsplain/README.md` for full details.
 
 ## Conventions
 
