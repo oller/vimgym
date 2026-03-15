@@ -27,7 +27,8 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          registry-url: "https://registry.npmjs.org"
+          # No registry-url here — it would inject NODE_AUTH_TOKEN into .npmrc
+          # which conflicts with OIDC trusted publishing token exchange.
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
