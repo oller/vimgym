@@ -28,8 +28,8 @@ jobs:
       - name: Typecheck vimsplain
         run: pnpm --filter vimsplain typecheck
 
-      - name: Test vimsplain
-        run: pnpm --filter vimsplain test:run
+      - name: Test vimsplain with coverage
+        run: pnpm --filter vimsplain test:coverage
 
       - name: Build vimsplain
         run: pnpm --filter vimsplain build
