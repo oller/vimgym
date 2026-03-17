@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.1.5
+
+### Patch Changes
+
+- [#11](https://github.com/oller/vimgym/pull/11) [`49727f8`](https://github.com/oller/vimgym/commit/49727f857ca80a60c40ffa19425433088ca74cd0) Thanks [@oller](https://github.com/oller)! - optimize contents of bundled package, now minified
+
 ## 0.1.4
 
 ### Patch Changes
