@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.1.7
+
+### Patch Changes
+
+- [#15](https://github.com/oller/vimgym/pull/15) [`553c90d`](https://github.com/oller/vimgym/commit/553c90d3ec490d34e169a56e871881d838468d9a) Thanks [@oller](https://github.com/oller)! - docs: remove unused MODIFIER_KEY_MAP import from README
+
 ## 0.1.6
 
 ### Patch Changes
