@@ -73,7 +73,7 @@ pnpm dev       # Start development server
 
 ## vimsplain
 
-Parse and explain Vim keystroke sequences. Available as a standalone npm package.
+Parse and explain Vim keystroke sequences. Available as a standalone [npm package](https://www.npmjs.com/package/vimsplain).
 
 ```ts
 import { explainSequence, summarizeSequence } from "vimsplain";
