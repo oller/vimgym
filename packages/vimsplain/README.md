@@ -131,7 +131,7 @@ type CommandDefinition = {
 ## Constants
 
 ```ts
-import { SPECIAL_KEYS, MODIFIER_KEY_MAP } from "vimsplain";
+import { SPECIAL_KEYS } from "vimsplain";
 
 SPECIAL_KEYS.ESCAPE      // "[Esc]"
 SPECIAL_KEYS.ENTER       // "[Enter]"
