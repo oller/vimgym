@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.1.4
+
+### Patch Changes
+
+- [#9](https://github.com/oller/vimgym/pull/9) [`7bafa31`](https://github.com/oller/vimgym/commit/7bafa3110e3ba7cb158f45418984be8ac85f6b62) Thanks [@oller](https://github.com/oller)! - docs(vimsplain): optimize README intro and add richer examples
+
 ## 0.1.3
 
 ### Patch Changes
