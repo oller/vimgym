@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.1.6
+
+### Patch Changes
+
+- [#13](https://github.com/oller/vimgym/pull/13) [`3c3792d`](https://github.com/oller/vimgym/commit/3c3792d19b09431454251cf4ce5010bbf0ac2dff) Thanks [@oller](https://github.com/oller)! - fix: handle nested quotes in command descriptions for README generation
+
 ## 0.1.5
 
 ### Patch Changes
