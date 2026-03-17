@@ -29,13 +29,13 @@ const block = normalCommandsMatch[0];
 const entries: Array<{ keystroke: string; description: string }> = [];
 const entriesRaw = [
   ...block.matchAll(
-    /\{[^}]*pattern:\s*\/\^?([^/]+)\/[^}]*description:\s*['"]([^'"]+)['"]/gs,
+    /\{[^}]*pattern:\s*\/\^?([^/]+)\/[^}]*description:\s*(["'])(.*?)\2/gs,
   ),
 ];
 
 for (const match of entriesRaw) {
   const rawPattern = match[1];
-  const description = match[2];
+  const description = match[3];
 
   // Clean up the pattern for display
   let keystroke = rawPattern

@@ -160,10 +160,10 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `"\+yy` | yank line to system clipboard |
 | `"\+p` | paste from system clipboard after cursor |
 | `"\+P` | paste from system clipboard before cursor |
-| `"(a)yy` | yank line into register  |
-| `"(a)dd` | delete line into register  |
-| `"(a)p` | paste from register  |
-| `"(a)P` | paste from register  |
+| `"(a)yy` | yank line into register '$1' |
+| `"(a)dd` | delete line into register '$1' |
+| `"(a)p` | paste from register '$1' after cursor |
+| `"(a)P` | paste from register '$1' before cursor |
 | `d$` | delete to end of line |
 | `d0` | delete to start of line |
 | `d^` | delete to first non-blank |
@@ -174,10 +174,10 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `dNe` | delete to end of $1 word(s) |
 | `dNj` | delete $1 line(s) down |
 | `dNk` | delete $1 line(s) up |
-| `df(.)` | delete through  |
-| `dF(.)` | delete back through  |
-| `dt(.)` | delete till  |
-| `dT(.)` | delete back till  |
+| `df(.)` | delete through '$1' |
+| `dF(.)` | delete back through '$1' |
+| `dt(.)` | delete till '$1' |
+| `dT(.)` | delete back till '$1' |
 | `dd` | delete line |
 | `Ndd` | delete $1 lines |
 | `D` | delete to end of line |
@@ -187,10 +187,10 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `cNw` | change $1 word(s) forward |
 | `cNb` | change $1 word(s) backward |
 | `cNe` | change to end of $1 word(s) |
-| `cf(.)` | change through  |
-| `cF(.)` | change back through  |
-| `ct(.)` | change till  |
-| `cT(.)` | change back till  |
+| `cf(.)` | change through '$1' |
+| `cF(.)` | change back through '$1' |
+| `ct(.)` | change till '$1' |
+| `cT(.)` | change back till '$1' |
 | `cc` | change entire line |
 | `C` | change to end of line |
 | `S` | substitute entire line |
@@ -199,19 +199,19 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `y0` | yank to start of line |
 | `y^` | yank to first non-blank |
 | `yNw` | yank $1 word(s) forward |
-| `yf(.)` | yank through  |
-| `yF(.)` | yank back through  |
-| `yt(.)` | yank till  |
-| `yT(.)` | yank back till  |
+| `yf(.)` | yank through '$1' |
+| `yF(.)` | yank back through '$1' |
+| `yt(.)` | yank till '$1' |
+| `yT(.)` | yank back till '$1' |
 | `yy` | yank line |
 | `Y` | yank line |
 | `Nyy` | yank $1 lines |
 | `ciw` | change inner word |
 | `caw` | change a word (with space) |
-| `ci"` | change inside  |
-| `ca"` | change around  |
-| `ci'` | change inside  |
-| `ca'` | change around  |
+| `ci"` | change inside "" |
+| `ca"` | change around "" |
+| `ci'` | change inside '' |
+| `ca'` | change around '' |
 | `ci(` | change inside () |
 | `ci)` | change inside () |
 | `ca(` | change around () |
@@ -228,10 +228,10 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `cat` | change around tag |
 | `diw` | delete inner word |
 | `daw` | delete a word (with space) |
-| `di"` | delete inside  |
-| `da"` | delete around  |
-| `di'` | delete inside  |
-| `da'` | delete around  |
+| `di"` | delete inside "" |
+| `da"` | delete around "" |
+| `di'` | delete inside '' |
+| `da'` | delete around '' |
 | `di(` | delete inside () |
 | `di)` | delete inside () |
 | `da(` | delete around () |
@@ -248,20 +248,20 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `dat` | delete around tag |
 | `yiw` | yank inner word |
 | `yaw` | yank a word (with space) |
-| `yi"` | yank inside  |
-| `ya"` | yank around  |
-| `yi'` | yank inside  |
-| `ya'` | yank around  |
+| `yi"` | yank inside "" |
+| `ya"` | yank around "" |
+| `yi'` | yank inside '' |
+| `ya'` | yank around '' |
 | `yi(` | yank inside () |
 | `yi)` | yank inside () |
 | `ya(` | yank around () |
 | `ya)` | yank around () |
 | `viw` | select inner word |
 | `vaw` | select a word (with space) |
-| `vi"` | select inside  |
-| `va"` | select around  |
-| `vi'` | select inside  |
-| `va'` | select around  |
+| `vi"` | select inside "" |
+| `va"` | select around "" |
+| `vi'` | select inside '' |
+| `va'` | select around '' |
 | `vi(` | select inside () |
 | `va(` | select around () |
 | `vi)` | select inside () |
@@ -300,10 +300,10 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `ya`` | yank around `` |
 | `vi`` | select inside `` |
 | `va`` | select around `` |
-| `f(.)` | find  |
-| `F(.)` | find  |
-| `t(.)` | till  |
-| `T(.)` | till  |
+| `f(.)` | find '$1' forward |
+| `F(.)` | find '$1' backward |
+| `t(.)` | till '$1' forward |
+| `T(.)` | till '$1' backward |
 | `;` | repeat last f/t/F/T |
 | `,` | repeat last f/t/F/T reverse |
 | `Nw` | move $1 words forward |
@@ -349,7 +349,7 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `Nx` | delete $1 chars |
 | `x` | delete char under cursor |
 | `X` | delete char before cursor |
-| `r(.)` | replace with  |
+| `r(.)` | replace with '$1' |
 | `R` | enter replace mode |
 | `~` | toggle case |
 | `J` | join lines |
@@ -363,13 +363,13 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `v` | enter visual mode |
 | `V` | enter visual line mode |
 | `[C-v]` | enter visual block mode |
-| `m(.)` | set mark  |
-| `'(.)` | go to mark  |
-| ``(.)` | go to mark  |
-| `q(a)` | start recording macro  |
+| `m(.)` | set mark '$1' |
+| `'(.)` | go to mark '$1' (line) |
+| ``(.)` | go to mark '$1' (exact) |
+| `q(a)` | start recording macro '$1' |
 | `q` | stop recording macro |
 | `@@` | replay last macro |
-| `@(a)` | play macro  |
+| `@(a)` | play macro '$1' |
 | `n` | next search match |
 | `N` | previous search match |
 | `\*` | search word under cursor forward |
