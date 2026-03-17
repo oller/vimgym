@@ -5,7 +5,9 @@
 [![CI](https://github.com/oller/vimgym/actions/workflows/ci.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/vimsplain)](https://github.com/oller/vimgym/blob/main/packages/vimsplain/README.md#license)
 
-A lightweight TypeScript parser and interpreter for Vim keystroke sequences. Translates raw Vim commands—including basic motions, text objects, visual mode, search, and insert modes—into structured explanations, sequential command objects, or human-readable summaries. Perfect for building interactive learning tools, editor plugins, or keyboard shortcut analyzers.
+A TypeScript parser and interpreter for Vim keystroke sequences. Translates raw Vim commands including basic motions, text objects, visual mode, search, and insert modes — into structured explanations or human-readable summaries. Perfect for building interactive learning tools, editor plugins, or keyboard shortcut analyzers.
+
+Used to power the "Motion Log" feature of [VimGym](https://vim-gym.netlify.app/) - an interactive Vim training game.
 
 ```ts
 import { explainSequence, summarizeSequence } from "vimsplain";
