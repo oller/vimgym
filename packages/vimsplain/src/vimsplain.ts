@@ -13,7 +13,7 @@ import type {
 import { SPECIAL_KEYS } from "./vimsplain.types.js";
 
 /** Commands that enter insert mode */
-const INSERT_MODE_TRIGGERS = new Set([
+export const INSERT_MODE_TRIGGERS = new Set([
   "i", // insert before cursor
   "I", // insert at beginning of line
   "a", // append after cursor
@@ -28,7 +28,7 @@ const INSERT_MODE_TRIGGERS = new Set([
 ]);
 
 /** Visual mode operators that act on the selection */
-const VISUAL_OPERATORS: Record<string, string> = {
+export const VISUAL_OPERATORS: Record<string, string> = {
   d: "delete selection",
   D: "delete selection",
   c: "change selection",
@@ -49,7 +49,7 @@ const VISUAL_OPERATORS: Record<string, string> = {
 };
 
 /** Visual mode g-prefixed operators */
-const VISUAL_G_OPERATORS: Record<string, string> = {
+export const VISUAL_G_OPERATORS: Record<string, string> = {
   c: "toggle comment selection",
   u: "lowercase selection",
   U: "uppercase selection",
@@ -61,7 +61,7 @@ const VISUAL_G_OPERATORS: Record<string, string> = {
  * Command definitions for normal mode.
  * Order matters - more specific patterns should come first.
  */
-const NORMAL_COMMANDS: CommandDefinition[] = [
+export const NORMAL_COMMANDS: CommandDefinition[] = [
   // --- Space motion (same as l - move char right) ---
   { pattern: /^(\d+) /, description: "move $1 chars right", isMotion: true },
   { pattern: /^ /, description: "move char right", isMotion: true },
