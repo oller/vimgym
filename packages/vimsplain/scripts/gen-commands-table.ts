@@ -7,9 +7,9 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-// Read the vimsplain source
+// Read the normal handler source
 const src = readFileSync(
-  join(import.meta.dirname, "../src/vimsplain.ts"),
+  join(import.meta.dirname, "../src/handlers/normal.ts"),
   "utf8",
 );
 

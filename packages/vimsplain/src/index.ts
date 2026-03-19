@@ -10,6 +10,8 @@ export type {
   CommandDefinition,
   ExplainedCommand,
   ExplainResult,
+  ParsingContext,
+  VimMode,
 } from "./vimsplain.types.js";
 
 // Constants (used by consumers like keyboard.ts)
