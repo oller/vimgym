@@ -650,7 +650,7 @@ function parseCommand(input: string): {
   };
 }
 
-export function handleNormalMode(context: ParsingContext): ParsingContext {
+export function handleNormalMode(context: ParsingContext): void {
   // Only handle Normal and Visual modes
   /* v8 ignore start */
   if (
@@ -659,18 +659,38 @@ export function handleNormalMode(context: ParsingContext): ParsingContext {
     context.activeMode !== "VisualLine" &&
     context.activeMode !== "VisualBlock"
   ) {
-    return context;
+    return;
   }
   /* v8 ignore stop */
+
+  // Check for ex command start
+  if (context.activeMode === "Normal" && context.remaining[0] === ":") {
+    context.activeMode = "Command";
+    context.remaining = context.remaining.slice(1);
+    context.exBuffer = "";
+    return;
+  }
+
+  // Check for search start
+  if (
+    context.activeMode === "Normal" &&
+    (context.remaining[0] === "/" || context.remaining[0] === "?")
+  ) {
+    context.activeMode = "Search";
+    context.searchDirection = context.remaining[0] as "/" | "?";
+    context.searchBuffer = "";
+    context.remaining = context.remaining.slice(1);
+    return;
+  }
 
   const result = parseCommand(context.remaining);
   /* v8 ignore start */
   if (!result.command) {
-    return context;
+    return;
   }
   /* v8 ignore stop */
 
-  const newCommands = [...context.commands, result.command];
+  context.commands.push(result.command);
   const matched = result.command.matched;
 
   // Check if this command enters insert mode
@@ -679,12 +699,10 @@ export function handleNormalMode(context: ParsingContext): ParsingContext {
     matched.startsWith("c") || // cw, ciw, ct, etc.
     matched === "s"
   ) {
-    return {
-      activeMode: "Insert",
-      remaining: result.remaining,
-      commands: newCommands,
-      insertBuffer: "",
-    };
+    context.activeMode = "Insert";
+    context.remaining = result.remaining;
+    context.insertBuffer = "";
+    return;
   }
 
   // Check if this command enters visual mode
@@ -693,16 +711,10 @@ export function handleNormalMode(context: ParsingContext): ParsingContext {
     if (matched === "V") mode = "VisualLine";
     if (matched === "[C-v]") mode = "VisualBlock";
 
-    return {
-      activeMode: mode,
-      remaining: result.remaining,
-      commands: newCommands,
-    };
+    context.activeMode = mode;
+    context.remaining = result.remaining;
+    return;
   }
 
-  return {
-    ...context,
-    remaining: result.remaining,
-    commands: newCommands,
-  };
+  context.remaining = result.remaining;
 }

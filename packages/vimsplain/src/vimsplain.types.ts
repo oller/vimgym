@@ -31,21 +31,12 @@ export type VimMode =
 export type ParsingContext = {
   remaining: string;
   commands: ExplainedCommand[];
-} & (
-  | {
-      activeMode: Extract<
-        VimMode,
-        "Normal" | "Visual" | "VisualLine" | "VisualBlock"
-      >;
-    }
-  | { activeMode: Extract<VimMode, "Insert">; insertBuffer: string }
-  | { activeMode: Extract<VimMode, "Command">; exBuffer: string }
-  | {
-      activeMode: Extract<VimMode, "Search">;
-      searchBuffer: string;
-      searchDirection: "/" | "?";
-    }
-);
+  activeMode: VimMode;
+  insertBuffer: string;
+  exBuffer: string;
+  searchBuffer: string;
+  searchDirection: "/" | "?";
+};
 
 /** Command definition with pattern and description */
 export type CommandDefinition = {

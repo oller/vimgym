@@ -3,6 +3,8 @@ export {
   explainSequence,
   formatExplanation,
   summarizeSequence,
+  VISUAL_G_OPERATORS,
+  VISUAL_OPERATORS,
 } from "./vimsplain.js";
 
 // Types
