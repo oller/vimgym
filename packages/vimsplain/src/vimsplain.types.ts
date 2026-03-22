@@ -19,6 +19,25 @@ export type ExplainResult = {
   remaining: string;
 };
 
+export type VimMode =
+  | "Normal"
+  | "Insert"
+  | "Visual"
+  | "VisualLine"
+  | "VisualBlock"
+  | "Command" // Ex mode
+  | "Search";
+
+export type ParsingContext = {
+  remaining: string;
+  commands: ExplainedCommand[];
+  activeMode: VimMode;
+  insertBuffer: string;
+  exBuffer: string;
+  searchBuffer: string;
+  searchDirection: "/" | "?";
+};
+
 /** Command definition with pattern and description */
 export type CommandDefinition = {
   /** Regex pattern to match the command */
