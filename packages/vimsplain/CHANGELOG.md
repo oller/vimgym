@@ -1,5 +1,13 @@
 # vimsplain
 
+## 0.2.0
+
+### Minor Changes
+
+- [#17](https://github.com/oller/vimgym/pull/17) [`f4b2e73`](https://github.com/oller/vimgym/commit/f4b2e73640a13571df74e07a2466b397ed50f5e9) Thanks [@oller](https://github.com/oller)! - **Internal Architecture Refactor:** The core parser has been completely rewritten from a monolithic loop into a highly performant, isolated Mode-based Handler architecture (Normal, Visual, Insert, Search, Command).
+  **New Exports:** Added `VimMode` and `ParsingContext` types to the public API for developers who want to inspect or hook into the parser's internal state machine.
+  **Bulletproof Reliability:** The parser is now backed by extensive property-based fuzzing and headless CodeMirror integration testing to guarantee 100% accurate, regression-free explanations.
+
 ## 0.1.7
 
 ### Patch Changes
