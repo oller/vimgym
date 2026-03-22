@@ -71,14 +71,62 @@ const body = entries
 
 const table = header + body;
 
+// Read the visual handler source
+const visualSrc = readFileSync(
+  join(import.meta.dirname, "../src/handlers/visual.ts"),
+  "utf8",
+);
+
+const visualEntries: Array<{ keystroke: string; description: string }> = [];
+
+// Parse VISUAL_OPERATORS block
+const visualOpMatch = visualSrc.match(
+  /export const VISUAL_OPERATORS: Record<string, string> = \{([^}]+)\};/,
+);
+if (visualOpMatch) {
+  const block = visualOpMatch[1];
+  const entriesRaw = [
+    ...block.matchAll(/(["'])?([^"':\s]+)\1?:\s*(["'])(.+?)\3,/g),
+  ];
+  for (const match of entriesRaw) {
+    visualEntries.push({ keystroke: match[2], description: match[4] });
+  }
+}
+
+// Parse VISUAL_G_OPERATORS block
+const visualGOpMatch = visualSrc.match(
+  /export const VISUAL_G_OPERATORS: Record<string, string> = \{([^}]+)\};/,
+);
+if (visualGOpMatch) {
+  const block = visualGOpMatch[1];
+  const entriesRaw = [
+    ...block.matchAll(/(["'])?([^"':\s]+)\1?:\s*(["'])(.+?)\3,/g),
+  ];
+  for (const match of entriesRaw) {
+    visualEntries.push({ keystroke: `g${match[2]}`, description: match[4] });
+  }
+}
+
+const visualBody = visualEntries
+  .map((e) => `| \`${e.keystroke}\` | ${e.description} |`)
+  .join("\n");
+
+const visualTable = header + visualBody;
+
 // Inject into README between markers
 const readmePath = join(import.meta.dirname, "../README.md");
 const readme = readFileSync(readmePath, "utf8");
 // Use a function replacement to avoid special `$` replacement patterns in the table content
-const updated = readme.replace(
+let updated = readme.replace(
   /<!-- COMMANDS_TABLE_START -->[\s\S]*?<!-- COMMANDS_TABLE_END -->/,
   () =>
     `<!-- COMMANDS_TABLE_START -->\n\n${table}\n\n<!-- COMMANDS_TABLE_END -->`,
+);
+
+updated = updated.replace(
+  /<!-- VISUAL_COMMANDS_TABLE_START -->[\s\S]*?<!-- VISUAL_COMMANDS_TABLE_END -->/,
+  () =>
+    `<!-- VISUAL_COMMANDS_TABLE_START -->\n\n${visualTable}\n\n<!-- VISUAL_COMMANDS_TABLE_END -->`,
 );
 
 // Check that markers exist at all
@@ -89,5 +137,14 @@ if (!/<!-- COMMANDS_TABLE_START -->/.test(readme)) {
   process.exit(1);
 }
 
+if (!/<!-- VISUAL_COMMANDS_TABLE_START -->/.test(readme)) {
+  console.error(
+    "Could not find VISUAL_COMMANDS_TABLE markers in README.md. Make sure the markers are present.",
+  );
+  process.exit(1);
+}
+
 writeFileSync(readmePath, updated);
-console.log(`✓ Updated README.md with ${entries.length} commands.`);
+console.log(
+  `✓ Updated README.md with ${entries.length} normal commands and ${visualEntries.length} visual commands.`,
+);

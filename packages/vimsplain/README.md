@@ -62,10 +62,11 @@ pnpm add vimsplain
 
 Parses a Vim keystroke sequence and returns structured explanations for each command.
 
-Handles four parsing modes:
+Handles five parsing modes:
 
 - **Normal mode** — motions, operators, text objects
 - **Insert mode** — after `i`, `a`, `cw`, etc., accumulates typed text until `[Esc]`
+- **Visual mode** — after `v`, `V`, or `[C-v]`, supports visual selection operators
 - **Search mode** — after `/` or `?`, accumulates pattern until `[Enter]`
 - **Ex mode** — after `:`, accumulates command until `[Enter]`
 
@@ -434,21 +435,52 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 
 <!-- COMMANDS_TABLE_END -->
 
+### Visual Mode Operators
+
+<!-- VISUAL_COMMANDS_TABLE_START -->
+
+| Keystroke | Description |
+|-----------|-------------|
+| `d` | delete selection |
+| `D` | delete selection |
+| `c` | change selection |
+| `C` | change selection |
+| `y` | yank selection |
+| `Y` | yank selection |
+| `x` | delete selection |
+| `X` | delete selection |
+| `s` | change selection |
+| `S` | change selection |
+| `~` | toggle case of selection |
+| `>` | indent selection |
+| `<` | dedent selection |
+| `=` | auto-indent selection |
+| `J` | join selection |
+| `p` | paste over selection |
+| `P` | paste over selection |
+| `gc` | toggle comment selection |
+| `gu` | lowercase selection |
+| `gU` | uppercase selection |
+| `g~` | toggle case of selection |
+| `gq` | format selection |
+
+<!-- VISUAL_COMMANDS_TABLE_END -->
+
 ## Contributing
 
-Issues and PRs welcome. The command definitions live in `src/vimsplain.ts` as a `NORMAL_COMMANDS` array — adding new commands is a one-liner:
+Issues and PRs welcome. The command definitions live in `src/handlers/normal.ts` (as a `NORMAL_COMMANDS` array) and `src/handlers/visual.ts` (as `VISUAL_OPERATORS`). Adding new normal commands is a one-liner:
 
 ```ts
 { pattern: /^gf/, description: "go to file under cursor", isMotion: false }
 ```
 
-After adding, removing, or renaming entries in `NORMAL_COMMANDS`, regenerate the Supported Commands table above:
+After adding, removing, or renaming entries, regenerate the Supported Commands tables above:
 
 ```bash
 pnpm gen:commands
 ```
 
-This rewrites the table between the `<!-- COMMANDS_TABLE_START -->` / `<!-- COMMANDS_TABLE_END -->` markers. Context-aware behavior added via separate maps (e.g. visual mode operators) is not captured by the script — document those manually.
+This rewrites the tables between their respective `<!-- ..._TABLE_START -->` and `<!-- ..._TABLE_END -->` markers.
 
 ## Publishing a new version
 
