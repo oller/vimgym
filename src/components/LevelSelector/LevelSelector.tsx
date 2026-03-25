@@ -49,7 +49,7 @@ export const LevelSelector = () => {
     useState<Set<LevelCategory>>(loadCollapsedState);
 
   useEffect(() => {
-    if (currentCategory) {
+    if (currentLevel && currentCategory) {
       setCollapsedCategories((prev) => {
         if (prev.has(currentCategory)) {
           const next = new Set(prev);
