@@ -1398,5 +1398,157 @@ describe("vimsplain", () => {
         });
       });
     });
+
+    describe("counted change and insert mode transitions", () => {
+      it("explains 2cw and properly enters and exits insert mode", () => {
+        const result = explainSequence(`2cwhello${SPECIAL_KEYS.ESCAPE}`);
+        expect(result.commands).toEqual([
+          { matched: "2cw", explanation: "change 2 words forward" },
+          { matched: "hello", explanation: 'type "hello"' },
+          { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+        ]);
+      });
+
+      it("explains 3ciw and properly handles insert text", () => {
+        const result = explainSequence(`3ciwfoo${SPECIAL_KEYS.ESCAPE}`);
+        expect(result.commands).toEqual([
+          { matched: "3ciw", explanation: "change 3 inner words" },
+          { matched: "foo", explanation: 'type "foo"' },
+          { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+        ]);
+      });
+
+      it("explains 2cc (change lines) and enters insert mode", () => {
+        const result = explainSequence(`2ccnew line${SPECIAL_KEYS.ESCAPE}`);
+        expect(result.commands).toEqual([
+          { matched: "2cc", explanation: "change 2 lines" },
+          { matched: "new line", explanation: 'type "new line"' },
+          { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+        ]);
+      });
+
+      it("explains 2s (substitute chars) and enters insert mode", () => {
+        const result = explainSequence(`2sbar${SPECIAL_KEYS.ESCAPE}`);
+        expect(result.commands).toEqual([
+          {
+            matched: "2s",
+            explanation: "substitute 2 characters and enter insert mode",
+          },
+          { matched: "bar", explanation: 'type "bar"' },
+          { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+        ]);
+      });
+    });
+
+    describe("search and command mode cancellation and editing", () => {
+      it("cancels search with [Esc] and returns to normal mode", () => {
+        const result = explainSequence(`/test${SPECIAL_KEYS.ESCAPE}dd`);
+        expect(result.commands).toEqual([
+          { matched: SPECIAL_KEYS.ESCAPE, explanation: "cancel search" },
+          { matched: "dd", explanation: "delete line" },
+        ]);
+      });
+
+      it("cancels ex command with [Esc] and returns to normal mode", () => {
+        const result = explainSequence(`:w${SPECIAL_KEYS.ESCAPE}dd`);
+        expect(result.commands).toEqual([
+          { matched: SPECIAL_KEYS.ESCAPE, explanation: "cancel command" },
+          { matched: "dd", explanation: "delete line" },
+        ]);
+      });
+
+      it("handles [Backspace] in ex command mode", () => {
+        const result = explainSequence(
+          `:wq${SPECIAL_KEYS.BACKSPACE}${SPECIAL_KEYS.ENTER}`,
+        );
+        expect(result.commands).toEqual([
+          { matched: ":w", explanation: "write file" },
+        ]);
+      });
+    });
+
+    describe("scrolling and paging motions", () => {
+      it("explains half-page scroll down [C-d]", () => {
+        const result = explainSequence(SPECIAL_KEYS.CTRL_D);
+        expect(result.commands[0]).toEqual({
+          matched: "[C-d]",
+          explanation: "scroll down (half page)",
+        });
+      });
+
+      it("explains counted scroll down 5[C-d]", () => {
+        const result = explainSequence(`5${SPECIAL_KEYS.CTRL_D}`);
+        expect(result.commands[0]).toEqual({
+          matched: "5[C-d]",
+          explanation: "scroll down 5 lines",
+        });
+      });
+
+      it("explains half-page scroll up [C-u]", () => {
+        const result = explainSequence(SPECIAL_KEYS.CTRL_U);
+        expect(result.commands[0]).toEqual({
+          matched: "[C-u]",
+          explanation: "scroll up (half page)",
+        });
+      });
+
+      it("explains counted scroll up 4[C-u]", () => {
+        const result = explainSequence(`4${SPECIAL_KEYS.CTRL_U}`);
+        expect(result.commands[0]).toEqual({
+          matched: "4[C-u]",
+          explanation: "scroll up 4 lines",
+        });
+      });
+
+      it("explains full-page scroll forward [C-f]", () => {
+        const result = explainSequence(SPECIAL_KEYS.CTRL_F);
+        expect(result.commands[0]).toEqual({
+          matched: "[C-f]",
+          explanation: "scroll forward (full page)",
+        });
+      });
+
+      it("explains counted scroll forward 2[C-f]", () => {
+        const result = explainSequence(`2${SPECIAL_KEYS.CTRL_F}`);
+        expect(result.commands[0]).toEqual({
+          matched: "2[C-f]",
+          explanation: "scroll forward 2 pages",
+        });
+      });
+
+      it("explains full-page scroll backward [C-b]", () => {
+        const result = explainSequence(SPECIAL_KEYS.CTRL_B);
+        expect(result.commands[0]).toEqual({
+          matched: "[C-b]",
+          explanation: "scroll backward (full page)",
+        });
+      });
+
+      it("explains counted scroll backward 2[C-b]", () => {
+        const result = explainSequence(`2${SPECIAL_KEYS.CTRL_B}`);
+        expect(result.commands[0]).toEqual({
+          matched: "2[C-b]",
+          explanation: "scroll backward 2 pages",
+        });
+      });
+
+      it("explains line scrolling [C-e] and [C-y]", () => {
+        expect(explainSequence(SPECIAL_KEYS.CTRL_E).commands[0]).toEqual({
+          matched: "[C-e]",
+          explanation: "scroll window down one line",
+        });
+        expect(explainSequence(SPECIAL_KEYS.CTRL_Y).commands[0]).toEqual({
+          matched: "[C-y]",
+          explanation: "scroll window up one line",
+        });
+      });
+
+      it("explains [C-c] cancel", () => {
+        expect(explainSequence(SPECIAL_KEYS.CTRL_C).commands[0]).toEqual({
+          matched: "[C-c]",
+          explanation: "cancel / return to normal mode",
+        });
+      });
+    });
   });
 });

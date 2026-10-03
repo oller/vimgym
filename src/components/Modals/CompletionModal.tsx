@@ -24,7 +24,7 @@ export const CompletionModal = ({
   const levelStats = dashboard[currentLevel];
   const bestScore = levelStats?.user?.best;
   const isNewBest =
-    bestScore !== null && history.length > 0 && history.length < bestScore;
+    bestScore != null && history.length > 0 && history.length < bestScore;
 
   useEffect(() => {
     setShowConfetti(true);

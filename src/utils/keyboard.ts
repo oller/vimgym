@@ -11,6 +11,17 @@ const SPECIAL_KEY_DISPLAY_MAP = {
   "[Backspace]": "⌫",
   "[Delete]": "Del",
   "[C-r]": "Ctrl+R",
+  "[C-d]": "Ctrl+D",
+  "[C-u]": "Ctrl+U",
+  "[C-f]": "Ctrl+F",
+  "[C-b]": "Ctrl+B",
+  "[C-v]": "Ctrl+V",
+  "[C-w]": "Ctrl+W",
+  "[C-o]": "Ctrl+O",
+  "[C-i]": "Ctrl+I",
+  "[C-c]": "Ctrl+C",
+  "[C-e]": "Ctrl+E",
+  "[C-y]": "Ctrl+Y",
 } as const;
 
 /** Format a key sequence for display - replace spaces and specials with visible symbols */
@@ -79,6 +90,17 @@ const VIM_KEY_MAP: Record<string, string> = {
   "<Left>": SPECIAL_KEYS.ARROW_LEFT,
   "<Right>": SPECIAL_KEYS.ARROW_RIGHT,
   "<C-r>": SPECIAL_KEYS.CTRL_R,
+  "<C-d>": SPECIAL_KEYS.CTRL_D,
+  "<C-u>": SPECIAL_KEYS.CTRL_U,
+  "<C-f>": SPECIAL_KEYS.CTRL_F,
+  "<C-b>": SPECIAL_KEYS.CTRL_B,
+  "<C-v>": SPECIAL_KEYS.CTRL_V,
+  "<C-w>": SPECIAL_KEYS.CTRL_W,
+  "<C-o>": SPECIAL_KEYS.CTRL_O,
+  "<C-i>": SPECIAL_KEYS.CTRL_I,
+  "<C-c>": SPECIAL_KEYS.CTRL_C,
+  "<C-e>": SPECIAL_KEYS.CTRL_E,
+  "<C-y>": SPECIAL_KEYS.CTRL_Y,
 };
 
 /**

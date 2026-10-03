@@ -185,16 +185,23 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `c$` | change to end of line |
 | `c0` | change to start of line |
 | `c^` | change to first non-blank |
+| `Ncw` | change $1 words forward |
 | `cNw` | change $1 word(s) forward |
+| `Ncb` | change $1 words backward |
 | `cNb` | change $1 word(s) backward |
+| `Nce` | change to end of $1 words |
 | `cNe` | change to end of $1 word(s) |
 | `cf(.)` | change through '$1' |
 | `cF(.)` | change back through '$1' |
 | `ct(.)` | change till '$1' |
 | `cT(.)` | change back till '$1' |
+| `Ncc` | change $1 lines |
 | `cc` | change entire line |
+| `NC` | change $1 lines to end of line |
 | `C` | change to end of line |
+| `NS` | substitute $1 lines |
 | `S` | substitute entire line |
+| `Ns` | substitute $1 characters and enter insert mode |
 | `s` | substitute character and enter insert mode |
 | `y$` | yank to end of line |
 | `y0` | yank to start of line |
@@ -207,7 +214,9 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `yy` | yank line |
 | `Y` | yank line |
 | `Nyy` | yank $1 lines |
+| `Nciw` | change $1 inner words |
 | `ciw` | change inner word |
+| `Ncaw` | change $1 words (with space) |
 | `caw` | change a word (with space) |
 | `ci"` | change inside "" |
 | `ca"` | change around "" |
@@ -341,6 +350,17 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `}` | move paragraph forward |
 | `(` | move sentence backward |
 | `)` | move sentence forward |
+| `N[C-d]` | scroll down $1 lines |
+| `[C-d]` | scroll down (half page) |
+| `N[C-u]` | scroll up $1 lines |
+| `[C-u]` | scroll up (half page) |
+| `N[C-f]` | scroll forward $1 pages |
+| `[C-f]` | scroll forward (full page) |
+| `N[C-b]` | scroll backward $1 pages |
+| `[C-b]` | scroll backward (full page) |
+| `[C-e]` | scroll window down one line |
+| `[C-y]` | scroll window up one line |
+| `[C-c]` | cancel / return to normal mode |
 | `i` | insert before cursor |
 | `I` | insert at start of line |
 | `a` | append after cursor |

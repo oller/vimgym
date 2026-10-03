@@ -55,6 +55,7 @@ export async function submitCompletionAnalytics(
 
     // Invalidate React Query cache so UI updates
     queryClient.invalidateQueries({ queryKey: ["playerDashboard", userId] });
+    queryClient.invalidateQueries({ queryKey: ["level-distribution", level] });
   } catch (error) {
     // Silently fail - don't block the user experience
     logger.error("❌ Analytics submission error:", error);

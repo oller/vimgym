@@ -30,6 +30,18 @@ export function explainExCommand(cmd: string): string {
 }
 
 export function handleCommandMode(context: ParsingContext): void {
+  // Check for [Esc] to cancel ex command
+  if (context.remaining.startsWith(SPECIAL_KEYS.ESCAPE)) {
+    context.commands.push({
+      matched: SPECIAL_KEYS.ESCAPE,
+      explanation: "cancel command",
+    });
+    context.activeMode = "Normal";
+    context.exBuffer = "";
+    context.remaining = context.remaining.slice(SPECIAL_KEYS.ESCAPE.length);
+    return;
+  }
+
   // Check for [Enter] to complete ex command
   if (context.remaining.startsWith(SPECIAL_KEYS.ENTER)) {
     const explanation = explainExCommand(context.exBuffer);
@@ -39,6 +51,13 @@ export function handleCommandMode(context: ParsingContext): void {
     });
     context.activeMode = "Normal";
     context.remaining = context.remaining.slice(SPECIAL_KEYS.ENTER.length);
+    return;
+  }
+
+  // Check for [Backspace] in ex command mode
+  if (context.remaining.startsWith(SPECIAL_KEYS.BACKSPACE)) {
+    context.exBuffer = context.exBuffer.slice(0, -1);
+    context.remaining = context.remaining.slice(SPECIAL_KEYS.BACKSPACE.length);
     return;
   }
 
