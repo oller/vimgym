@@ -157,7 +157,7 @@ export const Sparkline = ({ data, className, onHover }: SparklineProps) => {
               <circle
                 cx={activePoint.x}
                 cy={activePoint.y}
-                fill="var(--color-tokyo-night-bg)"
+                fill="var(--color-tokyo-night)"
                 r="4"
                 stroke="var(--color-tokyo-night-lavender)"
                 strokeWidth="2"

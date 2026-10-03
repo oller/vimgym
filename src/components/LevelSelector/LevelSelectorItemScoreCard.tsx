@@ -42,49 +42,57 @@ export const LevelSelectorItemScoreCard = ({
 
   return (
     <div className="w-1/2">
-      <button
+      <div
         className={cn(
-          "w-full cursor-pointer text-left p-3 group h-full flex flex-col justify-between",
+          "w-full text-left p-3 group h-full flex flex-col justify-between",
           isCurrentLevel && "bg-tokyo-night-storm",
         )}
-        onClick={onClick}
-        type="button"
       >
-        <div className="flex justify-between items-start gap-2">
-          <div className="flex-1 space-y-1">
-            <div className="text-[10px] text-gray-500">LEVEL {index}</div>
-            <div className="text-xs">{level.name}</div>
-          </div>
-          {bestScore != null && (
-            <div
-              className={cn(
-                "text-2xl font-roboto-mono text-transparent bg-clip-text flex flex-col items-center",
-                isPerfectScore && "text-tokyo-night-gold",
-                hasScore && !isPerfectScore && "text-tokyo-night-turquoise",
-              )}
-            >
-              {bestScore}
-              {percentileLabel && (
-                <span
-                  className={cn(
-                    "text-[10px] opacity-75 whitespace-nowrap",
-                    isPerfectScore && "text-tokyo-night-gold",
-                    hasScore && !isPerfectScore && "text-tokyo-night-turquoise",
-                  )}
-                >
-                  {percentileLabel}
-                </span>
-              )}
+        <button
+          className="w-full cursor-pointer text-left focus:outline-none"
+          onClick={onClick}
+          type="button"
+        >
+          <div className="flex justify-between items-start gap-2">
+            <div className="flex-1 space-y-1">
+              <div className="text-[10px] text-gray-500">LEVEL {index}</div>
+              <div className="text-xs group-hover:text-white transition-colors">
+                {level.name}
+              </div>
             </div>
-          )}
-        </div>
+            {bestScore != null && (
+              <div
+                className={cn(
+                  "text-2xl font-roboto-mono text-transparent bg-clip-text flex flex-col items-center",
+                  isPerfectScore && "text-tokyo-night-gold",
+                  hasScore && !isPerfectScore && "text-tokyo-night-turquoise",
+                )}
+              >
+                {bestScore}
+                {percentileLabel && (
+                  <span
+                    className={cn(
+                      "text-[10px] opacity-75 whitespace-nowrap",
+                      isPerfectScore && "text-tokyo-night-gold",
+                      hasScore &&
+                        !isPerfectScore &&
+                        "text-tokyo-night-turquoise",
+                    )}
+                  >
+                    {percentileLabel}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        </button>
 
         <LevelSelectorItemRecord
           bestScoreLog={score?.global.best_score_log}
           globalBest={score?.global.best}
           onShowStats={onShowStats}
         />
-      </button>
+      </div>
     </div>
   );
 };

@@ -62,6 +62,24 @@ describe("normalizeKeydownEvent", () => {
     expect(normalizeKeydownEvent({ key: "Tab" } as KeyboardEvent)).toBeNull();
   });
 
+  it("returns null for shortcuts with Meta (Mac Cmd) or Alt", () => {
+    expect(
+      normalizeKeydownEvent({ key: "r", metaKey: true } as KeyboardEvent),
+    ).toBeNull();
+    expect(
+      normalizeKeydownEvent({ key: "c", metaKey: true } as KeyboardEvent),
+    ).toBeNull();
+    expect(
+      normalizeKeydownEvent({ key: "w", metaKey: true } as KeyboardEvent),
+    ).toBeNull();
+    expect(
+      normalizeKeydownEvent({ key: "Tab", altKey: true } as KeyboardEvent),
+    ).toBeNull();
+    expect(
+      normalizeKeydownEvent({ key: "d", altKey: true } as KeyboardEvent),
+    ).toBeNull();
+  });
+
   it("normalizes special key combinations (e.g. Ctrl+R)", () => {
     expect(
       normalizeKeydownEvent({ key: "r", ctrlKey: true } as KeyboardEvent),
