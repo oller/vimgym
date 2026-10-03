@@ -28,6 +28,8 @@ jobs:
           node-version: 20
           cache: pnpm
           registry-url: "https://registry.npmjs.org"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -42,6 +44,7 @@ jobs:
           publish: pnpm changeset publish --no-git-checks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           # Attach provenance attestations (links published tarball to this
           # exact commit and workflow run via Sigstore transparency log).
