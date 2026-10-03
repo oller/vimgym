@@ -29,6 +29,17 @@ describe("formatKeyForDisplay", () => {
     expect(formatKeyForDisplay("[Backspace]")).toBe("⌫");
     expect(formatKeyForDisplay("[Delete]")).toBe("Del");
     expect(formatKeyForDisplay("[C-r]")).toBe("Ctrl+R");
+    expect(formatKeyForDisplay("[C-d]")).toBe("Ctrl+D");
+    expect(formatKeyForDisplay("[C-u]")).toBe("Ctrl+U");
+    expect(formatKeyForDisplay("[C-f]")).toBe("Ctrl+F");
+    expect(formatKeyForDisplay("[C-b]")).toBe("Ctrl+B");
+    expect(formatKeyForDisplay("[C-v]")).toBe("Ctrl+V");
+    expect(formatKeyForDisplay("[C-w]")).toBe("Ctrl+W");
+    expect(formatKeyForDisplay("[C-o]")).toBe("Ctrl+O");
+    expect(formatKeyForDisplay("[C-i]")).toBe("Ctrl+I");
+    expect(formatKeyForDisplay("[C-c]")).toBe("Ctrl+C");
+    expect(formatKeyForDisplay("[C-e]")).toBe("Ctrl+E");
+    expect(formatKeyForDisplay("[C-y]")).toBe("Ctrl+Y");
   });
 
   it("formats mixed sequences correctly", () => {
@@ -80,13 +91,25 @@ describe("normalizeKeydownEvent", () => {
     ).toBeNull();
   });
 
-  it("normalizes special key combinations (e.g. Ctrl+R)", () => {
+  it("normalizes special key combinations (e.g. Ctrl+R, Ctrl+D, Ctrl+U)", () => {
     expect(
       normalizeKeydownEvent({ key: "r", ctrlKey: true } as KeyboardEvent),
     ).toBe(SPECIAL_KEYS.CTRL_R);
     expect(
       normalizeKeydownEvent({ key: "R", ctrlKey: true } as KeyboardEvent),
     ).toBe(SPECIAL_KEYS.CTRL_R);
+    expect(
+      normalizeKeydownEvent({ key: "d", ctrlKey: true } as KeyboardEvent),
+    ).toBe(SPECIAL_KEYS.CTRL_D);
+    expect(
+      normalizeKeydownEvent({ key: "u", ctrlKey: true } as KeyboardEvent),
+    ).toBe(SPECIAL_KEYS.CTRL_U);
+    expect(
+      normalizeKeydownEvent({ key: "f", ctrlKey: true } as KeyboardEvent),
+    ).toBe(SPECIAL_KEYS.CTRL_F);
+    expect(
+      normalizeKeydownEvent({ key: "b", ctrlKey: true } as KeyboardEvent),
+    ).toBe(SPECIAL_KEYS.CTRL_B);
   });
 
   it("leaves unmapped modifier combinations alone (returning original key string)", () => {
@@ -149,6 +172,17 @@ describe("normalizeVimKey", () => {
     expect(normalizeVimKey("<Left>")).toBe(SPECIAL_KEYS.ARROW_LEFT);
     expect(normalizeVimKey("<Right>")).toBe(SPECIAL_KEYS.ARROW_RIGHT);
     expect(normalizeVimKey("<C-r>")).toBe(SPECIAL_KEYS.CTRL_R);
+    expect(normalizeVimKey("<C-d>")).toBe(SPECIAL_KEYS.CTRL_D);
+    expect(normalizeVimKey("<C-u>")).toBe(SPECIAL_KEYS.CTRL_U);
+    expect(normalizeVimKey("<C-f>")).toBe(SPECIAL_KEYS.CTRL_F);
+    expect(normalizeVimKey("<C-b>")).toBe(SPECIAL_KEYS.CTRL_B);
+    expect(normalizeVimKey("<C-v>")).toBe(SPECIAL_KEYS.CTRL_V);
+    expect(normalizeVimKey("<C-w>")).toBe(SPECIAL_KEYS.CTRL_W);
+    expect(normalizeVimKey("<C-o>")).toBe(SPECIAL_KEYS.CTRL_O);
+    expect(normalizeVimKey("<C-i>")).toBe(SPECIAL_KEYS.CTRL_I);
+    expect(normalizeVimKey("<C-c>")).toBe(SPECIAL_KEYS.CTRL_C);
+    expect(normalizeVimKey("<C-e>")).toBe(SPECIAL_KEYS.CTRL_E);
+    expect(normalizeVimKey("<C-y>")).toBe(SPECIAL_KEYS.CTRL_Y);
   });
 
   it("returns null for unknown multi-char sequences", () => {

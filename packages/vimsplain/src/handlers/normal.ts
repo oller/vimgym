@@ -129,13 +129,28 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
     isMotion: false,
   },
   {
+    pattern: /^(\d+)cw/,
+    description: "change $1 words forward",
+    isMotion: false,
+  },
+  {
     pattern: /^c(\d*)w/,
     description: "change $1 word(s) forward",
     isMotion: false,
   },
   {
+    pattern: /^(\d+)cb/,
+    description: "change $1 words backward",
+    isMotion: false,
+  },
+  {
     pattern: /^c(\d*)b/,
     description: "change $1 word(s) backward",
+    isMotion: false,
+  },
+  {
+    pattern: /^(\d+)ce/,
+    description: "change to end of $1 words",
     isMotion: false,
   },
   {
@@ -152,9 +167,29 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
   },
   { pattern: /^ct(.)/, description: "change till '$1'", isMotion: false },
   { pattern: /^cT(.)/, description: "change back till '$1'", isMotion: false },
+  {
+    pattern: /^(\d+)cc/,
+    description: "change $1 lines",
+    isMotion: false,
+  },
   { pattern: /^cc/, description: "change entire line", isMotion: false },
+  {
+    pattern: /^(\d+)C/,
+    description: "change $1 lines to end of line",
+    isMotion: false,
+  },
   { pattern: /^C/, description: "change to end of line", isMotion: false },
+  {
+    pattern: /^(\d+)S/,
+    description: "substitute $1 lines",
+    isMotion: false,
+  },
   { pattern: /^S/, description: "substitute entire line", isMotion: false },
+  {
+    pattern: /^(\d+)s/,
+    description: "substitute $1 characters and enter insert mode",
+    isMotion: false,
+  },
   {
     pattern: /^s/,
     description: "substitute character and enter insert mode",
@@ -184,7 +219,17 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
   },
 
   // --- Text objects (inner and around) ---
+  {
+    pattern: /^(\d+)ciw/,
+    description: "change $1 inner words",
+    isMotion: false,
+  },
   { pattern: /^ciw/, description: "change inner word", isMotion: false },
+  {
+    pattern: /^(\d+)caw/,
+    description: "change $1 words (with space)",
+    isMotion: false,
+  },
   {
     pattern: /^caw/,
     description: "change a word (with space)",
@@ -369,6 +414,63 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^\}/, description: "move paragraph forward", isMotion: true },
   { pattern: /^\(/, description: "move sentence backward", isMotion: true },
   { pattern: /^\)/, description: "move sentence forward", isMotion: true },
+
+  // Scrolling / paging motions
+  {
+    pattern: /^(\d+)\[C-d\]/,
+    description: "scroll down $1 lines",
+    isMotion: true,
+  },
+  {
+    pattern: /^\[C-d\]/,
+    description: "scroll down (half page)",
+    isMotion: true,
+  },
+  {
+    pattern: /^(\d+)\[C-u\]/,
+    description: "scroll up $1 lines",
+    isMotion: true,
+  },
+  {
+    pattern: /^\[C-u\]/,
+    description: "scroll up (half page)",
+    isMotion: true,
+  },
+  {
+    pattern: /^(\d+)\[C-f\]/,
+    description: "scroll forward $1 pages",
+    isMotion: true,
+  },
+  {
+    pattern: /^\[C-f\]/,
+    description: "scroll forward (full page)",
+    isMotion: true,
+  },
+  {
+    pattern: /^(\d+)\[C-b\]/,
+    description: "scroll backward $1 pages",
+    isMotion: true,
+  },
+  {
+    pattern: /^\[C-b\]/,
+    description: "scroll backward (full page)",
+    isMotion: true,
+  },
+  {
+    pattern: /^\[C-e\]/,
+    description: "scroll window down one line",
+    isMotion: true,
+  },
+  {
+    pattern: /^\[C-y\]/,
+    description: "scroll window up one line",
+    isMotion: true,
+  },
+  {
+    pattern: /^\[C-c\]/,
+    description: "cancel / return to normal mode",
+    isMotion: false,
+  },
 
   // --- Insert mode triggers ---
   { pattern: /^i/, description: "insert before cursor", isMotion: false },
@@ -696,8 +798,8 @@ export function handleNormalMode(context: ParsingContext): void {
   // Check if this command enters insert mode
   if (
     INSERT_MODE_TRIGGERS.has(matched) ||
-    matched.startsWith("c") || // cw, ciw, ct, etc.
-    matched === "s"
+    /^(?:\d+)?c/i.test(matched) ||
+    /^(?:\d+)?s$/i.test(matched)
   ) {
     context.activeMode = "Insert";
     context.remaining = result.remaining;

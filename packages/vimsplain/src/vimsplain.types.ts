@@ -64,10 +64,29 @@ export const SPECIAL_KEYS = {
   CTRL_W: "[C-w]",
   CTRL_O: "[C-o]",
   CTRL_I: "[C-i]",
+  CTRL_D: "[C-d]",
+  CTRL_U: "[C-u]",
+  CTRL_F: "[C-f]",
+  CTRL_B: "[C-b]",
+  CTRL_V: "[C-v]",
+  CTRL_C: "[C-c]",
+  CTRL_E: "[C-e]",
+  CTRL_Y: "[C-y]",
 } as const;
 
 /** Key mapping for modifier combinations */
 export const MODIFIER_KEY_MAP = {
   // Ctrl+key combinations
   "ctrl+r": SPECIAL_KEYS.CTRL_R,
+  "ctrl+w": SPECIAL_KEYS.CTRL_W,
+  "ctrl+o": SPECIAL_KEYS.CTRL_O,
+  "ctrl+i": SPECIAL_KEYS.CTRL_I,
+  "ctrl+d": SPECIAL_KEYS.CTRL_D,
+  "ctrl+u": SPECIAL_KEYS.CTRL_U,
+  "ctrl+f": SPECIAL_KEYS.CTRL_F,
+  "ctrl+b": SPECIAL_KEYS.CTRL_B,
+  "ctrl+v": SPECIAL_KEYS.CTRL_V,
+  "ctrl+c": SPECIAL_KEYS.CTRL_C,
+  "ctrl+e": SPECIAL_KEYS.CTRL_E,
+  "ctrl+y": SPECIAL_KEYS.CTRL_Y,
 } as const;

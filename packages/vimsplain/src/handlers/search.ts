@@ -2,6 +2,18 @@ import type { ParsingContext } from "../vimsplain.types.js";
 import { SPECIAL_KEYS } from "../vimsplain.types.js";
 
 export function handleSearchMode(context: ParsingContext): void {
+  // Check for [Esc] to cancel search
+  if (context.remaining.startsWith(SPECIAL_KEYS.ESCAPE)) {
+    context.commands.push({
+      matched: SPECIAL_KEYS.ESCAPE,
+      explanation: "cancel search",
+    });
+    context.activeMode = "Normal";
+    context.searchBuffer = "";
+    context.remaining = context.remaining.slice(SPECIAL_KEYS.ESCAPE.length);
+    return;
+  }
+
   // Check for [Enter] to complete search
   if (context.remaining.startsWith(SPECIAL_KEYS.ENTER)) {
     const direction = context.searchDirection === "/" ? "forward" : "backward";
