@@ -59,6 +59,25 @@ export function handleVisualMode(context: ParsingContext): void {
     }
   }
 
+  // Visual block multi-line insert/append
+  if (
+    context.activeMode === "VisualBlock" &&
+    (context.remaining[0] === "I" || context.remaining[0] === "A")
+  ) {
+    const op = context.remaining[0] as string;
+    context.commands.push({
+      matched: op,
+      explanation:
+        op === "I"
+          ? "insert before block selection on each line"
+          : "append after block selection on each line",
+    });
+    context.activeMode = "Insert";
+    context.insertBuffer = "";
+    context.remaining = context.remaining.slice(1);
+    return;
+  }
+
   // Single-char visual operators
   if (context.remaining[0] in VISUAL_OPERATORS) {
     const op = context.remaining[0] as string;
