@@ -23,6 +23,7 @@ export const INSERT_MODE_TRIGGERS = new Set([
  * Command definitions for normal mode.
  * Order matters - more specific patterns should come first.
  */
+// Stryker disable BooleanLiteral, Regex
 export const NORMAL_COMMANDS: CommandDefinition[] = [
   // --- Space motion (same as l - move char right) ---
   { pattern: /^(\d+) /, description: "move $1 chars right", isMotion: true },
@@ -701,6 +702,7 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
   // Fallback: bare operator keys (when no motion follows)
   { pattern: /^d/, description: "delete char under cursor", isMotion: false },
 ];
+// Stryker restore BooleanLiteral, Regex
 
 /**
  * Parse a single command from the input string.
