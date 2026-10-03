@@ -116,7 +116,7 @@ export const CrtEffect = ({ children }: CrtEffectProps) => {
                 SIGNAL LOST
               </div>
               <button
-                className="px-6 py-2 border-2 border-gray-700 text-gray-400 font-roboto-mono uppercase tracking-widest hover:border-tokyo-night-blue hover:text-tokyo-night-blue hover:shadow-[0_0_15px_rgba(122,162,247,0.5)] transition-all duration-300 bg-black rounded-sm cursor-pointer outline-none focus:border-tokyo-night-blue focus:text-tokyo-night-blue focus:shadow-[0_0_15px_rgba(122,162,247,0.5)]"
+                className="px-6 py-2 border-2 border-gray-700 text-gray-400 font-roboto-mono uppercase tracking-widest hover:border-tokyo-night-sapphire hover:text-tokyo-night-sapphire hover:shadow-[0_0_15px_rgba(122,162,247,0.5)] transition-all duration-300 bg-black rounded-sm cursor-pointer outline-none focus:border-tokyo-night-sapphire focus:text-tokyo-night-sapphire focus:shadow-[0_0_15px_rgba(122,162,247,0.5)]"
                 onClick={() => {
                   setPoweredOff(false);
                 }}

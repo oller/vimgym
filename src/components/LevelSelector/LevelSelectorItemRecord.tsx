@@ -23,7 +23,7 @@ export const LevelSelectorItemRecord = ({
   }
 
   return (
-    <div className="flex justify-between text-xs font-medium tracking-wider uppercase mt-3">
+    <div className="flex justify-between items-center text-xs font-medium tracking-wider uppercase mt-3">
       <Tooltip.Provider delayDuration={40}>
         <Tooltip.Root onOpenChange={setIsOpen} open={isOpen}>
           <Tooltip.Trigger asChild>
@@ -74,20 +74,21 @@ export const LevelSelectorItemRecord = ({
               </Tooltip.Portal>
             )}
           </AnimatePresence>
-          <button
-            className="cursor-pointer flex items-center gap-1 text-gray-400 hover:text-white h-7 min-w-7 relative before:absolute before:-inset-2 before:content-['']"
-            onClick={(e) => {
-              e.stopPropagation();
-              onShowStats?.();
-            }}
-            title="View Stats"
-            type="button"
-          >
-            <span className="text-[10px] uppercase">Stats</span>
-            <StatsIcon height={14} width={14} />
-          </button>
         </Tooltip.Root>
       </Tooltip.Provider>
+
+      <button
+        className="cursor-pointer flex items-center gap-1 text-gray-400 hover:text-white h-7 min-w-7 relative before:absolute before:-inset-2 before:content-['']"
+        onClick={(e) => {
+          e.stopPropagation();
+          onShowStats?.();
+        }}
+        title="View Stats"
+        type="button"
+      >
+        <span className="text-[10px] uppercase">Stats</span>
+        <StatsIcon height={14} width={14} />
+      </button>
     </div>
   );
 };

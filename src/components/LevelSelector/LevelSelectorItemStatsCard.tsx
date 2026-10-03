@@ -54,7 +54,7 @@ export const LevelSelectorItemStatsCard = ({
           <span className="text-[10px] text-gray-500 uppercase tracking-wider">
             {hoveredPoint ? "Score" : "Avg Score"}
           </span>
-          <span className="text-lg font-roboto-mono text-tokyo-night-purple">
+          <span className="text-lg font-roboto-mono text-tokyo-night-lavender">
             {hoveredPoint ? (
               <span className="flex items-baseline gap-1">
                 {hoveredPoint.score}
@@ -83,7 +83,14 @@ export const LevelSelectorItemStatsCard = ({
               {distribution ? (
                 "No data yet"
               ) : (
-                <span className="loading loading-dots loading-xs text-gray-600"></span>
+                <span
+                  className="flex items-center gap-1"
+                  data-testid="stats-loading"
+                >
+                  <span className="size-1 rounded-full bg-gray-600 animate-pulse" />
+                  <span className="size-1 rounded-full bg-gray-600 animate-pulse [animation-delay:200ms]" />
+                  <span className="size-1 rounded-full bg-gray-600 animate-pulse [animation-delay:400ms]" />
+                </span>
               )}
             </div>
           )}

@@ -34,6 +34,11 @@ export const formatKeyForDisplay = (key: string): string => {
  * Returns null if the key should be ignored (like modifier keys).
  */
 export const normalizeKeydownEvent = (event: KeyboardEvent): string | null => {
+  // Ignore key combinations with Meta (Cmd on macOS) or Alt (e.g. Cmd+R, Cmd+C, Alt+Tab)
+  if (event.metaKey || event.altKey) {
+    return null;
+  }
+
   // Skip modifier keys
   if (
     ["Shift", "Control", "Alt", "Meta", "CapsLock", "Tab"].includes(event.key)
