@@ -9,6 +9,8 @@ type ModalProps = {
   onClose?: () => void;
   className?: string;
   showCloseButton?: boolean;
+  ariaLabelledBy?: string;
+  ariaDescribedBy?: string;
 };
 
 export const Modal = ({
@@ -17,6 +19,8 @@ export const Modal = ({
   children,
   className,
   showCloseButton = true,
+  ariaLabelledBy,
+  ariaDescribedBy,
 }: PropsWithChildren<ModalProps>) => {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -43,6 +47,8 @@ export const Modal = ({
       {/* Modal Content */}
       <motion.div
         animate={{ scale: 1, opacity: 1, y: 0 }}
+        aria-describedby={ariaDescribedBy}
+        aria-labelledby={ariaLabelledBy}
         aria-modal="true"
         className={cn(
           "relative w-full max-w-lg bg-tokyo-night-storm border border-gray-700 rounded-lg shadow-xl p-6 overflow-hidden",

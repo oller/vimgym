@@ -146,4 +146,26 @@ describe("CompletionModal", () => {
 
     expect(screen.queryByText("NEW BEST!")).not.toBeInTheDocument();
   });
+
+  it("calls onNext when Enter key is pressed", async () => {
+    const user = userEvent.setup();
+    const handleNext = vi.fn();
+
+    renderModal({ hasNextLevel: true, onNext: handleNext });
+
+    await user.keyboard("{Enter}");
+    expect(handleNext).toHaveBeenCalledTimes(1);
+  });
+
+  it("has accessible dialog role and aria-labelledby pointing to title", () => {
+    renderModal({ hasNextLevel: true });
+
+    const dialog = screen.getByRole("dialog");
+    const heading = screen.getByRole("heading", { name: /level complete/i });
+    expect(dialog).toBeInTheDocument();
+    expect(dialog).toHaveAttribute("aria-labelledby");
+    expect(dialog.getAttribute("aria-labelledby")).toBe(
+      heading.getAttribute("id"),
+    );
+  });
 });

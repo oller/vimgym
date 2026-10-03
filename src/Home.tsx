@@ -6,6 +6,7 @@ import { GoalDisplay } from "./components/GoalDisplay/GoalDisplay";
 import { GitHubIcon } from "./components/icons/GitHubIcon";
 import { Logo } from "./components/Logo/Logo";
 import { MotionLog } from "./components/MotionLog/MotionLog";
+import { EditorErrorBoundary } from "./components/VimEditor/EditorErrorBoundary";
 import { LEVELS } from "./data/levels";
 import { useLevelId } from "./hooks/useLevelId";
 import { useGameStore } from "./store/useGameStore";
@@ -35,6 +36,7 @@ const Home = () => {
   const [levelId, setLevelId] = useLevelId();
   const setLevel = useGameStore((state) => state.setLevel);
   const resetCount = useGameStore((state) => state.resetCount);
+  const resetLevel = useGameStore((state) => state.resetLevel);
   const isCompleted = useGameStore((state) => state.isCompleted);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
@@ -121,13 +123,15 @@ const Home = () => {
             <GoalDisplay />
 
             <div className="flex flex-col grow min-h-0">
-              <Suspense
-                fallback={
-                  <div className="grow bg-tokyo-night-storm rounded-md animate-pulse border border-gray-800" />
-                }
-              >
-                <VimEditor key={`${levelId}-${resetCount}`} />
-              </Suspense>
+              <EditorErrorBoundary onReset={resetLevel}>
+                <Suspense
+                  fallback={
+                    <div className="grow bg-tokyo-night-storm rounded-md animate-pulse border border-gray-800" />
+                  }
+                >
+                  <VimEditor key={`${levelId}-${resetCount}`} />
+                </Suspense>
+              </EditorErrorBoundary>
             </div>
 
             <motion.div className="shrink-0" layout>
