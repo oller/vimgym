@@ -245,6 +245,121 @@ describe("vimsplain", () => {
           "change a word (with space)",
         );
       });
+
+      it("explains sentence text objects (cis, cas, dis, das, yis, yas, vis, vas)", () => {
+        expect(explainSequence("cis").commands[0]).toEqual({
+          matched: "cis",
+          explanation: "change inside sentence",
+        });
+        expect(explainSequence("cas").commands[0]).toEqual({
+          matched: "cas",
+          explanation: "change around sentence",
+        });
+        expect(explainSequence("dis").commands[0]).toEqual({
+          matched: "dis",
+          explanation: "delete inside sentence",
+        });
+        expect(explainSequence("das").commands[0]).toEqual({
+          matched: "das",
+          explanation: "delete around sentence",
+        });
+        expect(explainSequence("yis").commands[0]).toEqual({
+          matched: "yis",
+          explanation: "yank inside sentence",
+        });
+        expect(explainSequence("yas").commands[0]).toEqual({
+          matched: "yas",
+          explanation: "yank around sentence",
+        });
+        expect(explainSequence("vis").commands[0]).toEqual({
+          matched: "vis",
+          explanation: "select inside sentence",
+        });
+        expect(explainSequence("vas").commands[0]).toEqual({
+          matched: "vas",
+          explanation: "select around sentence",
+        });
+      });
+
+      it("explains paragraph text objects (cip, cap, dip, dap, yip, yap, vip, vap)", () => {
+        expect(explainSequence("cip").commands[0]).toEqual({
+          matched: "cip",
+          explanation: "change inside paragraph",
+        });
+        expect(explainSequence("cap").commands[0]).toEqual({
+          matched: "cap",
+          explanation: "change around paragraph",
+        });
+        expect(explainSequence("dip").commands[0]).toEqual({
+          matched: "dip",
+          explanation: "delete inside paragraph",
+        });
+        expect(explainSequence("dap").commands[0]).toEqual({
+          matched: "dap",
+          explanation: "delete around paragraph",
+        });
+        expect(explainSequence("yip").commands[0]).toEqual({
+          matched: "yip",
+          explanation: "yank inside paragraph",
+        });
+        expect(explainSequence("yap").commands[0]).toEqual({
+          matched: "yap",
+          explanation: "yank around paragraph",
+        });
+        expect(explainSequence("vip").commands[0]).toEqual({
+          matched: "vip",
+          explanation: "select inside paragraph",
+        });
+        expect(explainSequence("vap").commands[0]).toEqual({
+          matched: "vap",
+          explanation: "select around paragraph",
+        });
+      });
+
+      it("explains counted text objects (2diw, 3daw, 2yiw, 2viw)", () => {
+        expect(explainSequence("2diw").commands[0]).toEqual({
+          matched: "2diw",
+          explanation: "delete 2 inner words",
+        });
+        expect(explainSequence("3daw").commands[0]).toEqual({
+          matched: "3daw",
+          explanation: "delete 3 words (with space)",
+        });
+        expect(explainSequence("2yiw").commands[0]).toEqual({
+          matched: "2yiw",
+          explanation: "yank 2 inner words",
+        });
+        expect(explainSequence("2viw").commands[0]).toEqual({
+          matched: "2viw",
+          explanation: "select 2 inner words",
+        });
+      });
+
+      it("explains visual block mode I and A insertion", () => {
+        const insertResult = explainSequence("[C-v]jjI//[Esc]");
+        expect(insertResult.commands[0]).toEqual({
+          matched: "[C-v]",
+          explanation: "enter visual block mode",
+        });
+        expect(insertResult.commands[3]).toEqual({
+          matched: "I",
+          explanation: "insert before block selection on each line",
+        });
+        expect(insertResult.commands[4]).toEqual({
+          matched: "//",
+          explanation: 'type "//"',
+        });
+
+        const appendResult = explainSequence("[C-v]jjA;[Esc]");
+        expect(appendResult.commands[3]).toEqual({
+          matched: "A",
+          explanation: "append after block selection on each line",
+        });
+        expect(appendResult.commands[4]).toEqual({
+          matched: ";",
+          explanation: 'type ";"',
+        });
+      });
     });
 
     describe("comment motions", () => {

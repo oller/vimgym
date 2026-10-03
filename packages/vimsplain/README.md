@@ -236,7 +236,13 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `ca}` | change around {} |
 | `cit` | change inside tag |
 | `cat` | change around tag |
+| `cis` | change inside sentence |
+| `cas` | change around sentence |
+| `cip` | change inside paragraph |
+| `cap` | change around paragraph |
+| `Ndiw` | delete $1 inner words |
 | `diw` | delete inner word |
+| `Ndaw` | delete $1 words (with space) |
 | `daw` | delete a word (with space) |
 | `di"` | delete inside "" |
 | `da"` | delete around "" |
@@ -256,7 +262,13 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `da}` | delete around {} |
 | `dit` | delete inside tag |
 | `dat` | delete around tag |
+| `dis` | delete inside sentence |
+| `das` | delete around sentence |
+| `dip` | delete inside paragraph |
+| `dap` | delete around paragraph |
+| `Nyiw` | yank $1 inner words |
 | `yiw` | yank inner word |
+| `Nyaw` | yank $1 words (with space) |
 | `yaw` | yank a word (with space) |
 | `yi"` | yank inside "" |
 | `ya"` | yank around "" |
@@ -266,7 +278,13 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `yi)` | yank inside () |
 | `ya(` | yank around () |
 | `ya)` | yank around () |
+| `yis` | yank inside sentence |
+| `yas` | yank around sentence |
+| `yip` | yank inside paragraph |
+| `yap` | yank around paragraph |
+| `Nviw` | select $1 inner words |
 | `viw` | select inner word |
+| `Nvaw` | select $1 words (with space) |
 | `vaw` | select a word (with space) |
 | `vi"` | select inside "" |
 | `va"` | select around "" |
@@ -286,6 +304,10 @@ SPECIAL_KEYS.CTRL_I      // "[C-i]"
 | `va}` | select around {} |
 | `vit` | select inside tag |
 | `vat` | select around tag |
+| `vis` | select inside sentence |
+| `vas` | select around sentence |
+| `vip` | select inside paragraph |
+| `vap` | select around paragraph |
 | `ci<` | change inside <> |
 | `ci>` | change inside <> |
 | `ca<` | change around <> |
