@@ -74,10 +74,46 @@ describe("vimsplain fuzzing", () => {
         const result = explainSequence(input);
         for (const cmd of result.commands) {
           expect(cmd.matched).toBeDefined();
+          expect(cmd.matched.length).toBeGreaterThan(0);
           expect(cmd.explanation).toBeDefined();
-          // Explanation should always be a string
+          // Explanation should always be a non-empty string
           expect(typeof cmd.explanation).toBe("string");
+          expect(cmd.explanation.length).toBeGreaterThan(0);
         }
+      }),
+      { numRuns },
+    );
+  });
+
+  it("correctly groups typed text and exits to normal mode on [Esc]", () => {
+    const insertTriggerArb = fc.constantFrom(
+      "i",
+      "a",
+      "o",
+      "O",
+      "s",
+      "S",
+      "C",
+      "ciw",
+    );
+    const typedTextArb = fc.stringMatching(/^[a-zA-Z0-9 _-]{1,20}$/);
+
+    fc.assert(
+      fc.property(insertTriggerArb, typedTextArb, (trigger, text) => {
+        const sequence = `${trigger}${text}[Esc]`;
+        const result = explainSequence(sequence);
+
+        expect(result.commands.length).toBeGreaterThanOrEqual(2);
+        const lastCmd = result.commands[result.commands.length - 1];
+        expect(lastCmd.matched).toBe("[Esc]");
+        expect(lastCmd.explanation).toBe("exit insert mode");
+
+        // The typed text command exists before [Esc]
+        const textCmd = result.commands.find((c) =>
+          c.explanation.startsWith('type "'),
+        );
+        expect(textCmd).toBeDefined();
+        expect(textCmd?.matched).toBe(text);
       }),
       { numRuns },
     );

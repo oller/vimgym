@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.3.0
+
+### Minor Changes
+
+- [#24](https://github.com/oller/vimgym/pull/24) [`cc78a44`](https://github.com/oller/vimgym/commit/cc78a446f80e2db0de181b519203768b16d0fe4d) Thanks [@oller](https://github.com/oller)! - Add sentence, paragraph, and counted word text objects, visual block multi-line insert/append operators, and expanded fast-check property tests.
+
 ## 0.2.1
 
 ### Patch Changes

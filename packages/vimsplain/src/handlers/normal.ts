@@ -254,8 +254,22 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^ca\}/, description: "change around {}", isMotion: false },
   { pattern: /^cit/, description: "change inside tag", isMotion: false },
   { pattern: /^cat/, description: "change around tag", isMotion: false },
+  { pattern: /^cis/, description: "change inside sentence", isMotion: false },
+  { pattern: /^cas/, description: "change around sentence", isMotion: false },
+  { pattern: /^cip/, description: "change inside paragraph", isMotion: false },
+  { pattern: /^cap/, description: "change around paragraph", isMotion: false },
 
+  {
+    pattern: /^(\d+)diw/,
+    description: "delete $1 inner words",
+    isMotion: false,
+  },
   { pattern: /^diw/, description: "delete inner word", isMotion: false },
+  {
+    pattern: /^(\d+)daw/,
+    description: "delete $1 words (with space)",
+    isMotion: false,
+  },
   {
     pattern: /^daw/,
     description: "delete a word (with space)",
@@ -279,8 +293,22 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^da\}/, description: "delete around {}", isMotion: false },
   { pattern: /^dit/, description: "delete inside tag", isMotion: false },
   { pattern: /^dat/, description: "delete around tag", isMotion: false },
+  { pattern: /^dis/, description: "delete inside sentence", isMotion: false },
+  { pattern: /^das/, description: "delete around sentence", isMotion: false },
+  { pattern: /^dip/, description: "delete inside paragraph", isMotion: false },
+  { pattern: /^dap/, description: "delete around paragraph", isMotion: false },
 
+  {
+    pattern: /^(\d+)yiw/,
+    description: "yank $1 inner words",
+    isMotion: false,
+  },
   { pattern: /^yiw/, description: "yank inner word", isMotion: false },
+  {
+    pattern: /^(\d+)yaw/,
+    description: "yank $1 words (with space)",
+    isMotion: false,
+  },
   { pattern: /^yaw/, description: "yank a word (with space)", isMotion: false },
   { pattern: /^yi"/, description: 'yank inside ""', isMotion: false },
   { pattern: /^ya"/, description: 'yank around ""', isMotion: false },
@@ -290,9 +318,23 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^yi\)/, description: "yank inside ()", isMotion: false },
   { pattern: /^ya\(/, description: "yank around ()", isMotion: false },
   { pattern: /^ya\)/, description: "yank around ()", isMotion: false },
+  { pattern: /^yis/, description: "yank inside sentence", isMotion: false },
+  { pattern: /^yas/, description: "yank around sentence", isMotion: false },
+  { pattern: /^yip/, description: "yank inside paragraph", isMotion: false },
+  { pattern: /^yap/, description: "yank around paragraph", isMotion: false },
 
   // Visual mode text objects
+  {
+    pattern: /^(\d+)viw/,
+    description: "select $1 inner words",
+    isMotion: false,
+  },
   { pattern: /^viw/, description: "select inner word", isMotion: false },
+  {
+    pattern: /^(\d+)vaw/,
+    description: "select $1 words (with space)",
+    isMotion: false,
+  },
   {
     pattern: /^vaw/,
     description: "select a word (with space)",
@@ -316,6 +358,10 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
   { pattern: /^va\}/, description: "select around {}", isMotion: false },
   { pattern: /^vit/, description: "select inside tag", isMotion: false },
   { pattern: /^vat/, description: "select around tag", isMotion: false },
+  { pattern: /^vis/, description: "select inside sentence", isMotion: false },
+  { pattern: /^vas/, description: "select around sentence", isMotion: false },
+  { pattern: /^vip/, description: "select inside paragraph", isMotion: false },
+  { pattern: /^vap/, description: "select around paragraph", isMotion: false },
 
   // Angle bracket text objects
   { pattern: /^ci</, description: "change inside <>", isMotion: false },
