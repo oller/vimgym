@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.2.1
+
+### Patch Changes
+
+- [#20](https://github.com/oller/vimgym/pull/20) [`a17e689`](https://github.com/oller/vimgym/commit/a17e689933e7c0f95b0ef5ba17e758e65a087a1f) Thanks [@oller](https://github.com/oller)! - Fix counted change commands and insert mode transitions, handle search and ex-command Esc cancellation and backspace editing, and add Ctrl navigation and scrolling modifiers.
+
 ## 0.2.0
 
 ### Minor Changes
