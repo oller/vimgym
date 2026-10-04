@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.3.2
+
+### Patch Changes
+
+- [#28](https://github.com/oller/vimgym/pull/28) [`fac1574`](https://github.com/oller/vimgym/commit/fac1574f673c6071c8e0a2a1516b8b917587d645) Thanks [@oller](https://github.com/oller)! - Update README documentation with mutation testing badges, test suite verification instructions, and complete types and constants reference.
+
 ## 0.3.1
 
 ### Patch Changes
