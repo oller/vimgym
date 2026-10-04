@@ -65,7 +65,7 @@ pnpm --filter vimsplain gen:commands   # Regenerate the Supported Commands table
 pnpm changeset                         # Create a changeset for a vimsplain release
 ```
 
-> **When to run `gen:commands`:** Any time you add, remove, or rename an entry in `NORMAL_COMMANDS` in `src/vimsplain.ts`, run this script and commit the updated `README.md` alongside your code changes. The script reads `NORMAL_COMMANDS` and rewrites the table between the `<!-- COMMANDS_TABLE_START -->` / `<!-- COMMANDS_TABLE_END -->` markers. It does **not** capture context-aware behavior added via separate maps (e.g. `VISUAL_OPERATORS`) — document those manually in the README if needed.
+> **When to run `gen:commands`:** Any time you add, remove, or rename an entry in `NORMAL_COMMANDS` in `src/handlers/normal.ts` or `VISUAL_OPERATORS` in `src/handlers/visual.ts`, run this script and commit the updated `README.md` alongside your code changes. The script rewrites the tables between the `<!-- COMMANDS_TABLE_START -->` / `<!-- COMMANDS_TABLE_END -->` and `<!-- VISUAL_COMMANDS_TABLE_START -->` / `<!-- VISUAL_COMMANDS_TABLE_END -->` markers.
 
 See `packages/vimsplain/README.md` for full details.
 
