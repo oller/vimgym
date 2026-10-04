@@ -11,17 +11,41 @@ export const CrtEffect = ({ children }: CrtEffectProps) => {
   const setPoweredOff = useGameStore((state) => state.setPoweredOff);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const wasPoweredOff = useRef(isPoweredOff);
+  const hasBeenPoweredOffRef = useRef(false);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
+    if (isPoweredOff) {
+      hasBeenPoweredOffRef.current = true;
+      if (
+        document.activeElement &&
+        document.activeElement !== document.body &&
+        document.activeElement !== document.documentElement
+      ) {
+        previousFocusRef.current = document.activeElement as HTMLElement;
+      } else {
+        previousFocusRef.current = null;
+      }
+    }
     wasPoweredOff.current = isPoweredOff;
   }, [isPoweredOff]);
 
-  // Focus the resume button when the animation completes
+  // Focus the resume button when the animation completes, or restore focus when powering back on
   const handleAnimationComplete = () => {
     if (isPoweredOff) {
       setTimeout(() => {
         buttonRef.current?.focus();
       }, 100);
+    } else if (hasBeenPoweredOffRef.current) {
+      hasBeenPoweredOffRef.current = false;
+      const target =
+        previousFocusRef.current &&
+        previousFocusRef.current !== document.body &&
+        document.contains(previousFocusRef.current)
+          ? previousFocusRef.current
+          : document.querySelector<HTMLElement>(".cm-content");
+      target?.focus();
+      previousFocusRef.current = null;
     }
   };
 
