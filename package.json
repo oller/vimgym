@@ -16,6 +16,7 @@
     "types:sync": "pnpm types:gen && pnpm tsc",
     "postinstall": "lefthook install",
     "deploy": "pnpm --filter vimsplain build && pnpm types:sync && pnpm lint && pnpm test:run && pnpm build",
+    "test:mutate:vimsplain": "pnpm --filter vimsplain test:mutate",
     "knip": "knip"
   },
   "dependencies": {

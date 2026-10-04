@@ -1,0 +1,88 @@
+name: Mutation Testing
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "packages/vimsplain/**"
+      - ".github/workflows/mutation-testing.yml"
+      - ".github/scripts/**"
+  push:
+    branches: [main]
+    paths:
+      - "packages/vimsplain/**"
+      - ".github/workflows/mutation-testing.yml"
+      - ".github/scripts/**"
+  workflow_dispatch:
+
+concurrency:
+  group: mutation-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mutate:
+    name: Stryker Mutation Testing (vimsplain)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Restore baseline mutation report
+        uses: actions/cache/restore@v4
+        with:
+          path: packages/vimsplain/reports/mutation/baseline.json
+          key: stryker-baseline-main-${{ github.sha }}
+          restore-keys: |
+            stryker-baseline-main-
+
+      - name: Run Stryker mutation tests
+        run: pnpm --filter vimsplain test:mutate
+
+      - name: Prepare baseline report
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          mkdir -p packages/vimsplain/reports/mutation
+          cp packages/vimsplain/reports/mutation/mutation.json packages/vimsplain/reports/mutation/baseline.json
+
+      - name: Save baseline mutation report
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/cache/save@v4
+        with:
+          path: packages/vimsplain/reports/mutation/baseline.json
+          key: stryker-baseline-main-${{ github.sha }}
+
+      - name: Post or update PR comment
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node .github/scripts/post-mutation-pr-comment.mjs
+
+      - name: Upload mutation report artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mutation-report
+          path: packages/vimsplain/reports/mutation/
+          retention-days: 14

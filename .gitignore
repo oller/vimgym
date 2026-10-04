@@ -24,6 +24,9 @@ dist-ssr
 *.sw?
 
 coverage
+.stryker
+.stryker-tmp
+reports
 
 # Git Worktrees
 .worktrees/

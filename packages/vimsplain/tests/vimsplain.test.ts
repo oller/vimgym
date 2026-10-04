@@ -669,8 +669,9 @@ describe("vimsplain", () => {
     it("formats multi-command sequence", () => {
       const result = explainSequence("ggdG");
       const formatted = formatExplanation(result);
-      expect(formatted).toContain("gg: go to start of file");
-      expect(formatted).toContain("dG: delete to end of file");
+      expect(formatted).toBe(
+        "gg: go to start of file\ndG: delete to end of file",
+      );
     });
   });
 
@@ -843,6 +844,57 @@ describe("vimsplain", () => {
       });
     });
 
+    it("handles special keys immediately when insertBuffer is empty", () => {
+      const bs = explainSequence(
+        `i${SPECIAL_KEYS.BACKSPACE}${SPECIAL_KEYS.ESCAPE}`,
+      );
+      expect(bs.commands).toEqual([
+        { matched: "i", explanation: "insert before cursor" },
+        { matched: SPECIAL_KEYS.BACKSPACE, explanation: "delete character" },
+        { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+      ]);
+
+      const del = explainSequence(
+        `i${SPECIAL_KEYS.DELETE}${SPECIAL_KEYS.ESCAPE}`,
+      );
+      expect(del.commands).toEqual([
+        { matched: "i", explanation: "insert before cursor" },
+        {
+          matched: SPECIAL_KEYS.DELETE,
+          explanation: "delete char under cursor",
+        },
+        { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+      ]);
+
+      const enter = explainSequence(
+        `i${SPECIAL_KEYS.ENTER}${SPECIAL_KEYS.ESCAPE}`,
+      );
+      expect(enter.commands).toEqual([
+        { matched: "i", explanation: "insert before cursor" },
+        { matched: SPECIAL_KEYS.ENTER, explanation: "new line" },
+        { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+      ]);
+
+      const up = explainSequence(
+        `i${SPECIAL_KEYS.ARROW_UP}${SPECIAL_KEYS.ESCAPE}`,
+      );
+      expect(up.commands).toEqual([
+        { matched: "i", explanation: "insert before cursor" },
+        { matched: SPECIAL_KEYS.ARROW_UP, explanation: "move up" },
+        { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+      ]);
+    });
+
+    it("resumes normal mode parsing when exiting insert mode followed by normal commands", () => {
+      const result = explainSequence(`ihello${SPECIAL_KEYS.ESCAPE}w`);
+      expect(result.commands).toEqual([
+        { matched: "i", explanation: "insert before cursor" },
+        { matched: "hello", explanation: 'type "hello"' },
+        { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+        { matched: "w", explanation: "move word forward" },
+      ]);
+    });
+
     it("handles [Delete] in insert mode separately", () => {
       const result = explainSequence(
         `ihe${SPECIAL_KEYS.DELETE}llo${SPECIAL_KEYS.ESCAPE}`,
@@ -992,6 +1044,27 @@ describe("vimsplain", () => {
           expect(result.commands[2].explanation).toBe("exit insert mode");
         });
 
+        it("transitions to insert mode and accepts typed text on visual change operators (c, C, s, S)", () => {
+          for (const op of ["c", "C", "s", "S"]) {
+            const result = explainSequence(`v${op}hello${SPECIAL_KEYS.ESCAPE}`);
+            expect(result.commands).toEqual([
+              { matched: "v", explanation: "enter visual mode" },
+              { matched: op, explanation: "change selection" },
+              { matched: "hello", explanation: 'type "hello"' },
+              { matched: SPECIAL_KEYS.ESCAPE, explanation: "exit insert mode" },
+            ]);
+          }
+        });
+
+        it("returns to normal mode on non-change visual operators (e.g. d, y)", () => {
+          const result = explainSequence("vdw");
+          expect(result.commands).toEqual([
+            { matched: "v", explanation: "enter visual mode" },
+            { matched: "d", explanation: "delete selection" },
+            { matched: "w", explanation: "move word forward" },
+          ]);
+        });
+
         it("explains vy as enter visual mode, yank selection", () => {
           const result = explainSequence("vy");
           expect(result.commands).toHaveLength(2);
@@ -1071,6 +1144,60 @@ describe("vimsplain", () => {
           expect(result.commands).toHaveLength(2);
           expect(result.commands[0].explanation).toBe("enter visual mode");
           expect(result.commands[1].explanation).toBe("uppercase selection");
+        });
+
+        it("explains vg~ as enter visual mode, toggle case of selection", () => {
+          const result = explainSequence("vg~");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe(
+            "toggle case of selection",
+          );
+        });
+
+        it("explains vgq as enter visual mode, format selection", () => {
+          const result = explainSequence("vgq");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("format selection");
+        });
+
+        it("explains vY as enter visual mode, yank selection", () => {
+          const result = explainSequence("vY");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("yank selection");
+        });
+
+        it("explains vX as enter visual mode, delete selection", () => {
+          const result = explainSequence("vX");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("delete selection");
+        });
+
+        it("explains vP as enter visual mode, paste over selection", () => {
+          const result = explainSequence("vP");
+          expect(result.commands).toHaveLength(2);
+          expect(result.commands[0].explanation).toBe("enter visual mode");
+          expect(result.commands[1].explanation).toBe("paste over selection");
+        });
+
+        it("resumes normal mode parsing after visual g-operators", () => {
+          const result = explainSequence("vgcw");
+          expect(result.commands).toEqual([
+            { matched: "v", explanation: "enter visual mode" },
+            { matched: "gc", explanation: "toggle comment selection" },
+            { matched: "w", explanation: "move word forward" },
+          ]);
+        });
+
+        it("falls through to normal mode handling on bare g in visual mode", () => {
+          const result = explainSequence("vg");
+          expect(result.commands).toEqual([
+            { matched: "v", explanation: "enter visual mode" },
+            { matched: "g", explanation: "unknown command 'g'" },
+          ]);
         });
       });
 
@@ -1564,11 +1691,65 @@ describe("vimsplain", () => {
         ]);
       });
 
+      it("resets searchBuffer on Esc cancellation so subsequent searches start fresh", () => {
+        const result = explainSequence(
+          `/foo${SPECIAL_KEYS.ESCAPE}/bar${SPECIAL_KEYS.ENTER}`,
+        );
+        expect(result.commands).toEqual([
+          { matched: SPECIAL_KEYS.ESCAPE, explanation: "cancel search" },
+          { matched: "/bar", explanation: 'search forward for "bar"' },
+        ]);
+      });
+
+      it("handles [Backspace] with subsequent characters in search mode", () => {
+        const result = explainSequence(
+          `/ab${SPECIAL_KEYS.BACKSPACE}c${SPECIAL_KEYS.ENTER}`,
+        );
+        expect(result.commands).toEqual([
+          { matched: "/ac", explanation: 'search forward for "ac"' },
+        ]);
+      });
+
+      it("ignores arrow keys and continues parsing subsequent characters in search mode", () => {
+        const result = explainSequence(
+          `/ab${SPECIAL_KEYS.ARROW_LEFT}c${SPECIAL_KEYS.ENTER}`,
+        );
+        expect(result.commands).toEqual([
+          { matched: "/abc", explanation: 'search forward for "abc"' },
+        ]);
+      });
+
+      it("flushes backward search buffer without trailing Enter", () => {
+        const result = explainSequence("?foo");
+        expect(result.commands).toEqual([
+          { matched: "?foo", explanation: 'search backward for "foo"' },
+        ]);
+      });
+
       it("cancels ex command with [Esc] and returns to normal mode", () => {
         const result = explainSequence(`:w${SPECIAL_KEYS.ESCAPE}dd`);
         expect(result.commands).toEqual([
           { matched: SPECIAL_KEYS.ESCAPE, explanation: "cancel command" },
           { matched: "dd", explanation: "delete line" },
+        ]);
+      });
+
+      it("resets exBuffer on Esc cancellation so subsequent ex commands start fresh", () => {
+        const result = explainSequence(
+          `:w${SPECIAL_KEYS.ESCAPE}:q${SPECIAL_KEYS.ENTER}`,
+        );
+        expect(result.commands).toEqual([
+          { matched: SPECIAL_KEYS.ESCAPE, explanation: "cancel command" },
+          { matched: ":q", explanation: "quit" },
+        ]);
+      });
+
+      it("handles [Backspace] with subsequent characters in ex command mode", () => {
+        const result = explainSequence(
+          `:w${SPECIAL_KEYS.BACKSPACE}q${SPECIAL_KEYS.ENTER}`,
+        );
+        expect(result.commands).toEqual([
+          { matched: ":q", explanation: "quit" },
         ]);
       });
 
@@ -1579,6 +1760,65 @@ describe("vimsplain", () => {
         expect(result.commands).toEqual([
           { matched: ":w", explanation: "write file" },
         ]);
+      });
+
+      it("explains additional ex commands", () => {
+        expect(
+          explainSequence(`:wq!${SPECIAL_KEYS.ENTER}`).commands[0],
+        ).toEqual({
+          matched: ":wq!",
+          explanation: "force write and quit",
+        });
+        expect(explainSequence(`:x${SPECIAL_KEYS.ENTER}`).commands[0]).toEqual({
+          matched: ":x",
+          explanation: "write and quit",
+        });
+        expect(explainSequence(`:e${SPECIAL_KEYS.ENTER}`).commands[0]).toEqual({
+          matched: ":e",
+          explanation: "edit file",
+        });
+        expect(
+          explainSequence(`:nohl${SPECIAL_KEYS.ENTER}`).commands[0],
+        ).toEqual({
+          matched: ":nohl",
+          explanation: "clear search highlights",
+        });
+        expect(
+          explainSequence(`:set nu${SPECIAL_KEYS.ENTER}`).commands[0],
+        ).toEqual({
+          matched: ":set nu",
+          explanation: "show line numbers",
+        });
+        expect(
+          explainSequence(`:set nonu${SPECIAL_KEYS.ENTER}`).commands[0],
+        ).toEqual({
+          matched: ":set nonu",
+          explanation: "hide line numbers",
+        });
+        expect(
+          explainSequence(`:set rnu${SPECIAL_KEYS.ENTER}`).commands[0],
+        ).toEqual({
+          matched: ":set rnu",
+          explanation: "show relative line numbers",
+        });
+        expect(
+          explainSequence(`:set nornu${SPECIAL_KEYS.ENTER}`).commands[0],
+        ).toEqual({
+          matched: ":set nornu",
+          explanation: "hide relative line numbers",
+        });
+        expect(
+          explainSequence(`:s/foo/bar${SPECIAL_KEYS.ENTER}`).commands[0],
+        ).toEqual({
+          matched: ":s/foo/bar",
+          explanation: "substitute",
+        });
+      });
+
+      it("does not flush empty search or ex buffers when input ends immediately after trigger", () => {
+        expect(explainSequence("/").commands).toEqual([]);
+        expect(explainSequence("?").commands).toEqual([]);
+        expect(explainSequence(":").commands).toEqual([]);
       });
     });
 
