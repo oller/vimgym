@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.3.1
+
+### Patch Changes
+
+- [#26](https://github.com/oller/vimgym/pull/26) [`3052d91`](https://github.com/oller/vimgym/commit/3052d912cd4057462733134c99797475146e2172) Thanks [@oller](https://github.com/oller)! - Add Stryker mutation testing configuration and strengthen test suite assertions across visual, insert, search, and ex-command handlers.
+
 ## 0.3.0
 
 ### Minor Changes
