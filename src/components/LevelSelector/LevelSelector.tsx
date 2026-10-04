@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { LevelCategory } from "../../data/levels";
-import { LEVELS } from "../../data/levels";
+import { LEVEL_CATEGORIES, LEVELS } from "../../data/levels";
 import { usePlayerDashboard } from "../../hooks/api";
 import { useLevelId } from "../../hooks/useLevelId";
 import { useScrollIntoView } from "../../hooks/useScrollIntoView";
@@ -12,11 +12,18 @@ import { LevelSelectorContext } from "./LevelSelectorContext";
 
 const STORAGE_KEY = "vimgym:category-collapsed";
 
+const isLevelCategory = (val: unknown): val is LevelCategory =>
+  typeof val === "string" &&
+  (LEVEL_CATEGORIES as readonly string[]).includes(val);
+
 const loadCollapsedState = (): Set<LevelCategory> => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) return new Set();
-    return new Set(JSON.parse(stored) as LevelCategory[]);
+    const parsed = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return new Set();
+    const valid = parsed.filter(isLevelCategory);
+    return new Set(valid);
   } catch {
     return new Set();
   }

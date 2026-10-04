@@ -1,7 +1,7 @@
 import type { TargetAndTransition } from "motion/react";
 import { AnimatePresence, motion } from "motion/react";
 import type { PropsWithChildren } from "react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGameStore } from "../store/useGameStore";
 
 type CrtEffectProps = PropsWithChildren;
@@ -11,6 +11,10 @@ export const CrtEffect = ({ children }: CrtEffectProps) => {
   const setPoweredOff = useGameStore((state) => state.setPoweredOff);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const wasPoweredOff = useRef(isPoweredOff);
+
+  useEffect(() => {
+    wasPoweredOff.current = isPoweredOff;
+  }, [isPoweredOff]);
 
   // Focus the resume button when the animation completes
   const handleAnimationComplete = () => {
@@ -58,6 +62,7 @@ export const CrtEffect = ({ children }: CrtEffectProps) => {
       {/* The actual App Content - We animate this container */}
       <motion.div
         animate={animateState}
+        aria-hidden={isPoweredOff}
         className="w-full h-full bg-tokyo-night"
         initial={false}
         onAnimationComplete={handleAnimationComplete}

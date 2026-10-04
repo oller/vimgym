@@ -6,6 +6,15 @@ export type LevelCategory =
   | "Navigation & Editing"
   | "Macros & Registers";
 
+export const LEVEL_CATEGORIES: readonly LevelCategory[] = [
+  "Deletion & Insertion",
+  "Text Objects",
+  "Visual Mode",
+  "Search & Replace",
+  "Navigation & Editing",
+  "Macros & Registers",
+] as const;
+
 export type Level = {
   id: string;
   name: string;

@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { usePlayerDashboard } from "../../hooks/api";
 import { getUserId } from "../../lib/analytics";
 import { useGameStore } from "../../store/useGameStore";
@@ -18,6 +18,7 @@ export const CompletionModal = ({
   const history = useGameStore((state) => state.history);
   const currentLevel = useGameStore((state) => state.currentLevel);
   const [showConfetti, setShowConfetti] = useState(false);
+  const titleId = useId();
 
   const userId = getUserId();
   const { data: dashboard = {} } = usePlayerDashboard(userId);
@@ -32,8 +33,20 @@ export const CompletionModal = ({
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && hasNextLevel) {
+        e.preventDefault();
+        onNext();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [hasNextLevel, onNext]);
+
   return (
     <Modal
+      ariaLabelledBy={titleId}
       className="border-tokyo-night-turquoise max-w-sm text-center"
       showCloseButton={false}
     >
@@ -41,6 +54,7 @@ export const CompletionModal = ({
         animate={{ y: 0, opacity: 1 }}
         className="text-3xl mb-2 font-roboto-mono text-tokyo-night-turquoise"
         data-testid="level-complete"
+        id={titleId}
         initial={{ y: -20, opacity: 0 }}
         transition={{ delay: 0.1 }}
       >
