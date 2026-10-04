@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it } from "vitest";
 import { useGameStore } from "../../store/useGameStore";
@@ -37,5 +37,56 @@ describe("CrtEffect", () => {
 
     await user.click(reconnectBtn);
     expect(useGameStore.getState().isPoweredOff).toBe(false);
+  });
+
+  it("restores focus to previous element on reconnect", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <CrtEffect>
+        <button data-testid="editor-sim" type="button">
+          Editor
+        </button>
+      </CrtEffect>,
+    );
+
+    const editorBtn = screen.getByTestId("editor-sim");
+    editorBtn.focus();
+    expect(editorBtn).toHaveFocus();
+
+    useGameStore.setState({ isPoweredOff: true });
+
+    const reconnectBtn = await screen.findByRole("button", {
+      name: /reconnect/i,
+    });
+    await user.click(reconnectBtn);
+
+    expect(useGameStore.getState().isPoweredOff).toBe(false);
+    await waitFor(() => {
+      expect(editorBtn).toHaveFocus();
+    });
+  });
+
+  it("falls back to focusing .cm-content on reconnect if previous element is not available", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <CrtEffect>
+        <textarea className="cm-content" data-testid="editor-element" />
+      </CrtEffect>,
+    );
+
+    useGameStore.setState({ isPoweredOff: true });
+
+    const reconnectBtn = await screen.findByRole("button", {
+      name: /reconnect/i,
+    });
+    await user.click(reconnectBtn);
+
+    expect(useGameStore.getState().isPoweredOff).toBe(false);
+    const editorEl = screen.getByTestId("editor-element");
+    await waitFor(() => {
+      expect(editorEl).toHaveFocus();
+    });
   });
 });
