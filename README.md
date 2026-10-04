@@ -4,6 +4,7 @@
 [![npm version](https://img.shields.io/npm/v/vimsplain)](https://www.npmjs.com/package/vimsplain)
 [![npm downloads](https://img.shields.io/npm/dm/vimsplain)](https://www.npmjs.com/package/vimsplain)
 [![CI](https://github.com/oller/vimgym/actions/workflows/ci.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/ci.yml)
+[![Mutation Testing](https://github.com/oller/vimgym/actions/workflows/mutation-testing.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/mutation-testing.yml)
 
 VimGym is an interactive Vim training game, built to help you learn, hone and test your vim motions.  This repo also contains [`vimsplain`](./packages/vimsplain/README.md), the logic that powers the `MotionLog` element of VimGym, it is used to parse and explain Vim keystroke sequences.  This is published as an [npm package](https://www.npmjs.com/package/vimsplain).
 
@@ -41,7 +42,7 @@ A pnpm monorepo containing two projects:
 - **Editor:** [CodeMirror 6](https://codemirror.net/) with [@replit/codemirror-vim](https://github.com/replit/codemirror-vim)
 - **State Management:** [Zustand](https://github.com/pmndrs/zustand) + [Nuqs](https://nuqs.47ng.com/) (URL state)
 - **Backend/Network:** [Supabase](https://supabase.com/) (RPC-first) + [Zod](https://zod.dev/)
-- **Testing:** [Vitest](https://vitest.dev/) + React Testing Library
+- **Testing:** [Vitest](https://vitest.dev/) + React Testing Library + [Stryker](https://stryker-mutator.io/) (Mutation Testing)
 - **Tooling:** [Biome](https://biomejs.dev/) (Linter/Formatter)
 
 ### Development
@@ -62,12 +63,26 @@ pnpm dev       # Start development server
 | `pnpm preview` | Preview production build |
 | `pnpm test` | Run tests in watch mode |
 | `pnpm test:run` | Run tests once |
+| `pnpm test:mutate:vimsplain` | Run Stryker mutation tests on `vimsplain` |
 | `pnpm tsc` | TypeScript type checking |
 | `pnpm lint` | Check linting and formatting (Biome) |
 | `pnpm lint:fix` | Fix linting and formatting (Biome) |
-| `pnpm deploy` | Full pre-deploy check (build, typecheck, lint, test) |
+| `pnpm deploy` | Full pre-deploy check (build vimsplain, sync types, lint, test, build app) |
 | `pnpm knip` | Find unused dependencies |
 | `pnpm types:sync` | Sync types from Supabase |
+
+### Testing & Quality
+
+- **Unit & Integration:** Tests run via [Vitest](https://vitest.dev/) and React Testing Library in a jsdom environment.
+- **Coverage Requirements:** `vimsplain` enforces strict coverage thresholds (≥90% line & function coverage, ≥80% branch coverage).
+- **Mutation Testing:** Powered by [Stryker](https://stryker-mutator.io/), mutation tests inject deliberate syntactical faults into parser handlers to ensure the test suite catches regressions. Mutation testing runs automatically in CI on pull requests touching `vimsplain` with automated PR baseline reporting.
+
+```bash
+pnpm test:run                     # Run app tests
+pnpm --filter vimsplain test:run  # Run vimsplain tests
+pnpm --filter vimsplain test:coverage # Run vimsplain tests with coverage report
+pnpm test:mutate:vimsplain        # Run Stryker mutation tests on vimsplain
+```
 
 ---
 

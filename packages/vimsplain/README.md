@@ -3,6 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/vimsplain)](https://www.npmjs.com/package/vimsplain)
 [![npm downloads](https://img.shields.io/npm/dm/vimsplain)](https://www.npmjs.com/package/vimsplain)
 [![CI](https://github.com/oller/vimgym/actions/workflows/ci.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/ci.yml)
+[![Mutation Testing](https://github.com/oller/vimgym/actions/workflows/mutation-testing.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/mutation-testing.yml)
 [![license](https://img.shields.io/npm/l/vimsplain)](https://github.com/oller/vimgym/blob/main/packages/vimsplain/README.md#license)
 
 A TypeScript parser and interpreter for Vim keystroke sequences. Translates raw Vim commands including basic motions, text objects, visual mode, search, and insert modes — into structured explanations or human-readable summaries. Perfect for building interactive learning tools, editor plugins, or keyboard shortcut analyzers.
@@ -122,17 +123,37 @@ type ExplainResult = {
   remaining: string;    // Any unmatched trailing input
 };
 
+type VimMode =
+  | "Normal"
+  | "Insert"
+  | "Visual"
+  | "VisualLine"
+  | "VisualBlock"
+  | "Command"
+  | "Search";
+
+type ParsingContext = {
+  remaining: string;
+  commands: ExplainedCommand[];
+  activeMode: VimMode;
+  insertBuffer: string;
+  exBuffer: string;
+  searchBuffer: string;
+  searchDirection: "/" | "?";
+};
+
 type CommandDefinition = {
   pattern: RegExp;
   description: string;
   isMotion: boolean;
+  expectsMotion?: boolean;
 };
 ```
 
 ## Constants
 
 ```ts
-import { SPECIAL_KEYS } from "vimsplain";
+import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "vimsplain";
 
 SPECIAL_KEYS.ESCAPE      // "[Esc]"
 SPECIAL_KEYS.ENTER       // "[Enter]"
@@ -146,6 +167,17 @@ SPECIAL_KEYS.CTRL_R      // "[C-r]"
 SPECIAL_KEYS.CTRL_W      // "[C-w]"
 SPECIAL_KEYS.CTRL_O      // "[C-o]"
 SPECIAL_KEYS.CTRL_I      // "[C-i]"
+SPECIAL_KEYS.CTRL_D      // "[C-d]"
+SPECIAL_KEYS.CTRL_U      // "[C-u]"
+SPECIAL_KEYS.CTRL_F      // "[C-f]"
+SPECIAL_KEYS.CTRL_B      // "[C-b]"
+SPECIAL_KEYS.CTRL_V      // "[C-v]"
+SPECIAL_KEYS.CTRL_C      // "[C-c]"
+SPECIAL_KEYS.CTRL_E      // "[C-e]"
+SPECIAL_KEYS.CTRL_Y      // "[C-y]"
+
+// Modifier combination mapping
+MODIFIER_KEY_MAP["ctrl+r"] // "[C-r]"
 ```
 
 ## Supported Commands
@@ -520,9 +552,34 @@ After adding, removing, or renaming entries, regenerate the Supported Commands t
 
 ```bash
 pnpm gen:commands
+# or from repo root:
+pnpm --filter vimsplain gen:commands
 ```
 
 This rewrites the tables between their respective `<!-- ..._TABLE_START -->` and `<!-- ..._TABLE_END -->` markers.
+
+### Testing & Verification
+
+All contributions must pass type checks, unit tests, coverage thresholds, and mutation tests:
+
+```bash
+pnpm test          # Run tests in watch mode
+pnpm test:run      # Run tests once
+pnpm test:coverage # Run tests with coverage (thresholds: >=90% lines & functions, >=80% branches)
+pnpm test:mutate   # Run Stryker mutation tests
+pnpm typecheck     # Type check (tsc --noEmit)
+pnpm build         # Build dist/ with tsdown
+```
+
+From the monorepo root:
+
+```bash
+pnpm --filter vimsplain test:run
+pnpm --filter vimsplain test:coverage
+pnpm --filter vimsplain test:mutate   # or: pnpm test:mutate:vimsplain
+pnpm --filter vimsplain build
+pnpm --filter vimsplain typecheck
+```
 
 ## Publishing a new version
 
