@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { AnimatePresence } from "motion/react";
 import { describe, expect, it, vi } from "vitest";
 import { Sparkline } from "../Sparkline";
 
@@ -83,5 +84,17 @@ describe("Sparkline", () => {
     await user.hover(svg);
     await user.unhover(svg);
     expect(onHover).toHaveBeenCalledWith(null);
+  });
+
+  it("initializes animated line with pathLength and stroke-dasharray even within AnimatePresence initial={false}", () => {
+    const { container } = render(
+      <AnimatePresence initial={false}>
+        <Sparkline data={mockData} />
+      </AnimatePresence>,
+    );
+    const paths = container.querySelectorAll("path");
+    const linePath = paths[1];
+    expect(linePath).toHaveAttribute("pathLength", "1");
+    expect(linePath).toHaveAttribute("stroke-dasharray", "0 1");
   });
 });
