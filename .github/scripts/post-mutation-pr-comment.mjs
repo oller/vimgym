@@ -243,7 +243,10 @@ function postOrUpdateComment(markdown) {
   }
 
   console.log(`Checking existing comments on PR #${PR_NUMBER}...`);
-  const tmpFile = join(process.cwd(), ".mutation-comment-payload.json");
+  const tmpFile = join(process.cwd(), ".mutation-comment-payload.json").replace(
+    /\\/g,
+    "/",
+  );
   try {
     const listCmd = `gh api repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments --paginate`;
     const commentsRaw = execSync(listCmd, { encoding: "utf8" });
@@ -283,10 +286,10 @@ function postOrUpdateComment(markdown) {
 
 function main() {
   if (!existsSync(REPORT_PATH)) {
-    console.error(
-      `Mutation report not found at ${REPORT_PATH}. Run Stryker first.`,
+    console.warn(
+      `Mutation report not found at ${REPORT_PATH}. Skipping PR comment.`,
     );
-    process.exit(1);
+    return;
   }
 
   const reportData = JSON.parse(readFileSync(REPORT_PATH, "utf8"));

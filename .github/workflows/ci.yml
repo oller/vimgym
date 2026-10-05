@@ -6,10 +6,15 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   test:
     name: Test & Typecheck
     runs-on: ubuntu-latest
+    if: ${{ !startsWith(github.head_ref, 'changeset-release/') }}
     steps:
       - uses: actions/checkout@v6
 
@@ -19,7 +24,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies
