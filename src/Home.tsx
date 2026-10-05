@@ -62,24 +62,24 @@ const Home = () => {
   return (
     <CrtEffect>
       <div className="h-dvh overflow-hidden bg-tokyo-night text-white flex flex-col p-4 md:p-6 font-sans relative">
-        <AnimatePresence>
-          {isAboutOpen && (
-            <Suspense fallback={null}>
+        <Suspense fallback={null}>
+          <AnimatePresence>
+            {isAboutOpen && (
               <AboutModal
                 isOpen={isAboutOpen}
+                key="about-modal"
                 onClose={() => setIsAboutOpen(false)}
               />
-            </Suspense>
-          )}
-          {isCompleted && (
-            <Suspense fallback={null}>
+            )}
+            {isCompleted && (
               <CompletionModal
                 hasNextLevel={hasNextLevel}
+                key="completion-modal"
                 onNext={handleNextLevel}
               />
-            </Suspense>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>
+        </Suspense>
 
         <header className="mb-2 md:mb-4 flex justify-between items-center border-b border-gray-800 pb-2 md:pb-4">
           <Logo />

@@ -80,7 +80,7 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
     await userEvent.keyboard("{Enter}");
   });
 
-  // Verify modal is dismissed / next level is loaded
+  // Verify completion modal is dismissed
   await waitFor(() => {
     expect(
       screen.queryByRole("heading", { level: 2, name: "Level Complete" }),
