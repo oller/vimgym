@@ -1,5 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "ignore": ["env.d.ts", "src/types/database.ts"],
-  "ignoreDependencies": ["@changesets/cli"]
+  "ignoreDependencies": ["@stryker-mutator/core"],
+  "ignoreBinaries": ["stryker"]
 }

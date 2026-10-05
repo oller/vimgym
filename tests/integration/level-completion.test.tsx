@@ -74,4 +74,16 @@ test("complete level 1 with keystrokes fsldt. and verify score is 6", async () =
 
   // Verify count is STILL 6 (should not increase)
   expect(keystrokeCount?.textContent).toContain(`${solution.length}`);
+
+  // Press Enter to advance to next level
+  await act(async () => {
+    await userEvent.keyboard("{Enter}");
+  });
+
+  // Verify modal is dismissed / next level is loaded
+  await waitFor(() => {
+    expect(
+      screen.queryByRole("heading", { level: 2, name: "Level Complete" }),
+    ).not.toBeInTheDocument();
+  });
 });
