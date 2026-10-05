@@ -1,44 +1,22 @@
 name: Mutation Testing
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "packages/vimsplain/src/**"
-      - "packages/vimsplain/tests/**"
-      - "packages/vimsplain/stryker.config.json"
-      - "packages/vimsplain/vitest.config.ts"
-      - ".github/workflows/mutation-testing.yml"
-      - ".github/scripts/**"
-  push:
-    branches: [main]
-    paths:
-      - "packages/vimsplain/src/**"
-      - "packages/vimsplain/tests/**"
-      - "packages/vimsplain/stryker.config.json"
-      - "packages/vimsplain/vitest.config.ts"
-      - ".github/workflows/mutation-testing.yml"
-      - ".github/scripts/**"
+  schedule:
+    # Run weekly every Sunday at 03:00 UTC
+    - cron: "0 3 * * 0"
   workflow_dispatch:
 
 concurrency:
-  group: mutation-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  group: mutation-testing
+  cancel-in-progress: true
 
 jobs:
   mutate:
     name: Stryker Mutation Testing (vimsplain)
     runs-on: ubuntu-latest
-    if: ${{ !startsWith(github.head_ref, 'changeset-release/') }}
-    permissions:
-      contents: read
-      pull-requests: write
-      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v5
@@ -54,44 +32,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Restore baseline and incremental mutation cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            packages/vimsplain/reports/mutation/baseline.json
-            packages/vimsplain/reports/stryker-incremental.json
-          key: stryker-cache-main-${{ github.sha }}
-          restore-keys: |
-            stryker-cache-main-
-            stryker-baseline-main-
-
       - name: Run Stryker mutation tests
         run: pnpm --filter vimsplain test:mutate
-
-      - name: Prepare baseline report
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          mkdir -p packages/vimsplain/reports/mutation
-          cp packages/vimsplain/reports/mutation/mutation.json packages/vimsplain/reports/mutation/baseline.json
-
-      - name: Save baseline and incremental mutation cache
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            packages/vimsplain/reports/mutation/baseline.json
-            packages/vimsplain/reports/stryker-incremental.json
-          key: stryker-cache-main-${{ github.sha }}
-
-      - name: Post or update PR comment
-        if: ${{ (success() || failure()) && github.event_name == 'pull_request' }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: node .github/scripts/post-mutation-pr-comment.mjs
 
       - name: Upload mutation report artifact
         uses: actions/upload-artifact@v4
