@@ -15,8 +15,8 @@ export const CompletionModal = ({
   onNext,
   hasNextLevel,
 }: CompletionModalProps) => {
-  const history = useGameStore((state) => state.history);
-  const currentLevel = useGameStore((state) => state.currentLevel);
+  const [history] = useState(() => useGameStore.getState().history);
+  const [currentLevel] = useState(() => useGameStore.getState().currentLevel);
   const [showConfetti, setShowConfetti] = useState(false);
   const titleId = useId();
 
