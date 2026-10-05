@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { usePlayerDashboard } from "../../hooks/api";
 import { getUserId } from "../../lib/analytics";
 import { useGameStore } from "../../store/useGameStore";
@@ -19,6 +19,7 @@ export const CompletionModal = ({
   const [currentLevel] = useState(() => useGameStore.getState().currentLevel);
   const [showConfetti, setShowConfetti] = useState(false);
   const titleId = useId();
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
 
   const userId = getUserId();
   const { data: dashboard = {} } = usePlayerDashboard(userId);
@@ -34,14 +35,19 @@ export const CompletionModal = ({
   }, []);
 
   useEffect(() => {
+    nextButtonRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter" && hasNextLevel) {
         e.preventDefault();
+        e.stopPropagation();
         onNext();
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown, true);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
   }, [hasNextLevel, onNext]);
 
   return (
@@ -87,6 +93,7 @@ export const CompletionModal = ({
             <button
               className="w-full cursor-pointer bg-tokyo-night-turquoise/20 hover:bg-tokyo-night-turquoise/30 text-white py-3 px-6 transition-colors font-roboto-mono"
               onClick={onNext}
+              ref={nextButtonRef}
               type="button"
             >
               Next Level

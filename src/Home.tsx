@@ -34,17 +34,15 @@ const CompletionModal = lazy(() =>
 
 const Home = () => {
   const [levelId, setLevelId] = useLevelId();
-  const setLevel = useGameStore((state) => state.setLevel);
   const resetCount = useGameStore((state) => state.resetCount);
   const resetLevel = useGameStore((state) => state.resetLevel);
   const isCompleted = useGameStore((state) => state.isCompleted);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
-  // Validate level exists
   const isValidLevel = LEVELS.some((l) => l.id === levelId);
-  const currentLevelId = isValidLevel && levelId ? levelId : LEVELS[0].id;
+  const activeLevelId = isValidLevel && levelId ? levelId : LEVELS[0].id;
 
-  const currentLevelIndex = LEVELS.findIndex((l) => l.id === currentLevelId);
+  const currentLevelIndex = LEVELS.findIndex((l) => l.id === activeLevelId);
   const hasNextLevel =
     currentLevelIndex !== -1 && currentLevelIndex < LEVELS.length - 1;
 
@@ -56,13 +54,10 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // If invalid level in URL, redirect to 1 (delete-words)
-    if (!isValidLevel || !levelId) {
-      setLevelId("delete-words");
-      return;
+    if (!isValidLevel) {
+      setLevelId(LEVELS[0].id);
     }
-    setLevel(currentLevelId);
-  }, [currentLevelId, setLevel, isValidLevel, levelId, setLevelId]);
+  }, [isValidLevel, setLevelId]);
 
   return (
     <CrtEffect>
@@ -129,7 +124,7 @@ const Home = () => {
                     <div className="grow bg-tokyo-night-storm rounded-md animate-pulse border border-gray-800" />
                   }
                 >
-                  <VimEditor key={`${levelId}-${resetCount}`} />
+                  <VimEditor key={`${activeLevelId}-${resetCount}`} />
                 </Suspense>
               </EditorErrorBoundary>
             </div>

@@ -8,8 +8,8 @@ import NumberFlow from "@number-flow/react";
 import { getCM, Vim, vim } from "@replit/codemirror-vim";
 import { tokyoNightStorm } from "@uiw/codemirror-theme-tokyo-night-storm";
 import CodeMirror from "@uiw/react-codemirror";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { getLevel, LEVELS } from "../../data/levels";
+import { useCallback, useId, useRef, useState } from "react";
+import { getLevel } from "../../data/levels";
 import { useLevelId } from "../../hooks/useLevelId";
 import { useGameStore } from "../../store/useGameStore";
 import { cn } from "../../utils/cn";
@@ -137,27 +137,6 @@ export const VimEditor = () => {
     },
     [setupVim, addKeyStrokeCallback],
   );
-
-  // Global keydown listener to intercept Enter when completed
-  useEffect(() => {
-    const handleGlobalKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter" && isCompleted) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const currentIndex = LEVELS.findIndex((l) => l.id === currentLevel);
-        if (currentIndex !== -1 && currentIndex < LEVELS.length - 1) {
-          setLevelId(LEVELS[currentIndex + 1].id);
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleGlobalKeyDown, true);
-
-    return () => {
-      document.removeEventListener("keydown", handleGlobalKeyDown, true);
-    };
-  }, [setLevelId, isCompleted, currentLevel]);
 
   const levelObj = getLevel(currentLevel);
   const lang = levelObj?.language || "markdown";
