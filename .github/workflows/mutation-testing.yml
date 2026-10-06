@@ -38,12 +38,16 @@ jobs:
       - name: Restore previous mutation report
         uses: actions/cache/restore@v4
         with:
-          path: packages/vimsplain/reports/mutation/baseline.json
+          path: |
+            packages/vimsplain/reports/mutation/baseline.json
+            packages/vimsplain/reports/stryker-incremental.json
           key: stryker-weekly-baseline-${{ github.sha }}
           restore-keys: |
             stryker-weekly-baseline-
 
       - name: Run Stryker mutation tests
+        env:
+          BROWSERSLIST_IGNORE_OLD_DATA: "true"
         run: pnpm --filter vimsplain test:mutate
 
       - name: Update or create evergreen issue
@@ -68,7 +72,9 @@ jobs:
         if: always()
         uses: actions/cache/save@v4
         with:
-          path: packages/vimsplain/reports/mutation/baseline.json
+          path: |
+            packages/vimsplain/reports/mutation/baseline.json
+            packages/vimsplain/reports/stryker-incremental.json
           key: stryker-weekly-baseline-${{ github.sha }}
 
       - name: Upload mutation report artifact

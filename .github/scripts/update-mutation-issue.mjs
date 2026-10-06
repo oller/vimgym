@@ -8,7 +8,13 @@
  */
 
 import { execSync } from "node:child_process";
-import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import {
+  appendFileSync,
+  existsSync,
+  readFileSync,
+  unlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { join } from "node:path";
 
 const REPORT_PATH =
@@ -335,6 +341,15 @@ function main() {
   }
 
   const markdown = generateMarkdownReport(reportData, baselineData);
+
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    try {
+      appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${markdown}\n`, "utf8");
+      console.log("✓ Wrote mutation report to GitHub Step Summary.");
+    } catch (err) {
+      console.warn("Could not write to GITHUB_STEP_SUMMARY:", err.message);
+    }
+  }
 
   if (IS_DRY_RUN) {
     console.log("\n--- Generated Evergreen Issue Markdown ---\n");

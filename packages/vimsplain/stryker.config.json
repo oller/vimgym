@@ -11,7 +11,12 @@
   "vitest": {
     "configFile": "vitest.config.ts"
   },
-  "reporters": ["progress", "clear-text", "html", "json"],
+  "reporters": ["clear-text", "html", "json"],
+  "clearTextReporter": {
+    "reportTests": false,
+    "reportMutants": false,
+    "logTests": false
+  },
   "htmlReporter": {
     "fileName": "reports/mutation/mutation.html"
   },
