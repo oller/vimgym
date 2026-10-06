@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Parses Stryker mutation testing report JSON and posts/updates a sticky comment on the PR.
+ * Parses Stryker mutation testing report JSON and updates (or creates) an evergreen GitHub Issue.
  *
  * Usage:
- *   node .github/scripts/post-mutation-pr-comment.mjs [--dry-run]
+ *   node .github/scripts/update-mutation-issue.mjs [--dry-run]
  */
 
 import { execSync } from "node:child_process";
@@ -17,12 +17,13 @@ const REPORT_PATH =
 const BASELINE_PATH =
   process.env.BASELINE_REPORT_PATH ||
   "packages/vimsplain/reports/mutation/baseline.json";
-const PR_NUMBER = process.env.PR_NUMBER;
-const COMMIT_SHA = process.env.COMMIT_SHA || process.env.GITHUB_SHA || "";
 const GITHUB_REPOSITORY = process.env.GITHUB_REPOSITORY || "oller/vimgym";
+const GITHUB_RUN_ID = process.env.GITHUB_RUN_ID || "";
+const GITHUB_SERVER_URL = process.env.GITHUB_SERVER_URL || "https://github.com";
 const IS_DRY_RUN = process.argv.includes("--dry-run");
 
-const COMMENT_MARKER = "<!-- stryker-mutation-report-vimsplain -->";
+const ISSUE_TITLE = "🧬 Stryker Mutation Testing Dashboard: vimsplain";
+const ISSUE_LABEL = "mutation-testing";
 
 function calculateFileStats(mutants) {
   let killed = 0;
@@ -176,25 +177,31 @@ function generateMarkdownReport(reportData, baselineData) {
   const overallBadge = getStatusBadge(overallScore, thresholds);
   const statusText =
     overallScore >= thresholds.high
-      ? `🟢 **Passed** (Score is at or above the high threshold of ${thresholds.high}%)`
+      ? `🟢 **Healthy** (Mutation score is at or above target ${thresholds.high}%)`
       : overallScore >= thresholds.low
-        ? `🟡 **Acceptable** (Score is above minimum threshold of ${thresholds.low}%, but below target ${thresholds.high}%)`
-        : `🔴 **Warning** (Score is below low threshold of ${thresholds.low}%)`;
+        ? `🟡 **Acceptable** (Mutation score is above minimum ${thresholds.low}%, but below target ${thresholds.high}%)`
+        : `🔴 **Warning** (Mutation score is below threshold of ${thresholds.low}%)`;
 
-  let md = `${COMMENT_MARKER}\n`;
-  md += "## 🧬 Stryker Mutation Testing Report: `vimsplain`\n\n";
-  md += `### 📊 Overall Mutation Score: **${overallScore.toFixed(2)}%** ${overallBadge}\n`;
+  let md = "<!-- evergreen-mutation-dashboard -->\n";
+  md += "# 🧬 Stryker Mutation Testing Dashboard: `vimsplain`\n\n";
+  md +=
+    "> This is an automated evergreen issue updated weekly by GitHub Actions. It tracks test effectiveness and mutation score deltas over time.\n\n";
+
+  md += `## 📊 Overall Score: **${overallScore.toFixed(2)}%** ${overallBadge}\n\n`;
+
   if (baselineOverallScore !== null) {
     const deltaStr = formatDelta(overallScore, baselineOverallScore, true);
-    md += `*Δ vs main baseline: **${deltaStr}** (baseline: ${baselineOverallScore.toFixed(2)}%)*\n\n`;
+    md += `*Δ vs previous run: **${deltaStr}** (previous: ${baselineOverallScore.toFixed(2)}%)*\n\n`;
   } else {
     md +=
-      "*Baseline from `main`: N/A (first run or baseline not yet cached)*\n\n";
+      "*Δ vs previous run: N/A (initial run or baseline not yet cached)*\n\n";
   }
+
   md += `> ${statusText}\n\n`;
 
+  md += "### File Breakdown\n\n";
   md +=
-    "| File | Score | Δ vs main | Killed | Survived | Timeout | Compile Errors | Status |\n";
+    "| File | Score | Δ vs prev | Killed | Survived | Timeout | Compile Errors | Status |\n";
   md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n";
 
   for (const entry of fileEntries) {
@@ -230,45 +237,72 @@ function generateMarkdownReport(reportData, baselineData) {
     md += "\n</details>\n\n";
   }
 
-  const shortSha = COMMIT_SHA ? `\`${COMMIT_SHA.slice(0, 7)}\`` : "latest";
-  md += `---\n*Report generated for commit ${shortSha} on ${new Date().toUTCString()}*\n`;
+  md += "---\n";
+  if (GITHUB_RUN_ID) {
+    const runUrl = `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`;
+    md += `*🔗 [View latest workflow run & download full HTML report artifact](${runUrl})*<br />\n`;
+  }
+  md += `*Last updated on ${new Date().toUTCString()}*\n`;
 
   return md;
 }
 
-function postOrUpdateComment(markdown) {
-  if (!PR_NUMBER) {
-    console.log("No PR_NUMBER specified; skipping GitHub comment.");
-    return;
-  }
+function updateOrCreateIssue(markdown) {
+  const tmpFile = join(process.cwd(), ".mutation-issue-body.md").replace(
+    /\\/g,
+    "/",
+  );
+  writeFileSync(tmpFile, markdown, "utf8");
 
-  console.log(`Checking existing comments on PR #${PR_NUMBER}...`);
-  const tmpFile = join(process.cwd(), ".mutation-comment-payload.json");
   try {
-    const listCmd = `gh api repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments --paginate`;
-    const commentsRaw = execSync(listCmd, { encoding: "utf8" });
-    const comments = JSON.parse(commentsRaw);
-    const existing = comments.find((c) => c.body?.includes(COMMENT_MARKER));
+    console.log(`Checking for existing issue with label '${ISSUE_LABEL}'...`);
+    const listCmd = `gh issue list --repo "${GITHUB_REPOSITORY}" --label "${ISSUE_LABEL}" --state all --json number,state,title --limit 1`;
+    const issuesRaw = execSync(listCmd, { encoding: "utf8" });
+    const issues = JSON.parse(issuesRaw);
 
-    writeFileSync(tmpFile, JSON.stringify({ body: markdown }), "utf8");
+    if (issues.length > 0) {
+      const issue = issues[0];
+      console.log(
+        `Found existing evergreen issue #${issue.number}. Updating...`,
+      );
 
-    if (existing) {
-      console.log(`Updating existing comment #${existing.id}...`);
+      if (issue.state === "CLOSED") {
+        console.log(`Reopening closed issue #${issue.number}...`);
+        execSync(
+          `gh issue reopen "${issue.number}" --repo "${GITHUB_REPOSITORY}"`,
+          {
+            stdio: "inherit",
+          },
+        );
+      }
+
       execSync(
-        `gh api repos/${GITHUB_REPOSITORY}/issues/comments/${existing.id} -X PATCH --input "${tmpFile}"`,
+        `gh issue edit "${issue.number}" --repo "${GITHUB_REPOSITORY}" --body-file "${tmpFile}"`,
         { stdio: "inherit" },
       );
-      console.log("✓ Updated mutation testing PR comment.");
+      console.log(`✓ Updated evergreen issue #${issue.number}.`);
     } else {
-      console.log("Posting new PR comment...");
+      console.log(
+        `No existing issue found. Ensuring label '${ISSUE_LABEL}' exists...`,
+      );
+      try {
+        execSync(
+          `gh label create "${ISSUE_LABEL}" --repo "${GITHUB_REPOSITORY}" --description "Automated mutation testing reports" --color "0E8A16" --force`,
+          { stdio: "pipe" },
+        );
+      } catch {
+        // Label might already exist, ignore error
+      }
+
+      console.log("Creating evergreen mutation testing issue...");
       execSync(
-        `gh api repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments -X POST --input "${tmpFile}"`,
+        `gh issue create --repo "${GITHUB_REPOSITORY}" --title "${ISSUE_TITLE}" --label "${ISSUE_LABEL}" --body-file "${tmpFile}"`,
         { stdio: "inherit" },
       );
-      console.log("✓ Created mutation testing PR comment.");
+      console.log("✓ Created evergreen issue.");
     }
   } catch (err) {
-    console.error("Failed to post/update comment via gh CLI:", err.message);
+    console.error("Failed to update/create issue via gh CLI:", err.message);
     process.exitCode = 1;
   } finally {
     if (existsSync(tmpFile)) {
@@ -283,10 +317,10 @@ function postOrUpdateComment(markdown) {
 
 function main() {
   if (!existsSync(REPORT_PATH)) {
-    console.error(
-      `Mutation report not found at ${REPORT_PATH}. Run Stryker first.`,
+    console.warn(
+      `Mutation report not found at ${REPORT_PATH}. Skipping issue update.`,
     );
-    process.exit(1);
+    return;
   }
 
   const reportData = JSON.parse(readFileSync(REPORT_PATH, "utf8"));
@@ -303,13 +337,10 @@ function main() {
   const markdown = generateMarkdownReport(reportData, baselineData);
 
   if (IS_DRY_RUN) {
-    console.log("\n--- Generated PR Comment Markdown ---\n");
+    console.log("\n--- Generated Evergreen Issue Markdown ---\n");
     console.log(markdown);
-  } else if (PR_NUMBER) {
-    postOrUpdateComment(markdown);
   } else {
-    console.log("No PR_NUMBER set; printing report summary:\n");
-    console.log(markdown);
+    updateOrCreateIssue(markdown);
   }
 }
 

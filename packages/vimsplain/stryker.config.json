@@ -24,5 +24,6 @@
     "break": null
   },
   "incremental": true,
+  "incrementalFile": "reports/stryker-incremental.json",
   "cleanTempDir": true
 }

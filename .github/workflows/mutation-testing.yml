@@ -1,22 +1,13 @@
 name: Mutation Testing
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - "packages/vimsplain/**"
-      - ".github/workflows/mutation-testing.yml"
-      - ".github/scripts/**"
-  push:
-    branches: [main]
-    paths:
-      - "packages/vimsplain/**"
-      - ".github/workflows/mutation-testing.yml"
-      - ".github/scripts/**"
+  schedule:
+    # Run weekly every Sunday at 03:00 UTC
+    - cron: "0 3 * * 0"
   workflow_dispatch:
 
 concurrency:
-  group: mutation-${{ github.workflow }}-${{ github.ref }}
+  group: mutation-testing
   cancel-in-progress: true
 
 jobs:
@@ -25,7 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: write
       issues: write
     steps:
       - name: Checkout repository
@@ -45,39 +35,41 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Restore baseline mutation report
+      - name: Restore previous mutation report
         uses: actions/cache/restore@v4
         with:
           path: packages/vimsplain/reports/mutation/baseline.json
-          key: stryker-baseline-main-${{ github.sha }}
+          key: stryker-weekly-baseline-${{ github.sha }}
           restore-keys: |
-            stryker-baseline-main-
+            stryker-weekly-baseline-
 
       - name: Run Stryker mutation tests
         run: pnpm --filter vimsplain test:mutate
 
-      - name: Prepare baseline report
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          mkdir -p packages/vimsplain/reports/mutation
-          cp packages/vimsplain/reports/mutation/mutation.json packages/vimsplain/reports/mutation/baseline.json
-
-      - name: Save baseline mutation report
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        uses: actions/cache/save@v4
-        with:
-          path: packages/vimsplain/reports/mutation/baseline.json
-          key: stryker-baseline-main-${{ github.sha }}
-
-      - name: Post or update PR comment
-        if: github.event_name == 'pull_request'
+      - name: Update or create evergreen issue
+        if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: node .github/scripts/post-mutation-pr-comment.mjs
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+        run: node .github/scripts/update-mutation-issue.mjs
+
+      - name: Prepare baseline report
+        if: always()
+        run: |
+          if [ -f packages/vimsplain/reports/mutation/mutation.json ]; then
+            mkdir -p packages/vimsplain/reports/mutation
+            cp packages/vimsplain/reports/mutation/mutation.json packages/vimsplain/reports/mutation/baseline.json
+          fi
+
+      - name: Save mutation report for next run's delta
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: packages/vimsplain/reports/mutation/baseline.json
+          key: stryker-weekly-baseline-${{ github.sha }}
 
       - name: Upload mutation report artifact
         uses: actions/upload-artifact@v4
