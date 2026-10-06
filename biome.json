@@ -64,6 +64,16 @@
           }
         }
       }
+    },
+    {
+      "includes": [".github/scripts/**"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
     }
   ],
   "javascript": {

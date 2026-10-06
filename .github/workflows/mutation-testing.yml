@@ -14,6 +14,9 @@ jobs:
   mutate:
     name: Stryker Mutation Testing (vimsplain)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -32,8 +35,41 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Restore previous mutation report
+        uses: actions/cache/restore@v4
+        with:
+          path: packages/vimsplain/reports/mutation/baseline.json
+          key: stryker-weekly-baseline-${{ github.sha }}
+          restore-keys: |
+            stryker-weekly-baseline-
+
       - name: Run Stryker mutation tests
         run: pnpm --filter vimsplain test:mutate
+
+      - name: Update or create evergreen issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+        run: node .github/scripts/update-mutation-issue.mjs
+
+      - name: Prepare baseline report
+        if: always()
+        run: |
+          if [ -f packages/vimsplain/reports/mutation/mutation.json ]; then
+            mkdir -p packages/vimsplain/reports/mutation
+            cp packages/vimsplain/reports/mutation/mutation.json packages/vimsplain/reports/mutation/baseline.json
+          fi
+
+      - name: Save mutation report for next run's delta
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: packages/vimsplain/reports/mutation/baseline.json
+          key: stryker-weekly-baseline-${{ github.sha }}
 
       - name: Upload mutation report artifact
         uses: actions/upload-artifact@v4
