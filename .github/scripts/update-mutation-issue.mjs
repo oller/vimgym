@@ -191,7 +191,7 @@ function generateMarkdownReport(reportData, baselineData) {
   let md = "<!-- evergreen-mutation-dashboard -->\n";
   md += "# 🧬 Stryker Mutation Testing Dashboard: `vimsplain`\n\n";
   md +=
-    "> This is an automated evergreen issue updated weekly by GitHub Actions. It tracks test effectiveness and mutation score deltas over time.\n\n";
+    "> Automated mutation testing report tracked weekly by GitHub Actions.\n\n";
 
   md += `## 📊 Overall Score: **${overallScore.toFixed(2)}%** ${overallBadge}\n\n`;
 

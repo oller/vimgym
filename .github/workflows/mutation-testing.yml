@@ -48,6 +48,7 @@ jobs:
       - name: Run Stryker mutation tests
         env:
           BROWSERSLIST_IGNORE_OLD_DATA: "true"
+          GITHUB_STEP_SUMMARY: ""
         run: pnpm --filter vimsplain test:mutate
 
       - name: Update or create evergreen issue
