@@ -231,6 +231,7 @@ function generateMarkdownReport(reportData, baselineData) {
     md += "| :--- | :---: | :--- | :--- |\n";
     for (const s of survivedMutantsList.slice(0, 50)) {
       const rep = (s.replacement || s.description || "")
+        .replace(/\\/g, "\\\\")
         .replace(/\|/g, "\\|")
         .replace(/\n/g, " ")
         .slice(0, 80);
