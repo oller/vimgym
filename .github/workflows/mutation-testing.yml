@@ -19,13 +19,13 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -34,7 +34,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Restore previous mutation report
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: |
             packages/vimsplain/reports/mutation/baseline.json
@@ -69,7 +69,7 @@ jobs:
 
       - name: Save mutation report for next run's delta
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: |
             packages/vimsplain/reports/mutation/baseline.json
@@ -77,7 +77,7 @@ jobs:
           key: stryker-weekly-baseline-${{ github.sha }}
 
       - name: Upload mutation report artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: mutation-report
