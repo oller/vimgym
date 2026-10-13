@@ -15,13 +15,13 @@ jobs:
       pull-requests: write # changesets bot opens version PRs
       id-token: write      # mint OIDC token for npm provenance attestations
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v5
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -37,7 +37,7 @@ jobs:
 
       - name: Create Release Pull Request or Publish
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           publish: pnpm changeset publish --no-git-checks
           commit: "Version Packages [skip ci]"
