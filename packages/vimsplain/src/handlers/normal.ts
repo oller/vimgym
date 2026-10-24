@@ -5,7 +5,7 @@ import type {
 } from "../vimsplain.types.js";
 
 /** Commands that enter insert mode */
-export const INSERT_MODE_TRIGGERS = new Set([
+export const INSERT_MODE_TRIGGERS: Set<string> = new Set([
   "i", // insert before cursor
   "I", // insert at beginning of line
   "a", // append after cursor

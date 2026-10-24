@@ -21,25 +21,24 @@ vi.mock("@codemirror/lang-json", () => ({ json: vi.fn(() => []) }));
 import { json } from "@codemirror/lang-json";
 import { markdown } from "@codemirror/lang-markdown";
 
+// Need to mock getLevel for these tests
+vi.mock("../../../data/levels", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../../../data/levels")>();
+  return {
+    ...actual,
+    getLevel: (id: string) => {
+      if (id === "test-html") return { id, language: "html" };
+      if (id === "test-js") return { id, language: "javascript" };
+      if (id === "test-md") return { id, language: "markdown" };
+      if (id === "test-json") return { id, language: "json" };
+      if (id === "test-default") return { id }; // No language specified
+      return actual.getLevel(id);
+    },
+  };
+});
+
 describe("VimEditor - Language Switching", () => {
   const originalStore = useGameStore.getState();
-
-  // Need to mock getLevel for these tests
-  vi.mock("../../../data/levels", async (importOriginal) => {
-    const actual =
-      await importOriginal<typeof import("../../../data/levels")>();
-    return {
-      ...actual,
-      getLevel: (id: string) => {
-        if (id === "test-html") return { id, language: "html" };
-        if (id === "test-js") return { id, language: "javascript" };
-        if (id === "test-md") return { id, language: "markdown" };
-        if (id === "test-json") return { id, language: "json" };
-        if (id === "test-default") return { id }; // No language specified
-        return actual.getLevel(id);
-      },
-    };
-  });
 
   afterEach(() => {
     vi.clearAllMocks();

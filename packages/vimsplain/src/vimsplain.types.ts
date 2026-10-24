@@ -77,16 +77,16 @@ export const SPECIAL_KEYS = {
 /** Key mapping for modifier combinations */
 export const MODIFIER_KEY_MAP = {
   // Ctrl+key combinations
-  "ctrl+r": SPECIAL_KEYS.CTRL_R,
-  "ctrl+w": SPECIAL_KEYS.CTRL_W,
-  "ctrl+o": SPECIAL_KEYS.CTRL_O,
-  "ctrl+i": SPECIAL_KEYS.CTRL_I,
-  "ctrl+d": SPECIAL_KEYS.CTRL_D,
-  "ctrl+u": SPECIAL_KEYS.CTRL_U,
-  "ctrl+f": SPECIAL_KEYS.CTRL_F,
-  "ctrl+b": SPECIAL_KEYS.CTRL_B,
-  "ctrl+v": SPECIAL_KEYS.CTRL_V,
-  "ctrl+c": SPECIAL_KEYS.CTRL_C,
-  "ctrl+e": SPECIAL_KEYS.CTRL_E,
-  "ctrl+y": SPECIAL_KEYS.CTRL_Y,
+  "ctrl+r": "[C-r]",
+  "ctrl+w": "[C-w]",
+  "ctrl+o": "[C-o]",
+  "ctrl+i": "[C-i]",
+  "ctrl+d": "[C-d]",
+  "ctrl+u": "[C-u]",
+  "ctrl+f": "[C-f]",
+  "ctrl+b": "[C-b]",
+  "ctrl+v": "[C-v]",
+  "ctrl+c": "[C-c]",
+  "ctrl+e": "[C-e]",
+  "ctrl+y": "[C-y]",
 } as const;

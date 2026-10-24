@@ -1,6 +1,7 @@
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { varlockVitePlugin } from "@varlock/vite-integration";
-import react from "@vitejs/plugin-react";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 const commitHash = process.env.COMMIT_REF || "dev";
@@ -16,11 +17,8 @@ export default defineConfig({
     __COMMIT_HASH__: JSON.stringify(commitHash),
   },
   plugins: [
-    react({
-      babel: {
-        plugins: [["babel-plugin-react-compiler", { target: "19" }]],
-      },
-    }),
+    react(),
+    babel({ presets: [reactCompilerPreset({ target: "19" })] }),
     tailwindcss(),
     varlockVitePlugin(),
   ],
