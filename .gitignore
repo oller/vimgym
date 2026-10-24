@@ -30,3 +30,6 @@ reports
 
 # Git Worktrees
 .worktrees/
+
+# Supabase CLI local cache
+supabase/.temp/
