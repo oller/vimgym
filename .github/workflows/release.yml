@@ -3,6 +3,10 @@ name: Release
 on:
   push:
     branches: [main]
+    paths:
+      - "packages/vimsplain/**"
+      - ".changeset/**"
+      - ".github/workflows/release.yml"
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -39,9 +43,9 @@ jobs:
         id: changesets
         uses: changesets/action@v2
         with:
-          publish: pnpm changeset publish --no-git-checks
-          commit: "Version Packages [skip ci]"
-          title: "Version Packages"
+          publish-script: pnpm changeset publish --no-git-checks
+          commit-message: "Version Packages [skip ci]"
+          pr-title: "Version Packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
