@@ -13,7 +13,7 @@ concurrency:
 jobs:
   mutate:
     name: Stryker Mutation Testing (vimsplain)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: read
       issues: write
