@@ -43,7 +43,7 @@ jobs:
         id: changesets
         uses: changesets/action@v2
         with:
-          publish-script: pnpm changeset publish --no-git-checks
+          publish-script: pnpm changeset publish
           commit-message: "Version Packages [skip ci]"
           pr-title: "Version Packages"
         env:
