@@ -34,7 +34,7 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Unused code check
+      - name: Check unused code (knip)
         run: pnpm knip
 
       - name: Typecheck vimsplain
