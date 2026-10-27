@@ -78,5 +78,63 @@ describe("API", () => {
         p_level_ids: expect.any(Array),
       });
     });
+
+    it("returns empty object when response fails Zod schema validation", async () => {
+      const mockClient = {
+        rpc: vi.fn().mockResolvedValue({
+          data: { "delete-words": { invalid: true } },
+          error: null,
+        }),
+      };
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
+      const { getPlayerDashboard } = await import("../index");
+
+      expect(await getPlayerDashboard("user-1")).toEqual({});
+    });
+  });
+
+  describe("getLevelScoreDistribution", () => {
+    it("returns empty array when Supabase is not configured", async () => {
+      vi.mocked(getSupabaseClient).mockReturnValue(null);
+      const { getLevelScoreDistribution } = await import("../index");
+      expect(await getLevelScoreDistribution("delete-words")).toEqual([]);
+    });
+
+    it("returns score distribution data", async () => {
+      const mockDist = [
+        { score: 6, count: 42 },
+        { score: 8, count: 15 },
+      ];
+      const mockClient = {
+        rpc: vi.fn().mockResolvedValue({ data: mockDist, error: null }),
+      };
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
+      const { getLevelScoreDistribution } = await import("../index");
+
+      expect(await getLevelScoreDistribution("delete-words")).toEqual(mockDist);
+      expect(mockClient.rpc).toHaveBeenCalledWith(
+        "get_level_score_distribution",
+        { p_level_id: "delete-words" },
+      );
+    });
+
+    it("throws on Supabase RPC error", async () => {
+      const rpcError = new Error("RPC failed");
+      const mockClient = {
+        rpc: vi.fn().mockResolvedValue({ data: null, error: rpcError }),
+      };
+      vi.mocked(getSupabaseClient).mockReturnValue(
+        mockClient as unknown as SupabaseClient<Database>,
+      );
+      const { getLevelScoreDistribution } = await import("../index");
+
+      await expect(
+        getLevelScoreDistribution("delete-words"),
+      ).rejects.toThrowError("RPC failed");
+    });
   });
 });
