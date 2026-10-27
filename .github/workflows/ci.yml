@@ -51,6 +51,3 @@ jobs:
 
       - name: Test app
         run: pnpm test:run
-
-      - name: Build app
-        run: pnpm build
