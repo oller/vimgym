@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { expect, test, vi } from "vitest";
+import { expect, test as it, vi } from "vitest";
 import App from "../../src/App";
 
 // Mock Supabase client to prevent network requests
@@ -20,7 +20,7 @@ const queryClient = new QueryClient({
   },
 });
 
-test("complete level 1 with keystrokes fsldt. and verify score is 6", async () => {
+it("complete level 1 with keystrokes fsldt. and verify score is 6", async () => {
   // Note: This integration test may produce React act() warnings about
   // Transitioner, MatchesInner (React Router internals), and CodeMirror.
   // These warnings are unavoidable because:
