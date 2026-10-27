@@ -466,8 +466,6 @@ MODIFIER_KEY_MAP["ctrl+r"] // "[C-r]"
 | `zb` | scroll cursor to bottom |
 | `guNw` | lowercase $1 word(s) |
 | `gUNw` | uppercase $1 word(s) |
-| `guw` | lowercase word |
-| `gUw` | uppercase word |
 | `guu` | lowercase line |
 | `gUU` | uppercase line |
 | `g~~` | toggle case line |
