@@ -52,8 +52,27 @@ jobs:
       - name: Test app
         run: pnpm test:run
 
+  smoke:
+    name: Smoke Test (Netlify Preview)
+    runs-on: ubuntu-26.04
+    if: ${{ github.event_name == 'pull_request' && !startsWith(github.head_ref, 'changeset-release/') }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install chromium
+
       - name: Wait for Netlify Deploy Preview
-        if: github.event_name == 'pull_request'
         id: netlify
         env:
           GH_TOKEN: ${{ github.token }}
@@ -71,10 +90,7 @@ jobs:
           done
           exit 1
 
-      - name: Run E2E smoke test against Netlify Deploy Preview
-        if: github.event_name == 'pull_request'
+      - name: Run E2E smoke test
         env:
           PLAYWRIGHT_BASE_URL: ${{ steps.netlify.outputs.url }}
-        run: |
-          pnpm exec playwright install chromium
-          pnpm test:e2e
+        run: pnpm test:e2e
