@@ -1,18 +1,14 @@
 # VimGym
 
-## Verification & Gotchas
+## Verification
 
-- **Fresh worktree typecheck**: Run `pnpm --filter vimsplain build` before `pnpm tsc` (`tsc -b` resolves against `packages/vimsplain/dist`).
-- **Pre-commit formatting**: Run `pnpm lint:fix` (Biome) before committing.
-- **Pre-deploy check**: Run `pnpm deploy` to build `vimsplain`, typecheck, lint, test, and build the app.
+- **Worktree**: Build `vimsplain` (`pnpm --filter vimsplain build`) before `pnpm tsc` (`tsc -b` resolves against `packages/vimsplain/dist`).
+- **Gates**: Format with `pnpm lint:fix` before committing; run `pnpm deploy` for the full pre-deploy check.
 
-## Coding Standards
+## Coding Standards ([`CODING_STANDARDS.md`](CODING_STANDARDS.md))
 
-Read the matching section of [`CODING_STANDARDS.md`](CODING_STANDARDS.md) when your task enters that branch:
-
-- **[`vimsplain`](CODING_STANDARDS.md#vimsplain)** — Editing `packages/vimsplain/`.
-- **[TypeScript](CODING_STANDARDS.md#typescript)** — Touching `src/types/database.ts` or `src/env.ts`.
-- **[Network Layer](CODING_STANDARDS.md#network-layer)** — Touching `src/lib/supabase/`, `src/api/`, `src/schemas/`, `src/hooks/api/`, or `src/lib/analytics.ts`.
-- **[React Components](CODING_STANDARDS.md#react-components)** — Touching `src/components/` or `src/utils/cn.ts`.
-- **[Zustand Store](CODING_STANDARDS.md#zustand-store)** — Touching `src/store/useGameStore.ts`.
-- **[Testing](CODING_STANDARDS.md#testing)** — Touching `src/**/__tests__/` or `tests/`.
+- **[`vimsplain`](CODING_STANDARDS.md#vimsplain)** — `packages/vimsplain/`
+- **[TypeScript & Env](CODING_STANDARDS.md#typescript--env)** — `src/types/database.ts`, `src/env.ts`
+- **[Network Layer](CODING_STANDARDS.md#network-layer)** — `src/lib/supabase/`, `src/api/`, `src/schemas/`, `src/hooks/api/`, `src/lib/analytics.ts`
+- **[React & State](CODING_STANDARDS.md#react--state)** — `src/components/`, `src/store/useGameStore.ts`
+- **[Testing](CODING_STANDARDS.md#testing)** — `src/**/__tests__/`, `tests/`
