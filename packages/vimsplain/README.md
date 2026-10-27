@@ -560,7 +560,7 @@ This rewrites the tables between their respective `<!-- ..._TABLE_START -->` and
 
 ### Testing & Verification
 
-All contributions must pass type checks, unit tests, coverage thresholds, and mutation tests:
+All contributions must pass type checks, unit tests, coverage thresholds (enforced as a required CI status check before merging), and mutation tests:
 
 ```bash
 pnpm test          # Run tests in watch mode
