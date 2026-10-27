@@ -14,22 +14,22 @@ A pnpm monorepo containing two projects:
 
 | Package | Description |
 |---------|-------------|
-| `/` | **VimGym app** — Interactive Vim training game  |
-| [`packages/vimsplain`](./packages/vimsplain/README.md) | **vimsplain** — npm package for parsing and explaining Vim keystrokes (MIT, published) |
+| `/` | **VimGym app** - Interactive Vim training game  |
+| [`packages/vimsplain`](./packages/vimsplain/README.md) | **vimsplain** - npm package for parsing and explaining Vim keystrokes (MIT, published) |
 
 ---
 
 ## VimGym
 
-> **[vim-gym.netlify.app](https://vim-gym.netlify.app/)** — Complete levels by transforming text using Vim motions.
+> **[vim-gym.netlify.app](https://vim-gym.netlify.app/)** - Complete levels by transforming text using Vim motions.
 
 ### Features
 
 - **Interactive Levels:** 33 challenges across 6 categories (Deletion & Insertion, Text Objects, Visual Mode, Search & Replace, Navigation & Editing, Macros & Registers), each with syntax-highlighted multi-language editing (HTML, JS/TS, JSON, Markdown).
 - **Crowd-Sourced Scoring:** Every completion is submitted anonymously. Each level shows the global best score with a full keystroke replay tooltip ("Optimum Run"), the crowd-sourced average, and total completion count.
-- **Score Distribution Chart:** An interactive SVG sparkline renders the histogram of all player scores for a level — hover to see exactly how many players achieved each keystroke count.
+- **Score Distribution Chart:** An interactive SVG sparkline renders the histogram of all player scores for a level - hover to see exactly how many players achieved each keystroke count.
 - **Personal Percentile Ranking:** After completing a level your score is ranked against all other players and displayed as a percentile (e.g. "Top 3%"). Tying the global best highlights your score in gold.
-- **Motion Log:** Real-time keystroke parsing powered by `vimsplain` — every Vim command you type is grouped and explained in plain English as animated chips (e.g. `dw` → "delete word").
+- **Motion Log:** Real-time keystroke parsing powered by `vimsplain` - every Vim command you type is grouped and explained in plain English as animated chips (e.g. `dw` → "delete word").
 - **Progress Tracking:** Collapsible category groups with animated progress bars and per-category completion counts, persisted across sessions.
 - **URL-Based State:** The active level is stored in the URL (`?levelId=...`) so levels are shareable and bookmarkable.
 - **Custom Vim Commands:** `:e` resets the level, `:e N` jumps to level N, `:q`/`:wq`/`:qa` trigger a CRT power-off animation, and `gc` works as a comment operator.
@@ -76,7 +76,7 @@ pnpm dev       # Start development server
 - **Unit & Integration:** Tests run via [Vitest](https://vitest.dev/) and React Testing Library in a jsdom environment.
 - **CI Merge Gate:** Pull requests to `main` are gated on the `Test & Typecheck` pipeline (Biome lint, `knip` dead-code check, TypeScript typecheck, `vimsplain` build & coverage, and app tests).
 - **Coverage Requirements:** `vimsplain` enforces strict coverage thresholds (≥90% line & function coverage, ≥80% branch coverage).
-- **Mutation Testing:** Powered by [Stryker](https://stryker-mutator.io/), mutation tests inject deliberate syntactical faults into parser handlers to ensure the test suite catches regressions. Mutation testing runs automatically in CI on pull requests touching `vimsplain` with automated PR baseline reporting.
+- **Mutation Testing:** Powered by [Stryker](https://stryker-mutator.io/), mutation tests inject deliberate syntactical faults into parser handlers to ensure the test suite catches regressions. Mutation testing runs automatically weekly via a scheduled GitHub Actions workflow and can be triggered on demand.
 
 ```bash
 pnpm test:run                     # Run app tests

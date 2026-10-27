@@ -6,20 +6,26 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Test & Typecheck
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
+    if: ${{ !startsWith(github.head_ref, 'changeset-release/') }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v5
-        with:
-          version: 10
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies
@@ -45,3 +51,46 @@ jobs:
 
       - name: Test app
         run: pnpm test:run
+
+  smoke:
+    name: Smoke Test (Netlify Preview)
+    runs-on: ubuntu-26.04
+    if: ${{ github.event_name == 'pull_request' && !startsWith(github.head_ref, 'changeset-release/') }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm exec playwright install chromium
+
+      - name: Wait for Netlify Deploy Preview
+        id: netlify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          URL="https://deploy-preview-${PR_NUMBER}--vim-gym.netlify.app"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          for i in $(seq 1 30); do
+            STATE=$(gh api "repos/${REPO}/commits/${SHA}/statuses" --jq '[.[] | select(.context == "netlify/vim-gym/deploy-preview")][0].state // "pending"')
+            if [ "$STATE" = "success" ]; then exit 0; fi
+            if [ "$STATE" = "failure" ] || [ "$STATE" = "error" ]; then exit 1; fi
+            sleep 4
+          done
+          exit 1
+
+      - name: Run E2E smoke test
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ steps.netlify.outputs.url }}
+        run: pnpm test:e2e
