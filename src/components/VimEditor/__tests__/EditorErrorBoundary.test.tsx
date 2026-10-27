@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { EditorErrorBoundary } from "../EditorErrorBoundary";
 
-// biome-ignore lint/style/useComponentExportOnlyModules: Test fixture component
 const ThrowingComponent = ({ shouldThrow }: { shouldThrow: boolean }) => {
   if (shouldThrow) {
     throw new Error("Simulated CodeMirror Vim crash");

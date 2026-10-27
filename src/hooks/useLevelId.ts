@@ -1,5 +1,6 @@
 import { parseAsString, useQueryState } from "nuqs";
 import { useCallback } from "react";
+import { LEVELS } from "../data/levels";
 import { useGameStore } from "../store/useGameStore";
 
 export const useLevelId = () => {
@@ -21,5 +22,9 @@ export const useLevelId = () => {
     [setQueryLevelId, setLevel],
   );
 
-  return [levelId, setLevelId] as const;
+  const validLevelId = LEVELS.some((l) => l.id === levelId)
+    ? levelId
+    : LEVELS[0].id;
+
+  return [validLevelId, setLevelId] as const;
 };

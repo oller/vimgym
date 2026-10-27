@@ -24,16 +24,15 @@
   "linter": {
     "enabled": true,
     "domains": {
-      "react": "all",
-      "test": "all"
+      "react": "recommended",
+      "test": "recommended"
     },
     "rules": {
-      "performance": {
-        "noJsxPropsBind": "off"
+      "nursery": {
+        "useReactCompiler": "error"
       },
       "suspicious": {
-        "noConsole": "error",
-        "noLeakedRender": "off"
+        "noConsole": "error"
       },
       "style": {
         "useImportType": {

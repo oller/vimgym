@@ -11,13 +11,29 @@ type CompletionModalProps = {
   hasNextLevel: boolean;
 };
 
+const CONFETTI_COLORS = [
+  "bg-yellow-600",
+  "bg-yellow-500",
+  "bg-yellow-400",
+  "bg-yellow-300",
+] as const;
+
+const createConfettiParticles = () =>
+  Array.from({ length: 100 }, (_, i) => ({
+    id: i,
+    left: `${50 + (Math.random() * 100 - 50)}%`,
+    top: `${50 + (Math.random() * 100 - 50)}%`,
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+  }));
+
 export const CompletionModal = ({
   onNext,
   hasNextLevel,
 }: CompletionModalProps) => {
   const [history] = useState(() => useGameStore.getState().history);
   const [currentLevel] = useState(() => useGameStore.getState().currentLevel);
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(true);
+  const [confettiParticles] = useState(createConfettiParticles);
   const titleId = useId();
   const nextButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -29,7 +45,6 @@ export const CompletionModal = ({
     bestScore != null && history.length > 0 && history.length < bestScore;
 
   useEffect(() => {
-    setShowConfetti(true);
     const timer = setTimeout(() => setShowConfetti(false), 3000);
     return () => clearTimeout(timer);
   }, []);
@@ -116,23 +131,15 @@ export const CompletionModal = ({
       {/* Simple CSS Confetti (simulated with dots) */}
       {showConfetti && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(100)].map((_, i) => (
+          {confettiParticles.map((particle) => (
             <motion.div
               animate={{
-                left: `${50 + (Math.random() * 100 - 50)}%`,
-                top: `${50 + (Math.random() * 100 - 50)}%`,
+                left: particle.left,
+                top: particle.top,
                 scale: [0, 1, 0],
                 opacity: [1, 1, 0],
               }}
-              className={cn(
-                "absolute size-1.5 rounded-full",
-                [
-                  "bg-yellow-600",
-                  "bg-yellow-500",
-                  "bg-yellow-400",
-                  "bg-yellow-300",
-                ][i % 4],
-              )}
+              className={cn("absolute size-1.5 rounded-full", particle.color)}
               initial={{
                 left: "50%",
                 top: "50%",
@@ -140,8 +147,7 @@ export const CompletionModal = ({
                 y: "-50%",
                 scale: 0,
               }}
-              // biome-ignore lint/suspicious/noArrayIndexKey: Visual-only particles, stable count
-              key={i}
+              key={particle.id}
               transition={{
                 duration: 1,
                 ease: "easeOut",
