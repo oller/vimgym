@@ -17,64 +17,47 @@ packages/vimsplain/ # vimsplain npm package (MIT, published to npm)
 pnpm dev          # Start development server
 pnpm build        # Build for production
 pnpm tsc          # Type check
-pnpm lint:fix     # Fix linting and formatting issues
+pnpm lint:fix     # Fix linting and formatting issues (run before committing)
 pnpm test         # Run all tests
 pnpm test <file>  # Run single test file
 pnpm deploy       # Full pre-deploy check (build vimsplain, typecheck, lint, test, build app)
 ```
 
-### vimsplain package
-
-```bash
-pnpm --filter vimsplain test    # Run vimsplain tests
-pnpm --filter vimsplain build   # Build vimsplain (tsdown → dist/)
-pnpm --filter vimsplain typecheck
-```
-
-## Key Context
-
-- **Package manager:** pnpm workspaces
-- **Linter/Formatter:** Biome (run `pnpm lint:fix` before committing)
-- **Editor:** CodeMirror with @replit/codemirror-vim
-- **State:** Zustand and nuqs for url param state management
-- **Network:** Supabase RPC-first + Zod validation (see [Network Layer](.agent/conventions/network-layer.md))
-
-## Working on vimsplain
-
-`packages/vimsplain/` is a **published npm package**. Changes to it require a branch + PR workflow — never commit vimsplain changes directly to `main`.
-
-### Required workflow for any change to packages/vimsplain/
-
-1. **Branch from main** — never commit vimsplain changes directly to `main`
-2. Make your changes
-3. **Run `pnpm changeset`** — select `vimsplain`, pick bump type (`patch` / `minor` / `major`), write a one-line summary. Commit the generated `.changeset/*.md` file alongside your code
-4. **Open a PR** — the Changesets bot will comment showing the pending version bump
-5. **Do NOT run `pnpm changeset version` locally** — that consumes the changeset and bypasses the automated flow
-6. Merge the PR to `main`
-7. The Changesets bot automatically opens a **"Version Packages" PR** — the human reviews and merges this when ready to release
-8. Merging that PR triggers GitHub Actions to publish to npm automatically
-
-### vimsplain commands
+### vimsplain (`packages/vimsplain`)
 
 ```bash
 pnpm --filter vimsplain test:run       # Run tests
 pnpm --filter vimsplain test:coverage  # Run tests with coverage (must stay ≥90% lines)
 pnpm --filter vimsplain build          # Build (tsdown → dist/)
 pnpm --filter vimsplain typecheck      # Type check
-pnpm --filter vimsplain gen:commands   # Regenerate the Supported Commands table in README.md
+pnpm --filter vimsplain gen:commands   # Regenerate Supported Commands tables in README.md
 pnpm changeset                         # Create a changeset for a vimsplain release
 ```
 
-> **When to run `gen:commands`:** Any time you add, remove, or rename an entry in `NORMAL_COMMANDS` in `src/handlers/normal.ts` or `VISUAL_OPERATORS` in `src/handlers/visual.ts`, run this script and commit the updated `README.md` alongside your code changes. The script rewrites the tables between the `<!-- COMMANDS_TABLE_START -->` / `<!-- COMMANDS_TABLE_END -->` and `<!-- VISUAL_COMMANDS_TABLE_START -->` / `<!-- VISUAL_COMMANDS_TABLE_END -->` markers.
+## Key Context
 
-See `packages/vimsplain/README.md` for full details.
+- **Package manager:** pnpm workspaces
+- **Linter/Formatter:** Biome (run `pnpm lint:fix` before committing)
+- **Editor:** CodeMirror with `@replit/codemirror-vim`
+- **State:** Zustand and `nuqs` for URL param state management
+- **Network:** Supabase RPC-first + Zod validation
 
-## Conventions
+## Working on `packages/vimsplain`
 
-See [.agent/conventions/](.agent/conventions/) for detailed guidelines:
+When modifying `packages/vimsplain/`:
 
-- [TypeScript](.agent/conventions/typescript.md) - Type patterns specific to this codebase
-- [Network Layer](.agent/conventions/network-layer.md) - Supabase RPCs, Zod schema validation, and real-time views
-- [React Components](.agent/conventions/react-components.md) - Component patterns and `cn()` utility
-- [Testing](.agent/conventions/testing.md) - Vitest setup, store testing, CodeMirror testing
-- [Zustand](.agent/conventions/zustand.md) - Store patterns and persistence
+1. Work on a feature branch off `main`.
+2. When adding, removing, or renaming an entry in `NORMAL_COMMANDS` (`src/handlers/normal.ts`) or `VISUAL_OPERATORS` (`src/handlers/visual.ts`), run `pnpm --filter vimsplain gen:commands` and commit the updated `README.md`.
+3. Run `pnpm changeset` (`vimsplain`, `patch` / `minor` / `major`) and commit the generated `.changeset/*.md` file with your changes (leave `pnpm changeset version` to the release CI).
+
+- **[`packages/vimsplain/README.md`](packages/vimsplain/README.md)** — `vimsplain` parser architecture, handler API, and command table markers when editing `packages/vimsplain/`.
+
+## Coding Standards
+
+Read the relevant section of [`CODING_STANDARDS.md`](CODING_STANDARDS.md) when your task touches that branch:
+
+- **[TypeScript](CODING_STANDARDS.md#typescript)** — Generated database helper types (`src/types/database.ts`) and `varlock` env schema (`src/env.ts`).
+- **[Network Layer & Data Patterns](CODING_STANDARDS.md#network-layer--data-patterns)** — Supabase nullable client, RPC error contracts (`src/api/`), Zod dashboard schemas (`src/schemas/`), and React Query hooks (`src/hooks/api/`).
+- **[React Components](CODING_STANDARDS.md#react-components)** — `cn()` class merging, React 19 `use()` context, `<VimEditor key={levelId} />` remounting, `motion`, and `tokyo-night-storm` styling.
+- **[Zustand State Management](CODING_STANDARDS.md#zustand-state-management)** — `useGameStore` architecture (`devtools`-only, no `persist`) and slice selectors.
+- **[Testing](CODING_STANDARDS.md#testing)** — `tests/setup.ts` auto-mocks, store reset via `setLevel`, `renderWithRouter` (`<NuqsAdapter>`), dynamic imports for Supabase singleton tests, and CodeMirror integration tests.
