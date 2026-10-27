@@ -28,6 +28,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Unused code check
+        run: pnpm knip
+
       - name: Typecheck vimsplain
         run: pnpm --filter vimsplain typecheck
 
@@ -42,3 +45,6 @@ jobs:
 
       - name: Test app
         run: pnpm test:run
+
+      - name: Build app
+        run: pnpm build
