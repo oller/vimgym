@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.2/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -7,7 +7,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!!src/types/database.ts", "!!env.d.ts"]
+    "includes": [
+      "**",
+      "!!src/types/database.ts",
+      "!!env.d.ts",
+      "!!**/*.md",
+      "!!**/*.yml",
+      "!!**/*.yaml"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -21,8 +28,12 @@
       "test": "all"
     },
     "rules": {
+      "performance": {
+        "noJsxPropsBind": "off"
+      },
       "suspicious": {
-        "noConsole": "error"
+        "noConsole": "error",
+        "noLeakedRender": "off"
       },
       "style": {
         "useImportType": {

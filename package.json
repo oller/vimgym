@@ -52,6 +52,7 @@
     "@biomejs/biome": "2.6.2",
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
+    "@rolldown/plugin-babel": "^0.2.4",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
@@ -67,7 +68,7 @@
     "supabase": "^2.122.0",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.3.3",
-    "typescript": "~7.0.2",
+    "typescript": "~5.9.3",
     "vite": "^8.3.5",
     "vitest": "^5.0.5"
   },

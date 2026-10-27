@@ -25,8 +25,8 @@ import type { ExplainResult, ParsingContext } from "./vimsplain.types.js";
 export {
   INSERT_MODE_TRIGGERS,
   NORMAL_COMMANDS,
-  VISUAL_OPERATORS,
   VISUAL_G_OPERATORS,
+  VISUAL_OPERATORS,
 };
 
 /**
