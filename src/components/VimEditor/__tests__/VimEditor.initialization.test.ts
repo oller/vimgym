@@ -55,7 +55,7 @@ describe("Editor Initialization", () => {
   });
 
   it("startText updates when progressing to next level", () => {
-    const { updateText, nextLevel } = useGameStore.getState();
+    const { updateText, setLevel } = useGameStore.getState();
 
     // Complete Level 1
     updateText(LEVELS[0].targetText);
@@ -63,7 +63,7 @@ describe("Editor Initialization", () => {
     const level1StartText = useGameStore.getState().startText;
 
     // Progress to Level 2
-    nextLevel();
+    setLevel(LEVELS[1].id);
 
     const level2StartText = useGameStore.getState().startText;
     expect(level2StartText).toBe(LEVELS[1].startText);

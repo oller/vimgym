@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 
 import { CrtEffect } from "./components/CrtEffect";
 import { GoalDisplay } from "./components/GoalDisplay/GoalDisplay";
@@ -34,17 +34,12 @@ const CompletionModal = lazy(() =>
 
 const Home = () => {
   const [levelId, setLevelId] = useLevelId();
-  const setLevel = useGameStore((state) => state.setLevel);
   const resetCount = useGameStore((state) => state.resetCount);
   const resetLevel = useGameStore((state) => state.resetLevel);
   const isCompleted = useGameStore((state) => state.isCompleted);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
-  // Validate level exists
-  const isValidLevel = LEVELS.some((l) => l.id === levelId);
-  const currentLevelId = isValidLevel && levelId ? levelId : LEVELS[0].id;
-
-  const currentLevelIndex = LEVELS.findIndex((l) => l.id === currentLevelId);
+  const currentLevelIndex = LEVELS.findIndex((l) => l.id === levelId);
   const hasNextLevel =
     currentLevelIndex !== -1 && currentLevelIndex < LEVELS.length - 1;
 
@@ -55,36 +50,27 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    // If invalid level in URL, redirect to 1 (delete-words)
-    if (!isValidLevel || !levelId) {
-      setLevelId("delete-words");
-      return;
-    }
-    setLevel(currentLevelId);
-  }, [currentLevelId, setLevel, isValidLevel, levelId, setLevelId]);
-
   return (
     <CrtEffect>
       <div className="h-dvh overflow-hidden bg-tokyo-night text-white flex flex-col p-4 md:p-6 font-sans relative">
-        <AnimatePresence>
-          {isAboutOpen && (
-            <Suspense fallback={null}>
+        <Suspense fallback={null}>
+          <AnimatePresence>
+            {isAboutOpen && (
               <AboutModal
                 isOpen={isAboutOpen}
+                key="about-modal"
                 onClose={() => setIsAboutOpen(false)}
               />
-            </Suspense>
-          )}
-          {isCompleted && (
-            <Suspense fallback={null}>
+            )}
+            {isCompleted && (
               <CompletionModal
                 hasNextLevel={hasNextLevel}
+                key="completion-modal"
                 onNext={handleNextLevel}
               />
-            </Suspense>
-          )}
-        </AnimatePresence>
+            )}
+          </AnimatePresence>
+        </Suspense>
 
         <header className="mb-2 md:mb-4 flex justify-between items-center border-b border-gray-800 pb-2 md:pb-4">
           <Logo />

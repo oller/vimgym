@@ -75,7 +75,7 @@ pnpm dev       # Start development server
 
 - **Unit & Integration:** Tests run via [Vitest](https://vitest.dev/) and React Testing Library in a jsdom environment.
 - **Coverage Requirements:** `vimsplain` enforces strict coverage thresholds (≥90% line & function coverage, ≥80% branch coverage).
-- **Mutation Testing:** Powered by [Stryker](https://stryker-mutator.io/), mutation tests inject deliberate syntactical faults into parser handlers to ensure the test suite catches regressions. Mutation testing runs automatically in CI on pull requests touching `vimsplain` with automated PR baseline reporting.
+- **Mutation Testing:** Powered by [Stryker](https://stryker-mutator.io/), mutation tests inject deliberate syntactical faults into parser handlers to ensure the test suite catches regressions. Mutation testing runs automatically weekly via a scheduled GitHub Actions workflow and can be triggered on demand.
 
 ```bash
 pnpm test:run                     # Run app tests

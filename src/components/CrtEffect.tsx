@@ -1,7 +1,7 @@
 import type { TargetAndTransition } from "motion/react";
 import { AnimatePresence, motion } from "motion/react";
 import type { PropsWithChildren } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 
 type CrtEffectProps = PropsWithChildren;
@@ -10,9 +10,13 @@ export const CrtEffect = ({ children }: CrtEffectProps) => {
   const isPoweredOff = useGameStore((state) => state.isPoweredOff);
   const setPoweredOff = useGameStore((state) => state.setPoweredOff);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const wasPoweredOff = useRef(isPoweredOff);
+  const [wasPoweredOff, setWasPoweredOff] = useState(isPoweredOff);
   const hasBeenPoweredOffRef = useRef(false);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+
+  if (isPoweredOff && !wasPoweredOff) {
+    setWasPoweredOff(true);
+  }
 
   useEffect(() => {
     if (isPoweredOff) {
@@ -27,7 +31,6 @@ export const CrtEffect = ({ children }: CrtEffectProps) => {
         previousFocusRef.current = null;
       }
     }
-    wasPoweredOff.current = isPoweredOff;
   }, [isPoweredOff]);
 
   // Focus the resume button when the animation completes, or restore focus when powering back on
@@ -73,7 +76,7 @@ export const CrtEffect = ({ children }: CrtEffectProps) => {
   if (isPoweredOff) {
     // Only animate off if we were previously on
     animateState = offAnimation;
-  } else if (wasPoweredOff.current) {
+  } else if (wasPoweredOff) {
     // Only animate on if we were previously off
     animateState = onAnimation;
   } else {
