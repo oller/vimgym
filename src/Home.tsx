@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 
 import { CrtEffect } from "./components/CrtEffect";
 import { GoalDisplay } from "./components/GoalDisplay/GoalDisplay";
@@ -39,10 +39,7 @@ const Home = () => {
   const isCompleted = useGameStore((state) => state.isCompleted);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
 
-  const isValidLevel = LEVELS.some((l) => l.id === levelId);
-  const activeLevelId = isValidLevel && levelId ? levelId : LEVELS[0].id;
-
-  const currentLevelIndex = LEVELS.findIndex((l) => l.id === activeLevelId);
+  const currentLevelIndex = LEVELS.findIndex((l) => l.id === levelId);
   const hasNextLevel =
     currentLevelIndex !== -1 && currentLevelIndex < LEVELS.length - 1;
 
@@ -52,12 +49,6 @@ const Home = () => {
       setLevelId(nextLevel.id);
     }
   };
-
-  useEffect(() => {
-    if (!isValidLevel) {
-      setLevelId(LEVELS[0].id);
-    }
-  }, [isValidLevel, setLevelId]);
 
   return (
     <CrtEffect>
@@ -124,7 +115,7 @@ const Home = () => {
                     <div className="grow bg-tokyo-night-storm rounded-md animate-pulse border border-gray-800" />
                   }
                 >
-                  <VimEditor key={`${activeLevelId}-${resetCount}`} />
+                  <VimEditor key={`${levelId}-${resetCount}`} />
                 </Suspense>
               </EditorErrorBoundary>
             </div>
