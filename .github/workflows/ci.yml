@@ -48,3 +48,30 @@ jobs:
 
       - name: Test app
         run: pnpm test:run
+
+      - name: Wait for Netlify Deploy Preview
+        if: github.event_name == 'pull_request'
+        id: netlify
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          URL="https://deploy-preview-${PR_NUMBER}--vim-gym.netlify.app"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          for i in $(seq 1 30); do
+            STATE=$(gh api "repos/${REPO}/commits/${SHA}/statuses" --jq '[.[] | select(.context == "netlify/vim-gym/deploy-preview")][0].state // "pending"')
+            if [ "$STATE" = "success" ]; then exit 0; fi
+            if [ "$STATE" = "failure" ] || [ "$STATE" = "error" ]; then exit 1; fi
+            sleep 4
+          done
+          exit 1
+
+      - name: Run E2E smoke test against Netlify Deploy Preview
+        if: github.event_name == 'pull_request'
+        env:
+          PLAYWRIGHT_BASE_URL: ${{ steps.netlify.outputs.url }}
+        run: |
+          pnpm exec playwright install chromium
+          pnpm test:e2e

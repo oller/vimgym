@@ -27,6 +27,8 @@ coverage
 .stryker
 .stryker-tmp
 reports
+test-results
+playwright-report
 
 # Git Worktrees
 .worktrees/
