@@ -3,6 +3,7 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { expect, test as it, vi } from "vitest";
 import App from "../../src/App";
+import { useGameStore } from "../../src/store/useGameStore";
 
 // Mock Supabase client to prevent network requests
 vi.mock("../../src/lib/supabase/client", () => ({
@@ -86,4 +87,24 @@ it("complete level 1 with keystrokes fsldt. and verify score is 6", async () => 
       screen.queryByRole("heading", { level: 2, name: "Level Complete" }),
     ).not.toBeInTheDocument();
   });
+});
+
+it("invalid levelId in URL falls back to delete-words and About modal opens", async () => {
+  useGameStore.getState().setLevel("delete-words");
+  window.history.replaceState({}, "", "/?levelId=nonexistent-level");
+
+  render(
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>,
+  );
+
+  expect(
+    await screen.findByText(/Delete 'over the lazy dog' from the sentence/),
+  ).toBeInTheDocument();
+
+  await userEvent.click(screen.getByRole("button", { name: "About" }));
+  expect(
+    await screen.findByRole("dialog", {}, { timeout: 3000 }),
+  ).toBeInTheDocument();
 });
