@@ -73,7 +73,6 @@ See `packages/vimsplain/README.md` for full details.
 
 See [.agent/conventions/](.agent/conventions/) for detailed guidelines:
 
-- [Typography & Punctuation](.agent/conventions/typography.md) - No em dashes rule
 - [TypeScript](.agent/conventions/typescript.md) - Type patterns specific to this codebase
 - [Network Layer](.agent/conventions/network-layer.md) - Supabase RPCs, Zod schema validation, and real-time views
 - [React Components](.agent/conventions/react-components.md) - Component patterns and `cn()` utility
