@@ -2,7 +2,7 @@
 
 ## Store Definition
 
-The app has a single store (`src/store/useGameStore.ts`). It uses `devtools` middleware only — there is no `persist` middleware. No state is persisted via Zustand (UI preferences like collapsed categories use `localStorage` directly).
+The app has a single store (`src/store/useGameStore.ts`). It uses `devtools` middleware only - there is no `persist` middleware. No state is persisted via Zustand (UI preferences like collapsed categories use `localStorage` directly).
 
 ```typescript
 export const useGameStore = create<GameState>()(
@@ -43,7 +43,7 @@ const { currentLevel } = useGameStore();
 Two patterns are used:
 
 ```typescript
-// Reset via action (preferred — exercises real initialization logic)
+// Reset via action (preferred - exercises real initialization logic)
 beforeEach(() => {
   useGameStore.getState().setLevel(LEVELS[0].id);
 });
@@ -54,4 +54,4 @@ afterEach(() => {
 });
 ```
 
-Do not call a `reset()` method — no such action exists. Use `setLevel` or `setState` directly.
+Do not call a `reset()` method - no such action exists. Use `setLevel` or `setState` directly.

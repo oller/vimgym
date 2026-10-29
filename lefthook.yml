@@ -5,6 +5,8 @@ pre-commit:
       run: pnpm tsc
     knip:
       run: pnpm knip
+    no-em-dashes:
+      run: pnpm check:em-dashes
     lint:
       glob:
         - "*.{js,ts,jsx,tsx,json,css}"

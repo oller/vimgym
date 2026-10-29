@@ -73,7 +73,7 @@ function calculateFileStats(mutants) {
 
 function formatDelta(current, baseline, isPercent = false) {
   if (baseline === undefined || baseline === null) {
-    return "—";
+    return "-";
   }
   const diff = current - baseline;
   if (Math.abs(diff) < 0.005) {

@@ -30,7 +30,7 @@ export const LevelSelectorCategoryGroup = ({
         onClick={onToggle}
         type="button"
       >
-        {/* Progress bar — flush to edges, sits at the bottom of the button */}
+        {/* Progress bar - flush to edges, sits at the bottom of the button */}
         <motion.div
           animate={{ scaleX: pct }}
           aria-hidden

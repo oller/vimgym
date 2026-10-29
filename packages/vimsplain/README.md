@@ -6,7 +6,7 @@
 [![Mutation Testing](https://github.com/oller/vimgym/actions/workflows/mutation-testing.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/mutation-testing.yml)
 [![license](https://img.shields.io/npm/l/vimsplain)](https://github.com/oller/vimgym/blob/main/packages/vimsplain/README.md#license)
 
-A TypeScript parser and interpreter for Vim keystroke sequences. Translates raw Vim commands including basic motions, text objects, visual mode, search, and insert modes — into structured explanations or human-readable summaries. Perfect for building interactive learning tools, editor plugins, or keyboard shortcut analyzers.
+A TypeScript parser and interpreter for Vim keystroke sequences. Translates raw Vim commands including basic motions, text objects, visual mode, search, and insert modes - into structured explanations or human-readable summaries. Perfect for building interactive learning tools, editor plugins, or keyboard shortcut analyzers.
 
 Used to power the "Motion Log" feature of [VimGym](https://vim-gym.netlify.app/) - an interactive Vim training game.
 
@@ -65,11 +65,11 @@ Parses a Vim keystroke sequence and returns structured explanations for each com
 
 Handles five parsing modes:
 
-- **Normal mode** — motions, operators, text objects
-- **Insert mode** — after `i`, `a`, `cw`, etc., accumulates typed text until `[Esc]`
-- **Visual mode** — after `v`, `V`, or `[C-v]`, supports visual selection operators
-- **Search mode** — after `/` or `?`, accumulates pattern until `[Enter]`
-- **Ex mode** — after `:`, accumulates command until `[Enter]`
+- **Normal mode** - motions, operators, text objects
+- **Insert mode** - after `i`, `a`, `cw`, etc., accumulates typed text until `[Esc]`
+- **Visual mode** - after `v`, `V`, or `[C-v]`, supports visual selection operators
+- **Search mode** - after `/` or `?`, accumulates pattern until `[Enter]`
+- **Ex mode** - after `:`, accumulates command until `[Enter]`
 
 **Special key notation:** Encode special keys as bracketed strings: `[Esc]`, `[Enter]`, `[Backspace]`, `[Delete]`, `[Up]`, `[Down]`, `[Left]`, `[Right]`, `[C-r]`, `[C-w]`, `[C-o]`, `[C-i]`.
 
@@ -599,7 +599,7 @@ Select `vimsplain`, choose the bump type (`patch` / `minor` / `major`), and writ
 
 **3. The bot opens a "Version Packages" PR** that bumps `package.json`, updates `CHANGELOG.md`, and removes the consumed changeset file.
 
-**4. Merge the "Version Packages" PR.** GitHub Actions publishes to npm automatically via OIDC trusted publishing — no tokens required.
+**4. Merge the "Version Packages" PR.** GitHub Actions publishes to npm automatically via OIDC trusted publishing - no tokens required.
 
 You only need to run `pnpm changeset` when the `packages/vimsplain/` source changes. Changes to the vimgym app itself don't require a changeset.
 

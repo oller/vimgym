@@ -97,7 +97,7 @@ export function handleVisualMode(context: ParsingContext): void {
     return;
   }
 
-  // Not an operator — parse as a motion (extends the selection)
+  // Not an operator - parse as a motion (extends the selection)
   // Fall through to handleNormalMode
   handleNormalMode(context);
 }

@@ -10,7 +10,7 @@ The application uses a **Supabase-first** architecture with a heavily optimized 
 
 ## Supabase Client (`src/lib/supabase/client.ts`)
 
-Singleton pattern. Returns `null` if env vars are not set — all callers must handle a `null` client gracefully (feature-flag pattern):
+Singleton pattern. Returns `null` if env vars are not set - all callers must handle a `null` client gracefully (feature-flag pattern):
 
 ```typescript
 const client = getSupabaseClient();
@@ -23,7 +23,7 @@ Typed with the generated `Database` type:
 createClient<Database, "public">(url, key)
 ```
 
-Sessions are disabled (`persistSession: false`, `autoRefreshToken: false`) — the app uses anonymous user IDs, not Supabase Auth.
+Sessions are disabled (`persistSession: false`, `autoRefreshToken: false`) - the app uses anonymous user IDs, not Supabase Auth.
 
 ## RPC Functions (`src/api/index.ts`)
 
@@ -33,7 +33,7 @@ Sessions are disabled (`persistSession: false`, `autoRefreshToken: false`) — t
 client.rpc("get_player_dashboard", { p_user_id, p_level_ids })
 ```
 
-Returns `{}` on missing client, on Supabase error, or on validation failure — **never throws**.
+Returns `{}` on missing client, on Supabase error, or on validation failure - **never throws**.
 
 ### `getLevelScoreDistribution(levelId: string)`
 
