@@ -55,19 +55,19 @@ export const LevelSelector = () => {
   const [collapsedCategories, setCollapsedCategories] =
     useState<Set<LevelCategory>>(loadCollapsedState);
 
+  if (
+    currentLevel &&
+    currentCategory &&
+    collapsedCategories.has(currentCategory)
+  ) {
+    const next = new Set(collapsedCategories);
+    next.delete(currentCategory);
+    setCollapsedCategories(next);
+  }
+
   useEffect(() => {
-    if (currentLevel && currentCategory) {
-      setCollapsedCategories((prev) => {
-        if (prev.has(currentCategory)) {
-          const next = new Set(prev);
-          next.delete(currentCategory);
-          saveCollapsedState(next);
-          return next;
-        }
-        return prev;
-      });
-    }
-  }, [currentLevel, currentCategory]);
+    saveCollapsedState(collapsedCategories);
+  }, [collapsedCategories]);
 
   const handleToggle = (category: LevelCategory) => {
     setCollapsedCategories((prev) => {
@@ -77,7 +77,6 @@ export const LevelSelector = () => {
       } else {
         next.add(category);
       }
-      saveCollapsedState(next);
       return next;
     });
   };

@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, PresenceContext } from "motion/react";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { cn } from "../../utils/cn";
 
@@ -104,67 +104,69 @@ export const Sparkline = ({ data, className, onHover }: SparklineProps) => {
   return (
     <div className={cn("relative", className)} ref={containerRef}>
       {dimensions.width > 0 && (
-        <svg
-          aria-label="Score distribution chart"
-          className="size-full overflow-visible"
-          height={dimensions.height}
-          onMouseLeave={handleMouseLeave}
-          onMouseMove={handleMouseMove}
-          role="img"
-          width={dimensions.width}
-        >
-          <title>Score distribution chart</title>
-          <defs>
-            <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
-              <stop
-                offset="0%"
-                stopColor="var(--color-tokyo-night-lavender)"
-                stopOpacity="0.5"
-              />
-              <stop
-                offset="100%"
-                stopColor="var(--color-tokyo-night-lavender)"
-                stopOpacity="0"
-              />
-            </linearGradient>
-          </defs>
+        <PresenceContext.Provider value={null}>
+          <svg
+            aria-label="Score distribution chart"
+            className="size-full overflow-visible"
+            height={dimensions.height}
+            onMouseLeave={handleMouseLeave}
+            onMouseMove={handleMouseMove}
+            role="img"
+            width={dimensions.width}
+          >
+            <title>Score distribution chart</title>
+            <defs>
+              <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+                <stop
+                  offset="0%"
+                  stopColor="var(--color-tokyo-night-lavender)"
+                  stopOpacity="0.5"
+                />
+                <stop
+                  offset="100%"
+                  stopColor="var(--color-tokyo-night-lavender)"
+                  stopOpacity="0"
+                />
+              </linearGradient>
+            </defs>
 
-          {/* Area */}
-          <motion.path
-            animate={{ opacity: 1 }}
-            d={areaD}
-            fill={`url(#${gradientId})`}
-            initial={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          />
+            {/* Area */}
+            <motion.path
+              animate={{ opacity: 1 }}
+              d={areaD}
+              fill={`url(#${gradientId})`}
+              initial={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            />
 
-          {/* Line */}
-          <motion.path
-            animate={{ pathLength: 1 }}
-            d={pathD}
-            fill="none"
-            initial={{ pathLength: 0 }}
-            stroke="var(--color-tokyo-night-lavender)"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          />
+            {/* Line */}
+            <motion.path
+              animate={{ pathLength: 1 }}
+              d={pathD}
+              fill="none"
+              initial={{ pathLength: 0 }}
+              stroke="var(--color-tokyo-night-lavender)"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              transition={{ delay: 0.2, duration: 0.5, ease: "easeInOut" }}
+            />
 
-          {/* Hover Highlight */}
-          {activePoint && (
-            <g>
-              <circle
-                cx={activePoint.x}
-                cy={activePoint.y}
-                fill="var(--color-tokyo-night)"
-                r="4"
-                stroke="var(--color-tokyo-night-lavender)"
-                strokeWidth="2"
-              />
-            </g>
-          )}
-        </svg>
+            {/* Hover Highlight */}
+            {activePoint && (
+              <g>
+                <circle
+                  cx={activePoint.x}
+                  cy={activePoint.y}
+                  fill="var(--color-tokyo-night)"
+                  r="4"
+                  stroke="var(--color-tokyo-night-lavender)"
+                  strokeWidth="2"
+                />
+              </g>
+            )}
+          </svg>
+        </PresenceContext.Provider>
       )}
     </div>
   );

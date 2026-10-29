@@ -1,3 +1,5 @@
+import { EditorView } from "@codemirror/view";
+import { getCM, Vim } from "@replit/codemirror-vim";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { NuqsAdapter } from "nuqs/adapters/react";
@@ -108,4 +110,70 @@ describe("VimEditor Keypress Logging", () => {
 
     expect(useGameStore.getState().history).toEqual([]);
   });
+
+  it("logs keys via Vim.handleKey fallback when keydown fires Unidentified (mobile)", async () => {
+    renderWithRouter(<VimEditor />);
+
+    const textbox = await screen.findByRole("textbox");
+    const view = EditorView.findFromDOM(textbox);
+    const cm = view ? getCM(view) : null;
+    expect(cm).not.toBeNull();
+    if (!cm) return;
+
+    // Mobile keyboards fire keydown with key="Unidentified", then Vim.handleKey processes the key
+    textbox.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Unidentified", bubbles: true }),
+    );
+    Vim.handleKey(cm, "w", "input");
+    Vim.handleKey(cm, " ", "input");
+    Vim.handleKey(cm, "<Esc>", "input");
+
+    // " " maps internally in Vim to 'l' at depth > 1; only top-level keys should be logged
+    expect(useGameStore.getState().history).toEqual([
+      "w",
+      " ",
+      SPECIAL_KEYS.ESCAPE,
+    ]);
+  });
+
+  it("resets current level with :e and navigates to level n with :e <n>", async () => {
+    renderWithRouter(<VimEditor />);
+
+    const textbox = await screen.findByRole("textbox");
+    const view = EditorView.findFromDOM(textbox);
+    const cm = view ? getCM(view) : null;
+    expect(cm?.state.vim).toBeTruthy();
+    if (!cm?.state.vim) return;
+    const vimCm = cm as Parameters<typeof Vim.handleEx>[0];
+
+    useGameStore.getState().addKeyStroke("x");
+    Vim.handleEx(vimCm, "e");
+    expect(useGameStore.getState().history).toEqual([]);
+    expect(useGameStore.getState().resetCount).toBe(1);
+
+    // Navigate to level 2 with :e 2
+    Vim.handleEx(vimCm, "e 2");
+    expect(useGameStore.getState().currentLevel).toBe(LEVELS[1].id);
+
+    // Out-of-bounds or invalid :e args are ignored
+    Vim.handleEx(vimCm, "e 999");
+    Vim.handleEx(vimCm, "e abc");
+    expect(useGameStore.getState().currentLevel).toBe(LEVELS[1].id);
+  });
+
+  it.each(["q", "wq", "qa"])(
+    "powers off CRT when :%s is executed",
+    async (cmd) => {
+      renderWithRouter(<VimEditor />);
+
+      const textbox = await screen.findByRole("textbox");
+      const view = EditorView.findFromDOM(textbox);
+      const cm = view ? getCM(view) : null;
+      expect(cm?.state.vim).toBeTruthy();
+      if (!cm?.state.vim) return;
+
+      Vim.handleEx(cm as Parameters<typeof Vim.handleEx>[0], cmd);
+      expect(useGameStore.getState().isPoweredOff).toBe(true);
+    },
+  );
 });

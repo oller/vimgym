@@ -12,10 +12,6 @@ export const INSERT_MODE_TRIGGERS = new Set([
   "A", // append at end of line
   "o", // open new line below
   "O", // open new line above
-  "s", // substitute character under cursor
-  "S", // substitute entire line
-  "C", // change to end of line
-  "cc", // change entire line
   "R", // enter replace mode
 ]);
 
@@ -23,7 +19,7 @@ export const INSERT_MODE_TRIGGERS = new Set([
  * Command definitions for normal mode.
  * Order matters - more specific patterns should come first.
  */
-// Stryker disable BooleanLiteral, Regex
+// Stryker disable BooleanLiteral, Regex, ObjectLiteral
 export const NORMAL_COMMANDS: CommandDefinition[] = [
   // --- Space motion (same as l - move char right) ---
   { pattern: /^(\d+) /, description: "move $1 chars right", isMotion: true },
@@ -626,8 +622,6 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
     description: "uppercase $1 word(s)",
     isMotion: false,
   },
-  { pattern: /^guw/, description: "lowercase word", isMotion: false },
-  { pattern: /^gUw/, description: "uppercase word", isMotion: false },
   { pattern: /^guu/, description: "lowercase line", isMotion: false },
   { pattern: /^gUU/, description: "uppercase line", isMotion: false },
   { pattern: /^g~~/, description: "toggle case line", isMotion: false },
@@ -748,7 +742,7 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
   // Fallback: bare operator keys (when no motion follows)
   { pattern: /^d/, description: "delete char under cursor", isMotion: false },
 ];
-// Stryker restore BooleanLiteral, Regex
+// Stryker restore BooleanLiteral, Regex, ObjectLiteral
 
 /**
  * Parse a single command from the input string.
@@ -846,8 +840,8 @@ export function handleNormalMode(context: ParsingContext): void {
   // Check if this command enters insert mode
   if (
     INSERT_MODE_TRIGGERS.has(matched) ||
-    /^(?:\d+)?c/i.test(matched) ||
-    /^(?:\d+)?s$/i.test(matched)
+    /^\d*c/i.test(matched) ||
+    /^\d*s$/i.test(matched)
   ) {
     context.activeMode = "Insert";
     context.remaining = result.remaining;

@@ -18,18 +18,28 @@ interface GameState {
   updateText: (text: string) => void;
   addKeyStroke: (key: string) => void;
   resetLevel: () => void;
-  nextLevel: () => void;
   setPoweredOff: (isPoweredOff: boolean) => void;
 }
 
-const level1 = LEVELS[0];
+const getInitialLevelId = (): string => {
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("levelId");
+    if (id && LEVELS.some((l) => l.id === id)) {
+      return id;
+    }
+  }
+  return LEVELS[0].id;
+};
+
+const initialLevel = getLevel(getInitialLevelId()) ?? LEVELS[0];
 
 export const useGameStore = create<GameState>()(
   devtools((set, get) => ({
-    currentLevel: level1.id,
-    startText: level1.startText,
-    targetText: level1.targetText,
-    currentText: level1.startText,
+    currentLevel: initialLevel.id,
+    startText: initialLevel.startText,
+    targetText: initialLevel.targetText,
+    currentText: initialLevel.startText,
     history: [],
     isCompleted: false,
     resetCount: 0,
@@ -74,14 +84,6 @@ export const useGameStore = create<GameState>()(
         isCompleted: false,
         resetCount: resetCount + 1,
       });
-    },
-
-    nextLevel: () => {
-      const { currentLevel, setLevel } = get();
-      const currentIndex = LEVELS.findIndex((l) => l.id === currentLevel);
-      if (currentIndex === -1 || currentIndex === LEVELS.length - 1) return;
-      const nextLevel = LEVELS[currentIndex + 1];
-      setLevel(nextLevel.id);
     },
 
     setPoweredOff: (isPoweredOff) => set({ isPoweredOff }),

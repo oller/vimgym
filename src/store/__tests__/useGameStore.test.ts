@@ -58,8 +58,8 @@ describe("useGameStore", () => {
     expect(state.isCompleted).toBe(false);
   });
 
-  it("progresses to next level with correct text", () => {
-    const { nextLevel, addKeyStroke, updateText } = useGameStore.getState();
+  it("switches to different level with correct text and resets state", () => {
+    const { setLevel, addKeyStroke, updateText } = useGameStore.getState();
 
     // Complete Level 1
     addKeyStroke("d");
@@ -69,8 +69,8 @@ describe("useGameStore", () => {
     expect(useGameStore.getState().isCompleted).toBe(true);
     expect(useGameStore.getState().currentLevel).toBe(LEVELS[0].id);
 
-    // Progress to Level 2
-    nextLevel();
+    // Switch to Level 2
+    setLevel(LEVELS[1].id);
 
     const state = useGameStore.getState();
     expect(state.currentLevel).toBe(LEVELS[1].id);
@@ -79,20 +79,5 @@ describe("useGameStore", () => {
     expect(state.currentText).toBe(LEVELS[1].startText);
     expect(state.history).toEqual([]);
     expect(state.isCompleted).toBe(false);
-  });
-
-  it("does not progress beyond last level", () => {
-    const { nextLevel, setLevel } = useGameStore.getState();
-
-    // Go to last level
-    setLevel(LEVELS[LEVELS.length - 1].id);
-
-    const beforeLevel = useGameStore.getState().currentLevel;
-
-    // Try to progress
-    nextLevel();
-
-    const afterLevel = useGameStore.getState().currentLevel;
-    expect(afterLevel).toBe(beforeLevel); // Should not change
   });
 });

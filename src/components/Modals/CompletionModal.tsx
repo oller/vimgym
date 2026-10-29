@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { usePlayerDashboard } from "../../hooks/api";
 import { getUserId } from "../../lib/analytics";
 import { useGameStore } from "../../store/useGameStore";
@@ -11,14 +11,31 @@ type CompletionModalProps = {
   hasNextLevel: boolean;
 };
 
+const CONFETTI_COLORS = [
+  "bg-yellow-600",
+  "bg-yellow-500",
+  "bg-yellow-400",
+  "bg-yellow-300",
+] as const;
+
+const createConfettiParticles = () =>
+  Array.from({ length: 100 }, (_, i) => ({
+    id: i,
+    left: `${50 + (Math.random() * 100 - 50)}%`,
+    top: `${50 + (Math.random() * 100 - 50)}%`,
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+  }));
+
 export const CompletionModal = ({
   onNext,
   hasNextLevel,
 }: CompletionModalProps) => {
-  const history = useGameStore((state) => state.history);
-  const currentLevel = useGameStore((state) => state.currentLevel);
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [history] = useState(() => useGameStore.getState().history);
+  const [currentLevel] = useState(() => useGameStore.getState().currentLevel);
+  const [showConfetti, setShowConfetti] = useState(true);
+  const [confettiParticles] = useState(createConfettiParticles);
   const titleId = useId();
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
 
   const userId = getUserId();
   const { data: dashboard = {} } = usePlayerDashboard(userId);
@@ -28,20 +45,24 @@ export const CompletionModal = ({
     bestScore != null && history.length > 0 && history.length < bestScore;
 
   useEffect(() => {
-    setShowConfetti(true);
     const timer = setTimeout(() => setShowConfetti(false), 3000);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    nextButtonRef.current?.focus();
   }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter" && hasNextLevel) {
         e.preventDefault();
+        e.stopPropagation();
         onNext();
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown, true);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
   }, [hasNextLevel, onNext]);
 
   return (
@@ -87,6 +108,7 @@ export const CompletionModal = ({
             <button
               className="w-full cursor-pointer bg-tokyo-night-turquoise/20 hover:bg-tokyo-night-turquoise/30 text-white py-3 px-6 transition-colors font-roboto-mono"
               onClick={onNext}
+              ref={nextButtonRef}
               type="button"
             >
               Next Level
@@ -109,23 +131,15 @@ export const CompletionModal = ({
       {/* Simple CSS Confetti (simulated with dots) */}
       {showConfetti && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(100)].map((_, i) => (
+          {confettiParticles.map((particle) => (
             <motion.div
               animate={{
-                left: `${50 + (Math.random() * 100 - 50)}%`,
-                top: `${50 + (Math.random() * 100 - 50)}%`,
+                left: particle.left,
+                top: particle.top,
                 scale: [0, 1, 0],
                 opacity: [1, 1, 0],
               }}
-              className={cn(
-                "absolute size-1.5 rounded-full",
-                [
-                  "bg-yellow-600",
-                  "bg-yellow-500",
-                  "bg-yellow-400",
-                  "bg-yellow-300",
-                ][i % 4],
-              )}
+              className={cn("absolute size-1.5 rounded-full", particle.color)}
               initial={{
                 left: "50%",
                 top: "50%",
@@ -133,8 +147,7 @@ export const CompletionModal = ({
                 y: "-50%",
                 scale: 0,
               }}
-              // biome-ignore lint/suspicious/noArrayIndexKey: Visual-only particles, stable count
-              key={i}
+              key={particle.id}
               transition={{
                 duration: 1,
                 ease: "easeOut",

@@ -1,10 +1,18 @@
 import { describe, expect, it } from "vitest";
 import {
+  explainExCommand,
+  handleCommandMode,
+} from "../src/handlers/command.js";
+import { handleNormalMode } from "../src/handlers/normal.js";
+import { handleSearchMode } from "../src/handlers/search.js";
+import { handleVisualMode } from "../src/handlers/visual.js";
+import {
   explainSequence,
   formatExplanation,
   SPECIAL_KEYS,
   summarizeSequence,
 } from "../src/index.js";
+import type { ParsingContext } from "../src/vimsplain.types.js";
 
 describe("vimsplain", () => {
   describe("explainSequence", () => {
@@ -1903,6 +1911,174 @@ describe("vimsplain", () => {
           matched: "[C-c]",
           explanation: "cancel / return to normal mode",
         });
+      });
+    });
+
+    describe("mode handler edge cases and state transitions", () => {
+      it("transitions into insert mode for all insert triggers and counted change/substitute commands", () => {
+        const triggers = [
+          "i",
+          "I",
+          "a",
+          "A",
+          "o",
+          "O",
+          "s",
+          "S",
+          "C",
+          "cc",
+          "R",
+          "cw",
+          "2cw",
+          "2s",
+          "2S",
+          "2C",
+          "2cc",
+        ];
+
+        for (const trigger of triggers) {
+          const result = explainSequence(
+            `${trigger}hello${SPECIAL_KEYS.ESCAPE}`,
+          );
+          expect(result.commands.length).toBeGreaterThanOrEqual(3);
+          expect(result.commands[1]).toEqual({
+            matched: "hello",
+            explanation: 'type "hello"',
+          });
+          expect(result.commands[2]).toEqual({
+            matched: SPECIAL_KEYS.ESCAPE,
+            explanation: "exit insert mode",
+          });
+        }
+      });
+
+      it("trims whitespace in explainExCommand and only matches s/ at the start", () => {
+        expect(explainExCommand("  w  ")).toBe("write file");
+        expect(explainExCommand("foo/s/bar")).toBe(
+          "run ex command 'foo/s/bar'",
+        );
+      });
+
+      it("consumes [Enter] in ex command mode and continues parsing normal mode commands", () => {
+        const result = explainSequence(`:w${SPECIAL_KEYS.ENTER}j`);
+        expect(result.remaining).toBe("");
+        expect(result.commands).toEqual([
+          { matched: ":w", explanation: "write file" },
+          { matched: "j", explanation: "move line down" },
+        ]);
+      });
+
+      it("clears exBuffer and searchBuffer immediately upon [Esc] cancellation", () => {
+        const cmdCtx: ParsingContext = {
+          activeMode: "Command",
+          remaining: SPECIAL_KEYS.ESCAPE,
+          commands: [],
+          insertBuffer: "",
+          exBuffer: "wq",
+          searchBuffer: "",
+          searchDirection: "/",
+        };
+        handleCommandMode(cmdCtx);
+        expect(cmdCtx.exBuffer).toBe("");
+        expect(cmdCtx.activeMode).toBe("Normal");
+
+        const searchCtx: ParsingContext = {
+          activeMode: "Search",
+          remaining: SPECIAL_KEYS.ESCAPE,
+          commands: [],
+          insertBuffer: "",
+          exBuffer: "",
+          searchBuffer: "needle",
+          searchDirection: "/",
+        };
+        handleSearchMode(searchCtx);
+        expect(searchCtx.searchBuffer).toBe("");
+        expect(searchCtx.activeMode).toBe("Normal");
+      });
+
+      it("sets distinct Visual, VisualLine, and VisualBlock modes and restricts block I/A to VisualBlock", () => {
+        const makeCtx = (remaining: string): ParsingContext => ({
+          activeMode: "Normal",
+          remaining,
+          commands: [],
+          insertBuffer: "",
+          exBuffer: "",
+          searchBuffer: "",
+          searchDirection: "/",
+        });
+
+        const vCtx = makeCtx("v");
+        handleNormalMode(vCtx);
+        expect(vCtx.activeMode).toBe("Visual");
+
+        const lineCtx = makeCtx("V");
+        handleNormalMode(lineCtx);
+        expect(lineCtx.activeMode).toBe("VisualLine");
+
+        const blockCtx = makeCtx(SPECIAL_KEYS.CTRL_V);
+        handleNormalMode(blockCtx);
+        expect(blockCtx.activeMode).toBe("VisualBlock");
+
+        // In char/line visual mode, I falls through to normal mode ("insert at start of line"), not block insert
+        expect(
+          explainSequence(`vIhello${SPECIAL_KEYS.ESCAPE}`).commands[1],
+        ).toEqual({
+          matched: "I",
+          explanation: "insert at start of line",
+        });
+        expect(
+          explainSequence(`VIhello${SPECIAL_KEYS.ESCAPE}`).commands[1],
+        ).toEqual({
+          matched: "I",
+          explanation: "insert at start of line",
+        });
+      });
+
+      it("handles visual mode non-g motions followed by c, trailing g, and resets mode to Normal after operators", () => {
+        // vwc: 'w' is motion, 'c' is visual change operator (must not be treated as 'gc')
+        expect(explainSequence("vwc").commands).toEqual([
+          { matched: "v", explanation: "enter visual mode" },
+          { matched: "w", explanation: "move word forward" },
+          { matched: "c", explanation: "change selection" },
+        ]);
+
+        // Trailing single 'g' in visual mode falls through to normal mode
+        expect(explainSequence("vg").commands).toEqual([
+          { matched: "v", explanation: "enter visual mode" },
+          { matched: "g", explanation: "unknown command 'g'" },
+        ]);
+
+        // After a non-change visual operator (vd), mode returns to Normal so ':w[Enter]' enters Command mode
+        expect(explainSequence(`vd:w${SPECIAL_KEYS.ENTER}`).commands).toEqual([
+          { matched: "v", explanation: "enter visual mode" },
+          { matched: "d", explanation: "delete selection" },
+          { matched: ":w", explanation: "write file" },
+        ]);
+
+        // In visual mode, ':' and '/' do not enter Command/Search mode when falling through to handleNormalMode
+        const visualColonCtx: ParsingContext = {
+          activeMode: "Visual",
+          remaining: ":w",
+          commands: [],
+          insertBuffer: "",
+          exBuffer: "",
+          searchBuffer: "",
+          searchDirection: "/",
+        };
+        handleVisualMode(visualColonCtx);
+        expect(visualColonCtx.activeMode).toBe("Visual");
+
+        const visualSlashCtx: ParsingContext = {
+          activeMode: "Visual",
+          remaining: "/foo",
+          commands: [],
+          insertBuffer: "",
+          exBuffer: "",
+          searchBuffer: "",
+          searchDirection: "/",
+        };
+        handleVisualMode(visualSlashCtx);
+        expect(visualSlashCtx.activeMode).toBe("Visual");
       });
     });
   });

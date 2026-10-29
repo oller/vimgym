@@ -6,7 +6,7 @@
 [![Mutation Testing](https://github.com/oller/vimgym/actions/workflows/mutation-testing.yml/badge.svg)](https://github.com/oller/vimgym/actions/workflows/mutation-testing.yml)
 [![license](https://img.shields.io/npm/l/vimsplain)](https://github.com/oller/vimgym/blob/main/packages/vimsplain/README.md#license)
 
-A TypeScript parser and interpreter for Vim keystroke sequences. Translates raw Vim commands including basic motions, text objects, visual mode, search, and insert modes - into structured explanations or human-readable summaries. Perfect for building interactive learning tools, editor plugins, or keyboard shortcut analyzers.
+A TypeScript parser and interpreter for Vim keystroke sequences. Translates raw Vim commands including basic motions, text objects, visual mode, search, and insert modes into structured explanations or human-readable summaries. Perfect for building interactive learning tools, editor plugins, or keyboard shortcut analyzers.
 
 Used to power the "Motion Log" feature of [VimGym](https://vim-gym.netlify.app/) - an interactive Vim training game.
 
@@ -466,8 +466,6 @@ MODIFIER_KEY_MAP["ctrl+r"] // "[C-r]"
 | `zb` | scroll cursor to bottom |
 | `guNw` | lowercase $1 word(s) |
 | `gUNw` | uppercase $1 word(s) |
-| `guw` | lowercase word |
-| `gUw` | uppercase word |
 | `guu` | lowercase line |
 | `gUU` | uppercase line |
 | `g~~` | toggle case line |
@@ -560,7 +558,7 @@ This rewrites the tables between their respective `<!-- ..._TABLE_START -->` and
 
 ### Testing & Verification
 
-All contributions must pass type checks, unit tests, coverage thresholds, and mutation tests:
+All contributions must pass type checks, unit tests, coverage thresholds (enforced as a required CI status check before merging), and mutation tests:
 
 ```bash
 pnpm test          # Run tests in watch mode

@@ -72,7 +72,7 @@ export const LevelSelectorItemStatsCard = ({
         </div>
 
         <div className="flex-1 h-10 flex items-end justify-end pb-1">
-          {distribution && distribution.length > 0 ? (
+          {isStatsOpen && distribution && distribution.length > 0 ? (
             <Sparkline
               className="size-full"
               data={distribution}

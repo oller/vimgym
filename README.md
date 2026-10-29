@@ -74,8 +74,9 @@ pnpm dev       # Start development server
 ### Testing & Quality
 
 - **Unit & Integration:** Tests run via [Vitest](https://vitest.dev/) and React Testing Library in a jsdom environment.
+- **CI Merge Gate:** Pull requests to `main` are gated on the `Test & Typecheck` pipeline (Biome lint, `knip` dead-code check, TypeScript typecheck, `vimsplain` build & coverage, and app tests).
 - **Coverage Requirements:** `vimsplain` enforces strict coverage thresholds (≥90% line & function coverage, ≥80% branch coverage).
-- **Mutation Testing:** Powered by [Stryker](https://stryker-mutator.io/), mutation tests inject deliberate syntactical faults into parser handlers to ensure the test suite catches regressions. Mutation testing runs automatically in CI on pull requests touching `vimsplain` with automated PR baseline reporting.
+- **Mutation Testing:** Powered by [Stryker](https://stryker-mutator.io/), mutation tests inject deliberate syntactical faults into parser handlers to ensure the test suite catches regressions. Mutation testing runs automatically weekly via a scheduled GitHub Actions workflow and can be triggered on demand.
 
 ```bash
 pnpm test:run                     # Run app tests
