@@ -78,4 +78,4 @@
 
 ### Minor Changes
 
-- Initial release — parse and explain Vim keystroke sequences.
+- Initial release - parse and explain Vim keystroke sequences.

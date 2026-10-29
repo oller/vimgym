@@ -41,17 +41,17 @@ pnpm --filter vimsplain typecheck
 
 ## Working on vimsplain
 
-`packages/vimsplain/` is a **published npm package**. Changes to it require a branch + PR workflow — never commit vimsplain changes directly to `main`.
+`packages/vimsplain/` is a **published npm package**. Changes to it require a branch + PR workflow - never commit vimsplain changes directly to `main`.
 
 ### Required workflow for any change to packages/vimsplain/
 
-1. **Branch from main** — never commit vimsplain changes directly to `main`
+1. **Branch from main** - never commit vimsplain changes directly to `main`
 2. Make your changes
-3. **Run `pnpm changeset`** — select `vimsplain`, pick bump type (`patch` / `minor` / `major`), write a one-line summary. Commit the generated `.changeset/*.md` file alongside your code
-4. **Open a PR** — the Changesets bot will comment showing the pending version bump
-5. **Do NOT run `pnpm changeset version` locally** — that consumes the changeset and bypasses the automated flow
+3. **Run `pnpm changeset`** - select `vimsplain`, pick bump type (`patch` / `minor` / `major`), write a one-line summary. Commit the generated `.changeset/*.md` file alongside your code
+4. **Open a PR** - the Changesets bot will comment showing the pending version bump
+5. **Do NOT run `pnpm changeset version` locally** - that consumes the changeset and bypasses the automated flow
 6. Merge the PR to `main`
-7. The Changesets bot automatically opens a **"Version Packages" PR** — the human reviews and merges this when ready to release
+7. The Changesets bot automatically opens a **"Version Packages" PR** - the human reviews and merges this when ready to release
 8. Merging that PR triggers GitHub Actions to publish to npm automatically
 
 ### vimsplain commands
@@ -78,3 +78,7 @@ See [.agent/conventions/](.agent/conventions/) for detailed guidelines:
 - [React Components](.agent/conventions/react-components.md) - Component patterns and `cn()` utility
 - [Testing](.agent/conventions/testing.md) - Vitest setup, store testing, CodeMirror testing
 - [Zustand](.agent/conventions/zustand.md) - Store patterns and persistence
+
+### Punctuation & Style: No Em Dashes
+
+Never use em dashes (unicode `\u2014`) anywhere in this codebase (code, comments, test descriptions, docs, commit messages, or PR summaries). Use a spaced hyphen (` - `), double hyphen (`--`), colon (`:`), or parentheses instead. Run `pnpm check:em-dashes` to verify.

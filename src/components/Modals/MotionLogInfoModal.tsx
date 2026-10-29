@@ -19,7 +19,7 @@ export const MotionLogInfoModal = ({
         <p>
           The motion log parses your Vim keystrokes in real time and explains
           each command as you type, helping you build an understanding of what
-          you&apos;re doing — not just muscle memory.
+          you&apos;re doing - not just muscle memory.
         </p>
         <p>
           Powered by{" "}

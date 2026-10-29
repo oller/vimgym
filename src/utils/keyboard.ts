@@ -122,6 +122,6 @@ export const normalizeVimKey = (vimKey: string): string | null => {
     return vimKey;
   }
 
-  // Unknown multi-char sequences — ignore (e.g. unmapped modifier combos)
+  // Unknown multi-char sequences - ignore (e.g. unmapped modifier combos)
   return null;
 };

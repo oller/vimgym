@@ -20,7 +20,7 @@ import { VimStatusBar } from "./VimStatusBar";
 /**
  * Module-level Vim.handleKey wrapper.
  *
- * Intercepts every key that vim processes — regardless of input method
+ * Intercepts every key that vim processes - regardless of input method
  * (keydown on desktop, composition/mutation on mobile). Installed once
  * at module load, reads state directly from the store each call, so
  * there are no stale closures or test-isolation issues.
@@ -100,7 +100,7 @@ export const VimEditor = () => {
       });
 
       // Desktop path: keydown fires with the actual key value.
-      // On mobile, keydown fires "Unidentified" — skip and let
+      // On mobile, keydown fires "Unidentified" - skip and let
       // the module-level Vim.handleKey wrapper handle it instead.
       const handleEditorKeyDown = (event: KeyboardEvent) => {
         if (useGameStore.getState().isCompleted) return;

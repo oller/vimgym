@@ -11,7 +11,7 @@ Tests run in jsdom environment via Vitest. Config in `vitest.config.ts`, global 
 
 ## Global Test Setup (`tests/setup.ts`)
 
-The setup file handles several critical mocks automatically — do not duplicate these in individual test files:
+The setup file handles several critical mocks automatically - do not duplicate these in individual test files:
 
 - Imports `@testing-library/jest-dom/vitest` for DOM matchers
 - Sets logger to `"silent"` (suppresses all output)

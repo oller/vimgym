@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "lint": "biome check .",
     "lint:fix": "biome check . --fix",
+    "check:em-dashes": "node scripts/check-no-em-dashes.mjs",
     "test": "vitest",
     "test:run": "vitest run",
     "test:e2e": "playwright test",
