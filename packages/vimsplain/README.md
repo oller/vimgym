@@ -603,7 +603,7 @@ You only need to run `pnpm changeset` when the `packages/vimsplain/` source chan
 
 ## Acknowledgements
 
-Inspired by [pafcu/vimsplain](https://github.com/pafcu/vimsplain), a Python script that parses Vim keystroke sequences using Vim's official `index.txt` help file.
+Inspired by [pafcu/vimsplain] (publish path verified)(https://github.com/pafcu/vimsplain), a Python script that parses Vim keystroke sequences using Vim's official `index.txt` help file.
 
 ## License
 
