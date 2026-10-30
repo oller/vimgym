@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.3.3
+
+### Patch Changes
+
+- [#68](https://github.com/oller/vimgym/pull/68) [`8720699`](https://github.com/oller/vimgym/commit/87206997e44f48e92d9e0a9a1e4d969ddf44db64) Thanks [@oller](https://github.com/oller)! - docs: trivial README tweak to verify release publishing
+
 ## 0.3.2
 
 ### Patch Changes
