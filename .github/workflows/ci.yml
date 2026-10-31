@@ -52,6 +52,16 @@ jobs:
       - name: Test app
         run: pnpm test:run
 
+  # Required status check "Test & Typecheck" must still report on Version Packages
+  # PRs where the real job is skipped (changeset-release/*).
+  test-changeset-release:
+    name: Test & Typecheck
+    runs-on: ubuntu-26.04
+    if: ${{ startsWith(github.head_ref, 'changeset-release/') }}
+    steps:
+      - name: Skip full CI on Version Packages PR
+        run: echo "Skipping Test & Typecheck on changeset-release branch (version bump only)."
+
   smoke:
     name: Smoke Test (Netlify Preview)
     runs-on: ubuntu-26.04
