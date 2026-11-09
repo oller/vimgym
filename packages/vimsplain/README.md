@@ -71,7 +71,7 @@ Handles five parsing modes:
 - **Search mode** - after `/` or `?`, accumulates pattern until `[Enter]`
 - **Ex mode** - after `:`, accumulates command until `[Enter]`
 
-**Special key notation:** Encode special keys as bracketed strings: `[Esc]`, `[Enter]`, `[Backspace]`, `[Delete]`, `[Up]`, `[Down]`, `[Left]`, `[Right]`, `[C-r]`, `[C-w]`, `[C-o]`, `[C-i]`.
+**Special key notation:** Encode special keys as bracketed strings: `[Esc]`, `[Enter]`, `[Backspace]`, `[Delete]`, `[Up]`, `[Down]`, `[Left]`, `[Right]`, `[C-r]`, `[C-w]`, `[C-o]`, `[C-i]`, `[C-d]`, `[C-u]`, `[C-f]`, `[C-b]`, `[C-v]`, `[C-c]`, `[C-e]`, `[C-y]`.
 
 Use the exported `SPECIAL_KEYS` constants to avoid typos:
 
@@ -153,7 +153,12 @@ type CommandDefinition = {
 ## Constants
 
 ```ts
-import { MODIFIER_KEY_MAP, SPECIAL_KEYS } from "vimsplain";
+import {
+  MODIFIER_KEY_MAP,
+  SPECIAL_KEYS,
+  VISUAL_G_OPERATORS,
+  VISUAL_OPERATORS,
+} from "vimsplain";
 
 SPECIAL_KEYS.ESCAPE      // "[Esc]"
 SPECIAL_KEYS.ENTER       // "[Enter]"
@@ -178,6 +183,10 @@ SPECIAL_KEYS.CTRL_Y      // "[C-y]"
 
 // Modifier combination mapping
 MODIFIER_KEY_MAP["ctrl+r"] // "[C-r]"
+
+// Visual mode operator mappings (keystroke -> explanation)
+VISUAL_OPERATORS.d    // "delete selection"
+VISUAL_G_OPERATORS.c  // "toggle comment selection"
 ```
 
 ## Supported Commands
@@ -603,7 +612,7 @@ You only need to run `pnpm changeset` when the `packages/vimsplain/` source chan
 
 ## Acknowledgements
 
-Inspired by [pafcu/vimsplain] (publish path verified)(https://github.com/pafcu/vimsplain), a Python script that parses Vim keystroke sequences using Vim's official `index.txt` help file.
+Inspired by [pafcu/vimsplain](https://github.com/pafcu/vimsplain), a Python script that parses Vim keystroke sequences using Vim's official `index.txt` help file.
 
 ## License
 
