@@ -42,7 +42,6 @@ jobs:
         uses: changesets/action@v2
         with:
           publish-script: pnpm changeset publish
-          commit-message: "Version Packages [skip ci]"
           pr-title: "Version Packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
