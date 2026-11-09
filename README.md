@@ -37,22 +37,24 @@ A pnpm monorepo containing two projects:
 
 ### Tech Stack
 
-- **Framework:** [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **Framework:** [React 19](https://react.dev/) (with React Compiler) + [Vite](https://vitejs.dev/)
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) + [Motion](https://motion.dev/)
 - **Editor:** [CodeMirror 6](https://codemirror.net/) with [@replit/codemirror-vim](https://github.com/replit/codemirror-vim)
-- **State Management:** [Zustand](https://github.com/pmndrs/zustand) + [Nuqs](https://nuqs.47ng.com/) (URL state)
+- **State Management:** [Zustand](https://github.com/pmndrs/zustand) + [TanStack Query](https://tanstack.com/query) + [Nuqs](https://nuqs.47ng.com/) (URL state)
 - **Backend/Network:** [Supabase](https://supabase.com/) (RPC-first) + [Zod](https://zod.dev/)
-- **Testing:** [Vitest](https://vitest.dev/) + React Testing Library + [Stryker](https://stryker-mutator.io/) (Mutation Testing)
-- **Tooling:** [Biome](https://biomejs.dev/) (Linter/Formatter)
+- **Testing:** [Vitest](https://vitest.dev/) + React Testing Library + [Playwright](https://playwright.dev/) (E2E) + [Stryker](https://stryker-mutator.io/) (Mutation Testing)
+- **Tooling:** [Biome](https://biomejs.dev/) (Linter/Formatter) + [Varlock](https://varlock.dev/) (Type-safe env) + [Lefthook](https://github.com/evilmartians/lefthook) (Git hooks)
 
 ### Development
 
 **Prerequisites:** Node.js (latest LTS) + pnpm
 
 ```bash
-pnpm install   # Install dependencies
+pnpm install   # Install dependencies and Lefthook git hooks
 pnpm dev       # Start development server
 ```
+
+> **Note:** Public Supabase configuration defaults are defined in `.env.schema` via [Varlock](https://varlock.dev/), so `pnpm dev` works out of the box without manually creating a `.env` file. Running `pnpm install` also installs [Lefthook](https://github.com/evilmartians/lefthook) pre-commit hooks (`tsc`, `knip`, `check:em-dashes`, and `biome check --fix`).
 
 **Commands:**
 
@@ -74,15 +76,17 @@ pnpm dev       # Start development server
 ### Testing & Quality
 
 - **Unit & Integration:** Tests run via [Vitest](https://vitest.dev/) and React Testing Library in a jsdom environment.
+- **E2E Smoke Testing:** Pull requests trigger a [Playwright](https://playwright.dev/) smoke test suite (`pnpm test:e2e`) against the live Netlify Deploy Preview.
 - **CI Merge Gate:** Pull requests to `main` are gated on the `Test & Typecheck` pipeline (Biome lint, `knip` dead-code check, TypeScript typecheck, `vimsplain` build & coverage, and app tests).
 - **Coverage Requirements:** `vimsplain` enforces strict coverage thresholds (≥90% line & function coverage, ≥80% branch coverage).
 - **Mutation Testing:** Powered by [Stryker](https://stryker-mutator.io/), mutation tests inject deliberate syntactical faults into parser handlers to ensure the test suite catches regressions. Mutation testing runs automatically weekly via a scheduled GitHub Actions workflow and can be triggered on demand.
 
 ```bash
-pnpm test:run                     # Run app tests
-pnpm --filter vimsplain test:run  # Run vimsplain tests
+pnpm test:run                         # Run app unit & integration tests
+pnpm test:e2e                         # Run Playwright E2E smoke tests
+pnpm --filter vimsplain test:run      # Run vimsplain tests
 pnpm --filter vimsplain test:coverage # Run vimsplain tests with coverage report
-pnpm test:mutate:vimsplain        # Run Stryker mutation tests on vimsplain
+pnpm test:mutate:vimsplain            # Run Stryker mutation tests on vimsplain
 ```
 
 ---
