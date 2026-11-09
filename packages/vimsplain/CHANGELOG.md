@@ -1,5 +1,11 @@
 # vimsplain
 
+## 0.3.4
+
+### Patch Changes
+
+- [#76](https://github.com/oller/vimgym/pull/76) [`685421b`](https://github.com/oller/vimgym/commit/685421b14c0a479cf59a36c181cecfb412dd7b99) Thanks [@oller](https://github.com/oller)! - Fix broken link in Acknowledgements and document remaining `SPECIAL_KEYS` and visual operator constants in README.
+
 ## 0.3.3
 
 ### Patch Changes
