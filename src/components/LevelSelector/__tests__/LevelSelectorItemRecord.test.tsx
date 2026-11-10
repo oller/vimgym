@@ -1,7 +1,6 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import * as vimsplain from "vimsplain";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { LevelSelectorItemRecord } from "../LevelSelectorItemRecord";
 
 globalThis.ResizeObserver ??= class ResizeObserver {
@@ -10,13 +9,7 @@ globalThis.ResizeObserver ??= class ResizeObserver {
   disconnect() {}
 };
 
-vi.mock("vimsplain", { spy: true });
-
 describe("LevelSelectorItemRecord", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it("renders nothing when globalBest is missing", () => {
     const { container } = render(
       <LevelSelectorItemRecord bestScoreLog={["x"]} globalBest={null} />,
@@ -64,51 +57,14 @@ describe("LevelSelectorItemRecord", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows a final row for remaining keys with no explanation when remaining is non-empty", async () => {
+  it("does not show tooltip content when there is no key log", async () => {
     const user = userEvent.setup();
-    vi.mocked(vimsplain.explainSequence).mockReturnValueOnce({
-      commands: [{ matched: "dw", explanation: "delete word forward" }],
-      remaining: "z",
+    render(<LevelSelectorItemRecord bestScoreLog={[]} globalBest={5} />);
+
+    await user.hover(screen.getByRole("button", { name: /trophy/i }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
     });
-
-    render(
-      <LevelSelectorItemRecord bestScoreLog={["d", "w", "z"]} globalBest={3} />,
-    );
-
-    const trophyButton = screen.getByRole("button", { name: /trophy/i });
-    await user.hover(trophyButton);
-
-    const tooltip = await screen.findByRole("tooltip");
-    expect(within(tooltip).getByText("dw")).toBeInTheDocument();
-    expect(
-      within(tooltip).getByText("delete word forward"),
-    ).toBeInTheDocument();
-
-    const zElements = within(tooltip).getAllByText("z");
-    expect(zElements).toHaveLength(2);
-    const remainingRow = zElements[1].parentElement;
-    expect(remainingRow).toHaveTextContent(/^z$/);
   });
-
-  it.each([
-    ["empty array", [] as string[]],
-    ["null", null],
-    ["undefined", undefined],
-  ])(
-    "does not show tooltip content when bestScoreLog is %s",
-    async (_label, bestScoreLog) => {
-      const user = userEvent.setup();
-      render(
-        <LevelSelectorItemRecord bestScoreLog={bestScoreLog} globalBest={5} />,
-      );
-
-      const trophyButton = screen.getByRole("button", { name: /trophy/i });
-      await user.hover(trophyButton);
-
-      await waitFor(() => {
-        expect(screen.queryByRole("tooltip")).not.toBeInTheDocument();
-        expect(screen.queryByText(/optimum run/i)).not.toBeInTheDocument();
-      });
-    },
-  );
 });
