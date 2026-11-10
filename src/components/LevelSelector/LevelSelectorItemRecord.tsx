@@ -80,7 +80,7 @@ export const LevelSelectorItemRecord = ({
                         ))}
                       </div>
                       {explanation && (
-                        <div className="flex flex-col gap-1 max-h-48 overflow-y-auto border-t border-gray-800 mt-1.5 pt-1.5 normal-case">
+                        <div className="flex flex-col gap-1 max-h-48 overflow-y-auto overflow-x-hidden border-t border-gray-800 mt-1.5 pt-1.5 normal-case">
                           {explanation.commands.map((cmd, i) => (
                             <MotionLogItem
                               command={cmd}
