@@ -1,8 +1,10 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { explainSequence } from "vimsplain";
 import { StatsIcon } from "../icons/StatsIcon";
 import { TrophyIcon } from "../icons/TrophyIcon";
+import { MotionLogItem } from "../MotionLog/MotionLogItem";
 import { VimKbd } from "../VimKbd";
 
 type LevelSelectorItemRecordProps = {
@@ -18,6 +20,16 @@ export const LevelSelectorItemRecord = ({
 }: LevelSelectorItemRecordProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const hasBestScoreLog = Boolean(bestScoreLog && bestScoreLog.length > 0);
+  const showTooltip = hasBestScoreLog && isOpen;
+
+  const explanation = useMemo(() => {
+    if (!showTooltip || !bestScoreLog) {
+      return null;
+    }
+    return explainSequence(bestScoreLog.join(""));
+  }, [showTooltip, bestScoreLog]);
+
   if (!globalBest) {
     return null;
   }
@@ -25,7 +37,7 @@ export const LevelSelectorItemRecord = ({
   return (
     <div className="flex justify-between items-center text-xs font-medium tracking-wider uppercase mt-3">
       <Tooltip.Provider delayDuration={40}>
-        <Tooltip.Root onOpenChange={setIsOpen} open={isOpen}>
+        <Tooltip.Root onOpenChange={setIsOpen} open={showTooltip}>
           <Tooltip.Trigger asChild>
             <button
               className="flex items-center gap-1 group/global-best cursor-pointer h-7 min-w-7 relative before:absolute before:-inset-2 before:content-['']"
@@ -39,7 +51,7 @@ export const LevelSelectorItemRecord = ({
           </Tooltip.Trigger>
 
           <AnimatePresence>
-            {isOpen && bestScoreLog && (
+            {showTooltip && bestScoreLog && (
               <Tooltip.Portal forceMount>
                 <Tooltip.Content
                   asChild
@@ -67,6 +79,24 @@ export const LevelSelectorItemRecord = ({
                           </VimKbd>
                         ))}
                       </div>
+                      {explanation && (
+                        <div className="flex flex-col gap-1 max-h-48 overflow-y-auto overflow-x-hidden border-t border-gray-800 mt-1.5 pt-1.5 normal-case">
+                          {explanation.commands.map((cmd, i) => (
+                            <MotionLogItem
+                              command={cmd}
+                              // biome-ignore lint/suspicious/noArrayIndexKey: array is static
+                              key={`${cmd.matched}-${i}`}
+                            />
+                          ))}
+                          {explanation.remaining && (
+                            <div className="flex items-center gap-1 bg-slate-700/50 rounded overflow-hidden">
+                              <VimKbd className="text-tokyo-night-gold">
+                                {explanation.remaining}
+                              </VimKbd>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       <Tooltip.Arrow className="fill-gray-900 border-t border-l border-gray-700" />
                     </div>
                   </motion.div>
