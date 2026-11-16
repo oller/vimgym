@@ -749,24 +749,18 @@ export const NORMAL_COMMANDS: CommandDefinition[] = [
  * Returns the matched command and remaining input.
  */
 function parseCommand(input: string): {
-  command: ExplainedCommand | null;
+  command: ExplainedCommand;
   remaining: string;
 } {
-  /* v8 ignore start */
-  if (!input) {
-    return { command: null, remaining: "" };
-  }
-  /* v8 ignore stop */
-
   for (const cmd of NORMAL_COMMANDS) {
     const match = input.match(cmd.pattern);
     if (match) {
       let description = cmd.description;
 
       // Replace $1, $2, etc. with captured groups
-      for (let i = 1; i < match.length; i++) {
-        const value = match[i] || "1"; // Default to "1" for optional counts
-        description = description.replace(`$${i}`, value);
+      for (const [index, group] of match.slice(1).entries()) {
+        const value = group || "1"; // Default to "1" for optional counts
+        description = description.replace(`$${index + 1}`, value);
       }
 
       // Clean up "1 word(s)" -> "word" etc.
@@ -795,18 +789,6 @@ function parseCommand(input: string): {
 }
 
 export function handleNormalMode(context: ParsingContext): void {
-  // Only handle Normal and Visual modes
-  /* v8 ignore start */
-  if (
-    context.activeMode !== "Normal" &&
-    context.activeMode !== "Visual" &&
-    context.activeMode !== "VisualLine" &&
-    context.activeMode !== "VisualBlock"
-  ) {
-    return;
-  }
-  /* v8 ignore stop */
-
   // Check for ex command start
   if (context.activeMode === "Normal" && context.remaining[0] === ":") {
     context.activeMode = "Command";
@@ -828,11 +810,6 @@ export function handleNormalMode(context: ParsingContext): void {
   }
 
   const result = parseCommand(context.remaining);
-  /* v8 ignore start */
-  if (!result.command) {
-    return;
-  }
-  /* v8 ignore stop */
 
   context.commands.push(result.command);
   const matched = result.command.matched;
@@ -841,7 +818,7 @@ export function handleNormalMode(context: ParsingContext): void {
   if (
     INSERT_MODE_TRIGGERS.has(matched) ||
     /^\d*c/i.test(matched) ||
-    /^\d*s$/i.test(matched)
+    /^\d*s/i.test(matched)
   ) {
     context.activeMode = "Insert";
     context.remaining = result.remaining;

@@ -41,9 +41,11 @@ export function explainSequence(input: string): ExplainResult {
     activeMode: "Normal",
     remaining: input,
     commands: [],
+    // Stryker disable StringLiteral: Buffers are also reset on mode entry
     insertBuffer: "",
     exBuffer: "",
     searchBuffer: "",
+    // Stryker restore StringLiteral
     searchDirection: "/",
   };
 
@@ -68,16 +70,23 @@ export function explainSequence(input: string): ExplainResult {
       case "Search":
         handleSearchMode(context);
         break;
+      /* v8 ignore start */
       default: {
+        // Stryker disable next-line all
         void (context.activeMode satisfies never);
         break;
       }
+      /* v8 ignore stop */
     }
 
     // Safety check to prevent infinite loops
+    /* v8 ignore start */
+    // Stryker disable next-line ConditionalExpression, EqualityOperator, BlockStatement
     if (context.remaining === prevRemaining) {
+      // Stryker disable next-line all
       break;
     }
+    /* v8 ignore stop */
   }
 
   // Flush any remaining insert buffer (no Esc at end)

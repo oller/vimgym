@@ -425,6 +425,14 @@ describe("vimsplain", () => {
         expect(result.commands[0].explanation).toBe("toggle comment around ()");
       });
 
+      it("explains gc (toggle comment in normal mode)", () => {
+        const result = explainSequence("gc");
+        expect(result.commands[0]).toEqual({
+          matched: "gc",
+          explanation: "toggle comment selection",
+        });
+      });
+
       it("explains vgc (toggle comment selection)", () => {
         const result = explainSequence("vgc");
         expect(result.commands).toHaveLength(2);
@@ -1950,6 +1958,21 @@ describe("vimsplain", () => {
             explanation: "exit insert mode",
           });
         }
+      });
+
+      it("does not transition into insert mode for non-substitute commands ending in s", () => {
+        expect(explainSequence("disj").commands).toEqual([
+          { matched: "dis", explanation: "delete inside sentence" },
+          { matched: "j", explanation: "move line down" },
+        ]);
+        expect(explainSequence("]sj").commands).toEqual([
+          { matched: "]s", explanation: "next misspelling" },
+          { matched: "j", explanation: "move line down" },
+        ]);
+        expect(explainSequence("[C-w]sj").commands).toEqual([
+          { matched: "[C-w]s", explanation: "split window horizontally" },
+          { matched: "j", explanation: "move line down" },
+        ]);
       });
 
       it("trims whitespace in explainExCommand and only matches s/ at the start", () => {
