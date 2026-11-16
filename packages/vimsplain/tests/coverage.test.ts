@@ -198,10 +198,24 @@ describe("change operators", () => {
     });
   });
 
+  it("2cb - change 2 words backward", () => {
+    expect(cmd("2cb")).toMatchObject({
+      matched: "2cb",
+      explanation: "change 2 words backward",
+    });
+  });
+
   it("ce - change to end of word", () => {
     expect(cmd("ce")).toMatchObject({
       matched: "ce",
       explanation: "change to end of word",
+    });
+  });
+
+  it("2ce - change to end of 2 words", () => {
+    expect(cmd("2ce")).toMatchObject({
+      matched: "2ce",
+      explanation: "change to end of 2 words",
     });
   });
 
@@ -223,6 +237,20 @@ describe("change operators", () => {
     expect(cmd("cT;")).toMatchObject({
       matched: "cT;",
       explanation: "change back till ';'",
+    });
+  });
+
+  it("2C - change 2 lines to end of line", () => {
+    expect(cmd("2C")).toMatchObject({
+      matched: "2C",
+      explanation: "change 2 lines to end of line",
+    });
+  });
+
+  it("2S - substitute 2 lines", () => {
+    expect(cmd("2S")).toMatchObject({
+      matched: "2S",
+      explanation: "substitute 2 lines",
     });
   });
 
@@ -301,6 +329,12 @@ describe("yank operators", () => {
 // ---------------------------------------------------------------------------
 
 describe("text objects - change", () => {
+  it("2caw - change 2 words with space", () => {
+    expect(cmd("2caw")).toMatchObject({
+      matched: "2caw",
+      explanation: "change 2 words (with space)",
+    });
+  });
   it('ci" - change inside double quotes', () => {
     expect(cmd('ci"')).toMatchObject({
       matched: 'ci"',
@@ -331,9 +365,21 @@ describe("text objects - change", () => {
       explanation: "change inside ()",
     });
   });
+  it("ci) - change inside parens", () => {
+    expect(cmd("ci)")).toMatchObject({
+      matched: "ci)",
+      explanation: "change inside ()",
+    });
+  });
   it("ca( - change around parens", () => {
     expect(cmd("ca(")).toMatchObject({
       matched: "ca(",
+      explanation: "change around ()",
+    });
+  });
+  it("ca) - change around parens", () => {
+    expect(cmd("ca)")).toMatchObject({
+      matched: "ca)",
       explanation: "change around ()",
     });
   });
@@ -343,9 +389,21 @@ describe("text objects - change", () => {
       explanation: "change inside []",
     });
   });
+  it("ci] - change inside brackets", () => {
+    expect(cmd("ci]")).toMatchObject({
+      matched: "ci]",
+      explanation: "change inside []",
+    });
+  });
   it("ca[ - change around brackets", () => {
     expect(cmd("ca[")).toMatchObject({
       matched: "ca[",
+      explanation: "change around []",
+    });
+  });
+  it("ca] - change around brackets", () => {
+    expect(cmd("ca]")).toMatchObject({
+      matched: "ca]",
       explanation: "change around []",
     });
   });
@@ -355,9 +413,21 @@ describe("text objects - change", () => {
       explanation: "change inside {}",
     });
   });
+  it("ci} - change inside braces", () => {
+    expect(cmd("ci}")).toMatchObject({
+      matched: "ci}",
+      explanation: "change inside {}",
+    });
+  });
   it("ca{ - change around braces", () => {
     expect(cmd("ca{")).toMatchObject({
       matched: "ca{",
+      explanation: "change around {}",
+    });
+  });
+  it("ca} - change around braces", () => {
+    expect(cmd("ca}")).toMatchObject({
+      matched: "ca}",
       explanation: "change around {}",
     });
   });
@@ -373,10 +443,22 @@ describe("text objects - change", () => {
       explanation: "change around tag",
     });
   });
+  it("ci< - change inside angle brackets", () => {
+    expect(cmd("ci<")).toMatchObject({
+      matched: "ci<",
+      explanation: "change inside <>",
+    });
+  });
   it("ci> - change inside angle brackets", () => {
     expect(cmd("ci>")).toMatchObject({
       matched: "ci>",
       explanation: "change inside <>",
+    });
+  });
+  it("ca< - change around angle brackets", () => {
+    expect(cmd("ca<")).toMatchObject({
+      matched: "ca<",
+      explanation: "change around <>",
     });
   });
   it("ca> - change around angle brackets", () => {
@@ -434,9 +516,21 @@ describe("text objects - delete", () => {
       explanation: "delete around ''",
     });
   });
+  it("di) - delete inside parens", () => {
+    expect(cmd("di)")).toMatchObject({
+      matched: "di)",
+      explanation: "delete inside ()",
+    });
+  });
   it("da( - delete around parens", () => {
     expect(cmd("da(")).toMatchObject({
       matched: "da(",
+      explanation: "delete around ()",
+    });
+  });
+  it("da) - delete around parens", () => {
+    expect(cmd("da)")).toMatchObject({
+      matched: "da)",
       explanation: "delete around ()",
     });
   });
@@ -446,9 +540,21 @@ describe("text objects - delete", () => {
       explanation: "delete inside []",
     });
   });
+  it("di] - delete inside brackets", () => {
+    expect(cmd("di]")).toMatchObject({
+      matched: "di]",
+      explanation: "delete inside []",
+    });
+  });
   it("da[ - delete around brackets", () => {
     expect(cmd("da[")).toMatchObject({
       matched: "da[",
+      explanation: "delete around []",
+    });
+  });
+  it("da] - delete around brackets", () => {
+    expect(cmd("da]")).toMatchObject({
+      matched: "da]",
       explanation: "delete around []",
     });
   });
@@ -458,9 +564,21 @@ describe("text objects - delete", () => {
       explanation: "delete inside {}",
     });
   });
+  it("di} - delete inside braces", () => {
+    expect(cmd("di}")).toMatchObject({
+      matched: "di}",
+      explanation: "delete inside {}",
+    });
+  });
   it("da{ - delete around braces", () => {
     expect(cmd("da{")).toMatchObject({
       matched: "da{",
+      explanation: "delete around {}",
+    });
+  });
+  it("da} - delete around braces", () => {
+    expect(cmd("da}")).toMatchObject({
+      matched: "da}",
       explanation: "delete around {}",
     });
   });
@@ -468,6 +586,24 @@ describe("text objects - delete", () => {
     expect(cmd("dat")).toMatchObject({
       matched: "dat",
       explanation: "delete around tag",
+    });
+  });
+  it("di< - delete inside angle brackets", () => {
+    expect(cmd("di<")).toMatchObject({
+      matched: "di<",
+      explanation: "delete inside <>",
+    });
+  });
+  it("di> - delete inside angle brackets", () => {
+    expect(cmd("di>")).toMatchObject({
+      matched: "di>",
+      explanation: "delete inside <>",
+    });
+  });
+  it("da< - delete around angle brackets", () => {
+    expect(cmd("da<")).toMatchObject({
+      matched: "da<",
+      explanation: "delete around <>",
     });
   });
   it("da> - delete around angle brackets", () => {
@@ -507,6 +643,12 @@ describe("text objects - yank", () => {
       explanation: "yank a word (with space)",
     });
   });
+  it("2yaw - yank 2 words with space", () => {
+    expect(cmd("2yaw")).toMatchObject({
+      matched: "2yaw",
+      explanation: "yank 2 words (with space)",
+    });
+  });
   it('yi" - yank inside double quotes', () => {
     expect(cmd('yi"')).toMatchObject({
       matched: 'yi"',
@@ -537,9 +679,21 @@ describe("text objects - yank", () => {
       explanation: "yank inside ()",
     });
   });
+  it("yi) - yank inside parens", () => {
+    expect(cmd("yi)")).toMatchObject({
+      matched: "yi)",
+      explanation: "yank inside ()",
+    });
+  });
   it("ya( - yank around parens", () => {
     expect(cmd("ya(")).toMatchObject({
       matched: "ya(",
+      explanation: "yank around ()",
+    });
+  });
+  it("ya) - yank around parens", () => {
+    expect(cmd("ya)")).toMatchObject({
+      matched: "ya)",
       explanation: "yank around ()",
     });
   });
@@ -549,9 +703,21 @@ describe("text objects - yank", () => {
       explanation: "yank inside <>",
     });
   });
+  it("yi> - yank inside angle brackets", () => {
+    expect(cmd("yi>")).toMatchObject({
+      matched: "yi>",
+      explanation: "yank inside <>",
+    });
+  });
   it("ya< - yank around angle brackets", () => {
     expect(cmd("ya<")).toMatchObject({
       matched: "ya<",
+      explanation: "yank around <>",
+    });
+  });
+  it("ya> - yank around angle brackets", () => {
+    expect(cmd("ya>")).toMatchObject({
+      matched: "ya>",
       explanation: "yank around <>",
     });
   });
@@ -586,6 +752,12 @@ describe("text objects - visual select", () => {
       explanation: "select a word (with space)",
     });
   });
+  it("2vaw - select 2 words with space", () => {
+    expect(cmd("2vaw")).toMatchObject({
+      matched: "2vaw",
+      explanation: "select 2 words (with space)",
+    });
+  });
   it('vi" - select inside double quotes', () => {
     expect(cmd('vi"')).toMatchObject({
       matched: 'vi"',
@@ -616,9 +788,21 @@ describe("text objects - visual select", () => {
       explanation: "select inside ()",
     });
   });
+  it("vi) - select inside parens", () => {
+    expect(cmd("vi)")).toMatchObject({
+      matched: "vi)",
+      explanation: "select inside ()",
+    });
+  });
   it("va( - select around parens", () => {
     expect(cmd("va(")).toMatchObject({
       matched: "va(",
+      explanation: "select around ()",
+    });
+  });
+  it("va) - select around parens", () => {
+    expect(cmd("va)")).toMatchObject({
+      matched: "va)",
       explanation: "select around ()",
     });
   });
@@ -628,9 +812,21 @@ describe("text objects - visual select", () => {
       explanation: "select inside []",
     });
   });
+  it("vi] - select inside brackets", () => {
+    expect(cmd("vi]")).toMatchObject({
+      matched: "vi]",
+      explanation: "select inside []",
+    });
+  });
   it("va[ - select around brackets", () => {
     expect(cmd("va[")).toMatchObject({
       matched: "va[",
+      explanation: "select around []",
+    });
+  });
+  it("va] - select around brackets", () => {
+    expect(cmd("va]")).toMatchObject({
+      matched: "va]",
       explanation: "select around []",
     });
   });
@@ -640,16 +836,52 @@ describe("text objects - visual select", () => {
       explanation: "select inside {}",
     });
   });
+  it("vi} - select inside braces", () => {
+    expect(cmd("vi}")).toMatchObject({
+      matched: "vi}",
+      explanation: "select inside {}",
+    });
+  });
   it("va{ - select around braces", () => {
     expect(cmd("va{")).toMatchObject({
       matched: "va{",
       explanation: "select around {}",
     });
   });
+  it("va} - select around braces", () => {
+    expect(cmd("va}")).toMatchObject({
+      matched: "va}",
+      explanation: "select around {}",
+    });
+  });
+  it("vit - select inside tag", () => {
+    expect(cmd("vit")).toMatchObject({
+      matched: "vit",
+      explanation: "select inside tag",
+    });
+  });
+  it("vat - select around tag", () => {
+    expect(cmd("vat")).toMatchObject({
+      matched: "vat",
+      explanation: "select around tag",
+    });
+  });
+  it("vi< - select inside angle brackets", () => {
+    expect(cmd("vi<")).toMatchObject({
+      matched: "vi<",
+      explanation: "select inside <>",
+    });
+  });
   it("vi> - select inside angle brackets", () => {
     expect(cmd("vi>")).toMatchObject({
       matched: "vi>",
       explanation: "select inside <>",
+    });
+  });
+  it("va< - select around angle brackets", () => {
+    expect(cmd("va<")).toMatchObject({
+      matched: "va<",
+      explanation: "select around <>",
     });
   });
   it("va> - select around angle brackets", () => {

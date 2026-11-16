@@ -45,7 +45,7 @@ export function handleVisualMode(context: ParsingContext): void {
   }
 
   // g-prefixed visual operators (gc, gu, gU, g~, gq)
-  if (context.remaining[0] === "g" && context.remaining.length > 1) {
+  if (context.remaining[0] === "g") {
     const nextChar = context.remaining[1] as string;
     if (nextChar in VISUAL_G_OPERATORS) {
       const op = `g${nextChar}`;
