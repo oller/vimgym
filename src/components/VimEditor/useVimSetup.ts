@@ -1,17 +1,33 @@
 import { toggleLineComment } from "@codemirror/commands";
 import type { EditorView } from "@codemirror/view";
 import { Vim } from "@replit/codemirror-vim";
-import { LEVELS } from "../../data/levels";
-import { useGameStore } from "../../store/useGameStore";
+import { useCallback, useEffect, useRef } from "react";
 
-export function useVimSetup(setLevelId: (id: string) => void) {
-  const resetLevel = useGameStore((state) => state.resetLevel);
-  const setPoweredOff = useGameStore((state) => state.setPoweredOff);
+type UseVimSetupOptions = {
+  onReset: () => void;
+  onPowerOff: () => void;
+  onSelectLevelIndex?: (levelIndex: number) => void;
+};
 
-  const setupVim = (editorView: EditorView) => {
+export function useVimSetup({
+  onReset,
+  onPowerOff,
+  onSelectLevelIndex,
+}: UseVimSetupOptions) {
+  const onResetRef = useRef(onReset);
+  const onPowerOffRef = useRef(onPowerOff);
+  const onSelectLevelIndexRef = useRef(onSelectLevelIndex);
+
+  useEffect(() => {
+    onResetRef.current = onReset;
+    onPowerOffRef.current = onPowerOff;
+    onSelectLevelIndexRef.current = onSelectLevelIndex;
+  }, [onReset, onPowerOff, onSelectLevelIndex]);
+
+  const setupVim = useCallback((editorView: EditorView) => {
     // Define Ex commands
     ["q", "wq", "qa"].forEach((cmd) => {
-      Vim.defineEx(cmd, "", () => setPoweredOff(true));
+      Vim.defineEx(cmd, "", () => onPowerOffRef.current());
     });
 
     // Add comment operator (gcc, gcaw, etc)
@@ -67,31 +83,23 @@ export function useVimSetup(setLevelId: (id: string) => void) {
     // Map gc to the comment operator
     Vim.mapCommand("gc", "operator", "comment", {}, {});
 
-    // Level navigation command :e <n>
+    // Level navigation / reset command :e [n]
     Vim.defineEx("e", "", (_cm, params) => {
       const arg = params.argString?.trim();
 
       if (!arg) {
-        resetLevel();
+        onResetRef.current();
         return;
       }
 
       const levelIndex = Number.parseInt(arg, 10);
-
-      if (
-        Number.isNaN(levelIndex) ||
-        levelIndex < 1 ||
-        levelIndex > LEVELS.length
-      ) {
+      if (Number.isNaN(levelIndex)) {
         return;
       }
 
-      const level = LEVELS[levelIndex - 1];
-      if (level) {
-        setLevelId(level.id);
-      }
+      onSelectLevelIndexRef.current?.(levelIndex);
     });
-  };
+  }, []);
 
   return { setupVim };
 }
